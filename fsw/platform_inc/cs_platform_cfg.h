@@ -25,6 +25,8 @@
 #ifndef _cs_platform_cfg_
 #define _cs_platform_cfg_
 
+#include "cfe_platform_cfg.h" /* for CFE_ES_DEFAULT_STACK_SIZE */
+
 /*************************************************************************
  ** Macro Definitions
  *************************************************************************/
