@@ -34,7 +34,7 @@
 
 #define CS_MAJOR_VERSION    2
 #define CS_MINOR_VERSION    4
-#define CS_REVISION         0
+#define CS_REVISION         1
 
 #endif
 /*_cs_version_*/
