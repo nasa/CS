@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_tbldefs.h 1.3 2017/02/16 15:33:09EST mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -68,7 +68,7 @@ typedef struct
 {
     uint16                      State;              /**< \brief Uses the CS_STATE_... defines from above */
     uint16                      Filler16;           /** <\brief Padding */
-    uint32                      StartAddress;       /**< \brief The Start address to Checksum */
+    cpuaddr                     StartAddress;       /**< \brief The Start address to Checksum */
     uint32                      NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
 } CS_Def_EepromMemory_Table_Entry_t;
 
@@ -79,7 +79,7 @@ typedef struct
 {
     uint16                      State;              /**< \brief Uses the CS_STATE_... defines from above */
     uint16                      ComputedYet;        /**< \brief Have we computed an Integrity value yet */
-    uint32                      StartAddress;       /**< \brief The Start address to Checksum */
+    cpuaddr                     StartAddress;       /**< \brief The Start address to Checksum */
     uint32                      NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
     uint32                      ComparisonValue;    /**< \brief The Memory Integrity Value */
     uint32                      ByteOffset;         /**< \brief Where a previous unfinished calculation left off */
@@ -122,7 +122,7 @@ typedef struct
     uint32                      ByteOffset;            /**< \brief Where a previous unfinished calculation left off */
     uint32                      TempChecksumValue;     /**< \brief The unfinished caluculation */
     CFE_TBL_Handle_t            TblHandle;             /**< \brief handle recieved from table services */
-    boolean                     IsCSOwner;             /**< \brief Is CS the original owner of this table */
+    bool                        IsCSOwner;             /**< \brief Is CS the original owner of this table */
     char                        Name[CFE_TBL_MAX_FULL_NAME_LEN]; /**< \brief name of the table */
 } CS_Res_Tables_Table_Entry_t;
 
@@ -380,10 +380,10 @@ int32 CS_TableInit (CFE_TBL_Handle_t          * DefinitionTableHandle,
                     void                      * DefinitionTblPtr,
                     void                      * ResultsTblPtr,
                     uint16                      Table, 
-                    char                      * DefinitionTableName,
-                    char                      * ResultsTableName,
+                    const char                * DefinitionTableName,
+                    const char                * ResultsTableName,
                     uint16                      NumEntries,
-                    char                      * DefinitionTableFileName,
+                    const char                * DefinitionTableFileName,
                     void                      * DefaultDefTableAddress,
                     uint16                      SizeofDefinitionTableEntry,
                     uint16                      SizeofResultsTableEntry,

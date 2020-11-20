@@ -2,7 +2,7 @@
 ** File:
 **   $Id: cs_app.c 1.17 2017/03/29 17:29:00EDT mdeschu Exp  $
 **
-**   Copyright (c) 2007-2014 United States Government as represented by the 
+**   Copyright (c) 2007-2020 United States Government as represented by the 
 **   Administrator of the National Aeronautics and Space Administration. 
 **   All Other Rights Reserved.  
 **
@@ -101,7 +101,7 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr);
  *************************************************************************/
 void CS_HousekeepingCmd (CFE_SB_MsgPtr_t MessagePtr);
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE)
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
 /************************************************************************/
 /** \brief Restore tables states from CDS if enabled
  **  
@@ -125,6 +125,7 @@ int32 CS_CreateRestoreStatesFromCDS(void);
 void CS_AppMain (void)
 {
     int32               Result = 0;
+
     /* Performance Log (start time counter) */
     CFE_ES_PerfLogEntry (CS_APPMAIN_PERF_ID);
     
@@ -141,7 +142,7 @@ void CS_AppMain (void)
     if (Result != CFE_SUCCESS)
     {
         /* Set request to terminate main loop */
-        CS_AppData.RunStatus = CFE_ES_APP_ERROR;
+        CS_AppData.RunStatus = CFE_ES_RunStatus_APP_ERROR;
     }
     
     CFE_ES_WaitForStartupSync(CS_STARTUP_TIMEOUT);
@@ -174,16 +175,17 @@ void CS_AppMain (void)
         if (Result != CFE_SUCCESS)
         {
             /* Set request to terminate main loop */
-            CS_AppData.RunStatus = CFE_ES_APP_ERROR;
+            CS_AppData.RunStatus = CFE_ES_RunStatus_APP_ERROR;
         }
     }/* end run loop */
     
     /* Check for "fatal" process error */
-    if (CS_AppData.RunStatus == CFE_ES_APP_ERROR || CS_AppData.RunStatus == CFE_ES_SYS_EXCEPTION )
+    if (CS_AppData.RunStatus == CFE_ES_RunStatus_APP_ERROR ||
+        CS_AppData.RunStatus == CFE_ES_RunStatus_SYS_EXCEPTION )
     {
         /* Send an error event with run status and result */
         CFE_EVS_SendEvent(CS_EXIT_ERR_EID, 
-                          CFE_EVS_ERROR,
+                          CFE_EVS_EventType_ERROR,
                           "App terminating, RunStatus:0x%08X, RC:0x%08X", 
                           (unsigned int)CS_AppData.RunStatus,
                           (unsigned int)Result);
@@ -192,7 +194,7 @@ void CS_AppMain (void)
     {
         /* Send an informational event describing the reason for the termination */
         CFE_EVS_SendEvent(CS_EXIT_INF_EID, 
-                          CFE_EVS_INFORMATION,
+                          CFE_EVS_EventType_INFORMATION,
                           "App terminating, RunStatus:0x%08X", 
                           (unsigned int)CS_AppData.RunStatus);
     }
@@ -222,9 +224,9 @@ int32 CS_AppInit (void)
     int32                                       ResultInit;
     int32                                       ResultSegment;
     uint32                                      KernelSize;
-    uint32                                      KernelAddress;
+    cpuaddr                                     KernelAddress;
     uint32                                      CFESize;
-    uint32                                      CFEAddress;
+    cpuaddr                                     CFEAddress;
     
     /* Register for event services */
     Result = CFE_EVS_Register(NULL, 0, 0);
@@ -237,7 +239,7 @@ int32 CS_AppInit (void)
     /* Zero out all data in CS_AppData, including the housekeeping data*/
     CFE_PSP_MemSet (& CS_AppData, 0, (unsigned) sizeof (CS_AppData) );
     
-    CS_AppData.RunStatus = CFE_ES_APP_RUN;
+    CS_AppData.RunStatus = CFE_ES_RunStatus_APP_RUN;
     
     /* Initialize app configuration data */
     strncpy(CS_AppData.PipeName, CS_CMD_PIPE_NAME, CS_CMD_PIPE_NAME_LEN);
@@ -248,7 +250,7 @@ int32 CS_AppInit (void)
     CFE_SB_InitMsg (& CS_AppData.HkPacket,
                     CS_HK_TLM_MID, 
                     sizeof (CS_HkPacket_t),
-                    TRUE);
+                    true   );
     
 
     /* Create Software Bus message pipe */
@@ -259,7 +261,7 @@ int32 CS_AppInit (void)
     if (Result != CFE_SUCCESS)
     {
         CFE_EVS_SendEvent (CS_INIT_SB_CREATE_ERR_EID,
-                           CFE_EVS_ERROR,
+                           CFE_EVS_EventType_ERROR,
                            "Software Bus Create Pipe for command returned: 0x%08X",(unsigned int)Result);
         return Result;
     }
@@ -272,7 +274,7 @@ int32 CS_AppInit (void)
     if (Result != CFE_SUCCESS)
     {
         CFE_EVS_SendEvent (CS_INIT_SB_SUBSCRIBE_HK_ERR_EID,
-                           CFE_EVS_ERROR,
+                           CFE_EVS_EventType_ERROR,
                            "Software Bus subscribe to housekeeping returned: 0x%08X",(unsigned int)Result);
         return Result;
     }
@@ -286,7 +288,7 @@ int32 CS_AppInit (void)
     if (Result != CFE_SUCCESS)
     {
         CFE_EVS_SendEvent (CS_INIT_SB_SUBSCRIBE_BACK_ERR_EID,
-                           CFE_EVS_ERROR,
+                           CFE_EVS_EventType_ERROR,
                            "Software Bus subscribe to background cycle returned: 0x%08X",(unsigned int)Result);
         return Result;
     }
@@ -299,7 +301,7 @@ int32 CS_AppInit (void)
     if (Result != CFE_SUCCESS)
     {
         CFE_EVS_SendEvent (CS_INIT_SB_SUBSCRIBE_CMD_ERR_EID,
-                           CFE_EVS_ERROR,
+                           CFE_EVS_EventType_ERROR,
                            "Software Bus subscribe to command returned: 0x%08X",(unsigned int)Result);
         return Result;
     }
@@ -315,7 +317,7 @@ int32 CS_AppInit (void)
     CS_AppData.OSCSState      = CS_OSCS_CHECKSUM_STATE;
     CS_AppData.CfeCoreCSState = CS_CFECORE_CHECKSUM_STATE;
    
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE)
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
     Result = CS_CreateRestoreStatesFromCDS();
 #endif
     
@@ -338,7 +340,7 @@ int32 CS_AppInit (void)
     {
         CS_AppData.EepromCSState = CS_STATE_DISABLED;
         CFE_EVS_SendEvent (CS_INIT_EEPROM_ERR_EID,
-                           CFE_EVS_ERROR,
+                           CFE_EVS_EventType_ERROR,
                            "Table initialization failed for Eeprom: 0x%08X",
                            (unsigned int)ResultInit);
         return (ResultInit);
@@ -363,7 +365,7 @@ int32 CS_AppInit (void)
     {
         CS_AppData.MemoryCSState = CS_STATE_DISABLED;
         CFE_EVS_SendEvent (CS_INIT_MEMORY_ERR_EID,
-                           CFE_EVS_ERROR,
+                           CFE_EVS_EventType_ERROR,
                            "Table initialization failed for Memory: 0x%08X",
                            (unsigned int)ResultInit);
         return (ResultInit);
@@ -387,7 +389,7 @@ int32 CS_AppInit (void)
     {
         CS_AppData.AppCSState = CS_STATE_DISABLED;
         CFE_EVS_SendEvent (CS_INIT_APP_ERR_EID,
-                           CFE_EVS_ERROR,
+                           CFE_EVS_EventType_ERROR,
                            "Table initialization failed for Apps: 0x%08X",
                            (unsigned int)ResultInit);
         return (ResultInit);
@@ -411,7 +413,7 @@ int32 CS_AppInit (void)
     {
         CS_AppData.TablesCSState = CS_STATE_DISABLED;
         CFE_EVS_SendEvent (CS_INIT_TABLES_ERR_EID,
-                           CFE_EVS_ERROR,
+                           CFE_EVS_EventType_ERROR,
                            "Table initialization failed for Tables: 0x%08X",
                            (unsigned int)ResultInit);
         return (ResultInit);
@@ -419,16 +421,35 @@ int32 CS_AppInit (void)
     
 
     /* Initalize the CFE core segments */
-    CFE_PSP_GetCFETextSegmentInfo((void*) &CFEAddress, &CFESize);
+    ResultSegment = CFE_PSP_GetCFETextSegmentInfo(&CFEAddress, &CFESize);
     
-    CS_AppData.CfeCoreCodeSeg.StartAddress           = CFEAddress;
-    CS_AppData.CfeCoreCodeSeg.NumBytesToChecksum     = CFESize;
-    CS_AppData.CfeCoreCodeSeg.ComputedYet            = FALSE;
-    CS_AppData.CfeCoreCodeSeg.ComparisonValue        = 0;
-    CS_AppData.CfeCoreCodeSeg.ByteOffset             = 0;
-    CS_AppData.CfeCoreCodeSeg.TempChecksumValue      = 0;
-    CS_AppData.CfeCoreCodeSeg.State                  = CS_STATE_ENABLED;
-    
+    if(ResultSegment != OS_SUCCESS) 
+    {
+        CS_AppData.CfeCoreCodeSeg.StartAddress           = 0;
+        CS_AppData.CfeCoreCodeSeg.NumBytesToChecksum     = 0;
+        CS_AppData.CfeCoreCodeSeg.ComputedYet            = false   ;
+        CS_AppData.CfeCoreCodeSeg.ComparisonValue        = 0;
+        CS_AppData.CfeCoreCodeSeg.ByteOffset             = 0;
+        CS_AppData.CfeCoreCodeSeg.TempChecksumValue      = 0;
+        CS_AppData.CfeCoreCodeSeg.State                  = CS_STATE_DISABLED;
+        
+        CFE_EVS_SendEvent (CS_CFE_TEXT_SEG_INF_EID,
+                           CFE_EVS_EventType_INFORMATION,
+                           "CFE Text Segment disabled");
+
+
+    }
+    else
+    {
+        CS_AppData.CfeCoreCodeSeg.StartAddress           = CFEAddress;
+        CS_AppData.CfeCoreCodeSeg.NumBytesToChecksum     = CFESize;
+        CS_AppData.CfeCoreCodeSeg.ComputedYet            = false   ;
+        CS_AppData.CfeCoreCodeSeg.ComparisonValue        = 0;
+        CS_AppData.CfeCoreCodeSeg.ByteOffset             = 0;
+        CS_AppData.CfeCoreCodeSeg.TempChecksumValue      = 0;
+        CS_AppData.CfeCoreCodeSeg.State                  = CS_STATE_ENABLED;
+    }
+
     /* Initialize the OS Core code segment*/
     
     ResultSegment  = CFE_PSP_GetKernelTextSegmentInfo( &KernelAddress, &KernelSize);
@@ -437,7 +458,7 @@ int32 CS_AppInit (void)
     {
         CS_AppData.OSCodeSeg.StartAddress           = 0;
         CS_AppData.OSCodeSeg.NumBytesToChecksum     = 0;
-        CS_AppData.OSCodeSeg.ComputedYet            = FALSE;
+        CS_AppData.OSCodeSeg.ComputedYet            = false   ;
         CS_AppData.OSCodeSeg.ComparisonValue        = 0;
         CS_AppData.OSCodeSeg.ByteOffset             = 0;
         CS_AppData.OSCodeSeg.TempChecksumValue      = 0;
@@ -445,14 +466,14 @@ int32 CS_AppInit (void)
         
         
         CFE_EVS_SendEvent (CS_OS_TEXT_SEG_INF_EID,
-                           CFE_EVS_INFORMATION,
+                           CFE_EVS_EventType_INFORMATION,
                            "OS Text Segment disabled due to platform");
     }
     else
     {
         CS_AppData.OSCodeSeg.StartAddress           = KernelAddress;
         CS_AppData.OSCodeSeg.NumBytesToChecksum     = KernelSize;
-        CS_AppData.OSCodeSeg.ComputedYet            = FALSE;
+        CS_AppData.OSCodeSeg.ComputedYet            = false   ;
         CS_AppData.OSCodeSeg.ComparisonValue        = 0;
         CS_AppData.OSCodeSeg.ByteOffset             = 0;
         CS_AppData.OSCodeSeg.TempChecksumValue      = 0;
@@ -471,8 +492,8 @@ int32 CS_AppInit (void)
     CS_AppData.ChecksumState  = CS_STATE_ENABLED;
     
     
-    CS_AppData.RecomputeInProgress    = FALSE;
-    CS_AppData.OneShotInProgress  = FALSE;
+    CS_AppData.RecomputeInProgress    = false   ;
+    CS_AppData.OneShotInProgress  = false   ;
     
     
     CS_AppData.MaxBytesPerCycle = CS_DEFAULT_BYTES_PER_CYCLE;
@@ -481,7 +502,7 @@ int32 CS_AppInit (void)
     if (Result == CFE_SUCCESS)
     {
         Result = CFE_EVS_SendEvent (CS_INIT_INF_EID,
-                                    CFE_EVS_INFORMATION,
+                                    CFE_EVS_EventType_INFORMATION,
                                     "CS Initialized. Version %d.%d.%d.%d",
                                     CS_MAJOR_VERSION,
                                     CS_MINOR_VERSION,
@@ -511,8 +532,8 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
             
             /* update each table if there is no recompute happening on that table */
             
-            if (!((CS_AppData.RecomputeInProgress == TRUE)  && 
-                  ( CS_AppData.OneShotInProgress == FALSE) && 
+            if (!((CS_AppData.RecomputeInProgress == true   )  && 
+                  ( CS_AppData.OneShotInProgress == false   ) && 
                   (CS_AppData.ChildTaskTable == CS_EEPROM_TABLE)))
             {
                 Result = CS_HandleTableUpdate ((void*) & CS_AppData.DefEepromTblPtr,
@@ -526,14 +547,14 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
                 {
                     CS_AppData.EepromCSState = CS_STATE_DISABLED;
                     Result = CFE_EVS_SendEvent (CS_UPDATE_EEPROM_ERR_EID,
-                                                CFE_EVS_ERROR,
+                                                CFE_EVS_EventType_ERROR,
                                                 "Table update failed for Eeprom: 0x%08X, checksumming Eeprom is disabled",
                                                 (unsigned int)Result);
                 }
             }
             
-            if (!((CS_AppData.RecomputeInProgress == TRUE)  && 
-                  ( CS_AppData.OneShotInProgress == FALSE) && 
+            if (!((CS_AppData.RecomputeInProgress == true   )  && 
+                  ( CS_AppData.OneShotInProgress == false   ) && 
                   (CS_AppData.ChildTaskTable == CS_MEMORY_TABLE)))
             {
                 Result = CS_HandleTableUpdate ((void*) & CS_AppData.DefMemoryTblPtr,
@@ -546,14 +567,14 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
                 {
                     CS_AppData.MemoryCSState = CS_STATE_DISABLED;
                     Result = CFE_EVS_SendEvent (CS_UPDATE_MEMORY_ERR_EID,
-                                                CFE_EVS_ERROR,
+                                                CFE_EVS_EventType_ERROR,
                                                 "Table update failed for Memory: 0x%08X, checksumming Memory is disabled",
                                                 (unsigned int)Result);
                 }
             }
             
-            if (!((CS_AppData.RecomputeInProgress == TRUE)  && 
-                  ( CS_AppData.OneShotInProgress == FALSE) && 
+            if (!((CS_AppData.RecomputeInProgress == true   )  && 
+                  ( CS_AppData.OneShotInProgress == false   ) && 
                   (CS_AppData.ChildTaskTable == CS_APP_TABLE)))
             {
                 Result = CS_HandleTableUpdate ((void*) & CS_AppData.DefAppTblPtr,
@@ -566,7 +587,7 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
                 {
                     CS_AppData.AppCSState = CS_STATE_DISABLED;
                     Result = CFE_EVS_SendEvent (CS_UPDATE_APP_ERR_EID,
-                                                CFE_EVS_ERROR,
+                                                CFE_EVS_EventType_ERROR,
                                                 "Table update failed for Apps: 0x%08X, checksumming Apps is disabled",
                                                 (unsigned int)Result);
                 }
@@ -574,8 +595,8 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
                 
             }
             
-            if (!((CS_AppData.RecomputeInProgress == TRUE)  && 
-                  ( CS_AppData.OneShotInProgress == FALSE) && 
+            if (!((CS_AppData.RecomputeInProgress == true   )  && 
+                  ( CS_AppData.OneShotInProgress == false   ) && 
                   (CS_AppData.ChildTaskTable == CS_TABLES_TABLE)))
             {
                 Result = CS_HandleTableUpdate ((void*) & CS_AppData.DefTablesTblPtr,
@@ -589,7 +610,7 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
                 {
                     CS_AppData.TablesCSState = CS_STATE_DISABLED;
                     Result = CFE_EVS_SendEvent (CS_UPDATE_TABLES_ERR_EID,
-                                                CFE_EVS_ERROR,
+                                                CFE_EVS_EventType_ERROR,
                                                 "Table update failed for Tables: 0x%08X, checksumming Tables is disabled",
                                                 (unsigned int)Result);
                 }
@@ -776,7 +797,7 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
 
             default:
                 CFE_EVS_SendEvent (CS_CC1_ERR_EID,
-                                   CFE_EVS_ERROR,
+                                   CFE_EVS_EventType_ERROR,
                                    "Invalid ground command code: ID = 0x%04X, CC = %d",
                                    MessageID, 
                                    CommandCode);
@@ -787,7 +808,7 @@ int32 CS_AppPipe (CFE_SB_MsgPtr_t MessagePtr)
         break;
             
         default:
-            CFE_EVS_SendEvent (CS_MID_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent (CS_MID_ERR_EID, CFE_EVS_EventType_ERROR,
                                "Invalid command pipe message ID: 0x%04X",
                                MessageID);
             
@@ -818,7 +839,7 @@ void CS_HousekeepingCmd (CFE_SB_MsgPtr_t MessagePtr)
         MessageID= CFE_SB_GetMsgId(MessagePtr);
         
         CFE_EVS_SendEvent(CS_LEN_ERR_EID,
-                          CFE_EVS_ERROR,
+                          CFE_EVS_EventType_ERROR,
                           "Invalid msg length: ID = 0x%04X, CC = %d, Len = %d, Expected = %d",
                           MessageID,
                           CommandCode,
@@ -863,7 +884,7 @@ void CS_HousekeepingCmd (CFE_SB_MsgPtr_t MessagePtr)
     return;
 } /* End of CS_HousekeepingCmd () */
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE)
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -933,7 +954,7 @@ int32 CS_CreateRestoreStatesFromCDS(void)
         CS_AppData.OSCSState      = CS_OSCS_CHECKSUM_STATE;
         CS_AppData.CfeCoreCSState = CS_CFECORE_CHECKSUM_STATE;
         
-        CFE_EVS_SendEvent(CS_INIT_CDS_ERR_EID, CFE_EVS_ERROR,
+        CFE_EVS_SendEvent(CS_INIT_CDS_ERR_EID, CFE_EVS_EventType_ERROR,
                          "Critical Data Store access error = 0x%08X", (unsigned int)Result);
         /*
         ** CDS errors are not fatal - CS can still run...
@@ -981,7 +1002,7 @@ void CS_UpdateCDS(void)
 
         if (Result != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(CS_INIT_CDS_ERR_EID, CFE_EVS_ERROR,
+            CFE_EVS_SendEvent(CS_INIT_CDS_ERR_EID, CFE_EVS_EventType_ERROR,
                              "Critical Data Store access error = 0x%08X", (unsigned int)Result);
             /*
             ** CDS is broken - prevent further errors...
@@ -993,7 +1014,7 @@ void CS_UpdateCDS(void)
     return;
 
 } /* End of CS_UpdateCDS() */
-#endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE) */
+#endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   ) */
 
 /************************/
 /*  End of File Comment */

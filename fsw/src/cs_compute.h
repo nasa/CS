@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_compute.h 1.3 2017/02/16 15:33:09EST mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -52,7 +52,7 @@
  **                                     that will be assigned the checksum of
  **                                     the entry.
  **
- **  \param [in]   DoneWithEntry        A pointer to a boolean that will be 
+ **  \param [in]   DoneWithEntry        A pointer to a bool    that will be 
  **                                     assigned a value based on whether or 
  **                                     not the specified entry's checksum
  **                                     was completed.
@@ -72,7 +72,7 @@
  *************************************************************************/
 int32 CS_ComputeEepromMemory (CS_Res_EepromMemory_Table_Entry_t         * ResultsEntry,
                               uint32                                    * ComputedCSValue,
-                              boolean                                   * DoneWithEntry);
+                              bool                                      * DoneWithEntry);
 
 /************************************************************************/
 /** \brief Computes checksums on tables
@@ -92,7 +92,7 @@ int32 CS_ComputeEepromMemory (CS_Res_EepromMemory_Table_Entry_t         * Result
  **                                     that will be assigned the checksum of
  **                                     the entry.
  **
- **  \param [in]   DoneWithEntry        A pointer to a boolean that will be 
+ **  \param [in]   DoneWithEntry        A pointer to a bool    that will be 
  **                                     assigned a value based on whether or 
  **                                     not the specified entry's checksum
  **                                     was completed.
@@ -113,7 +113,7 @@ int32 CS_ComputeEepromMemory (CS_Res_EepromMemory_Table_Entry_t         * Result
  *************************************************************************/
 int32 CS_ComputeTables (CS_Res_Tables_Table_Entry_t    * ResultsEntry,
                         uint32                         * ComputedCSValue,
-                        boolean                        * DoneWithEntry);
+                        bool                           * DoneWithEntry);
 
 
 /************************************************************************/
@@ -134,7 +134,7 @@ int32 CS_ComputeTables (CS_Res_Tables_Table_Entry_t    * ResultsEntry,
  **                                     that will be assigned the checksum of
  **                                     the entry.
  **
- **  \param [in]   DoneWithEntry        A pointer to a boolean that will be 
+ **  \param [in]   DoneWithEntry        A pointer to a bool    that will be 
  **                                     assigned a value based on whether or 
  **                                     not the specified entry's checksum
  **                                     was completed.
@@ -155,7 +155,7 @@ int32 CS_ComputeTables (CS_Res_Tables_Table_Entry_t    * ResultsEntry,
  *************************************************************************/
 int32 CS_ComputeApp (CS_Res_App_Table_Entry_t       * ResultsEntry,
                      uint32                         * ComputedCSValue,
-                     boolean                        * DoneWithEntry);
+                     bool                           * DoneWithEntry);
 
 
 /************************************************************************/

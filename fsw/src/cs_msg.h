@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_msg.h 1.6 2017/03/29 15:48:24EDT mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -51,7 +51,7 @@
  */
 typedef struct
 {
-    uint8               TlmHeader[CFE_SB_TLM_HDR_SIZE];     /**< \brief cFE SB Tlm Msg Hdr */
+    CFE_SB_TlmHdr_t     TlmHeader;                          /**< \brief cFE SB Tlm Msg Hdr */
 
     uint8               CmdCounter;                         /**< \cstlmmnemonic \CS_CMDPC
                                                                  \brief CS Application Command Counter */
@@ -125,8 +125,7 @@ typedef struct
  */
 typedef struct
 {
-    uint8       CmdHeader[CFE_SB_CMD_HDR_SIZE];
-    
+    CFE_SB_CmdHdr_t  CmdHeader;
 }CS_NoArgsCmd_t;
     
     
@@ -136,8 +135,8 @@ typedef struct
  */
 typedef struct
 {
-    uint8       CmdHeader[CFE_SB_CMD_HDR_SIZE];
-    uint32      Address;                            /**< \brief Address to get the ID for */
+    CFE_SB_CmdHdr_t  CmdHeader;
+    uint32           Address;                            /**< \brief Address to get the ID for */
     
 }CS_GetEntryIDCmd_t;
 
@@ -148,8 +147,8 @@ typedef struct
  */
 typedef struct
 {
-    uint8       CmdHeader[CFE_SB_CMD_HDR_SIZE];
-    uint32      EntryID;                            /**< \brief EntryID to perform a command on */
+    CFE_SB_CmdHdr_t  CmdHeader;
+    uint32           EntryID;                            /**< \brief EntryID to perform a command on */
 } CS_EntryCmd_t;
 
 /**
@@ -159,8 +158,8 @@ typedef struct
  */
 typedef struct
 {
-    uint8       CmdHeader[CFE_SB_CMD_HDR_SIZE];
-    char        Name[CFE_TBL_MAX_FULL_NAME_LEN];    /**< \brief Table name to perform a command on */
+    CFE_SB_CmdHdr_t  CmdHeader;
+    char             Name[CFE_TBL_MAX_FULL_NAME_LEN];    /**< \brief Table name to perform a command on */
 } CS_TableNameCmd_t;
 
 
@@ -171,19 +170,20 @@ typedef struct
  */
 typedef struct
 {
-    uint8       CmdHeader[CFE_SB_CMD_HDR_SIZE];
-    char        Name[OS_MAX_API_NAME];              /**< \brief App name to perform a command on */
+    CFE_SB_CmdHdr_t  CmdHeader;
+    char             Name[OS_MAX_API_NAME];              /**< \brief App name to perform a command on */
 } CS_AppNameCmd_t;
+
 /**
  ** \brief Command type for sending one shot calculation
  **  For command details see #CS_ONESHOT_CC
  */
 typedef struct
 {
-    uint8       CmdHeader[CFE_SB_CMD_HDR_SIZE];
-    uint32      Address;                            /**< \brief Address to start checksum */
-    uint32      Size;                               /**< \brief Number of bytes to checksum */
-    uint32      MaxBytesPerCycle;                   /**< \brief Max Number of bytes to compute per cycle. Value of Zero to use platform config value */
+    CFE_SB_CmdHdr_t  CmdHeader;
+    uint32           Address;                            /**< \brief Address to start checksum */
+    uint32           Size;                               /**< \brief Number of bytes to checksum */
+    uint32           MaxBytesPerCycle;                   /**< \brief Max Number of bytes to compute per cycle. Value of Zero to use platform config value */
 }CS_OneShotCmd_t;
     
 #endif /* _cs_msg_ */

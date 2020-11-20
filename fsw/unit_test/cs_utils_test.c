@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_utils_test.c 1.3 2017/02/16 15:33:20EST mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **

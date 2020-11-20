@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_events.h 1.7 2017/03/29 17:29:03EDT mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -2260,6 +2260,20 @@
  **  stop execution.
  */
 #define CS_EXIT_INF_EID                                     146
+
+/** \brief <tt> 'CFE Text Segment disabled' </tt>
+ ** \event <tt> 'CFE Text Segment disabled' </tt>
+ **  
+ **  \par Type: INFORMATION
+ **
+ **  \par Cause:
+ **
+ **  This event message is issued when CS is not able to get the
+ **  address and size of the CFE Text Segment.
+ **
+ */
+#define CS_CFE_TEXT_SEG_INF_EID                             147
+
 
 #endif /* _cs_events_ */
 

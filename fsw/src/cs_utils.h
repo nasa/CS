@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_utils.h 1.3 2017/02/16 15:33:14EST mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -170,7 +170,7 @@ void CS_GoToNextTable(void);
  **
  **
  *************************************************************************/
-boolean CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t ** EntryPtr,
+bool    CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t ** EntryPtr,
                                      char                         * Name);
 
 /************************************************************************/
@@ -203,7 +203,7 @@ boolean CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t ** EntryPtr,
  **
  **
  *************************************************************************/
-boolean CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t ** EntryPtr,
+bool    CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t ** EntryPtr,
                                      char                         * Name);
 
 /************************************************************************/
@@ -236,7 +236,7 @@ boolean CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t ** EntryPtr,
  **
  **
  *************************************************************************/
-boolean CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t ** EntryPtr,
+bool    CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t ** EntryPtr,
                                    char                      * Name);
 
 
@@ -270,7 +270,7 @@ boolean CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t ** EntryPtr,
  **
  **
  *************************************************************************/
-boolean CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t ** EntryPtr,
+bool    CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t ** EntryPtr,
                                    char                      * Name);
 
 
@@ -298,7 +298,7 @@ boolean CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t ** EntryPtr,
  **
  **
  *************************************************************************/
-boolean CS_FindEnabledEepromEntry(uint16* EnabledEntry);
+bool    CS_FindEnabledEepromEntry(uint16* EnabledEntry);
 
 /************************************************************************/
 /** \brief Find an enabled Memory entry 
@@ -324,7 +324,7 @@ boolean CS_FindEnabledEepromEntry(uint16* EnabledEntry);
  **
  **
  *************************************************************************/
-boolean CS_FindEnabledMemoryEntry(uint16* EnabledEntry);
+bool    CS_FindEnabledMemoryEntry(uint16* EnabledEntry);
 
 /************************************************************************/
 /** \brief Find an enabled Tables entry 
@@ -350,7 +350,7 @@ boolean CS_FindEnabledMemoryEntry(uint16* EnabledEntry);
  **
  **
  *************************************************************************/
-boolean CS_FindEnabledTablesEntry(uint16* EnabledEntry);
+bool    CS_FindEnabledTablesEntry(uint16* EnabledEntry);
 
 /************************************************************************/
 /** \brief Find an enabled App entry 
@@ -376,7 +376,7 @@ boolean CS_FindEnabledTablesEntry(uint16* EnabledEntry);
  **
  **
  *************************************************************************/
-boolean CS_FindEnabledAppEntry(uint16* EnabledEntry);
+bool    CS_FindEnabledAppEntry(uint16* EnabledEntry);
 
 /************************************************************************/
 /** \brief Verify command message length
@@ -403,7 +403,7 @@ boolean CS_FindEnabledAppEntry(uint16* EnabledEntry);
  **  \sa #CS_LEN_ERR_EID
  **
  *************************************************************************/
-boolean CS_VerifyCmdLength(CFE_SB_MsgPtr_t msg, 
+bool    CS_VerifyCmdLength(CFE_SB_MsgPtr_t msg, 
                            uint16          ExpectedLength);
 
 /************************************************************************/
@@ -421,7 +421,7 @@ boolean CS_VerifyCmdLength(CFE_SB_MsgPtr_t msg,
  **  \endreturns
  **
  *************************************************************************/
-boolean CS_BackgroundOS(void);
+bool    CS_BackgroundOS(void);
 
 /************************************************************************/
 /** \brief Compute a background check cycle on the cFE Core 
@@ -438,7 +438,7 @@ boolean CS_BackgroundOS(void);
  **  \endreturns
  **
  *************************************************************************/
-boolean CS_BackgroundCfeCore(void);
+bool    CS_BackgroundCfeCore(void);
 
 /************************************************************************/
 /** \brief Compute a background check cycle on Eeprom 
@@ -455,7 +455,7 @@ boolean CS_BackgroundCfeCore(void);
  **  \endreturns
  **
  *************************************************************************/
-boolean CS_BackgroundEeprom(void);
+bool    CS_BackgroundEeprom(void);
 
 /************************************************************************/
 /** \brief Compute a background check cycle on the Memory 
@@ -472,7 +472,7 @@ boolean CS_BackgroundEeprom(void);
  **  \endreturns
  **
  *************************************************************************/
-boolean CS_BackgroundMemory(void);
+bool    CS_BackgroundMemory(void);
 
 /************************************************************************/
 /** \brief Compute a background check cycle on Tables 
@@ -489,7 +489,7 @@ boolean CS_BackgroundMemory(void);
  **  \endreturns
  **
  *************************************************************************/
-boolean CS_BackgroundTables(void);
+bool    CS_BackgroundTables(void);
 
 /************************************************************************/
 /** \brief Compute a background check cycle on Apps 
@@ -506,7 +506,7 @@ boolean CS_BackgroundTables(void);
  **  \endreturns
  **
  *************************************************************************/
-boolean CS_BackgroundApp(void);
+bool    CS_BackgroundApp(void);
 
 
 /************************************************************************/

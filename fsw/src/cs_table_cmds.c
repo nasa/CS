@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_table_cmds.c 1.8 2017/03/29 17:29:01EDT mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -49,12 +49,12 @@ void CS_DisableTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
         CS_AppData.TablesCSState = CS_STATE_DISABLED;
         CS_ZeroTablesTempValues();
         
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE)
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
         CS_UpdateCDS();
 #endif
         
         CFE_EVS_SendEvent (CS_DISABLE_TABLES_INF_EID,
-                           CFE_EVS_INFORMATION,
+                           CFE_EVS_EventType_INFORMATION,
                            "Checksumming of Tables is Disabled");
         CS_AppData.CmdCounter++;
     }
@@ -76,12 +76,12 @@ void CS_EnableTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
     {
         CS_AppData.TablesCSState = CS_STATE_ENABLED;
         
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE)
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
         CS_UpdateCDS();
 #endif
         
         CFE_EVS_SendEvent (CS_ENABLE_TABLES_INF_EID,
-                           CFE_EVS_INFORMATION,
+                           CFE_EVS_EventType_INFORMATION,
                            "Checksumming of Tables is Enabled");
         CS_AppData.CmdCounter++;
     }
@@ -110,11 +110,11 @@ void CS_ReportBaselineTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
         CmdPtr -> Name[CFE_TBL_MAX_FULL_NAME_LEN - 1] = '\0';
         if ( CS_GetTableResTblEntryByName(&ResultsEntry, CmdPtr -> Name))
         {
-            if (ResultsEntry -> ComputedYet == TRUE)
+            if (ResultsEntry -> ComputedYet == true   )
             {
                 Baseline = ResultsEntry -> ComparisonValue;
                 CFE_EVS_SendEvent (CS_BASELINE_TABLES_INF_EID,
-                                   CFE_EVS_INFORMATION,
+                                   CFE_EVS_EventType_INFORMATION,
                                    "Report baseline of table %s is 0x%08X", 
                                    CmdPtr -> Name,
                                    (unsigned int)Baseline);
@@ -122,7 +122,7 @@ void CS_ReportBaselineTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
             else
             {
                 CFE_EVS_SendEvent (CS_NO_BASELINE_TABLES_INF_EID,
-                                   CFE_EVS_INFORMATION,
+                                   CFE_EVS_EventType_INFORMATION,
                                    "Report baseline of table %s has not been computed yet", 
                                    CmdPtr -> Name);   
             }
@@ -131,7 +131,7 @@ void CS_ReportBaselineTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
         else
         {
             CFE_EVS_SendEvent (CS_BASELINE_INVALID_NAME_TABLES_ERR_EID,
-                               CFE_EVS_ERROR,
+                               CFE_EVS_EventType_ERROR,
                                "Tables report baseline failed, table %s not found",
                                CmdPtr -> Name);
             CS_AppData.CmdErrCounter++;
@@ -161,7 +161,7 @@ void CS_RecomputeBaselineTablesCmd (CFE_SB_MsgPtr_t MessagePtr)
     {
         CmdPtr = (CS_TableNameCmd_t *) MessagePtr;
         
-        if (CS_AppData.RecomputeInProgress == FALSE && CS_AppData.OneShotInProgress == FALSE)
+        if (CS_AppData.RecomputeInProgress == false    && CS_AppData.OneShotInProgress == false   )
         {            
             /* make sure the entry is a valid number and is defined in the table */
             
@@ -170,7 +170,7 @@ void CS_RecomputeBaselineTablesCmd (CFE_SB_MsgPtr_t MessagePtr)
             if (CS_GetTableResTblEntryByName(&ResultsEntry, CmdPtr -> Name))
             {
                 /* There is no child task running right now, we can use it*/
-                CS_AppData.RecomputeInProgress           = TRUE;
+                CS_AppData.RecomputeInProgress           = true   ;
                 
                 /* fill in child task variables */
                 CS_AppData.ChildTaskTable                = CS_TABLES_TABLE;
@@ -183,13 +183,13 @@ void CS_RecomputeBaselineTablesCmd (CFE_SB_MsgPtr_t MessagePtr)
                                                CS_RECOMP_TABLES_TASK_NAME,
                                                CS_RecomputeTablesChildTask,
                                                NULL,
-                                               CFE_ES_DEFAULT_STACK_SIZE,
+                                               CFE_PLATFORM_ES_DEFAULT_STACK_SIZE,
                                                CS_CHILD_TASK_PRIORITY,
                                                0);
                 if (Status ==CFE_SUCCESS)
                 {
                     CFE_EVS_SendEvent (CS_RECOMPUTE_TABLES_STARTED_DBG_EID,
-                                       CFE_EVS_DEBUG,
+                                       CFE_EVS_EventType_DEBUG,
                                        "Recompute baseline of table %s started", 
                                        CmdPtr -> Name);
                     CS_AppData.CmdCounter++;
@@ -197,18 +197,18 @@ void CS_RecomputeBaselineTablesCmd (CFE_SB_MsgPtr_t MessagePtr)
                 else/* child task creation failed */
                 {
                     CFE_EVS_SendEvent (CS_RECOMPUTE_TABLES_CREATE_CHDTASK_ERR_EID,
-                                       CFE_EVS_ERROR,
+                                       CFE_EVS_EventType_ERROR,
                                        "Recompute baseline of table %s failed, CFE_ES_CreateChildTask returned: 0x%08X",
                                        CmdPtr -> Name,
                                        (unsigned int)Status);
                     CS_AppData.CmdErrCounter++;
-                    CS_AppData.RecomputeInProgress = FALSE;
+                    CS_AppData.RecomputeInProgress = false   ;
                 }
             }
             else
             {
                 CFE_EVS_SendEvent (CS_RECOMPUTE_UNKNOWN_NAME_TABLES_ERR_EID,
-                                   CFE_EVS_ERROR,
+                                   CFE_EVS_EventType_ERROR,
                                    "Tables recompute baseline failed, table %s not found",
                                    CmdPtr -> Name);
                 CS_AppData.CmdErrCounter++;
@@ -218,7 +218,7 @@ void CS_RecomputeBaselineTablesCmd (CFE_SB_MsgPtr_t MessagePtr)
         {
             /*send event that we can't start another task right now */
             CFE_EVS_SendEvent (CS_RECOMPUTE_TABLES_CHDTASK_ERR_EID,
-                               CFE_EVS_ERROR,
+                               CFE_EVS_EventType_ERROR,
                                 "Tables recompute baseline for table %s failed: child task in use",
                                CmdPtr -> Name);
             CS_AppData.CmdErrCounter++;
@@ -256,7 +256,7 @@ void CS_DisableNameTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
             ResultsEntry -> ByteOffset = 0;
             
             CFE_EVS_SendEvent (CS_DISABLE_TABLES_NAME_INF_EID,
-                               CFE_EVS_INFORMATION,
+                               CFE_EVS_EventType_INFORMATION,
                                "Checksumming of table %s is Disabled", 
                                CmdPtr -> Name);
              
@@ -269,7 +269,7 @@ void CS_DisableNameTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
             else 
             {
                 CFE_EVS_SendEvent (CS_DISABLE_TABLE_DEF_NOT_FOUND_DBG_EID,
-                                   CFE_EVS_DEBUG,
+                                   CFE_EVS_EventType_DEBUG,
                                    "CS unable to update tables definition table for entry %s", 
                                    CmdPtr -> Name);
             }
@@ -280,7 +280,7 @@ void CS_DisableNameTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
         else
         {
             CFE_EVS_SendEvent (CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID,
-                               CFE_EVS_ERROR,
+                               CFE_EVS_EventType_ERROR,
                                "Tables disable table command failed, table %s not found",
                                CmdPtr -> Name);
             CS_AppData.CmdErrCounter++;
@@ -315,7 +315,7 @@ void CS_EnableNameTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
             ResultsEntry -> State = CS_STATE_ENABLED;
             
             CFE_EVS_SendEvent (CS_ENABLE_TABLES_NAME_INF_EID,
-                               CFE_EVS_INFORMATION,
+                               CFE_EVS_EventType_INFORMATION,
                                "Checksumming of table %s is Enabled", 
                                 CmdPtr -> Name);
             
@@ -328,7 +328,7 @@ void CS_EnableNameTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
             else 
             {
                 CFE_EVS_SendEvent (CS_ENABLE_TABLE_DEF_NOT_FOUND_DBG_EID,
-                                   CFE_EVS_DEBUG,
+                                   CFE_EVS_EventType_DEBUG,
                                    "CS unable to update tables definition table for entry %s", 
                                    CmdPtr -> Name);
             }
@@ -338,7 +338,7 @@ void CS_EnableNameTablesCmd(CFE_SB_MsgPtr_t MessagePtr)
         else
         {
             CFE_EVS_SendEvent (CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID,
-                               CFE_EVS_ERROR,
+                               CFE_EVS_EventType_ERROR,
                                "Tables enable table command failed, table %s not found",
                                CmdPtr -> Name);
             CS_AppData.CmdErrCounter++;

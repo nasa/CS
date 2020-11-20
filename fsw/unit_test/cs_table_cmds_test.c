@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_table_cmds_test.c 1.4 2017/03/29 17:29:02EDT mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **

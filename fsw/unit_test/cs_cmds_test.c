@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_cmds_test.c 1.6 2017/03/29 17:28:58EDT mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -126,7 +126,8 @@ void CS_BackgroundCheckCmd_Test_InvalidMsgLength(void)
 {
     CS_NoArgsCmd_t   CmdPacket;
 
-    CFE_SB_InitMsg (&CmdPacket, CS_CMD_MID, 10, TRUE);
+    /* Set size of packet to an invalid value (larger) and prevent InitMsg from writing past the end */
+    CFE_SB_InitMsg (&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t)+2, FALSE);
     CFE_SB_SetCmdCode((CFE_SB_MsgPtr_t)&CmdPacket, 1);
 
     /* Execute the function being tested */

@@ -2,7 +2,7 @@
 ** File:
 **   $Id: cs_version.h 1.3.1.3 2017/05/03 16:23:22EDT sstrege Exp  $
 **
-**   Copyright (c) 2007-2014 United States Government as represented by the 
+**   Copyright (c) 2007-2020 United States Government as represented by the 
 **   Administrator of the National Aeronautics and Space Administration. 
 **   All Other Rights Reserved.  
 **
@@ -34,7 +34,7 @@
 
 #define CS_MAJOR_VERSION    2
 #define CS_MINOR_VERSION    4
-#define CS_REVISION         1
+#define CS_REVISION         2
 
 #endif
 /*_cs_version_*/

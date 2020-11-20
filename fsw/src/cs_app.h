@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_app.h 1.7 2017/03/29 16:10:34EDT mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -110,8 +110,8 @@ typedef struct
     
     uint16                                      ChildTaskTable;                     /**< \brief Table for the child task to process*/
     uint16                                      ChildTaskEntryID;                   /**< \brief Entry in table for child task to process */
-    boolean                                     RecomputeInProgress;                /**< \brief Flag for a recompute in progress */
-    boolean                                     OneShotInProgress;                  /**< \brief Flag for a one shot calculation in progress*/
+    bool                                        RecomputeInProgress;                /**< \brief Flag for a recompute in progress */
+    bool                                        OneShotInProgress;                  /**< \brief Flag for a one shot calculation in progress*/
     uint32                                      ChildTaskID;                        /**< \brief Task ID for the child task*/
 
     uint32                                      MaxBytesPerCycle;                   /**< \brief Max number of bytes to process in a cycle*/
@@ -171,7 +171,7 @@ typedef struct
     
     
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE)
-    uint32                                     DataStoreHandle;            /**< \brief Handle to critical data store created by CS */
+    CFE_ES_CDSHandle_t                        DataStoreHandle;            /**< \brief Handle to critical data store created by CS */
 #endif
     /* Variables that will go in the housekeeping packet */
         

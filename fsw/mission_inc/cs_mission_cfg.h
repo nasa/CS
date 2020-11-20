@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_mission_cfg.h 1.3 2017/02/16 15:33:13EST mdeschu Exp  $
  **
- **   Copyright (c) 2007-2014 United States Government as represented by the 
+ **   Copyright (c) 2007-2020 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -38,10 +38,10 @@
  **        the requested data.
  **
  **  \par Limits:
- **         This parameter is limited to either #CFE_ES_DEFAULT_CRC,
+ **         This parameter is limited to either #CFE_MISSION_ES_DEFAULT_CRC,
  **         or  #CFE_ES_CRC_16
  */
-#define CS_DEFAULT_ALGORITHM                CFE_ES_DEFAULT_CRC
+#define CS_DEFAULT_ALGORITHM                CFE_MISSION_ES_DEFAULT_CRC
 
 #endif /*_cs_mission_cfg_*/
 
