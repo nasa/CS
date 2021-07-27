@@ -2,7 +2,7 @@
  ** File:
  **   $Id: cs_app_test.c 1.14 2017/03/29 17:29:00EDT mdeschu Exp  $
  **
- **   Copyright (c) 2007-2020 United States Government as represented by the 
+ **   Copyright (c) 2007-2021 United States Government as represented by the 
  **   Administrator of the National Aeronautics and Space Administration. 
  **   All Other Rights Reserved.  
  **
@@ -1677,8 +1677,8 @@ void CS_HousekeepingCmd_Test_Nominal(void)
     CS_AppData.TablesCSState        = 7;
     CS_AppData.OSCSState            = 8;
     CS_AppData.CfeCoreCSState       = 9;
-    CS_AppData.RecomputeInProgress  = 10;
-    CS_AppData.OneShotInProgress    = 11;
+    CS_AppData.RecomputeInProgress  = true;
+    CS_AppData.OneShotInProgress    = true;
     CS_AppData.EepromCSErrCounter   = 12;
     CS_AppData.MemoryCSErrCounter   = 13;
     CS_AppData.AppCSErrCounter      = 14;
@@ -1708,8 +1708,8 @@ void CS_HousekeepingCmd_Test_Nominal(void)
     UtAssert_True (CS_AppData.HkPacket.TablesCSState == 7, "CS_AppData.HkPacket.TablesCSState == 7");
     UtAssert_True (CS_AppData.HkPacket.OSCSState == 8, "CS_AppData.HkPacket.OSCSState == 8");
     UtAssert_True (CS_AppData.HkPacket.CfeCoreCSState == 9, "CS_AppData.HkPacket.CfeCoreCSState == 9");
-    UtAssert_True (CS_AppData.HkPacket.RecomputeInProgress == 10, "CS_AppData.HkPacket.ChildTaskInUse == 10");
-    UtAssert_True (CS_AppData.HkPacket.OneShotInProgress == 11, "CS_AppData.HkPacket.OneShotInProgress == 11");
+    UtAssert_True (CS_AppData.HkPacket.RecomputeInProgress == 1, "CS_AppData.HkPacket.ChildTaskInUse == true");
+    UtAssert_True (CS_AppData.HkPacket.OneShotInProgress == 1, "CS_AppData.HkPacket.OneShotInProgress == true");
     UtAssert_True (CS_AppData.HkPacket.EepromCSErrCounter == 12, "CS_AppData.HkPacket.EepromCSErrCounter == 12");
     UtAssert_True (CS_AppData.HkPacket.MemoryCSErrCounter == 13, "CS_AppData.HkPacket.MemoryCSErrCounter == 13");
     UtAssert_True (CS_AppData.HkPacket.AppCSErrCounter == 14, "CS_AppData.HkPacket.AppCSErrCounter == 14");
