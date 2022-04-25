@@ -1,28 +1,28 @@
 /************************************************************************
- ** File:
- **   $Id: cs_app_cmds.h 1.3 2017/02/16 15:33:17EST mdeschu Exp  $
- **
- **   Copyright (c) 2007-2020 United States Government as represented by the 
- **   Administrator of the National Aeronautics and Space Administration. 
- **   All Other Rights Reserved.  
- **
- **   This software was created at NASA's Goddard Space Flight Center.
- **   This software is governed by the NASA Open Source Agreement and may be 
- **   used, distributed and modified only pursuant to the terms of that 
- **   agreement.
- **
- ** Purpose: 
- **   Specification for the CFS app cmds
- **
- ** References:
- **   Flight Software Branch C Coding Standard Version 1.2
- **   CFS Development Standards Document
- **   CFS CS Heritage Analysis Document
- **   CFS CS CDR Package
- ** 
- *************************************************************************/
-#ifndef _cs_app_cmds_
-#define _cs_app_cmds_
+ * NASA Docket No. GSC-18,915-1, and identified as “cFS Checksum
+ * Application version 2.5.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
+
+/**
+ * @file
+ *   Specification for the CFS app cmds
+ */
+#ifndef CS_APP_CMDS_H
+#define CS_APP_CMDS_H
 
 /**************************************************************************
  **
@@ -30,137 +30,122 @@
  **
  **************************************************************************/
 #include "cfe.h"
+#include "cs_msg.h"
 
-/************************************************************************/
-/** \brief Process a disable background checking for the App
- **        table command
- **  
- **  \par Description
- **       Disables background checking for the App table 
- **       
- **  \par Assumptions, External Events, and Notes:
- **       In order for background checking of individual areas
- **       to checksum (OS code segment, cFE core, Eeprom, Memory,
- **       Tables, and App) to occur, the table must be enabled
- **       and overall checksumming must be enabled.
- **       
- **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
- **                             references the software bus message 
- **
- **  \sa #CS_DISABLE_APPS_CC
- **
- *************************************************************************/
-void CS_DisableAppCmd(const CFE_SB_Buffer_t* BufPtr);
+/**
+ * \brief Process a disable background checking for the App
+ *        table command
+ *
+ *  \par Description
+ *       Disables background checking for the App table
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       In order for background checking of individual areas
+ *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       Tables, and App) to occur, the table must be enabled
+ *       and overall checksumming must be enabled.
+ *
+ *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
+ *
+ *  \sa #CS_DISABLE_APPS_CC
+ */
+void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr);
 
-/************************************************************************/
-/** \brief Process an enable background checking for the App 
- **        table command 
- **  
- **  \par Description
- **       Allows the App table to be background checksummed.
- **
- **  \par Assumptions, External Events, and Notes:
- **       In order for background checking of individual areas
- **       to checksum (OS code segment, cFE core, Eeprom, Memory,
- **       Tables, and App) to occur, the table must be enabled
- **       and overall checksumming must be enabled.
- **       
- **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
- **                             references the software bus message 
- **
- **  \sa #CS_ENABLE_APPS_CC
- **
- *************************************************************************/
-void CS_EnableAppCmd(const CFE_SB_Buffer_t* BufPtr);
+/**
+ * \brief Process an enable background checking for the App
+ *        table command
+ *
+ *  \par Description
+ *       Allows the App table to be background checksummed.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       In order for background checking of individual areas
+ *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       Tables, and App) to occur, the table must be enabled
+ *       and overall checksumming must be enabled.
+ *
+ *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
+ *
+ *  \sa #CS_ENABLE_APPS_CC
+ */
+void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr);
 
-/************************************************************************/
-/** \brief Proccess a report baseline of a App command 
- **  
- **  \par Description
- **        Reports the baseline checksum of the specified app
- **        if it has already been computed
- **       
- **  \par Assumptions, External Events, and Notes:
- **        None
- **       
- **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
- **                             references the software bus message 
- **
- **  \sa #CS_REPORT_BASELINE_APP_CC
- **
- *************************************************************************/
-void CS_ReportBaselineAppCmd(const CFE_SB_Buffer_t* BufPtr);
+/**
+ * \brief Proccess a report baseline of a App command
+ *
+ *  \par Description
+ *        Reports the baseline checksum of the specified app
+ *        if it has already been computed
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *        None
+ *
+ *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
+ *
+ *  \sa #CS_REPORT_BASELINE_APP_CC
+ */
+void CS_ReportBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr);
 
+/**
+ * \brief Process a recopmute baseline of a app command
+ *
+ *  \par Description
+ *        Recomputes the checksum of a app and use that
+ *        value as the new baseline for that entry.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       None
+ *
+ *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
+ *
+ *  \sa #CS_RECOMPUTE_BASELINE_APP_CC
+ */
+void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr);
 
-/************************************************************************/
-/** \brief Process a recopmute baseline of a app command
- **  
- **  \par Description
- **        Recomputes the checksum of a app and use that 
- **        value as the new baseline for that entry.
- **        
- **  \par Assumptions, External Events, and Notes:
- **       None
- **       
- **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
- **                             references the software bus message 
- **
- **  \sa #CS_RECOMPUTE_BASELINE_APP_CC
- **
- *************************************************************************/
-void CS_RecomputeBaselineAppCmd (const CFE_SB_Buffer_t* BufPtr);
+/**
+ * \brief Process a disable background checking for an App
+ *        entry command
+ *
+ *  \par Description
+ *       Disables the specified App entry to be background checksummed.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       In order for background checking of individual entries
+ *       to checksum to occur, the entry must be enabled,
+ *       the table must be enabled, and overall checksumming must be enabled.
+ *       This command updates both the results table and the definition table.
+ *       If the entry exists in the results table but not in the definition
+ *       table, the command is still successful, but the definition table
+ *       is not updated.  If the entry does not exist in the results table,
+ *       neither table is updated.
+ *
+ *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
+ *
+ *  \sa #CS_DISABLE_NAME_APP_CC
+ */
+void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr);
 
-/************************************************************************/
-/** \brief Process a disable background checking for an App 
- **        entry command 
- **  
- **  \par Description
- **       Disables the specified App entry to be background checksummed.
- **
- **  \par Assumptions, External Events, and Notes:
- **       In order for background checking of individual entries
- **       to checksum to occur, the entry must be enabled, 
- **       the table must be enabled, and overall checksumming must be enabled.
- **       This command updates both the results table and the definition table.
- **       If the entry exists in the results table but not in the definition
- **       table, the command is still successful, but the definition table
- **       is not updated.  If the entry does not exist in the results table, 
- **       neither table is updated.
- **       
- **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
- **                             references the software bus message 
- **
- **  \sa #CS_DISABLE_NAME_APP_CC
- **
- *************************************************************************/
-void CS_DisableNameAppCmd(const CFE_SB_Buffer_t* BufPtr);
+/**
+ * \brief Process an enable background checking for an App
+ *        entry command
+ *
+ *  \par Description
+ *       Allows the specified table to be background checksummed.
+ *
+ *  \par Assumptions, External Events, and Notes:
+ *       In order for background checking of individual entries
+ *       to checksum to occur, the entry must be enabled,
+ *       the table must be enabled and, overall checksumming must be enabled.
+ *       This command updates both the results table and the definition table.
+ *       If the entry exists in the results table but not in the definition
+ *       table, the command is still successful, but the definition table
+ *       is not updated.  If the entry does not exist in the results table,
+ *       neither table is updated.
+ *
+ *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
+ *
+ *  \sa #CS_ENABLE_NAME_APP_CC
+ */
+void CS_EnableNameAppCmd(const CS_AppNameCmd_t *CmdPtr);
 
-/************************************************************************/
-/** \brief Process an enable background checking for an App 
- **        entry command 
- **  
- **  \par Description
- **       Allows the specified table to be background checksummed.
- **
- **  \par Assumptions, External Events, and Notes:
- **       In order for background checking of individual entries
- **       to checksum to occur, the entry must be enabled, 
- **       the table must be enabled and, overall checksumming must be enabled.
- **       This command updates both the results table and the definition table.
- **       If the entry exists in the results table but not in the definition
- **       table, the command is still successful, but the definition table
- **       is not updated.  If the entry does not exist in the results table, 
- **       neither table is updated.
- **       
- **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
- **                             references the software bus message 
- **
- **  \sa #CS_ENABLE_NAME_APP_CC
- **
- *************************************************************************/
-void CS_EnableNameAppCmd(const CFE_SB_Buffer_t* BufPtr);
-
-#endif /* _cs_app_cmds_ */
-/************************/
-/*  End of File Comment */
-/************************/
+#endif

@@ -1,3 +1,21 @@
+/************************************************************************
+ * NASA Docket No. GSC-18,915-1, and identified as “cFS Checksum
+ * Application version 2.5.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
 
 /*
  * Includes
@@ -10,7 +28,6 @@
 #include "cs_version.h"
 #include "cs_utils.h"
 #include "cs_test_utils.h"
-#include <sys/fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -35,39 +52,26 @@ int32 CS_CMDS_TEST_CFE_ES_CreateChildTaskHook(uint32 *TaskIdPtr, const char *Tas
     return CFE_SUCCESS;
 }
 
-void CS_CMDS_TEST_CFE_ES_CreateChildTaskHandler1(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
-{
-    uint32 **TaskIdPtr = (uint32 **)UT_Hook_GetArgValueByName(Context, "TaskIdPtr", uint32 **);
-
-    *TaskIdPtr = (uint32 *)5;
-}
-
 void CS_NoopCmd_Test(void)
 {
     CS_NoArgsCmd_t CmdPacket;
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "No-op command. Version %%d.%%d.%%d.%%d");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_NoopCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_NoopCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_NOOP_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_NOOP_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -80,12 +84,10 @@ void CS_NoopCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_NoopCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_NoopCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -101,13 +103,7 @@ void CS_ResetCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset Counters command recieved");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.CmdCounter          = 1;
     CS_AppData.HkPacket.CmdErrCounter       = 2;
@@ -122,7 +118,7 @@ void CS_ResetCmd_Test(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_ResetCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ResetCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -135,12 +131,12 @@ void CS_ResetCmd_Test(void)
     UtAssert_True(CS_AppData.HkPacket.OSCSErrCounter == 0, "CS_AppData.HkPacket.OSCSErrCounter == 0");
     UtAssert_True(CS_AppData.HkPacket.PassCounter == 0, "CS_AppData.HkPacket.PassCounter == 0");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RESET_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RESET_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -153,12 +149,10 @@ void CS_ResetCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_ResetCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ResetCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -178,18 +172,13 @@ void CS_BackgroundCheckCycle_Test_InvalidMsgLength(void)
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Invalid msg length: ID = 0x%%08X, CC = %%d, Len = %%lu, Expected = %%lu");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
+             "Invalid msg length: ID = 0x%%08lX, CC = %%d, Len = %%lu, Expected = %%lu");
 
     /* Set size of packet to an invalid value (larger) and prevent InitMsg from writing past the end */
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t) + 2);
     CFE_MSG_SetFcnCode((CFE_MSG_Message_t *)&CmdPacket, 1);
 
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t) + 2;
     FcnCode   = 1;
 
@@ -200,15 +189,15 @@ void CS_BackgroundCheckCycle_Test_InvalidMsgLength(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_LEN_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -226,16 +215,10 @@ void CS_BackgroundCheckCycle_Test_BackgroundInProgress(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Skipping background cycle. Recompute or oneshot in progress.");
 
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -254,15 +237,15 @@ void CS_BackgroundCheckCycle_Test_BackgroundInProgress(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundCfeCore), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_BKGND_COMPUTE_PROG_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_BKGND_COMPUTE_PROG_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -278,9 +261,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundCfeCore(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -297,7 +278,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundCfeCore(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundCfeCore), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -314,9 +295,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundOS(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -333,7 +312,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundOS(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundOS), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -350,9 +329,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundEeprom(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 99;
 
@@ -368,7 +345,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundEeprom(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundEeprom), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -385,9 +362,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundMemory(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 99;
 
@@ -403,7 +378,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundMemory(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundMemory), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -420,9 +395,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundTables(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -438,7 +411,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundTables(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundTables), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -455,9 +428,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundApp(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -473,7 +444,7 @@ void CS_BackgroundCheckCycle_Test_BackgroundApp(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundApp), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -490,9 +461,7 @@ void CS_BackgroundCheckCycle_Test_Default(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -506,7 +475,7 @@ void CS_BackgroundCheckCycle_Test_Default(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CurrentCSTable == 0, "CS_AppData.HkPacket.CurrentCSTable == 0");
@@ -527,9 +496,7 @@ void CS_BackgroundCheckCycle_Test_Disabled(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -542,7 +509,7 @@ void CS_BackgroundCheckCycle_Test_Disabled(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.PassCounter == 0, "CS_AppData.HkPacket.PassCounter == 0");
@@ -563,16 +530,10 @@ void CS_BackgroundCheckCycle_Test_OneShot(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Skipping background cycle. Recompute or oneshot in progress.");
 
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -592,15 +553,15 @@ void CS_BackgroundCheckCycle_Test_OneShot(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundCfeCore), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_BKGND_COMPUTE_PROG_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_BKGND_COMPUTE_PROG_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -616,9 +577,7 @@ void CS_BackgroundCheckCycle_Test_EndOfList(void)
     CFE_MSG_FcnCode_t FcnCode;
     size_t            MsgSize;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
-    TestMsgId = CS_CMD_MID;
+    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
     MsgSize   = sizeof(CS_NoArgsCmd_t);
     FcnCode   = 1;
 
@@ -638,7 +597,7 @@ void CS_BackgroundCheckCycle_Test_EndOfList(void)
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundCfeCore), 1, true);
 
     /* Execute the function being tested */
-    CS_BackgroundCheckCycle((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -654,30 +613,24 @@ void CS_DisableAllCSCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Background Checksumming Disabled");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_DisableAllCSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableAllCSCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.ChecksumState == CS_STATE_DISABLED,
                   "CS_AppData.HkPacket.ChecksumState == CS_STATE_DISABLED");
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_DISABLE_ALL_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_ALL_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -690,12 +643,10 @@ void CS_DisableAllCSCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_DisableAllCSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableAllCSCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -711,30 +662,24 @@ void CS_EnableAllCSCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Background Checksumming Enabled");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_EnableAllCSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableAllCSCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.ChecksumState == CS_STATE_ENABLED,
                   "CS_AppData.HkPacket.ChecksumState == CS_STATE_ENABLED");
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ENABLE_ALL_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_ALL_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -747,12 +692,10 @@ void CS_EnableAllCSCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_EnableAllCSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableAllCSCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -768,29 +711,23 @@ void CS_DisableCfeCoreCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of cFE Core is Disabled");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_DisableCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_DISABLED,
                   "CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_DISABLED");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_DISABLE_CFECORE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_CFECORE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -805,12 +742,10 @@ void CS_DisableCfeCoreCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_DisableCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -826,29 +761,23 @@ void CS_EnableCfeCoreCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of cFE Core is Enabled");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_EnableCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED,
                   "CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ENABLE_CFECORE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_CFECORE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -863,12 +792,10 @@ void CS_EnableCfeCoreCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_EnableCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -884,29 +811,23 @@ void CS_DisableOSCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of OS code segment is Disabled");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_DisableOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableOSCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_STATE_DISABLED,
                   "CS_AppData.HkPacket.OSCSState == CS_STATE_DISABLED");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_DISABLE_OS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_OS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -921,12 +842,10 @@ void CS_DisableOSCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_DisableOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableOSCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -942,29 +861,23 @@ void CS_EnableOSCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of OS code segment is Enabled");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_EnableOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableOSCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED,
                   "CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ENABLE_OS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_OS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -979,12 +892,10 @@ void CS_EnableOSCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_EnableOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableOSCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1000,13 +911,7 @@ void CS_ReportBaselineCfeCoreCmd_Test_Nominal(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Baseline of cFE Core is 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.CfeCoreCodeSeg.ComputedYet     = true;
     CS_AppData.CfeCoreCodeSeg.ComparisonValue = -1;
@@ -1014,15 +919,15 @@ void CS_ReportBaselineCfeCoreCmd_Test_Nominal(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_ReportBaselineCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_BASELINE_CFECORE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_BASELINE_CFECORE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -1039,28 +944,22 @@ void CS_ReportBaselineCfeCoreCmd_Test_NotComputedYet(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Baseline of cFE Core has not been computed yet");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.CfeCoreCodeSeg.ComputedYet = false;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_ReportBaselineCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_NO_BASELINE_CFECORE_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_NO_BASELINE_CFECORE_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -1075,12 +974,10 @@ void CS_ReportBaselineCfeCoreCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_ReportBaselineCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1096,13 +993,7 @@ void CS_ReportBaselineOSCmd_Test_Nominal(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Baseline of OS code segment is 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.OSCodeSeg.ComputedYet     = true;
     CS_AppData.OSCodeSeg.ComparisonValue = -1;
@@ -1110,15 +1001,15 @@ void CS_ReportBaselineOSCmd_Test_Nominal(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_ReportBaselineOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_BASELINE_OS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_BASELINE_OS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -1135,29 +1026,23 @@ void CS_ReportBaselineOSCmd_Test_NotComputedYet(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Baseline of OS code segment has not been computed yet");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.OSCodeSeg.ComputedYet = false;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_ReportBaselineOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_NO_BASELINE_OS_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_NO_BASELINE_OS_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -1172,12 +1057,10 @@ void CS_ReportBaselineOSCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_ReportBaselineOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1193,20 +1076,14 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_Nominal(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute of cFE core started");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == true, "CS_AppData.HkPacket.RecomputeInProgress == true");
@@ -1216,12 +1093,12 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_Nominal(void)
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.CfeCoreCodeSeg,
                   "CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.CfeCoreCodeSeg");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_CFECORE_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_CFECORE_STARTED_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -1238,14 +1115,8 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_CreateChildTaskError(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute cFE core failed, CFE_ES_CreateChildTask returned: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
 
@@ -1255,7 +1126,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_CreateChildTaskError(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
@@ -1264,12 +1135,12 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_CreateChildTaskError(void)
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.CfeCoreCodeSeg,
                   "CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.CfeCoreCodeSeg");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_CFECORE_CREATE_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_CFECORE_CREATE_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
@@ -1287,28 +1158,22 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_ChildTaskError(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute cFE core failed: child task in use");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -1323,12 +1188,10 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1344,13 +1207,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_OneShot(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute cFE core failed: child task in use");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
 
@@ -1359,15 +1216,15 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_OneShot(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineCfeCoreCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -1384,20 +1241,14 @@ void CS_RecomputeBaselineOSCmd_Test_Nominal(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute of OS code segment started");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == true, "CS_AppData.HkPacket.RecomputeInProgress == true");
@@ -1407,12 +1258,12 @@ void CS_RecomputeBaselineOSCmd_Test_Nominal(void)
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.OSCodeSeg,
                   "CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.OSCodeSeg");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_OS_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_OS_STARTED_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -1429,14 +1280,8 @@ void CS_RecomputeBaselineOSCmd_Test_CreateChildTaskError(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute OS code segment failed, CFE_ES_CreateChildTask returned: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
 
@@ -1446,7 +1291,7 @@ void CS_RecomputeBaselineOSCmd_Test_CreateChildTaskError(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
@@ -1455,12 +1300,12 @@ void CS_RecomputeBaselineOSCmd_Test_CreateChildTaskError(void)
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.OSCodeSeg,
                   "CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.OSCodeSeg");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_OS_CREATE_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_OS_CREATE_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
@@ -1478,29 +1323,23 @@ void CS_RecomputeBaselineOSCmd_Test_ChildTaskError(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute OS code segment failed: child task in use");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_OS_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_OS_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -1515,12 +1354,10 @@ void CS_RecomputeBaselineOSCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1536,14 +1373,8 @@ void CS_RecomputeBaselineOSCmd_Test_OneShot(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute OS code segment failed: child task in use");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
 
@@ -1552,15 +1383,15 @@ void CS_RecomputeBaselineOSCmd_Test_OneShot(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineOSCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_OS_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_OS_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -1577,14 +1408,8 @@ void CS_OneShotCmd_Test_Nominal(void)
     int32           strCmpResult;
     char            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum started on address: 0x%%08X, size: %%d");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_OneShotCmd_t));
 
     CmdPacket.Address          = 0x00000001;
     CmdPacket.Size             = 2;
@@ -1593,13 +1418,10 @@ void CS_OneShotCmd_Test_Nominal(void)
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CS_AppData.MaxBytesPerCycle             = 8;
 
-    /* Sets ChildTaskID to 5 and returns CFE_SUCCESS */
-    UT_SetHandlerFunction(UT_KEY(CFE_ES_CreateChildTask), CS_CMDS_TEST_CFE_ES_CreateChildTaskHandler1, NULL);
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_OneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
@@ -1613,14 +1435,14 @@ void CS_OneShotCmd_Test_Nominal(void)
     UtAssert_True(CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle == CS_AppData.MaxBytesPerCycle,
                   "CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle == CS_AppData.MaxBytesPerCycle");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_STARTED_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.ChildTaskID == 5, "CS_AppData.ChildTaskID == 5");
+    UtAssert_BOOL_TRUE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1636,14 +1458,8 @@ void CS_OneShotCmd_Test_MaxBytesPerCycleNonZero(void)
     int32           strCmpResult;
     char            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum started on address: 0x%%08X, size: %%d");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_OneShotCmd_t));
 
     CmdPacket.Address          = 0x00000001;
     CmdPacket.Size             = 2;
@@ -1652,13 +1468,10 @@ void CS_OneShotCmd_Test_MaxBytesPerCycleNonZero(void)
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CS_AppData.MaxBytesPerCycle             = 8;
 
-    /* Sets ChildTaskID to 5 and returns CFE_SUCCESS */
-    UT_SetHandlerFunction(UT_KEY(CFE_ES_CreateChildTask), CS_CMDS_TEST_CFE_ES_CreateChildTaskHandler1, NULL);
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_OneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
@@ -1672,14 +1485,14 @@ void CS_OneShotCmd_Test_MaxBytesPerCycleNonZero(void)
     UtAssert_True(CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle == CmdPacket.MaxBytesPerCycle,
                   "CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle == CmdPacket.MaxBytesPerCycle");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_STARTED_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.ChildTaskID == 5, "CS_AppData.ChildTaskID == 5");
+    UtAssert_BOOL_TRUE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1695,14 +1508,10 @@ void CS_OneShotCmd_Test_CreateChildTaskError(void)
     int32           strCmpResult;
     char            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
+    memset(&CmdPacket, 0, sizeof(CmdPacket));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checkum failed, CFE_ES_CreateChildTask returned: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_OneShotCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
 
@@ -1712,7 +1521,7 @@ void CS_OneShotCmd_Test_CreateChildTaskError(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_OneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.LastOneShotAddress == CmdPacket.Address,
@@ -1721,12 +1530,12 @@ void CS_OneShotCmd_Test_CreateChildTaskError(void)
                   "CS_AppData.HkPacket.LastOneShotSize == CmdPacket.Size");
     UtAssert_True(CS_AppData.HkPacket.LastOneShotChecksum == 0, "CS_AppData.HkPacket.LastOneShotChecksum == 0");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_CREATE_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CREATE_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
@@ -1745,28 +1554,22 @@ void CS_OneShotCmd_Test_ChildTaskError(void)
     int32           strCmpResult;
     char            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "OneShot checksum failed: child task in use");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_OneShotCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_OneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -1783,14 +1586,8 @@ void CS_OneShotCmd_Test_MemValidateRangeError(void)
     int32           strCmpResult;
     char            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum failed, CFE_PSP_MemValidateRange returned: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_OneShotCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = true;
 
@@ -1800,15 +1597,15 @@ void CS_OneShotCmd_Test_MemValidateRangeError(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_OneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_MEMVALIDATE_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_MEMVALIDATE_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -1821,14 +1618,12 @@ void CS_OneShotCmd_Test_MemValidateRangeError(void)
 
 void CS_OneShotCmd_Test_VerifyError(void)
 {
-    CS_NoArgsCmd_t CmdPacket;
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_OneShotCmd_t));
+    CS_OneShotCmd_t CmdPacket;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_OneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -1844,13 +1639,7 @@ void CS_OneShotCmd_Test_OneShot(void)
     int32           strCmpResult;
     char            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "OneShot checksum failed: child task in use");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_OneShotCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
 
@@ -1859,15 +1648,15 @@ void CS_OneShotCmd_Test_OneShot(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_OneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -1884,14 +1673,8 @@ void CS_CancelOneShotCmd_Test_Nominal(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum calculation has been cancelled");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CS_AppData.HkPacket.OneShotInProgress   = true;
@@ -1899,20 +1682,20 @@ void CS_CancelOneShotCmd_Test_Nominal(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_CancelOneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_CancelOneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.ChildTaskID == 0, "CS_AppData.ChildTaskID == 0");
+    UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
     UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_CANCELLED_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CANCELLED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1927,14 +1710,8 @@ void CS_CancelOneShotCmd_Test_DeleteChildTaskError(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Cancel OneShot checksum failed, CFE_ES_DeleteChildTask returned:  0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CS_AppData.HkPacket.OneShotInProgress   = true;
@@ -1945,15 +1722,15 @@ void CS_CancelOneShotCmd_Test_DeleteChildTaskError(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_CancelOneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_CancelOneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_CANCEL_DELETE_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CANCEL_DELETE_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -1970,14 +1747,8 @@ void CS_CancelOneShotCmd_Test_NoChildTaskError(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Cancel OneShot checksum failed. No OneShot active");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = true;
     CS_AppData.HkPacket.OneShotInProgress   = false;
@@ -1988,15 +1759,15 @@ void CS_CancelOneShotCmd_Test_NoChildTaskError(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_CancelOneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_CancelOneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -2011,12 +1782,10 @@ void CS_CancelOneShotCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_CancelOneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_CancelOneShotCmd(&CmdPacket);
 
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
@@ -2032,14 +1801,8 @@ void CS_CancelOneShotCmd_Test_OneShot(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Cancel OneShot checksum failed. No OneShot active");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CS_AppData.HkPacket.OneShotInProgress   = false;
@@ -2050,15 +1813,15 @@ void CS_CancelOneShotCmd_Test_OneShot(void)
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
     /* Execute the function being tested */
-    CS_CancelOneShotCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_CancelOneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 

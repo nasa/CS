@@ -1,50 +1,47 @@
-/*************************************************************************
- ** File:
- **   $Id: cs_msgids.h 1.3 2017/02/16 15:33:16EST mdeschu Exp  $
- **
- **   Copyright (c) 2007-2020 United States Government as represented by the 
- **   Administrator of the National Aeronautics and Space Administration. 
- **   All Other Rights Reserved.  
- **
- **   This software was created at NASA's Goddard Space Flight Center.
- **   This software is governed by the NASA Open Source Agreement and may be 
- **   used, distributed and modified only pursuant to the terms of that 
- **   agreement.
- **
- ** Purpose: 
- **   Specification for the CFS Checksum constants for message IDs
- **
- ** References:
- **   Flight Software Branch C Coding Standard Version 1.2
- **   CFS Development Standards Document
- **   CFS CS Heritage Analysis Document
- **   CFS CS CDR Package
- **
- *************************************************************************/
-#ifndef _cs_msgids_
-#define _cs_msgids_
-
-/*************************************************************************
- ** Macro Definitions
- *************************************************************************/
+/************************************************************************
+ * NASA Docket No. GSC-18,915-1, and identified as “cFS Checksum
+ * Application version 2.5.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
 
 /**
- ** \name CS Command Message IDs */ 
-/** \{ */
-#define CS_CMD_MID                          (0x189F)      /**< \brief Msg ID for cmds to CS   */
-#define CS_SEND_HK_MID                      (0x18A0)      /**< \brief Msg ID to request CS HK */
-#define CS_BACKGROUND_CYCLE_MID             (0x18A1)      /**< \brief Msg ID for background checking */
-/** \} */
+ * @file
+ *   Specification for the CFS Checksum constants for message IDs
+ */
+#ifndef CS_MSGIDS_H
+#define CS_MSGIDS_H
 
 /**
- ** \name CS Telemetery Message Number */ 
-/** \{ */
-#define CS_HK_TLM_MID                       (0x08A4)
-/** \} */
+ * \defgroup cfscscmdmid CFS Checksum Command Message IDs
+ * \{
+ */
 
-#endif /*_cs_msgids_*/
+#define CS_CMD_MID              (0x189F) /**< \brief CS Command Message ID */
+#define CS_SEND_HK_MID          (0x18A0) /**< \brief CS Housekeeping Request Message ID */
+#define CS_BACKGROUND_CYCLE_MID (0x18A1) /**< \brief CS Background Cycle Message ID */
 
-/************************/
-/*  End of File Comment */
-/************************/
+/**\}*/
 
+/**
+ * \defgroup cfscstlmmid CFS Checksum Telemetry Message IDs
+ * \{
+ */
+
+#define CS_HK_TLM_MID (0x08A4) /**< \brief CS Housekeeping Telemetry Message ID */
+
+/**\}*/
+
+#endif

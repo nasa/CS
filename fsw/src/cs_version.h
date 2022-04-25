@@ -1,45 +1,39 @@
-/*************************************************************************
-** File:
-**   $Id: cs_version.h 1.3.1.3 2017/05/03 16:23:22EDT sstrege Exp  $
-**
-**   Copyright (c) 2007-2020 United States Government as represented by the 
-**   Administrator of the National Aeronautics and Space Administration. 
-**   All Other Rights Reserved.  
-**
-**   This software was created at NASA's Goddard Space Flight Center.
-**   This software is governed by the NASA Open Source Agreement and may be 
-**   used, distributed and modified only pursuant to the terms of that 
-**   agreement.
-**
-** Purpose: 
-**   Contains CFS Checksum macros that specify CS's version
-**
-** References:
-**   Flight Software Branch C Coding Standard Version 1.2
-**   CFS Development Standards Document
-**   CFS CS Heritage Analysis Document
-**   CFS CS CDR Package
-**
-*************************************************************************/
-#ifndef _cs_version_
-#define _cs_version_
+/************************************************************************
+ * NASA Docket No. GSC-18,915-1, and identified as “cFS Checksum
+ * Application version 2.5.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
 
-/*************************************************************************
-** Includes
-*************************************************************************/
+/**
+ * @file
+ *   Contains CFS Checksum macros that specify CS's version
+ */
+#ifndef CS_VERSION_H
+#define CS_VERSION_H
 
-/*************************************************************************
-** Macro Definitions
-*************************************************************************/
+/**
+ * \defgroup cfscsversion CFS Checksum Version
+ * \ref cfsversions
+ * \{
+ */
 
-#define CS_MAJOR_VERSION    2
-#define CS_MINOR_VERSION    5
-#define CS_REVISION         0
+#define CS_MAJOR_VERSION 2  /**< \brief Major version number */
+#define CS_MINOR_VERSION 5  /**< \brief Minor version number */
+#define CS_REVISION      99 /**< \brief Revision number */
+
+/**\}*/
 
 #endif
-/*_cs_version_*/
-
-
-/************************/
-/*  End of File Comment */
-/************************/

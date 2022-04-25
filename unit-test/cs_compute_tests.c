@@ -1,3 +1,21 @@
+/************************************************************************
+ * NASA Docket No. GSC-18,915-1, and identified as “cFS Checksum
+ * Application version 2.5.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
 
 /*
  * Includes
@@ -10,7 +28,6 @@
 #include "cs_version.h"
 #include "cs_utils.h"
 #include "cs_test_utils.h"
-#include <sys/fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -212,12 +229,8 @@ void CS_ComputeTables_Test_TableNeverLoaded(void)
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s info Share: 0x%%08X, GetInfo: 0x%%08X, GetAddress: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     ResultsEntry.TblHandle = 99;
 
@@ -234,12 +247,12 @@ void CS_ComputeTables_Test_TableNeverLoaded(void)
 
     UtAssert_True(Result == CS_ERR_NOT_FOUND, "Result == CS_ERR_NOT_FOUND");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_COMPUTE_TABLES_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -257,12 +270,8 @@ void CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded(void)
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s info Share: 0x%%08X, GetInfo: 0x%%08X, GetAddress: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     ResultsEntry.TblHandle = 99;
 
@@ -289,12 +298,12 @@ void CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded(void)
 
     UtAssert_True(Result == CS_ERR_NOT_FOUND, "Result == CS_ERR_NOT_FOUND");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_COMPUTE_TABLES_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -312,12 +321,8 @@ void CS_ComputeTables_Test_ResultShareNotSuccess(void)
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s info Share: 0x%%08X, GetInfo: 0x%%08X, GetAddress: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     ResultsEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 
@@ -344,12 +349,12 @@ void CS_ComputeTables_Test_ResultShareNotSuccess(void)
 
     UtAssert_True(Result == CS_ERR_NOT_FOUND, "Result == CS_ERR_NOT_FOUND");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_COMPUTE_TABLES_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -681,12 +686,8 @@ void CS_ComputeTables_Test_ComputeTablesReleaseError(void)
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Could not release addresss for table %%s, returned: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     ResultsEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 
@@ -734,12 +735,12 @@ void CS_ComputeTables_Test_ComputeTablesReleaseError(void)
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_COMPUTE_TABLES_RELEASE_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_RELEASE_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -758,12 +759,8 @@ void CS_ComputeTables_Test_ComputeTablesError(void)
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s info Share: 0x%%08X, GetInfo: 0x%%08X, GetAddress: 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     ResultsEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 
@@ -788,12 +785,12 @@ void CS_ComputeTables_Test_ComputeTablesError(void)
 
     UtAssert_True(Result == CS_ERR_NOT_FOUND, "Result == CS_ERR_NOT_FOUND");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_COMPUTE_TABLES_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -854,12 +851,8 @@ void CS_ComputeApp_Test_GetAppIDByNameError(void)
     int32                    strCmpResult;
     char                     ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Apps: Problems getting app %%s info, GetAppID: 0x%%08X, GetAppInfo: 0x%%08X, AddressValid: %%d");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     strncpy(ResultsEntry.Name, "name", 10);
 
@@ -874,12 +867,12 @@ void CS_ComputeApp_Test_GetAppIDByNameError(void)
 
     UtAssert_True(Result == CS_ERR_NOT_FOUND, "Result == CS_ERR_NOT_FOUND");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_COMPUTE_APP_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_APP_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -897,12 +890,8 @@ void CS_ComputeApp_Test_GetAppInfoError(void)
     int32                    strCmpResult;
     char                     ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Apps: Problems getting app %%s info, GetAppID: 0x%%08X, GetAppInfo: 0x%%08X, AddressValid: %%d");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     strncpy(ResultsEntry.Name, "name", 10);
 
@@ -917,12 +906,12 @@ void CS_ComputeApp_Test_GetAppInfoError(void)
 
     UtAssert_True(Result == CS_ERR_NOT_FOUND, "Result == CS_ERR_NOT_FOUND");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_COMPUTE_APP_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_APP_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -940,15 +929,11 @@ void CS_ComputeApp_Test_ComputeAppPlatformError(void)
     int32                    strCmpResult;
     char                     ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS cannot get a valid address for %%s, due to the platform");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Apps: Problems getting app %%s info, GetAppID: 0x%%08X, GetAppInfo: 0x%%08X, AddressValid: %%d");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     strncpy(ResultsEntry.Name, "name", 10);
 
@@ -1126,12 +1111,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeEepromMemoryEntryPtr = &RecomputeEepromMemoryEntry;
     CS_AppData.DefEepromTblPtr               = DefEepromTbl;
@@ -1172,12 +1153,12 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
     UtAssert_True(CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == 1,
                   "CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1193,12 +1174,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeEepromMemoryEntryPtr = &RecomputeEepromMemoryEntry;
     CS_AppData.DefMemoryTblPtr               = DefMemoryTbl;
@@ -1239,12 +1216,12 @@ void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
     UtAssert_True(CS_AppData.DefMemoryTblPtr[CS_AppData.ChildTaskEntryID].State == 1,
                   "CS_AppData.DefMemoryTblPtr[CS_AppData.ChildTaskEntryID].State == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1260,12 +1237,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeEepromMemoryEntryPtr = &RecomputeEepromMemoryEntry;
     CS_AppData.DefMemoryTblPtr               = DefMemoryTbl;
@@ -1306,12 +1279,12 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
     UtAssert_True(CS_AppData.DefMemoryTblPtr[CS_AppData.ChildTaskEntryID].State == 1,
                   "CS_AppData.DefMemoryTblPtr[CS_AppData.ChildTaskEntryID].State == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CfeCoreBaseline == 1, "CS_AppData.HkPacket.CfeCoreBaseline == 1");
 
@@ -1329,12 +1302,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeEepromMemoryEntryPtr = &RecomputeEepromMemoryEntry;
     CS_AppData.DefMemoryTblPtr               = DefMemoryTbl;
@@ -1375,12 +1344,12 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
     UtAssert_True(CS_AppData.DefMemoryTblPtr[CS_AppData.ChildTaskEntryID].State == 1,
                   "CS_AppData.DefMemoryTblPtr[CS_AppData.ChildTaskEntryID].State == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.OSBaseline == 1, "CS_AppData.HkPacket.OSBaseline == 1");
 
@@ -1398,12 +1367,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeEepromMemoryEntryPtr = &RecomputeEepromMemoryEntry;
     CS_AppData.DefEepromTblPtr               = DefEepromTbl;
@@ -1446,12 +1411,12 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId(void)
     UtAssert_True(CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == 0,
                   "CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == 0");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1467,12 +1432,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeEepromMemoryEntryPtr = &RecomputeEepromMemoryEntry;
     CS_AppData.DefEepromTblPtr               = DefEepromTbl;
@@ -1513,12 +1474,12 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
     UtAssert_True(CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == 1,
                   "CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1534,12 +1495,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeEepromMemoryEntryPtr = &RecomputeEepromMemoryEntry;
     CS_AppData.DefEepromTblPtr               = DefEepromTbl;
@@ -1580,12 +1537,12 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
     UtAssert_True(CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == CS_STATE_EMPTY,
                   "CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == CS_STATE_EMPTY");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1601,12 +1558,11 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
     int32                    strCmpResult;
     char                     ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
+    memset(&RecomputeAppEntry, 0, sizeof(RecomputeAppEntry));
+    memset(&DefAppTbl, 0, sizeof(DefAppTbl));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App %%s recompute finished. New baseline is 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeAppEntryPtr = &RecomputeAppEntry;
     CS_AppData.DefAppTblPtr         = DefAppTbl;
@@ -1646,12 +1602,12 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
     UtAssert_True(CS_AppData.RecomputeAppEntryPtr->ComputedYet == true,
                   "CS_AppData.RecomputeAppEntryPtr->ComputedYet == true");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_APP_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_APP_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
 
@@ -1669,12 +1625,11 @@ void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
     int32                    strCmpResult;
     char                     ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
+    memset(&RecomputeAppEntry, 0, sizeof(RecomputeAppEntry));
+    memset(&DefAppTbl, 0, sizeof(DefAppTbl));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App %%s recompute failed. Could not get address");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeAppEntryPtr = &RecomputeAppEntry;
     CS_AppData.DefAppTblPtr         = DefAppTbl;
@@ -1734,12 +1689,11 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
     int32                    strCmpResult;
     char                     ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
+    memset(&RecomputeAppEntry, 0, sizeof(RecomputeAppEntry));
+    memset(&DefAppTbl, 0, sizeof(DefAppTbl));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App %%s recompute finished. New baseline is 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeAppEntryPtr = &RecomputeAppEntry;
     CS_AppData.DefAppTblPtr         = DefAppTbl;
@@ -1759,6 +1713,7 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
 
     strncpy(CS_AppData.RecomputeAppEntryPtr->Name, "name", 10);
     strncpy(DefAppTbl[1].Name, "name", 10);
+    DefAppTbl[1].State = CS_STATE_ENABLED;
 
     /* Sets AppInfo.CodeSize = 5, sets AppInfo.CodeAddress = 1, AppInfo.AddressesAreValid = true, and returns
      * CFE_SUCCESS */
@@ -1768,21 +1723,18 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
     CS_RecomputeAppChildTask();
 
     /* Verify results */
-    UtAssert_True(CS_AppData.RecomputeAppEntryPtr->State == 99, "CS_AppData.RecomputeAppEntryPtr->State == 99");
-    UtAssert_True(CS_AppData.DefAppTblPtr[CS_AppData.ChildTaskEntryID].State == 0,
-                  "CS_AppData.DefAppTblPtr[CS_AppData.ChildTaskEntryID].State == 0");
-    UtAssert_True(CS_AppData.RecomputeAppEntryPtr->TempChecksumValue == 0,
-                  "CS_AppData.RecomputeAppEntryPtr->TempChecksumValue == 0");
-    UtAssert_True(CS_AppData.RecomputeAppEntryPtr->ByteOffset == 0, "CS_AppData.RecomputeAppEntryPtr->ByteOffset == 0");
-    UtAssert_True(CS_AppData.RecomputeAppEntryPtr->ComputedYet == true,
-                  "CS_AppData.RecomputeAppEntryPtr->ComputedYet == true");
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeAppEntryPtr->State, 99);
+    UtAssert_UINT32_EQ(CS_AppData.DefAppTblPtr[CS_AppData.ChildTaskEntryID].State, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeAppEntryPtr->TempChecksumValue, 0);
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeAppEntryPtr->ByteOffset, 0);
+    UtAssert_BOOL_TRUE(CS_AppData.RecomputeAppEntryPtr->ComputedYet);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_APP_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_APP_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
 
@@ -1801,12 +1753,11 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
+    memset(&RecomputeTablesEntry, 0, sizeof(RecomputeTablesEntry));
+    memset(&DefTablesTbl, 0, sizeof(DefTablesTbl));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Table %%s recompute finished. New baseline is 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeTablesEntryPtr = &RecomputeTablesEntry;
     CS_AppData.DefTablesTblPtr         = DefTablesTbl;
@@ -1864,12 +1815,12 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
     UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->ComputedYet == true,
                   "CS_AppData.RecomputeTablesEntryPtr->ComputedYet == true");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_TABLES_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_TABLES_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.ChildTaskInUse == false");
 
@@ -1887,12 +1838,11 @@ void CS_RecomputeTablesChildTask_Test_CouldNotGetAddress(void)
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
+    memset(&RecomputeTablesEntry, 0, sizeof(RecomputeTablesEntry));
+    memset(&DefTablesTbl, 0, sizeof(DefTablesTbl));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Table %%s recompute failed. Could not get address");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeTablesEntryPtr = &RecomputeTablesEntry;
     CS_AppData.DefTablesTblPtr         = DefTablesTbl;
@@ -1952,12 +1902,11 @@ void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
+    memset(&RecomputeTablesEntry, 0, sizeof(RecomputeTablesEntry));
+    memset(&DefTablesTbl, 0, sizeof(DefTablesTbl));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Table %%s recompute finished. New baseline is 0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     CS_AppData.RecomputeTablesEntryPtr = &RecomputeTablesEntry;
     CS_AppData.DefTablesTblPtr         = DefTablesTbl;
@@ -1977,6 +1926,7 @@ void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
 
     strncpy(CS_AppData.RecomputeTablesEntryPtr->Name, "name", 10);
     strncpy(DefTablesTbl[1].Name, "name", 10);
+    DefTablesTbl[1].State = CS_STATE_ENABLED;
 
     RecomputeTablesEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 
@@ -2003,22 +1953,18 @@ void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
     CS_RecomputeTablesChildTask();
 
     /* Verify results */
-    UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->State == 99, "CS_AppData.RecomputeTablesEntryPtr->State == 99");
-    UtAssert_True(CS_AppData.DefTablesTblPtr[CS_AppData.ChildTaskEntryID].State == 0,
-                  "CS_AppData.DefTablesTblPtr[CS_AppData.ChildTaskEntryID].State == 0");
-    UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->TempChecksumValue == 0,
-                  "CS_AppData.RecomputeTablesEntryPtr->TempChecksumValue == 0");
-    UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->ByteOffset == 0,
-                  "CS_AppData.RecomputeTablesEntryPtr->ByteOffset == 0");
-    UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->ComputedYet == true,
-                  "CS_AppData.RecomputeTablesEntryPtr->ComputedYet == true");
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeTablesEntryPtr->State, 99);
+    UtAssert_UINT32_EQ(CS_AppData.DefTablesTblPtr[CS_AppData.ChildTaskEntryID].State, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeTablesEntryPtr->TempChecksumValue, 0);
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeTablesEntryPtr->ByteOffset, 0);
+    UtAssert_BOOL_TRUE(CS_AppData.RecomputeTablesEntryPtr->ComputedYet);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_FINISH_TABLES_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_TABLES_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.ChildTaskInUse == false");
 
@@ -2034,12 +1980,8 @@ void CS_OneShotChildTask_Test_Nominal(void)
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum on Address: 0x%%08X, size %%d completed. Checksum =  0x%%08X");
-
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
 
     /* NewChecksumValue will be set to value returned by this function */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, 1);
@@ -2055,16 +1997,16 @@ void CS_OneShotChildTask_Test_Nominal(void)
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.LastOneShotChecksum == 1, "CS_AppData.HkPacket.LastOneShotChecksum == 1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ONESHOT_FINISHED_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_FINISHED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
     UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
-    UtAssert_True(CS_AppData.ChildTaskID == 0, "CS_AppData.ChildTaskID == 0");
+    UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 

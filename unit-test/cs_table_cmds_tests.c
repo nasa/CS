@@ -1,3 +1,21 @@
+/************************************************************************
+ * NASA Docket No. GSC-18,915-1, and identified as “cFS Checksum
+ * Application version 2.5.0”
+ *
+ * Copyright (c) 2021 United States Government as represented by the
+ * Administrator of the National Aeronautics and Space Administration.
+ * All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain
+ * a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ ************************************************************************/
 
 /*
  * Includes
@@ -10,7 +28,6 @@
 #include "cs_version.h"
 #include "cs_utils.h"
 #include "cs_test_utils.h"
-#include <sys/fcntl.h>
 #include <unistd.h>
 #include <stdlib.h>
 
@@ -65,29 +82,24 @@ void CS_DisableTablesCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of Tables is Disabled");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_DisableTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_DISABLED,
                   "CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_DISABLE_TABLES_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_TABLES_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -102,13 +114,11 @@ void CS_DisableTablesCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_DisableTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -124,13 +134,11 @@ void CS_DisableTablesCmd_Test_OneShot(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, true);
 
     /* Execute the function being tested */
-    CS_DisableTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -148,29 +156,24 @@ void CS_EnableTablesCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of Tables is Enabled");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_EnableTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_ENABLED,
                   "CS_AppData.HkPacket.TablesCSState = CS_STATE_ENABLED");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ENABLE_TABLES_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_TABLES_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -185,13 +188,11 @@ void CS_EnableTablesCmd_Test_VerifyError(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_EnableTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -207,13 +208,11 @@ void CS_EnableTablesCmd_Test_OneShot(void)
 {
     CS_NoArgsCmd_t CmdPacket;
 
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
-
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, true);
 
     /* Execute the function being tested */
-    CS_EnableTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -231,12 +230,7 @@ void CS_ReportBaselineTablesCmd_Test_Computed(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Report baseline of table %%s is 0x%%08X");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     CS_AppData.ResTablesTblPtr[0].ComputedYet     = true;
     CS_AppData.ResTablesTblPtr[0].ComparisonValue = 1;
@@ -252,16 +246,16 @@ void CS_ReportBaselineTablesCmd_Test_Computed(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableResTblEntryByName), 1, true);
 
     /* Execute the function being tested */
-    CS_ReportBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_BASELINE_TABLES_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_BASELINE_TABLES_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -278,13 +272,8 @@ void CS_ReportBaselineTablesCmd_Test_NotYetComputed(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Report baseline of table %%s has not been computed yet");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     CS_AppData.ResTablesTblPtr[0].ComputedYet = false;
 
@@ -299,16 +288,16 @@ void CS_ReportBaselineTablesCmd_Test_NotYetComputed(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableResTblEntryByName), 1, true);
 
     /* Execute the function being tested */
-    CS_ReportBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_NO_BASELINE_TABLES_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_NO_BASELINE_TABLES_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -325,13 +314,8 @@ void CS_ReportBaselineTablesCmd_Test_TableNotFound(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables report baseline failed, table %%s not found");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name1", 10);
     strncpy(CmdPacket.Name, "name2", 10);
@@ -340,16 +324,16 @@ void CS_ReportBaselineTablesCmd_Test_TableNotFound(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableResTblEntryByName), 1, false);
 
     /* Execute the function being tested */
-    CS_ReportBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_BASELINE_INVALID_NAME_TABLES_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_BASELINE_INVALID_NAME_TABLES_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -362,14 +346,12 @@ void CS_ReportBaselineTablesCmd_Test_TableNotFound(void)
 
 void CS_ReportBaselineTablesCmd_Test_VerifyError(void)
 {
-    CS_NoArgsCmd_t CmdPacket;
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
+    CS_TableNameCmd_t CmdPacket;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_ReportBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_ReportBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -387,12 +369,7 @@ void CS_RecomputeBaselineTablesCmd_Test_Nominal(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute baseline of table %%s started");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
     strncpy(CmdPacket.Name, "name", 10);
@@ -406,7 +383,7 @@ void CS_RecomputeBaselineTablesCmd_Test_Nominal(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableResTblEntryByName), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == true, "CS_AppData.HkPacket.RecomputeInProgress == true");
@@ -414,12 +391,12 @@ void CS_RecomputeBaselineTablesCmd_Test_Nominal(void)
 
     UtAssert_True(CS_AppData.ChildTaskTable == CS_TABLES_TABLE, "CS_AppData.ChildTaskTable == CS_TABLES_TABLE");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_TABLES_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_TABLES_STARTED_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -436,13 +413,8 @@ void CS_RecomputeBaselineTablesCmd_Test_CreateChildTaskError(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute baseline of table %%s failed, CFE_ES_CreateChildTask returned: 0x%%08X");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
     strncpy(CmdPacket.Name, "name", 10);
@@ -459,19 +431,19 @@ void CS_RecomputeBaselineTablesCmd_Test_CreateChildTaskError(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableResTblEntryByName), 1, true);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
 
     UtAssert_True(CS_AppData.ChildTaskTable == CS_TABLES_TABLE, "CS_AppData.ChildTaskTable == CS_TABLES_TABLE");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_TABLES_CREATE_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_TABLES_CREATE_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -490,13 +462,8 @@ void CS_RecomputeBaselineTablesCmd_Test_TableNotFound(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables recompute baseline failed, table %%s not found");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CmdPacket.Name, "name", 10);
 
@@ -504,16 +471,16 @@ void CS_RecomputeBaselineTablesCmd_Test_TableNotFound(void)
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_UNKNOWN_NAME_TABLES_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_UNKNOWN_NAME_TABLES_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -530,13 +497,8 @@ void CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables recompute baseline for table %%s failed: child task in use");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CmdPacket.Name, "name", 10);
 
@@ -546,16 +508,16 @@ void CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress(void)
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_TABLES_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_TABLES_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -568,14 +530,12 @@ void CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress(void)
 
 void CS_RecomputeBaselineTablesCmd_Test_VerifyError(void)
 {
-    CS_NoArgsCmd_t CmdPacket;
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
+    CS_TableNameCmd_t CmdPacket;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -593,13 +553,8 @@ void CS_RecomputeBaselineTablesCmd_Test_OneShot(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables recompute baseline for table %%s failed: child task in use");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CmdPacket.Name, "name", 10);
 
@@ -610,15 +565,15 @@ void CS_RecomputeBaselineTablesCmd_Test_OneShot(void)
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_RecomputeBaselineTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_RecomputeBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_RECOMPUTE_TABLES_CHDTASK_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_TABLES_CHDTASK_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -635,12 +590,7 @@ void CS_DisableNameTablesCmd_Test_Nominal(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of table %%s is Disabled");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
     strncpy(CmdPacket.Name, "name", 10);
@@ -661,19 +611,19 @@ void CS_DisableNameTablesCmd_Test_Nominal(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableDefTblEntryByName), 1, true);
 
     /* Execute the function being tested */
-    CS_DisableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.ResTablesTblPtr[0].TempChecksumValue == 0,
                   "CS_AppData.ResTablesTblPtr[0].TempChecksumValue == 0");
     UtAssert_True(CS_AppData.ResTablesTblPtr[0].ByteOffset == 0, "CS_AppData.ResTablesTblPtr[0].ByteOffset == 0");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_DISABLE_TABLES_NAME_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_TABLES_NAME_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -690,15 +640,10 @@ void CS_DisableNameTablesCmd_Test_TableDefNotFound(void)
     int32             strCmpResult;
     char              ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of table %%s is Disabled");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS unable to update tables definition table for entry %%s");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
     strncpy(CmdPacket.Name, "name", 10);
@@ -713,7 +658,7 @@ void CS_DisableNameTablesCmd_Test_TableDefNotFound(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableDefTblEntryByName), 1, false);
 
     /* Execute the function being tested */
-    CS_DisableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.ResTablesTblPtr[0].TempChecksumValue == 0,
@@ -751,13 +696,8 @@ void CS_DisableNameTablesCmd_Test_TableNotFound(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables disable table command failed, table %%s not found");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CmdPacket.Name, "name", 10);
 
@@ -766,16 +706,16 @@ void CS_DisableNameTablesCmd_Test_TableNotFound(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableResTblEntryByName), 1, false);
 
     /* Execute the function being tested */
-    CS_DisableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -788,15 +728,13 @@ void CS_DisableNameTablesCmd_Test_TableNotFound(void)
 
 void CS_DisableNameTablesCmd_Test_VerifyError(void)
 {
-    CS_NoArgsCmd_t CmdPacket;
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
+    CS_TableNameCmd_t CmdPacket;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_DisableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -810,15 +748,13 @@ void CS_DisableNameTablesCmd_Test_VerifyError(void)
 
 void CS_DisableNameTablesCmd_Test_OneShot(void)
 {
-    CS_NoArgsCmd_t CmdPacket;
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
+    CS_TableNameCmd_t CmdPacket;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, true);
 
     /* Execute the function being tested */
-    CS_DisableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_DisableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -836,12 +772,7 @@ void CS_EnableNameTablesCmd_Test_Nominal(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of table %%s is Enabled");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
     strncpy(CmdPacket.Name, "name", 10);
@@ -862,16 +793,16 @@ void CS_EnableNameTablesCmd_Test_Nominal(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableDefTblEntryByName), 1, true);
 
     /* Execute the function being tested */
-    CS_EnableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ENABLE_TABLES_NAME_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_TABLES_NAME_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
 
@@ -888,15 +819,10 @@ void CS_EnableNameTablesCmd_Test_TableDefNotFound(void)
     int32             strCmpResult;
     char              ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent[2];
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of table %%s is Enabled");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS unable to update tables definition table for entry %%s");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
     strncpy(CmdPacket.Name, "name", 10);
@@ -911,7 +837,7 @@ void CS_EnableNameTablesCmd_Test_TableDefNotFound(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableDefTblEntryByName), 1, false);
 
     /* Execute the function being tested */
-    CS_EnableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
 
@@ -946,13 +872,8 @@ void CS_EnableNameTablesCmd_Test_TableNotFound(void)
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    CFE_EVS_SendEvent_context_t context_CFE_EVS_SendEvent;
-    UT_SetHookFunction(UT_KEY(CFE_EVS_SendEvent), UT_Utils_stub_reporter_hook, &context_CFE_EVS_SendEvent);
-
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables enable table command failed, table %%s not found");
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
 
     strncpy(CmdPacket.Name, "name", 10);
 
@@ -961,16 +882,16 @@ void CS_EnableNameTablesCmd_Test_TableNotFound(void)
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableResTblEntryByName), 1, false);
 
     /* Execute the function being tested */
-    CS_EnableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventID, CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent.EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
+    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent.Spec);
+    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
 
@@ -983,15 +904,13 @@ void CS_EnableNameTablesCmd_Test_TableNotFound(void)
 
 void CS_EnableNameTablesCmd_Test_VerifyError(void)
 {
-    CS_NoArgsCmd_t CmdPacket;
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_TableNameCmd_t));
+    CS_TableNameCmd_t CmdPacket;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
 
     /* Execute the function being tested */
-    CS_EnableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
@@ -1005,15 +924,13 @@ void CS_EnableNameTablesCmd_Test_VerifyError(void)
 
 void CS_EnableNameTablesCmd_Test_OneShot(void)
 {
-    CS_NoArgsCmd_t CmdPacket;
-
-    CFE_MSG_Init((CFE_MSG_Message_t *)&CmdPacket, CS_CMD_MID, sizeof(CS_NoArgsCmd_t));
+    CS_TableNameCmd_t CmdPacket;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, true);
 
     /* Execute the function being tested */
-    CS_EnableNameTablesCmd((CFE_SB_Buffer_t *)(&CmdPacket));
+    CS_EnableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
     UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
