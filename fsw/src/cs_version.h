@@ -30,9 +30,9 @@
  * \{
  */
 
-#define CS_MAJOR_VERSION 2 /**< \brief Major version number */
-#define CS_MINOR_VERSION 5 /**< \brief Minor version number */
-#define CS_REVISION      1 /**< \brief Revision number */
+#define CS_MAJOR_VERSION 2  /**< \brief Major version number */
+#define CS_MINOR_VERSION 5  /**< \brief Minor version number */
+#define CS_REVISION      99 /**< \brief Revision number */
 
 /**\}*/
 
