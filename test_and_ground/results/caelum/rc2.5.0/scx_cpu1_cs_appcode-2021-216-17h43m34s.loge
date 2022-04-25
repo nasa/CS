@@ -1,0 +1,345 @@
+21-216-17:44:56.307 00    TLMH-I:STS          58-012-14:03:49.433 INFO CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=3 TO telemetry output enabled for IP 192.168.1.101
+21-216-17:45:26.298 00    TLMH-I:STS          58-012-14:04:19.501 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/app_def_tbl_ld_1' into 'CS.DefAppTbl' working buffer
+21-216-17:45:34.803 00    TLMH-I:STS          58-012-14:04:28.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=142 CS Apps Table verification results: good = 4, bad = 0, unused = 20
+21-216-17:45:34.803 00    TLMH-I:STS          58-012-14:04:28.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 CS validation successful for Inactive 'CS.DefAppTbl'
+21-216-17:45:38.805 00    TLMH-I:STS          58-012-14:04:32.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 CS Successfully Updated 'CS.DefAppTbl'
+21-216-17:45:55.807 00    TLMH-I:STS          58-012-14:04:49.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:45:55.808 00    TLMH-I:STS          58-012-14:04:49.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:45:57.307 00    TLMH-I:STS          58-012-14:04:50.501 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.DefAppTbl' to '/ram/cpu1_appdeftbl1_10'
+21-216-17:46:37.803 00    TLMH-I:STS          58-012-14:05:31.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=5 Background Checksumming Enabled
+21-216-17:46:39.799 00    TLMH-I:STS          58-012-14:05:33.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=8 Checksumming of OS code segment is Disabled
+21-216-17:46:40.801 00    TLMH-I:STS          58-012-14:05:34.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=6 Checksumming of cFE Core is Disabled
+21-216-17:46:41.804 00    TLMH-I:STS          58-012-14:05:35.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=37 Checksumming of Eeprom is Disabled
+21-216-17:46:42.805 00    TLMH-I:STS          58-012-14:05:36.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=52 Checksumming of Memory is Disabled
+21-216-17:46:42.806 00    TLMH-I:STS          58-012-14:05:36.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:46:42.807 00    TLMH-I:STS          58-012-14:05:36.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:46:43.799 00    TLMH-I:STS          58-012-14:05:37.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=67 Checksumming of Tables is Disabled
+21-216-17:46:47.806 00    TLMH-I:STS          58-012-14:05:41.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:46:47.807 00    TLMH-I:STS          58-012-14:05:41.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:46:49.804 00    TLMH-I:STS          58-012-14:05:43.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=81 Checksumming of App is Enabled
+21-216-17:46:52.807 00    TLMH-I:STS          58-012-14:05:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:46:52.808 00    TLMH-I:STS          58-012-14:05:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:46:56.804 00    TLMH-I:STS          58-012-14:05:50.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:46:56.806 00    TLMH-I:STS          58-012-14:05:50.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:01.805 00    TLMH-I:STS          58-012-14:05:55.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:01.806 00    TLMH-I:STS          58-012-14:05:55.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:02.806 00    TLMH-I:STS          58-012-14:05:56.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl2_3'
+21-216-17:47:06.809 00    TLMH-I:STS          58-012-14:06:00.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:06.810 00    TLMH-I:STS          58-012-14:06:00.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:10.801 00    TLMH-I:STS          58-012-14:06:04.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:10.802 00    TLMH-I:STS          58-012-14:06:04.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:15.803 00    TLMH-I:STS          58-012-14:06:09.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:15.805 00    TLMH-I:STS          58-012-14:06:09.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:20.801 00    TLMH-I:STS          58-012-14:06:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:20.802 00    TLMH-I:STS          58-012-14:06:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:24.808 00    TLMH-I:STS          58-012-14:06:18.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:24.809 00    TLMH-I:STS          58-012-14:06:18.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:29.804 00    TLMH-I:STS          58-012-14:06:23.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:29.805 00    TLMH-I:STS          58-012-14:06:23.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:34.804 00    TLMH-I:STS          58-012-14:06:28.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:34.805 00    TLMH-I:STS          58-012-14:06:28.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:38.799 00    TLMH-I:STS          58-012-14:06:32.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:38.809 00    TLMH-I:STS          58-012-14:06:32.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:42.804 00    TLMH-I:STS          58-012-14:06:36.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl2_4'
+21-216-17:47:43.800 00    TLMH-I:STS          58-012-14:06:37.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:43.801 00    TLMH-I:STS          58-012-14:06:37.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:48.807 00    TLMH-I:STS          58-012-14:06:42.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:48.808 00    TLMH-I:STS          58-012-14:06:42.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:52.806 00    TLMH-I:STS          58-012-14:06:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:52.806 00    TLMH-I:STS          58-012-14:06:46.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:47:57.803 00    TLMH-I:STS          58-012-14:06:51.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:47:57.804 00    TLMH-I:STS          58-012-14:06:51.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:02.799 00    TLMH-I:STS          58-012-14:06:56.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:02.800 00    TLMH-I:STS          58-012-14:06:56.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:06.800 00    TLMH-I:STS          58-012-14:07:00.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:06.800 00    TLMH-I:STS          58-012-14:07:00.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:11.803 00    TLMH-I:STS          58-012-14:07:05.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:11.803 00    TLMH-I:STS          58-012-14:07:05.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:15.301 00    TLMH-I:STS          58-012-14:07:08.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=91 Checksumming of app CS is Disabled
+21-216-17:48:16.801 00    TLMH-I:STS          58-012-14:07:10.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:16.802 00    TLMH-I:STS          58-012-14:07:10.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:18.798 00    TLMH-I:STS          58-012-14:07:12.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:18.798 00    TLMH-I:STS          58-012-14:07:12.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:19.800 00    TLMH-I:STS          58-012-14:07:13.002 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.DefAppTbl' to '/ram/cpu1_appdeftbl2_5'
+21-216-17:48:20.803 00    TLMH-I:STS          58-012-14:07:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:20.804 00    TLMH-I:STS          58-012-14:07:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:22.802 00    TLMH-I:STS          58-012-14:07:16.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:22.803 00    TLMH-I:STS          58-012-14:07:16.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:24.802 00    TLMH-I:STS          58-012-14:07:18.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:24.802 00    TLMH-I:STS          58-012-14:07:18.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:26.801 00    TLMH-I:STS          58-012-14:07:20.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:26.801 00    TLMH-I:STS          58-012-14:07:20.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:28.797 00    TLMH-I:STS          58-012-14:07:22.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:28.798 00    TLMH-I:STS          58-012-14:07:22.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:30.804 00    TLMH-I:STS          58-012-14:07:24.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:30.804 00    TLMH-I:STS          58-012-14:07:24.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:32.801 00    TLMH-I:STS          58-012-14:07:26.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:32.801 00    TLMH-I:STS          58-012-14:07:26.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:34.803 00    TLMH-I:STS          58-012-14:07:28.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:34.804 00    TLMH-I:STS          58-012-14:07:28.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:36.798 00    TLMH-I:STS          58-012-14:07:30.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:36.798 00    TLMH-I:STS          58-012-14:07:30.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:38.807 00    TLMH-I:STS          58-012-14:07:32.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:38.807 00    TLMH-I:STS          58-012-14:07:32.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:40.800 00    TLMH-I:STS          58-012-14:07:34.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:40.801 00    TLMH-I:STS          58-012-14:07:34.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:42.797 00    TLMH-I:STS          58-012-14:07:36.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:42.810 00    TLMH-I:STS          58-012-14:07:36.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:44.797 00    TLMH-I:STS          58-012-14:07:38.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:44.797 00    TLMH-I:STS          58-012-14:07:38.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:46.801 00    TLMH-I:STS          58-012-14:07:40.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:46.801 00    TLMH-I:STS          58-012-14:07:40.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:48.799 00    TLMH-I:STS          58-012-14:07:42.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:48.800 00    TLMH-I:STS          58-012-14:07:42.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:50.806 00    TLMH-I:STS          58-012-14:07:44.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:50.807 00    TLMH-I:STS          58-012-14:07:44.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:52.796 00    TLMH-I:STS          58-012-14:07:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:52.806 00    TLMH-I:STS          58-012-14:07:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:54.804 00    TLMH-I:STS          58-012-14:07:48.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:54.805 00    TLMH-I:STS          58-012-14:07:48.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:56.802 00    TLMH-I:STS          58-012-14:07:50.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:56.802 00    TLMH-I:STS          58-012-14:07:50.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:48:58.799 00    TLMH-I:STS          58-012-14:07:52.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:48:58.800 00    TLMH-I:STS          58-012-14:07:52.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:00.806 00    TLMH-I:STS          58-012-14:07:54.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:00.806 00    TLMH-I:STS          58-012-14:07:54.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:02.801 00    TLMH-I:STS          58-012-14:07:56.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:02.801 00    TLMH-I:STS          58-012-14:07:56.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:04.797 00    TLMH-I:STS          58-012-14:07:58.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:04.798 00    TLMH-I:STS          58-012-14:07:58.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:04.798 00    TLMH-I:STS          58-012-14:07:58.001 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=4 Corrupt Application CRC command for 'CS' successful
+21-216-17:49:06.806 00    TLMH-I:STS          58-012-14:08:00.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:06.806 00    TLMH-I:STS          58-012-14:08:00.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:08.805 00    TLMH-I:STS          58-012-14:08:02.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:08.806 00    TLMH-I:STS          58-012-14:08:02.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:10.805 00    TLMH-I:STS          58-012-14:08:04.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=89 Checksumming of app CS is Enabled
+21-216-17:49:10.806 00    TLMH-I:STS          58-012-14:08:04.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:10.806 00    TLMH-I:STS          58-012-14:08:04.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:13.798 00    TLMH-I:STS          58-012-14:08:07.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:14.800 00    TLMH-I:STS          58-012-14:08:08.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:14.800 00    TLMH-I:STS          58-012-14:08:08.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:18.806 00    TLMH-I:STS          58-012-14:08:12.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:19.799 00    TLMH-I:STS          58-012-14:08:13.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:19.800 00    TLMH-I:STS          58-012-14:08:13.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:22.802 00    TLMH-I:STS          58-012-14:08:16.007 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:24.798 00    TLMH-I:STS          58-012-14:08:18.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:24.799 00    TLMH-I:STS          58-012-14:08:18.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:26.807 00    TLMH-I:STS          58-012-14:08:20.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl2_8'
+21-216-17:49:27.802 00    TLMH-I:STS          58-012-14:08:21.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:28.803 00    TLMH-I:STS          58-012-14:08:22.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:28.804 00    TLMH-I:STS          58-012-14:08:22.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:32.803 00    TLMH-I:STS          58-012-14:08:26.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:33.798 00    TLMH-I:STS          58-012-14:08:27.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:33.800 00    TLMH-I:STS          58-012-14:08:27.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:36.798 00    TLMH-I:STS          58-012-14:08:30.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:38.808 00    TLMH-I:STS          58-012-14:08:32.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:38.810 00    TLMH-I:STS          58-012-14:08:32.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:41.802 00    TLMH-I:STS          58-012-14:08:35.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:42.806 00    TLMH-I:STS          58-012-14:08:36.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:42.807 00    TLMH-I:STS          58-012-14:08:36.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:46.800 00    TLMH-I:STS          58-012-14:08:40.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:47.797 00    TLMH-I:STS          58-012-14:08:41.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:47.798 00    TLMH-I:STS          58-012-14:08:41.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:50.805 00    TLMH-I:STS          58-012-14:08:44.007 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:52.803 00    TLMH-I:STS          58-012-14:08:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:52.805 00    TLMH-I:STS          58-012-14:08:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:49:55.802 00    TLMH-I:STS          58-012-14:08:49.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=30 Checksum Failure: Application CS, Expected: 0x0012D687, Calculated: 0xFFFFF5EF
+21-216-17:49:56.806 00    TLMH-I:STS          58-012-14:08:50.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:49:56.807 00    TLMH-I:STS          58-012-14:08:50.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:50:00.302 00    TLMH-I:STS          58-012-14:08:53.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-17:50:00.798 00    TLMH-I:STS          58-012-14:08:54.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:00.800 00    TLMH-I:STS          58-012-14:08:54.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:01.799 00    TLMH-I:STS          58-012-14:08:55.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:02.803 00    TLMH-I:STS          58-012-14:08:56.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:02.804 00    TLMH-I:STS          58-012-14:08:56.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:03.804 00    TLMH-I:STS          58-012-14:08:57.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:04.301 00    TLMH-I:STS          58-012-14:08:57.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-17:50:07.796 00    TLMH-I:STS          58-012-14:09:01.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:50:07.796 00    TLMH-I:STS          58-012-14:09:01.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:50:12.799 00    TLMH-I:STS          58-012-14:09:06.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:50:12.800 00    TLMH-I:STS          58-012-14:09:06.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:50:13.297 00    TLMH-I:STS          58-012-14:09:06.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app CS is 0xFFFFF5EF
+21-216-17:50:16.800 00    TLMH-I:STS          58-012-14:09:10.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:50:16.801 00    TLMH-I:STS          58-012-14:09:10.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:50:21.297 00    TLMH-I:STS          58-012-14:09:14.500 ERROR CPU=CPU1 APPNAME=CFE_ES EVENT ID=36 Stop Application CF_APP, GetAppIDByName failed. RC = 0xC4000002.
+21-216-17:50:21.804 00    TLMH-I:STS          58-012-14:09:15.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=122 CS Apps: Problems getting app CF_APP info, GetAppID: 0xC4000002, GetAppInfo: 0xFFFFFFFF, AddressValid: 0
+21-216-17:50:21.805 00    TLMH-I:STS          58-012-14:09:15.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=93 App table computing: App CF_APP could not be found, skipping
+21-216-17:50:23.799 00    TLMH-I:STS          58-012-14:09:17.054 INFO CPU=CPU1 APPNAME=CFE_ES EVENT ID=6 Started CF_APP from /ram/cf_app.o, AppID = 1114123
+21-216-17:50:23.801 00    TLMH-I:STS          58-012-14:09:17.120 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CF_APP.config_table' from '/cf/cf_def_config.tbl'
+21-216-17:50:23.802 00    TLMH-I:STS          58-012-14:09:17.123 INFO CPU=CPU1 APPNAME=CF_APP EVENT ID=20 CF Initialized. Version <alpha>
+21-216-17:50:29.802 00    TLMH-I:STS          58-012-14:09:23.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CF_APP started
+21-216-17:50:29.803 00    TLMH-I:STS          58-012-14:09:23.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:30.800 00    TLMH-I:STS          58-012-14:09:24.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:30.801 00    TLMH-I:STS          58-012-14:09:24.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:31.803 00    TLMH-I:STS          58-012-14:09:25.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:32.803 00    TLMH-I:STS          58-012-14:09:26.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:32.805 00    TLMH-I:STS          58-012-14:09:26.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:33.798 00    TLMH-I:STS          58-012-14:09:27.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:34.804 00    TLMH-I:STS          58-012-14:09:28.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:34.805 00    TLMH-I:STS          58-012-14:09:28.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:35.802 00    TLMH-I:STS          58-012-14:09:29.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:50:35.803 00    TLMH-I:STS          58-012-14:09:29.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CF_APP recompute finished. New baseline is 0x000026C9
+21-216-17:50:44.801 00    TLMH-I:STS          58-012-14:09:38.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 34, Len = 9, Expected = 8
+21-216-17:50:52.800 00    TLMH-I:STS          58-012-14:09:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 35, Len = 9, Expected = 8
+21-216-17:51:00.797 00    TLMH-I:STS          58-012-14:09:54.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 34, Len = 9, Expected = 8
+21-216-17:51:09.299 00    TLMH-I:STS          58-012-14:10:02.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=90 App enable app command failed, app  not found
+21-216-17:51:17.298 00    TLMH-I:STS          58-012-14:10:10.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=90 App enable app command failed, app CS_TST not found
+21-216-17:51:25.301 00    TLMH-I:STS          58-012-14:10:18.483 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 35, Len = 9, Expected = 8
+21-216-17:51:33.306 00    TLMH-I:STS          58-012-14:10:26.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=92 App disable app command failed, app  not found
+21-216-17:51:41.299 00    TLMH-I:STS          58-012-14:10:34.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=92 App disable app command failed, app CS_TST not found
+21-216-17:51:49.303 00    TLMH-I:STS          58-012-14:10:42.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 36, Len = 29, Expected = 28
+21-216-17:51:56.795 00    TLMH-I:STS          58-012-14:10:50.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=87 App recompute baseline failed, app  not found
+21-216-17:52:04.801 00    TLMH-I:STS          58-012-14:10:58.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=87 App recompute baseline failed, app CS_TST not found
+21-216-17:52:12.805 00    TLMH-I:STS          58-012-14:11:06.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 36, Len = 45, Expected = 28
+21-216-17:52:20.796 00    TLMH-I:STS          58-012-14:11:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=84 App report baseline failed, app  not found
+21-216-17:52:28.796 00    TLMH-I:STS          58-012-14:11:22.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=84 App report baseline failed, app CS_TST not found
+21-216-17:52:42.803 00    TLMH-I:STS          58-012-14:11:36.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl3_11'
+21-216-17:53:17.295 00    TLMH-I:STS          58-012-14:12:10.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CF_APP started
+21-216-17:53:17.296 00    TLMH-I:STS          58-012-14:12:10.501 ERROR CPU=CPU1 APPNAME=CS EVENT ID=88 App recompute baseline for app CS failed: child task in use
+21-216-17:53:17.801 00    TLMH-I:STS          58-012-14:12:11.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:18.802 00    TLMH-I:STS          58-012-14:12:12.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:18.802 00    TLMH-I:STS          58-012-14:12:12.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:19.795 00    TLMH-I:STS          58-012-14:12:13.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:20.800 00    TLMH-I:STS          58-012-14:12:14.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:20.802 00    TLMH-I:STS          58-012-14:12:14.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:21.804 00    TLMH-I:STS          58-012-14:12:15.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:22.800 00    TLMH-I:STS          58-012-14:12:16.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:22.801 00    TLMH-I:STS          58-012-14:12:16.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:23.297 00    TLMH-I:STS          58-012-14:12:16.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CF_APP recompute finished. New baseline is 0x000026C9
+21-216-17:53:25.302 00    TLMH-I:STS          58-012-14:12:18.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-17:53:25.303 00    TLMH-I:STS          58-012-14:12:18.501 ERROR CPU=CPU1 APPNAME=CS EVENT ID=22 OneShot checksum failed: child task in use
+21-216-17:53:25.799 00    TLMH-I:STS          58-012-14:12:19.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:26.803 00    TLMH-I:STS          58-012-14:12:20.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:26.804 00    TLMH-I:STS          58-012-14:12:20.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:27.801 00    TLMH-I:STS          58-012-14:12:21.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:28.802 00    TLMH-I:STS          58-012-14:12:22.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:28.803 00    TLMH-I:STS          58-012-14:12:22.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:53:29.300 00    TLMH-I:STS          58-012-14:12:22.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-17:53:32.798 00    TLMH-I:STS          58-012-14:12:26.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=4 Background Checksumming Disabled
+21-216-17:53:40.799 00    TLMH-I:STS          58-012-14:12:34.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=80 Checksumming of App is Disabled
+21-216-17:53:48.798 00    TLMH-I:STS          58-012-14:12:42.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=89 Checksumming of app TST_CS is Enabled
+21-216-17:54:02.795 00    TLMH-I:STS          58-012-14:12:56.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl4_4'
+21-216-17:54:37.303 00    TLMH-I:STS          58-012-14:13:30.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app TST_CS started
+21-216-17:54:38.301 00    TLMH-I:STS          58-012-14:13:31.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App TST_CS recompute finished. New baseline is 0x00003187
+21-216-17:54:49.297 00    TLMH-I:STS          58-012-14:13:42.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app TST_CS is 0x00003187
+21-216-17:54:57.299 00    TLMH-I:STS          58-012-14:13:50.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=91 Checksumming of app CS is Disabled
+21-216-17:55:10.796 00    TLMH-I:STS          58-012-14:14:04.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl4_8'
+21-216-17:55:45.801 00    TLMH-I:STS          58-012-14:14:39.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-17:55:49.797 00    TLMH-I:STS          58-012-14:14:43.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-17:55:56.795 00    TLMH-I:STS          58-012-14:14:50.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app CS is 0xFFFFF5EF
+21-216-17:56:04.797 00    TLMH-I:STS          58-012-14:14:58.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=81 Checksumming of App is Enabled
+21-216-17:56:13.296 00    TLMH-I:STS          58-012-14:15:06.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=89 Checksumming of app CS is Enabled
+21-216-17:56:26.804 00    TLMH-I:STS          58-012-14:15:20.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl4_13'
+21-216-17:57:01.296 00    TLMH-I:STS          58-012-14:15:54.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-17:57:05.298 00    TLMH-I:STS          58-012-14:15:58.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-17:57:12.294 00    TLMH-I:STS          58-012-14:16:05.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app CS is 0xFFFFF5EF
+21-216-17:57:20.797 00    TLMH-I:STS          58-012-14:16:14.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=91 Checksumming of app CS is Disabled
+21-216-17:57:34.795 00    TLMH-I:STS          58-012-14:16:28.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl4_17'
+21-216-17:58:08.795 00    TLMH-I:STS          58-012-14:17:02.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-17:58:12.801 00    TLMH-I:STS          58-012-14:17:06.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-17:58:21.301 00    TLMH-I:STS          58-012-14:17:14.483 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app CS is 0xFFFFF5EF
+21-216-17:58:29.300 00    TLMH-I:STS          58-012-14:17:22.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=5 Background Checksumming Enabled
+21-216-17:58:37.300 00    TLMH-I:STS          58-012-14:17:30.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=80 Checksumming of App is Disabled
+21-216-17:58:45.294 00    TLMH-I:STS          58-012-14:17:38.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=89 Checksumming of app CS is Enabled
+21-216-17:58:58.793 00    TLMH-I:STS          58-012-14:17:52.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl4_23'
+21-216-17:59:33.797 00    TLMH-I:STS          58-012-14:18:27.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-17:59:33.798 00    TLMH-I:STS          58-012-14:18:27.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:59:34.794 00    TLMH-I:STS          58-012-14:18:28.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:59:34.795 00    TLMH-I:STS          58-012-14:18:28.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:59:35.799 00    TLMH-I:STS          58-012-14:18:29.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:59:36.794 00    TLMH-I:STS          58-012-14:18:30.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:59:36.795 00    TLMH-I:STS          58-012-14:18:30.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:59:37.799 00    TLMH-I:STS          58-012-14:18:31.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-17:59:37.800 00    TLMH-I:STS          58-012-14:18:31.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-17:59:44.795 00    TLMH-I:STS          58-012-14:18:38.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app CS is 0xFFFFF5EF
+21-216-17:59:52.798 00    TLMH-I:STS          58-012-14:18:46.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=91 Checksumming of app CS is Disabled
+21-216-18:00:06.793 00    TLMH-I:STS          58-012-14:19:00.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl4_27'
+21-216-18:00:41.289 00    TLMH-I:STS          58-012-14:19:34.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-18:00:41.798 00    TLMH-I:STS          58-012-14:19:35.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:00:42.793 00    TLMH-I:STS          58-012-14:19:36.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:00:42.794 00    TLMH-I:STS          58-012-14:19:36.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:00:43.793 00    TLMH-I:STS          58-012-14:19:37.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:00:44.797 00    TLMH-I:STS          58-012-14:19:38.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:00:44.799 00    TLMH-I:STS          58-012-14:19:38.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:00:45.292 00    TLMH-I:STS          58-012-14:19:38.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-18:00:53.294 00    TLMH-I:STS          58-012-14:19:46.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app CS is 0xFFFFF5EF
+21-216-18:01:00.292 00    TLMH-I:STS          58-012-14:19:53.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=81 Checksumming of App is Enabled
+21-216-18:01:08.795 00    TLMH-I:STS          58-012-14:20:02.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=89 Checksumming of app CS is Enabled
+21-216-18:01:22.792 00    TLMH-I:STS          58-012-14:20:16.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl4_32'
+21-216-18:01:56.795 00    TLMH-I:STS          58-012-14:20:50.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-18:01:56.795 00    TLMH-I:STS          58-012-14:20:50.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:01:56.795 00    TLMH-I:STS          58-012-14:20:50.002 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:01:57.790 00    TLMH-I:STS          58-012-14:20:51.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:01:58.795 00    TLMH-I:STS          58-012-14:20:52.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:01:58.796 00    TLMH-I:STS          58-012-14:20:52.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:01:59.799 00    TLMH-I:STS          58-012-14:20:53.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:02:00.792 00    TLMH-I:STS          58-012-14:20:54.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:02:00.794 00    TLMH-I:STS          58-012-14:20:54.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:02:00.795 00    TLMH-I:STS          58-012-14:20:54.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-18:02:09.299 00    TLMH-I:STS          58-012-14:21:02.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app CS is 0xFFFFF5EF
+21-216-18:02:17.292 00    TLMH-I:STS          58-012-14:21:10.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=91 Checksumming of app CS is Disabled
+21-216-18:02:30.797 00    TLMH-I:STS          58-012-14:21:24.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl4_36'
+21-216-18:03:05.295 00    TLMH-I:STS          58-012-14:21:58.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-18:03:05.794 00    TLMH-I:STS          58-012-14:21:59.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:06.799 00    TLMH-I:STS          58-012-14:22:00.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:06.800 00    TLMH-I:STS          58-012-14:22:00.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:07.791 00    TLMH-I:STS          58-012-14:22:01.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:08.794 00    TLMH-I:STS          58-012-14:22:02.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:08.796 00    TLMH-I:STS          58-012-14:22:02.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:09.290 00    TLMH-I:STS          58-012-14:22:02.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-18:03:16.796 00    TLMH-I:STS          58-012-14:22:10.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=82 Report baseline of app CS is 0xFFFFF5EF
+21-216-18:03:34.797 00    TLMH-I:STS          58-012-14:22:28.001 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/appdefemptytable' into 'CS.DefAppTbl' working buffer
+21-216-18:03:40.794 00    TLMH-I:STS          58-012-14:22:34.001 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=16 Tbl Services issued validation request for 'CS.DefAppTbl'
+21-216-18:03:42.794 00    TLMH-I:STS          58-012-14:22:36.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=142 CS Apps Table verification results: good = 0, bad = 0, unused = 24
+21-216-18:03:42.795 00    TLMH-I:STS          58-012-14:22:36.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 CS validation successful for Inactive 'CS.DefAppTbl'
+21-216-18:03:44.289 00    TLMH-I:STS          58-012-14:22:37.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=85 Recompute baseline of app CS started
+21-216-18:03:44.797 00    TLMH-I:STS          58-012-14:22:38.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:44.798 00    TLMH-I:STS          58-012-14:22:38.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:45.790 00    TLMH-I:STS          58-012-14:22:39.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:46.797 00    TLMH-I:STS          58-012-14:22:40.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:46.798 00    TLMH-I:STS          58-012-14:22:40.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:47.789 00    TLMH-I:STS          58-012-14:22:41.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-216-18:03:48.296 00    TLMH-I:STS          58-012-14:22:41.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=99 App CS recompute finished. New baseline is 0xFFFFF5EF
+21-216-18:03:53.288 00    TLMH-I:STS          58-012-14:22:46.500 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=17 Tbl Services notifying App that 'CS.DefAppTbl' has a load pending
+21-216-18:03:54.792 00    TLMH-I:STS          58-012-14:22:48.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 CS Successfully Updated 'CS.DefAppTbl'
+21-216-18:03:54.793 00    TLMH-I:STS          58-012-14:22:48.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=108 CS Apps Table: No valid entries in the table
+21-216-18:04:06.799 00    TLMH-I:STS          58-012-14:23:00.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl5_6'
+21-216-18:04:46.788 00    TLMH-I:STS          58-012-14:23:40.001 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/app_def_tbl_invalid' into 'CS.DefAppTbl' working buffer
+21-216-18:04:52.788 00    TLMH-I:STS          58-012-14:23:46.001 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=16 Tbl Services issued validation request for 'CS.DefAppTbl'
+21-216-18:04:54.789 00    TLMH-I:STS          58-012-14:23:48.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=106 CS Apps Table Validate: Illegal State Field (0x0007) found with name IN_VALID_APP
+21-216-18:04:54.791 00    TLMH-I:STS          58-012-14:23:48.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=142 CS Apps Table verification results: good = 3, bad = 1, unused = 20
+21-216-18:04:54.792 00    TLMH-I:STS          58-012-14:23:48.004 ERROR CPU=CPU1 APPNAME=CFE_TBL EVENT ID=96 CS validation failed for Inactive 'CS.DefAppTbl', Status=0xFFFFFFFD
+21-216-18:04:56.290 00    TLMH-I:STS          58-012-14:23:49.500 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=21 Table Load Aborted for 'CS.DefAppTbl'
+21-216-18:05:10.288 00    TLMH-I:STS          58-012-14:24:03.501 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/app_def_tbl_ld_2' into 'CS.DefAppTbl' working buffer
+21-216-18:05:17.297 00    TLMH-I:STS          58-012-14:24:10.484 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=16 Tbl Services issued validation request for 'CS.DefAppTbl'
+21-216-18:05:18.789 00    TLMH-I:STS          58-012-14:24:12.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=142 CS Apps Table verification results: good = 3, bad = 0, unused = 21
+21-216-18:05:18.791 00    TLMH-I:STS          58-012-14:24:12.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 CS validation successful for Inactive 'CS.DefAppTbl'
+21-216-18:05:20.290 00    TLMH-I:STS          58-012-14:24:13.500 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=17 Tbl Services notifying App that 'CS.DefAppTbl' has a load pending
+21-216-18:05:22.790 00    TLMH-I:STS          58-012-14:24:16.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 CS Successfully Updated 'CS.DefAppTbl'
+21-216-18:05:34.794 00    TLMH-I:STS          58-012-14:24:28.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl5_14'
+21-216-18:06:38.797 00    TLMH-I:STS          58-012-14:25:32.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl6_6'
+21-216-18:07:18.796 00    TLMH-I:STS          58-012-14:26:12.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl6_7'
+21-216-18:07:52.795 00    TLMH-I:STS          58-012-14:26:46.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=149 App terminating, RunStatus:0x00000007
+21-216-18:07:55.787 00    TLMH-I:STS          58-012-14:26:49.001 ERROR CPU=CPU1 APPNAME=CFE_SB EVENT ID=17 Msg Limit Err,MsgId 0x18a1,pipe CS_CMD_PIPE,sender SCH_LAB_APP
+21-216-18:07:56.791 00    TLMH-I:STS          58-012-14:26:50.001 ERROR CPU=CPU1 APPNAME=CFE_SB EVENT ID=17 Msg Limit Err,MsgId 0x18a1,pipe CS_CMD_PIPE,sender SCH_LAB_APP
+21-216-18:07:56.792 00    TLMH-I:STS          58-012-14:26:50.001 ERROR CPU=CPU1 APPNAME=CFE_SB EVENT ID=17 Msg Limit Err,MsgId 0x18a1,pipe CS_CMD_PIPE,sender TST_CS
+21-216-18:07:57.795 00    TLMH-I:STS          58-012-14:26:51.001 ERROR CPU=CPU1 APPNAME=CFE_SB EVENT ID=17 Msg Limit Err,MsgId 0x18a1,pipe CS_CMD_PIPE,sender SCH_LAB_APP
+21-216-18:07:58.292 00    TLMH-I:STS          58-012-14:26:51.754 INFO CPU=CPU1 APPNAME=CFE_ES EVENT ID=8 Stop Application CS Completed.
+21-216-18:08:02.790 00    TLMH-I:STS          58-012-14:26:56.014 INFO CPU=CPU1 APPNAME=CFE_ES EVENT ID=6 Started CS from /ram/cs.o, AppID = 1114124
+21-216-18:08:02.792 00    TLMH-I:STS          58-012-14:26:56.100 INFO CPU=CPU1 APPNAME=CS EVENT ID=144 CS Eeprom Table verification results: good = 0, bad = 0, unused = 16
+21-216-18:08:02.793 00    TLMH-I:STS          58-012-14:26:56.100 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CS.DefEepromTbl' from '/cf/cs_eepromtbl.tbl'
+21-216-18:08:02.794 00    TLMH-I:STS          58-012-14:26:56.100 INFO CPU=CPU1 APPNAME=CS EVENT ID=107 CS Eeprom Table: No valid entries in the table
+21-216-18:08:02.795 00    TLMH-I:STS          58-012-14:26:56.133 INFO CPU=CPU1 APPNAME=CS EVENT ID=143 CS Memory Table verification results: good = 0, bad = 0, unused = 16
+21-216-18:08:02.796 00    TLMH-I:STS          58-012-14:26:56.133 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CS.DefMemoryTbl' from '/cf/cs_memorytbl.tbl'
+21-216-18:08:02.797 00    TLMH-I:STS          58-012-14:26:56.134 INFO CPU=CPU1 APPNAME=CS EVENT ID=107 CS Memory Table: No valid entries in the table
+21-216-18:08:02.798 00    TLMH-I:STS          58-012-14:26:56.171 INFO CPU=CPU1 APPNAME=CS EVENT ID=142 CS Apps Table verification results: good = 0, bad = 0, unused = 24
+21-216-18:08:02.800 00    TLMH-I:STS          58-012-14:26:56.171 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CS.DefAppTbl' from 'Addr 0x00A32AC0'
+21-216-18:08:02.801 00    TLMH-I:STS          58-012-14:26:56.171 INFO CPU=CPU1 APPNAME=CS EVENT ID=108 CS Apps Table: No valid entries in the table
+21-216-18:08:02.802 00    TLMH-I:STS          58-012-14:26:56.207 INFO CPU=CPU1 APPNAME=CS EVENT ID=139 CS Tables Table verification results: good = 0, bad = 0, unused = 24
+21-216-18:08:02.803 00    TLMH-I:STS          58-012-14:26:56.207 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CS.DefTablesTbl' from '/cf/cs_tablestbl.tbl'
+21-216-18:08:02.804 00    TLMH-I:STS          58-012-14:26:56.207 INFO CPU=CPU1 APPNAME=CS EVENT ID=109 CS Tables Table: No valid entries in the table
+21-216-18:08:02.806 00    TLMH-I:STS          58-012-14:26:56.208 INFO CPU=CPU1 APPNAME=CS EVENT ID=1 CS Initialized. Version 2.4.2.0
+21-216-18:08:04.289 00    TLMH-I:STS          58-012-14:26:57.383 ERROR CPU=CPU1 APPNAME=CFE_SB EVENT ID=6 Subscribe Err:Bad Arg,MsgId 0x8a40000,PipeId 1441800,app TO_LAB_APP,scope 0
+21-216-18:08:04.289 00    TLMH-I:STS          58-012-14:26:57.383 ERROR CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=10 L481 TO Can't subscribe 0x8a40000 status -905969661
+21-216-18:08:14.790 00    TLMH-I:STS          58-012-14:27:08.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResAppTbl' to '/ram/cpu1_apprestbl7_5'
+21-216-18:10:10.248 00    TLMH-I:STS          58-012-14:03:49.416 INFO CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=3 TO telemetry output enabled for IP 192.168.1.101

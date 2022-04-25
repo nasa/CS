@@ -92,6 +92,16 @@
 /**\} */
 
 
+/**
+** \brief Wakeup for CS
+**
+** \par Description
+**      Wakes up CS every 1 second for routine maintenance whether a
+**      message was received or not.
+*/
+#define CS_WAKEUP_TIMEOUT          1000
+
+
 /*************************************************************************
  **
  ** Type definitions
@@ -110,8 +120,6 @@ typedef struct
     
     uint16                                      ChildTaskTable;                     /**< \brief Table for the child task to process*/
     uint16                                      ChildTaskEntryID;                   /**< \brief Entry in table for child task to process */
-    bool                                        RecomputeInProgress;                /**< \brief Flag for a recompute in progress */
-    bool                                        OneShotInProgress;                  /**< \brief Flag for a one shot calculation in progress*/
     uint32                                      ChildTaskID;                        /**< \brief Task ID for the child task*/
 
     uint32                                      MaxBytesPerCycle;                   /**< \brief Max number of bytes to process in a cycle*/
@@ -125,8 +133,6 @@ typedef struct
                                                                                                 Application table*/
     CS_Res_Tables_Table_Entry_t               * RecomputeTablesEntryPtr;            /**< \brief Pointer to an entry to recompute in the 
                                                                                                 Tables table*/
-    
-    CFE_SB_MsgPtr_t                             MsgPtr;                             /**< \brief Pointer to command message    */
     
     CFE_SB_PipeId_t                             CmdPipe;                            /**< \brief Command pipe ID               */
     
@@ -170,42 +176,10 @@ typedef struct
     CS_Res_Tables_Table_Entry_t               * TblResTablesTblPtr;        /**< \brief Pointer to CS Tables table results entry for the CS Tables table */
     
     
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE)
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
     CFE_ES_CDSHandle_t                        DataStoreHandle;            /**< \brief Handle to critical data store created by CS */
 #endif
-    /* Variables that will go in the housekeeping packet */
-        
-    uint8               CmdCounter;                         /**< \brief CS Application Command Counter */
-    uint8               CmdErrCounter;                      /**< \brief CS Application Command Error Counter */
-    uint8               ChecksumState;                      /**< \brief CS Application global checksum state */
-    uint8               EepromCSState;                      /**< \brief CS Eeprom table checksum state */
-    uint8               MemoryCSState;                      /**< \brief CS Memory table checksum state */
-    uint8               AppCSState;                         /**< \brief CS App table checksum state */
-    uint8               TablesCSState;                      /**< \brief CS Tables table checksum stat e*/
-    uint8               OSCSState;                          /**< \brief OS code segment checksum state */
-    uint8               CfeCoreCSState;                     /**< \brief cFE Core code segment checksum state*/
-    
-    uint16              EepromCSErrCounter;                 /**< \brief Eeprom miscompare counte r*/
-    uint16              MemoryCSErrCounter;                 /**< \brief Memory miscompare counter */
-    uint16              AppCSErrCounter;                    /**< \brief  App miscompare counter */
-    uint16              TablesCSErrCounter;                 /**< \brief Tables miscompare counter */
-    uint16              CfeCoreCSErrCounter;                /**< \brief cFE core miscompare counter */
-    uint16              OSCSErrCounter;                     /**< \brief OS code segment miscopmare counter */
-    uint16              CurrentCSTable;                     /**< \brief Current table being checksummed */
-    uint16              CurrentEntryInTable;                /**< \brief Current entry ID in the table being checksummed */
-    
-    uint32              EepromBaseline;                     /**< \brief Baseline checksum for all of Eeprom */
-    uint32              OSBaseline;                         /**< \brief Baseline checksum for the OS code segment */
-    uint32              CfeCoreBaseline;                    /**< \brief Basline checksum for the cFE core */
-    
-    uint32              LastOneShotAddress;                 /**< \brief Address used in last one shot checksum command */
-    uint32              LastOneShotSize;                    /**< \brief Size used in the last one shot checksum command */
-    uint32              LastOneShotMaxBytesPerCycle;        /**< \brief Maximum bytes to process each cycle during last one shot checksum command */
-    uint32              LastOneShotChecksum;                /**< \brief Checksum of the last one shot checksum command */
-    
-    uint32              PassCounter;                        /**< \brief Number of times CS has passed through all of its tables */
-    
-    
+  
 } CS_AppData_t;
 
 /**************************************************************************
@@ -236,7 +210,7 @@ extern CS_AppData_t             CS_AppData;
 void CS_AppMain(void);
 
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE)
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
 /************************************************************************/
 /** \brief CFS Checksum (CS) Critical Data Store Update
  **  
@@ -248,7 +222,7 @@ void CS_AppMain(void);
  **       
  *************************************************************************/
 void CS_UpdateCDS(void);
-#endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == TRUE) */
+#endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true) */
 
 #endif /* _cs_app_ */
 

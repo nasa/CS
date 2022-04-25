@@ -42,7 +42,7 @@
 **       The string length (including string terminator) cannot exceed
 **       #OS_MAX_PATH_LEN.  (limit is not verified)
 */
-#define CS_DEF_EEPROM_TABLE_FILENAME                "/cf/apps/cs_eepromtbl.tbl"
+#define CS_DEF_EEPROM_TABLE_FILENAME                "/cf/cs_eepromtbl.tbl"
 
 /**
 **  \cscfg Memory Address File Table -- default table filename
@@ -55,7 +55,7 @@
 **       The string length (including string terminator) cannot exceed
 **       #OS_MAX_PATH_LEN.  (limit is not verified)
 */
-#define CS_DEF_MEMORY_TABLE_FILENAME                "/cf/apps/cs_memorytbl.tbl"
+#define CS_DEF_MEMORY_TABLE_FILENAME                "/cf/cs_memorytbl.tbl"
 
 /**
 **  \cscfg Tables File Table -- default table filename
@@ -68,7 +68,7 @@
 **       The string length (including string terminator) cannot exceed
 **       #OS_MAX_PATH_LEN.  (limit is not verified)
 */
-#define CS_DEF_TABLES_TABLE_FILENAME                "/cf/apps/cs_tablestbl.tbl"
+#define CS_DEF_TABLES_TABLE_FILENAME                "/cf/cs_tablestbl.tbl"
 
 /**
 **  \cscfg Application File Table -- default table filename
@@ -81,7 +81,7 @@
 **       The string length (including string terminator) cannot exceed
 **       #OS_MAX_PATH_LEN.  (limit is not verified)
 */
-#define CS_DEF_APP_TABLE_FILENAME                   "/cf/apps/cs_apptbl.tbl"
+#define CS_DEF_APP_TABLE_FILENAME                   "/cf/cs_apptbl.tbl"
 
 /**
 **  \cscfg Application Pipe Depth 
@@ -97,7 +97,7 @@
 **		 The value must be greater than zero and cannot exceed the
 **       definition of #CFE_SB_MAX_PIPE_DEPTH.
 */
-#define CS_PIPE_DEPTH                   12
+#define CS_PIPE_DEPTH              (3 * CFE_PLATFORM_SB_DEFAULT_MSG_LIMIT)
 
 /** \cscfg  Maximum number of entries in the Eeprom table to checksum
  **  
@@ -170,8 +170,7 @@
  **        with 1 being the highest priority in the case of a child task.
  **
  **  \par Limits:
- **       Valid range for a child task is 1 to 255, but the priority cannot be 
- **       higher (lower number) than the CS App priority. 
+ **       Valid range for a child task is 1 to 255 
  **
  */
 #define CS_CHILD_TASK_PRIORITY              200
@@ -246,7 +245,7 @@
 */
 #define CS_EEPROM_TBL_POWERON_STATE CS_STATE_ENABLED
 
-/** \cscfg Desired state of the EEPROM table at power on
+/** \cscfg Desired state of the Memory table at power on
 **  
 **  \par Description:
 **       This determines the default state the Memory table should
@@ -288,7 +287,7 @@
 **  \par Limits:
 **       None
 */
-#define CS_PRESERVE_STATES_ON_PROCESSOR_RESET TRUE
+#define CS_PRESERVE_STATES_ON_PROCESSOR_RESET true
 
 
 /** \cscfg Name of the Critical Data Store Used for CS

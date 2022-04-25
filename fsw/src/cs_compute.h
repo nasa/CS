@@ -46,16 +46,19 @@
  **       
  **  \param [in]   *ResultsEntry        A pointer to the entry in a table
  **                                     that we want to compute the
- **                                     checksum on.
+ **                                     checksum on.  Verified non-null by 
+ **                                     calling function.
  **
  **  \param [in]   ComputedCSValue      A pointer to the computed checksum
  **                                     that will be assigned the checksum of
- **                                     the entry.
+ **                                     the entry.  Verified non-null by
+ **                                     calling function.
  **
- **  \param [in]   DoneWithEntry        A pointer to a bool    that will be 
+ **  \param [in]   DoneWithEntry        A pointer to a bool that will be 
  **                                     assigned a value based on whether or 
  **                                     not the specified entry's checksum
- **                                     was completed.
+ **                                     was completed.  Verified non-null by
+ **                                     calling function.
  **
  **  \param [out]  *ComputedCSValue     Value used to determine the computed 
  **                                     checksum, if completed
@@ -86,16 +89,19 @@ int32 CS_ComputeEepromMemory (CS_Res_EepromMemory_Table_Entry_t         * Result
  **       
  **  \param [in]   *ResultsEntry        A pointer to the entry in a table
  **                                     that we want to compute the
- **                                     checksum on.
+ **                                     checksum on.  Verified non-null in
+ **                                     calling function.
  **
  **  \param [in]   ComputedCSValue      A pointer to the computed checksum
  **                                     that will be assigned the checksum of
- **                                     the entry.
+ **                                     the entry.  Verified non-null in
+ **                                     calling function.
  **
  **  \param [in]   DoneWithEntry        A pointer to a bool    that will be 
  **                                     assigned a value based on whether or 
  **                                     not the specified entry's checksum
- **                                     was completed.
+ **                                     was completed.  Verified non-null in 
+ **                                     calling function.
  **
  **  \param [out]  *ComputedCSValue     Value used to determine the computed 
  **                                     checksum, if completed
@@ -128,16 +134,19 @@ int32 CS_ComputeTables (CS_Res_Tables_Table_Entry_t    * ResultsEntry,
  **       
  **  \param [in]   *ResultsEntry        A pointer to the entry in a table
  **                                     that we want to compute the
- **                                     checksum on.
+ **                                     checksum on.  Verified non-null in
+ **                                     calling function.
  **
  **  \param [in]   ComputedCSValue      A pointer to the computed checksum
  **                                     that will be assigned the checksum of
- **                                     the entry.
+ **                                     the entry.  Verified non-null in
+ **                                     calling function.
  **
- **  \param [in]   DoneWithEntry        A pointer to a bool    that will be 
+ **  \param [in]   DoneWithEntry        A pointer to a bool that will be 
  **                                     assigned a value based on whether or 
  **                                     not the specified entry's checksum
- **                                     was completed.
+ **                                     was completed.  Verified non-null in
+ **                                     calling function.
  **
  **  \param [out]  *ComputedCSValue     Value used to determine the computed 
  **                                     checksum, if completed

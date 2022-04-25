@@ -4,10 +4,10 @@ core Flight System (cFS) Checksum Application (CS)
 Open Source Release Readme
 ==========================
 
-CS Release 2.4.2
+CS Release 2.5.0
 
 Date: 
-10/07/2020
+9/24/2021
 
 Introduction
 -------------
@@ -23,28 +23,22 @@ Introduction
 
   The CS application is written in C and depends on the cFS Operating System 
   Abstraction Layer (OSAL) and cFE components. There is additional CS application 
-  specific configuration information contained in the application user's guide
-  available in https://github.com/nasa/CS/tree/master/docs/users_guide
+  specific configuration information contained in the application user's guide.
 
-  This software is licensed under the NASA Open Source Agreement. 
-  http://ti.arc.nasa.gov/opensource/nosa
+  Developer's guide information can be generated using Doxygen:
+  doxygen cs_doxygen_config.txt
  
  
 Software Included
 ------------------
-  Checksum application (CS) 2.4.2
+  Checksum application (CS) 2.5.0
   
  
 Software Required
 ------------------
+ cFS Caelum
 
- Operating System Abstraction Layer 5.0 or higher can be 
- obtained at https://github.com/nasa/osal
- 
- core Flight Executive 6.8.0 or higher can be obtained at
- https://github.com/nasa/cfe
-
- Note: An integrated bundle including the cFE, OSAL, and PSP can 
+ Note: An integrated bundle including the cFE, OSAL, and PSP can
  be obtained at https://github.com/nasa/cfs
  
 About cFS

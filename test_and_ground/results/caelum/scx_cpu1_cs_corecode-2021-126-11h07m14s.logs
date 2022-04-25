@@ -1,0 +1,1175 @@
+21-126-11:07:14.280 00     SPR-I:OPRO         ****************** FSW Configuration ******************
+21-126-11:07:14.280 00     SPR-I:OPRO                 Checksum:    16864
+21-126-11:07:14.281 00     SPR-I:OPRO                 cFE Version: 6.7.99.0
+21-126-11:07:14.281 00     SPR-I:OPRO                 OS Version:  5.0.0.255
+21-126-11:07:14.281 00     SPR-I:OPRO          
+21-126-11:07:14.281 00     SPR-I:OPRO                 Connection Status
+21-126-11:07:14.281 00     SPR-I:OPRO                 -----------------
+21-126-11:07:14.281 00     SPR-I:OPRO                 CFDP: DOWN
+21-126-11:07:14.281 00     SPR-I:OPRO                 UDP:  UP 
+21-126-11:07:14.281 00     SPR-I:OPRO                 SWTS:  UNK
+21-126-11:07:14.282 00     SPR-I:OPRO         
+21-126-11:07:14.282 00     SPR-I:OPRO                 CMD / TLM Path
+21-126-11:07:14.282 00     SPR-I:OPRO                 --------------
+21-126-11:07:14.282 00     SPR-I:OPRO                 UDP
+21-126-11:07:14.282 00     SPR-I:OPRO                 
+21-126-11:07:14.282 00     SPR-I:OPRO         
+21-126-11:07:14.282 00     SPR-I:OPRO                 ASIST / GDS Configuration
+21-126-11:07:14.282 00     SPR-I:OPRO                 -------------------------
+21-126-11:07:14.282 00     SPR-I:OPRO                 Workstation: GS582CFSLAB4
+21-126-11:07:14.283 00     SPR-I:OPRO                 Account: cfs_test
+21-126-11:07:14.283 00     SPR-I:OPRO                 Version: 21.0.7
+21-126-11:07:14.283 00     SPR-I:OPRO                 Tlm DB:  Version: 1.973  Date: 04-26-21  Time: 12:02:12 PM.
+21-126-11:07:14.283 00     SPR-I:OPRO                 Cmd DB:  Version: 1.50  Date: 04-05-21  Time: 10:39:20 AM.EDT
+21-126-11:07:14.283 00     SPR-I:OPRO         
+21-126-11:07:14.283 00     SPR-I:OPRO                 Telemetry Info
+21-126-11:07:14.283 00     SPR-I:OPRO                 --------------
+21-126-11:07:14.283 00     SPR-I:OPRO                 Pkt Loss Count: N/A
+21-126-11:07:14.283 00     SPR-I:OPRO         ****************  End FSW Configuration ***************
+21-126-11:07:14.284 00     SPR-I:OPRO         Starting Procedure.... scx_cpu1_cs_corecode
+21-126-11:07:14.412 00     SPR-I:OPRI     --> start scx_cpu1_cs_corecode
+21-126-11:07:14.412 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/scx_cpu1_cs_corecode.i
+21-126-11:07:14.421 00     SPR-I:STS          Procedure SCX_CPU1_CS_CORECODE started
+21-126-11:07:14.752 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:07:14.752 00     SPR-I:OPRO         ;  Step 1.0: Checksum Table Test Setup.
+21-126-11:07:14.752 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:07:14.752 00     SPR-I:OPRO         ;  Step 1.1: Command a Power-on Reset on CPU1.
+21-126-11:07:14.752 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:07:14.752 00     CMH-I:CMD             Command SFDU received:<1806C000000302220002> from gs582cfslab4:SPR
+21-126-11:07:14.764 00     SPR-I:STTE         Wait mode - waiting 10 seconds ...
+21-126-11:07:24.776 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/clear_spacecraft_status.i
+21-126-11:07:24.777 00     SPR-I:STS          Procedure CLEAR_SPACECRAFT_STATUS started
+21-126-11:07:24.784 00     SPR-I:STS          Procedure CLEAR_SPACECRAFT_STATUS completed
+21-126-11:07:24.818 00     SPR-I:STTE         Wait mode - waiting 60 seconds ...
+21-126-11:07:29.461 00     DPD-I:STS          Deleting page SCX_CPU1_CS_HK
+21-126-11:08:24.886 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:08:30.847 00     CMH-I:STS          Connected to FEDS:FEDS for commanding (internal ID 0). 
+21-126-11:08:34.899 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:08:34.980 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/send_that_to_command.i
+21-126-11:08:34.980 00     SPR-I:STS          Procedure SEND_THAT_TO_COMMAND started
+21-126-11:08:34.981 00     SPR-I:OPRO         Sending: /SCX_CPU1_TO_OUTPUT_ENA gs582cfslab4
+21-126-11:08:34.982 00     CMH-I:CMD             Command SFDU received:<1880C0000011069A3139322E3136382E312E313031000000> from gs582cfslab4:SPR
+21-126-11:08:35.033 00     SPR-I:STS          Procedure SEND_THAT_TO_COMMAND completed
+21-126-11:08:35.033 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:08:36.024 00    TLMH-I:STS          58-012-14:03:48.850 INFO CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=3 TO telemetry output enabled for IP 192.168.1.101
+21-126-11:08:39.038 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:08:39.038 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/fill_in_spacecraft_status.i
+21-126-11:08:39.039 00     SPR-I:STS          Procedure FILL_IN_SPACECRAFT_STATUS started
+21-126-11:08:39.042 00     SPR-I:STS          Procedure FILL_IN_SPACECRAFT_STATUS completed
+21-126-11:08:39.043 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:08:44.048 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:08:44.048 00     SPR-I:OPRO         ;  Step 1.2: Display the Housekeeping pages 
+21-126-11:08:44.049 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:08:44.142 00     DPD-I:STS          Page SCX_CPU1_CS_HK added (cid:1).
+21-126-11:08:44.149 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:08:47.152 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:08:47.153 00     SPR-I:OPRO         <*> Passed (9000) - Housekeeping packet is being generated.
+21-126-11:08:47.155 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:08:52.160 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:08:52.160 00     SPR-I:OPRO         ;  Step 1.5: Enable DEBUG Event Messages 
+21-126-11:08:52.160 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:08:52.163 00     CMH-I:CMD             Command SFDU received:<1801C0000017052543530000000000000000000000000000000000000100> from gs582cfslab4:SPR
+21-126-11:08:52.176 00     SPR-I:STTE         Wait mode - waiting 2 seconds ...
+21-126-11:08:54.190 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:08:55.191 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:08:55.193 00     SPR-I:OPRO         <*> Passed - Enable Debug events command sent properly.
+21-126-11:08:55.194 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:08:55.194 00     SPR-I:OPRO         ;  Step 1.6: Verify that the CS Housekeeping telemetry items are 
+21-126-11:08:55.194 00     SPR-I:OPRO         ;  initialized to zero (0). 
+21-126-11:08:55.194 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:08:55.196 00     SPR-I:OPRO         <*> Passed (9001) - Housekeeping telemetry initialized properly.
+21-126-11:08:55.222 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:09:00.226 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:00.226 00     SPR-I:OPRO         ;  Step 2.0: OS Code Segment Test.
+21-126-11:09:00.226 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:00.226 00     SPR-I:OPRO         ;  Step 2.1: Send the Enable Checksum command.
+21-126-11:09:00.227 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:00.234 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:00.235 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 5
+21-126-11:09:00.235 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:00.239 00     CMH-I:CMD             Command SFDU received:<189FC000000104BD> from gs582cfslab4:SPR
+21-126-11:09:00.264 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:09:01.021 00    TLMH-I:STS          58-012-14:04:14.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=5 Background Checksumming Enabled
+21-126-11:09:01.265 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:01.267 00     SPR-I:OPRO         <*> Passed (1003;8000) - CS EnableALL command sent properly.
+21-126-11:09:01.292 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:01.294 00     SPR-I:OPRO         <*> Passed (1003;8000) - Expected Event Msg 5 rcv'd.
+21-126-11:09:01.329 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:09:06.334 00     SPR-I:OPRO         <*> Passed (8000) - Overall CS State set to 'Enabled'.
+21-126-11:09:06.336 00     CMH-I:CMD             Command SFDU received:<189FC0000001239A> from gs582cfslab4:SPR
+21-126-11:09:06.347 00     SPR-I:STTE         Wait mode - waiting 1 seconds ...
+21-126-11:09:07.017 00    TLMH-I:STS          58-012-14:04:20.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=80 Checksumming of App is Disabled
+21-126-11:09:07.349 00     CMH-I:CMD             Command SFDU received:<189FC00000010FB6> from gs582cfslab4:SPR
+21-126-11:09:07.362 00     SPR-I:STTE         Wait mode - waiting 1 seconds ...
+21-126-11:09:08.016 00    TLMH-I:STS          58-012-14:04:21.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=37 Checksumming of Eeprom is Disabled
+21-126-11:09:08.363 00     CMH-I:CMD             Command SFDU received:<189FC000000116AF> from gs582cfslab4:SPR
+21-126-11:09:08.374 00     SPR-I:STTE         Wait mode - waiting 1 seconds ...
+21-126-11:09:09.026 00    TLMH-I:STS          58-012-14:04:22.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=52 Checksumming of Memory is Disabled
+21-126-11:09:09.376 00     CMH-I:CMD             Command SFDU received:<189FC00000011DA4> from gs582cfslab4:SPR
+21-126-11:09:09.387 00     SPR-I:STTE         Wait mode - waiting 1 seconds ...
+21-126-11:09:10.022 00    TLMH-I:STS          58-012-14:04:23.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=67 Checksumming of Tables is Disabled
+21-126-11:09:10.388 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:09:15.393 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:15.393 00     SPR-I:OPRO         ;  Step 2.2: Send the Enable OS Code Segment command.
+21-126-11:09:15.393 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:15.400 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:15.400 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 9
+21-126-11:09:15.400 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:15.404 00     CMH-I:CMD             Command SFDU received:<189FC00000010AB3> from gs582cfslab4:SPR
+21-126-11:09:15.435 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:09:16.020 00    TLMH-I:STS          58-012-14:04:29.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=9 Checksumming of OS code segment is Enabled
+21-126-11:09:17.437 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:17.439 00     SPR-I:OPRO         <*> Passed (1003;3002) - CS EnableOS command sent properly.
+21-126-11:09:17.459 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:17.461 00     SPR-I:OPRO         <*> Passed (1003;3002) - Expected Event Msg 9 rcv'd.
+21-126-11:09:17.500 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:09:22.505 00     SPR-I:OPRO         <*> Passed (3002) - OS State set to 'Enabled'.
+21-126-11:09:22.508 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:22.509 00     SPR-I:OPRO         ;  Step 2.3: Verify that CRC calculations are happening.
+21-126-11:09:22.509 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:22.521 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:09:35.537 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:35.539 00     SPR-I:OPRO         <*> Passed (3000) - Checksumming is occurring.
+21-126-11:09:35.542 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:35.543 00     SPR-I:OPRO         ;  Step 2.4: Send the Disable OS Code Segment command. 
+21-126-11:09:35.543 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:35.550 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:35.551 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 8
+21-126-11:09:35.551 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:35.587 00     CMH-I:CMD             Command SFDU received:<189FC00000010BB2> from gs582cfslab4:SPR
+21-126-11:09:35.602 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:09:36.022 00    TLMH-I:STS          58-012-14:04:49.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=8 Checksumming of OS code segment is Disabled
+21-126-11:09:37.605 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:37.606 00     SPR-I:OPRO         <*> Passed (1003;3003) - CS DisableOS command sent properly.
+21-126-11:09:37.615 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:37.615 00     SPR-I:OPRO         <*> Passed (1003;3003) - Expected Event Msg 8 rcv'd.
+21-126-11:09:37.640 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:09:42.645 00     SPR-I:OPRO         <*> Passed (3003) - OS State set to 'Disabled'.
+21-126-11:09:42.649 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:42.649 00     SPR-I:OPRO         ;  Step 2.5: Using the TST_CS application, manipulate the OS CRC.     
+21-126-11:09:42.649 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:09:42.653 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:42.653 00     SPR-I:OPRO         ; Setup event 1 with TST_CS INFO 13
+21-126-11:09:42.653 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:42.654 00     CMH-I:CMD             Command SFDU received:<192BC00000010509> from gs582cfslab4:SPR
+21-126-11:09:42.671 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:09:43.027 00    TLMH-I:STS          58-012-14:04:56.006 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=13 Corrupt OS CRC command
+21-126-11:09:43.673 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:43.674 00     SPR-I:OPRO         <*> Passed - Expected Event Msg 13 rcv'd.
+21-126-11:09:43.675 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:09:48.680 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:48.680 00     SPR-I:OPRO         ;  Step 2.6: Send the Enable OS command.                                
+21-126-11:09:48.680 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:48.686 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:48.686 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 9
+21-126-11:09:48.686 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:48.687 00     CMH-I:CMD             Command SFDU received:<189FC00000010AB3> from gs582cfslab4:SPR
+21-126-11:09:48.703 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:09:49.518 00    TLMH-I:STS          58-012-14:05:02.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=9 Checksumming of OS code segment is Enabled
+21-126-11:09:51.707 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:51.709 00     SPR-I:OPRO         <*> Passed (1003;3002) - CS EnableOS command sent properly.
+21-126-11:09:51.727 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:09:51.728 00     SPR-I:OPRO         <*> Passed (1003;3002) - Expected Event Msg 9 rcv'd.
+21-126-11:09:51.773 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:09:56.777 00     SPR-I:OPRO         <*> Passed (3002) - OS State set to 'Enabled'.
+21-126-11:09:56.782 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:56.782 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 32
+21-126-11:09:56.782 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:09:56.786 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:11:14.018 00    TLMH-I:STS          58-012-14:06:27.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=32 Checksum Failure: OS code segment, Expected: 0x0012D687, Calculated: 0xFFFFB69D
+21-126-11:11:14.889 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:11:14.891 00     SPR-I:OPRO         <*> Passed (3000.1) - Expected Event Msg 32 rcv'd.
+21-126-11:11:14.894 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:11:14.894 00     SPR-I:OPRO         ;  Step 2.7: Send the Disable OS Code Segment command. 
+21-126-11:11:14.894 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:11:14.896 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:11:14.897 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 8
+21-126-11:11:14.897 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:11:14.913 00     CMH-I:CMD             Command SFDU received:<189FC00000010BB2> from gs582cfslab4:SPR
+21-126-11:11:14.917 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:11:15.524 00    TLMH-I:STS          58-012-14:06:28.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=8 Checksumming of OS code segment is Disabled
+21-126-11:11:17.921 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:11:17.923 00     SPR-I:OPRO         <*> Passed (1003;3003) - CS DisableOS command sent properly.
+21-126-11:11:17.931 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:11:17.931 00     SPR-I:OPRO         <*> Passed (1003;3003) - Expected Event Msg 8 rcv'd.
+21-126-11:11:17.955 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:11:22.960 00     SPR-I:OPRO         <*> Passed (3003) - OS State set to 'Disabled'.
+21-126-11:11:22.964 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:11:22.964 00     SPR-I:OPRO         ;  Step 2.8: Send the Recompute OS Code Segment command.              
+21-126-11:11:22.964 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:11:22.967 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:11:22.967 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 17
+21-126-11:11:22.967 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:11:22.969 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:11:22.969 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:11:22.969 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:11:22.982 00     CMH-I:CMD             Command SFDU received:<189FC00000010DB4> from gs582cfslab4:SPR
+21-126-11:11:23.001 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:11:23.520 00    TLMH-I:STS          58-012-14:06:36.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=17 Recompute of OS code segment started
+21-126-11:11:26.005 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:11:26.006 00     SPR-I:OPRO         <*> Passed (1003;3004) - CS RecomputeOS command sent properly.
+21-126-11:11:26.015 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:11:26.016 00     SPR-I:OPRO         <*> Passed (1003;3004) - Expected Event Msg 17 rcv'd.
+21-126-11:11:26.042 00     SPR-I:OPRO         <*> Passed (3004) - In Progress Flag set to True as expected.
+21-126-11:11:26.047 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:13:08.523 00    TLMH-I:STS          58-012-14:08:21.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 OS entry 0 recompute finished. New baseline is 0XFFFFB69D
+21-126-11:13:09.172 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:09.175 00     SPR-I:OPRO         <*> Passed (3004.1) - Expected Event Msg 95 rcv'd.
+21-126-11:13:09.180 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:13:11.183 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:11.185 00     SPR-I:OPRO         <*> Passed (3004.1) - In Progress Flag set to False as expected.
+21-126-11:13:11.188 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:13:16.194 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:16.194 00     SPR-I:OPRO         ;  Step 2.9: Send the Report OS Code Segment command.                 
+21-126-11:13:16.194 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:16.200 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:16.200 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 12
+21-126-11:13:16.200 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:16.201 00     CMH-I:CMD             Command SFDU received:<189FC00000010CB5> from gs582cfslab4:SPR
+21-126-11:13:16.216 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:13:17.021 00    TLMH-I:STS          58-012-14:08:30.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=12 Baseline of OS code segment is 0xFFFFB69D
+21-126-11:13:17.217 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:17.219 00     SPR-I:OPRO         <*> Passed (1003;3005) - CS ReportOS command sent properly.
+21-126-11:13:17.238 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:17.240 00     SPR-I:OPRO         <*> Passed (1003;3005) - Expected Event Msg 12 rcv'd.
+21-126-11:13:17.279 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:13:22.284 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:22.284 00     SPR-I:OPRO         ;  Step 3.0: cFE Code Segment Test.
+21-126-11:13:22.284 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:22.285 00     SPR-I:OPRO         ;  Step 3.1: Send the Enable Checksum command.
+21-126-11:13:22.285 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:22.290 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:22.290 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 5
+21-126-11:13:22.290 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:22.291 00     CMH-I:CMD             Command SFDU received:<189FC000000104BD> from gs582cfslab4:SPR
+21-126-11:13:22.305 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:13:23.025 00    TLMH-I:STS          58-012-14:08:36.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=5 Background Checksumming Enabled
+21-126-11:13:23.308 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:23.309 00     SPR-I:OPRO         <*> Passed (1003;8000) - CS EnableALL command sent properly.
+21-126-11:13:23.315 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:23.315 00     SPR-I:OPRO         <*> Passed (1003;8000) - Expected Event Msg 5 rcv'd.
+21-126-11:13:23.343 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:13:28.347 00     SPR-I:OPRO         <*> Passed (8000) - Overall CS State set to 'Enabled'.
+21-126-11:13:28.348 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:28.348 00     SPR-I:OPRO         ;  Step 3.2: Send the Enable cFE Code Segment command.
+21-126-11:13:28.348 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:28.350 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:28.350 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 7
+21-126-11:13:28.350 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:28.351 00     CMH-I:CMD             Command SFDU received:<189FC000000106BF> from gs582cfslab4:SPR
+21-126-11:13:28.365 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:13:29.015 00    TLMH-I:STS          58-012-14:08:42.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=7 Checksumming of cFE Core is Enabled
+21-126-11:13:29.366 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:29.366 00     SPR-I:OPRO         <*> Passed (1003;3007) - CS EnableCFECore command sent properly.
+21-126-11:13:29.370 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:29.371 00     SPR-I:OPRO         <*> Passed (1003;3007) - Expected Event Msg 7 rcv'd.
+21-126-11:13:29.392 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:13:34.397 00     SPR-I:OPRO         <*> Passed (3007) - cFE Core State set to 'Enabled'.
+21-126-11:13:34.401 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:13:39.408 00     CMH-I:CMD             Command SFDU received:<189FC00000010BB2> from gs582cfslab4:SPR
+21-126-11:13:39.433 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:13:40.014 00    TLMH-I:STS          58-012-14:08:53.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=8 Checksumming of OS code segment is Disabled
+21-126-11:13:41.436 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:41.438 00     SPR-I:OPRO         <*> Passed (1003;3003) - CS DisableOS command sent properly.
+21-126-11:13:41.442 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:41.442 00     SPR-I:OPRO         ;  Step 3.3: Verify that CRC calculations are happening.
+21-126-11:13:41.442 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:41.462 00     SPR-I:OPRO         <*> Passed (3006) - Checksumming is occurring.
+21-126-11:13:41.463 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:41.463 00     SPR-I:OPRO         ;  Step 3.4: Send the Disable cFE Code Segment command. 
+21-126-11:13:41.463 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:41.465 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:41.466 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 6
+21-126-11:13:41.466 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:41.466 00     CMH-I:CMD             Command SFDU received:<189FC000000107BE> from gs582cfslab4:SPR
+21-126-11:13:41.480 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:13:42.021 00    TLMH-I:STS          58-012-14:08:55.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=6 Checksumming of cFE Core is Disabled
+21-126-11:13:43.482 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:43.484 00     SPR-I:OPRO         <*> Passed (1003;3008) - CS DisableCFECore command sent properly.
+21-126-11:13:43.494 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:43.495 00     SPR-I:OPRO         <*> Passed (1003;3008) - Expected Event Msg 6 rcv'd.
+21-126-11:13:43.522 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:13:48.527 00     SPR-I:OPRO         <*> Passed (3008) - cFE Core State set to 'Disabled'.
+21-126-11:13:48.531 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:13:53.536 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:53.536 00     SPR-I:OPRO         ;  Step 3.5: Using the TST_CS application, manipulate the cFE CRC.     
+21-126-11:13:53.536 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:13:53.544 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:53.545 00     SPR-I:OPRO         ; Setup event 1 with TST_CS INFO 14
+21-126-11:13:53.545 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:53.547 00     CMH-I:CMD             Command SFDU received:<192BC0000001060A> from gs582cfslab4:SPR
+21-126-11:13:53.564 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:13:54.023 00    TLMH-I:STS          58-012-14:09:07.001 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=14 Corrupt cFE Core CRC command
+21-126-11:13:54.565 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:13:54.565 00     SPR-I:OPRO         <*> Passed - Expected Event Msg 14 rcv'd.
+21-126-11:13:54.565 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:13:59.570 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:59.570 00     SPR-I:OPRO         ;  Step 3.6: Send the Enable cFE command.                               
+21-126-11:13:59.571 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:59.577 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:59.577 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 7
+21-126-11:13:59.578 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:13:59.581 00     CMH-I:CMD             Command SFDU received:<189FC000000106BF> from gs582cfslab4:SPR
+21-126-11:13:59.604 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:14:00.023 00    TLMH-I:STS          58-012-14:09:13.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=7 Checksumming of cFE Core is Enabled
+21-126-11:14:01.606 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:01.608 00     SPR-I:OPRO         <*> Passed (1003;3007) - CS EnableCFECore command sent properly.
+21-126-11:14:01.629 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:01.632 00     SPR-I:OPRO         <*> Passed (1003;3007) - Expected Event Msg 7 rcv'd.
+21-126-11:14:01.669 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:14:06.674 00     SPR-I:OPRO         <*> Passed (3007) - cFE Core State set to 'Enabled'.
+21-126-11:14:06.678 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:14:11.689 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:11.690 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 31
+21-126-11:14:11.690 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:11.702 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:14:14.018 00    TLMH-I:STS          58-012-14:09:27.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=31 Checksum Failure: cFE Core, Expected: 0x0012D687, Calculated: 0x000041E0
+21-126-11:14:14.706 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:14.708 00     SPR-I:OPRO         <*> Passed (3006.1) - Expected Event Msg 32 rcv'd.
+21-126-11:14:14.712 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:14:14.712 00     SPR-I:OPRO         ;  Step 3.7: Send the Recompute cFE Code Segment command.              
+21-126-11:14:14.712 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:14:14.714 00     CMH-I:CMD             Command SFDU received:<189FC000000107BE> from gs582cfslab4:SPR
+21-126-11:14:14.727 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:14:15.521 00    TLMH-I:STS          58-012-14:09:28.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=6 Checksumming of cFE Core is Disabled
+21-126-11:14:19.737 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:19.737 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 14
+21-126-11:14:19.737 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:19.740 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:19.740 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:14:19.740 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:19.741 00     CMH-I:CMD             Command SFDU received:<189FC000000109B0> from gs582cfslab4:SPR
+21-126-11:14:19.756 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:14:20.517 00    TLMH-I:STS          58-012-14:09:33.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=14 Recompute of cFE core started
+21-126-11:14:21.759 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:21.762 00     SPR-I:OPRO         <*> Passed (1003;3009) - CS RecomputeCFECore command sent properly.
+21-126-11:14:21.770 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:21.771 00     SPR-I:OPRO         <*> Passed (1003;3009) - Expected Event Msg 14 rcv'd.
+21-126-11:14:21.796 00     SPR-I:OPRO         <*> Passed (3009) - In Progress Flag set to True as expected.
+21-126-11:14:21.800 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:14:42.521 00    TLMH-I:STS          58-012-14:09:55.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 cFE Core entry 0 recompute finished. New baseline is 0X000041E0
+21-126-11:14:42.828 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:42.830 00     SPR-I:OPRO         <*> Passed (3009.1) - Expected Event Msg 95 rcv'd.
+21-126-11:14:42.847 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:14:43.848 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:43.850 00     SPR-I:OPRO         <*> Passed (3009.1) - In Progress Flag set to False as expected.
+21-126-11:14:43.853 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:14:48.858 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:14:48.859 00     SPR-I:OPRO         ;  Step 3.8: Send the Report cFE Code Segment command.                 
+21-126-11:14:48.859 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:14:48.864 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:48.864 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 10
+21-126-11:14:48.864 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:48.866 00     CMH-I:CMD             Command SFDU received:<189FC000000108B1> from gs582cfslab4:SPR
+21-126-11:14:48.870 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:14:49.521 00    TLMH-I:STS          58-012-14:10:02.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=10 Baseline of cFE Core is 0x000041E0
+21-126-11:14:51.874 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:51.876 00     SPR-I:OPRO         <*> Passed (1003;3010) - CS ReportCFECore command sent properly.
+21-126-11:14:51.885 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:51.885 00     SPR-I:OPRO         <*> Passed (1003;3010) - Expected Event Msg 10 rcv'd.
+21-126-11:14:51.912 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:14:56.917 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:14:56.918 00     SPR-I:OPRO         ;  Step 4.0: Invalid Command Test.
+21-126-11:14:56.918 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:14:56.918 00     SPR-I:OPRO         ;  Step 4.1: Send the Enable OS Code Segment command with an invalid  
+21-126-11:14:56.918 00     SPR-I:OPRO         ;  length. 
+21-126-11:14:56.919 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:14:56.923 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:56.923 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 36
+21-126-11:14:56.923 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:14:56.928 00     SPR-I:OPRO         Sending:  189Fc00000020AB0
+21-126-11:14:56.930 00     CMH-I:CMD             Command SFDU received:<189FC00000020AB0> from gs582cfslab4:SPR
+21-126-11:14:56.944 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-126-11:14:56.945 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:14:57.513 00    TLMH-I:STS          58-012-14:10:10.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x189F, CC = 10, Len = 9, Expected = 8
+21-126-11:14:57.946 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:57.949 00     SPR-I:STTE         Wait mode - waiting 1 seconds ...
+21-126-11:14:58.951 00     SPR-I:STTE         Wait mode - waiting 1 seconds ...
+21-126-11:14:59.960 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:14:59.961 00     SPR-I:OPRO         <*> Passed (1002;1004) - Command Rejected Counter incremented.
+21-126-11:14:59.964 00     SPR-I:OPRO         <*> Passed (1004) - Event message 36 received
+21-126-11:14:59.987 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:15:04.992 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:04.992 00     SPR-I:OPRO         ;  Step 4.2: Send the Disable OS Code Segment command with an invalid 
+21-126-11:15:04.992 00     SPR-I:OPRO         ;  length. 
+21-126-11:15:04.992 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:04.998 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:04.998 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 36
+21-126-11:15:04.998 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:05.005 00     SPR-I:OPRO         Sending:  189Fc00000020BB1
+21-126-11:15:05.006 00     CMH-I:CMD             Command SFDU received:<189FC00000020BB1> from gs582cfslab4:SPR
+21-126-11:15:05.024 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-126-11:15:05.024 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:05.523 00    TLMH-I:STS          58-012-14:10:18.483 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x189F, CC = 11, Len = 9, Expected = 8
+21-126-11:15:07.027 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:07.036 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:07.036 00     SPR-I:OPRO         <*> Passed (1002;1004) - Command Rejected Counter incremented.
+21-126-11:15:07.038 00     SPR-I:OPRO         <*> Passed (1004) - Event message 36 received
+21-126-11:15:07.063 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:15:12.067 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:12.068 00     SPR-I:OPRO         ;  Step 4.3: Send the Recompute OS Code Segment CRC command with an   
+21-126-11:15:12.068 00     SPR-I:OPRO         ;  invalid length.
+21-126-11:15:12.068 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:12.074 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:12.074 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 36
+21-126-11:15:12.074 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:12.079 00     SPR-I:OPRO         Sending:  189Fc00000020DB5
+21-126-11:15:12.080 00     CMH-I:CMD             Command SFDU received:<189FC00000020DB5> from gs582cfslab4:SPR
+21-126-11:15:12.095 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-126-11:15:12.095 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:12.514 00    TLMH-I:STS          58-012-14:10:25.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x189F, CC = 13, Len = 9, Expected = 8
+21-126-11:15:13.096 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:13.105 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:13.105 00     SPR-I:OPRO         <*> Passed (1002;1004) - Command Rejected Counter incremented.
+21-126-11:15:13.107 00     SPR-I:OPRO         <*> Passed (1004) - Event message 36 received
+21-126-11:15:13.134 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:15:18.139 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:18.139 00     SPR-I:OPRO         ;  Step 4.4: Send the Report OS Code Segment CRC command with an      
+21-126-11:15:18.139 00     SPR-I:OPRO         ;  invalid length.
+21-126-11:15:18.139 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:18.145 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:18.145 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 36
+21-126-11:15:18.145 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:18.150 00     SPR-I:OPRO         Sending:  189Fc00000020CB8
+21-126-11:15:18.151 00     CMH-I:CMD             Command SFDU received:<189FC00000020CB8> from gs582cfslab4:SPR
+21-126-11:15:18.156 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-126-11:15:18.156 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:18.520 00    TLMH-I:STS          58-012-14:10:31.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x189F, CC = 12, Len = 9, Expected = 8
+21-126-11:15:19.158 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:19.167 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:19.167 00     SPR-I:OPRO         <*> Passed (1002;1004) - Command Rejected Counter incremented.
+21-126-11:15:19.170 00     SPR-I:OPRO         <*> Passed (1004) - Event message 36 received
+21-126-11:15:19.197 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:15:24.202 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:24.202 00     SPR-I:OPRO         ;  Step 4.5: Send the Enable cFE Code Segment command with an invalid 
+21-126-11:15:24.203 00     SPR-I:OPRO         ;  length. 
+21-126-11:15:24.203 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:24.208 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:24.208 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 36
+21-126-11:15:24.208 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:24.214 00     SPR-I:OPRO         Sending:  189Fc000000206BC
+21-126-11:15:24.215 00     CMH-I:CMD             Command SFDU received:<189FC000000206BC> from gs582cfslab4:SPR
+21-126-11:15:24.220 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-126-11:15:24.221 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:25.022 00    TLMH-I:STS          58-012-14:10:38.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x189F, CC = 6, Len = 9, Expected = 8
+21-126-11:15:25.222 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:25.240 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:25.242 00     SPR-I:OPRO         <*> Passed (1002;1004) - Command Rejected Counter incremented.
+21-126-11:15:25.250 00     SPR-I:OPRO         <*> Passed (1004) - Event message 36 received
+21-126-11:15:25.286 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:15:30.291 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:30.291 00     SPR-I:OPRO         ;  Step 4.6: Send the Disable cFE Code Segment command with an invalid
+21-126-11:15:30.292 00     SPR-I:OPRO         ;  length. 
+21-126-11:15:30.292 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:30.297 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:30.298 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 36
+21-126-11:15:30.298 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:30.303 00     SPR-I:OPRO         Sending:  189Fc000000207BD
+21-126-11:15:30.304 00     CMH-I:CMD             Command SFDU received:<189FC000000207BD> from gs582cfslab4:SPR
+21-126-11:15:30.322 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-126-11:15:30.322 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:31.016 00    TLMH-I:STS          58-012-14:10:44.003 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x189F, CC = 7, Len = 9, Expected = 8
+21-126-11:15:31.323 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:31.332 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:31.333 00     SPR-I:OPRO         <*> Passed (1002;1004) - Command Rejected Counter incremented.
+21-126-11:15:31.335 00     SPR-I:OPRO         <*> Passed (1004) - Event message 36 received
+21-126-11:15:31.372 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:15:36.377 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:36.377 00     SPR-I:OPRO         ;  Step 4.7: Send the Recompute cFE Code Segment CRC command with an  
+21-126-11:15:36.377 00     SPR-I:OPRO         ;  invalid length.
+21-126-11:15:36.377 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:36.386 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:36.387 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 36
+21-126-11:15:36.387 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:36.395 00     SPR-I:OPRO         Sending:  189Fc000000209B0
+21-126-11:15:36.396 00     CMH-I:CMD             Command SFDU received:<189FC000000209B0> from gs582cfslab4:SPR
+21-126-11:15:36.411 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-126-11:15:36.412 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:37.015 00    TLMH-I:STS          58-012-14:10:50.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x189F, CC = 9, Len = 9, Expected = 8
+21-126-11:15:37.413 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:37.430 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:37.432 00     SPR-I:OPRO         <*> Passed (1002;1004) - Command Rejected Counter incremented.
+21-126-11:15:37.441 00     SPR-I:OPRO         <*> Passed (1004) - Event message 36 received
+21-126-11:15:37.476 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:15:42.480 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:42.480 00     SPR-I:OPRO         ;  Step 4.8: Send the Report cFE Code Segment CRC command with an      
+21-126-11:15:42.481 00     SPR-I:OPRO         ;  invalid length.
+21-126-11:15:42.481 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:42.486 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:42.486 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 36
+21-126-11:15:42.486 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:42.490 00     SPR-I:OPRO         Sending:  189Fc000000208B4
+21-126-11:15:42.491 00     CMH-I:CMD             Command SFDU received:<189FC000000208B4> from gs582cfslab4:SPR
+21-126-11:15:42.506 00     SPR-I:OPRO          ; Telemetry update will wait a maximum of 24 seconds
+21-126-11:15:42.507 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:43.022 00    TLMH-I:STS          58-012-14:10:56.003 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x189F, CC = 8, Len = 9, Expected = 8
+21-126-11:15:43.508 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:43.526 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:43.528 00     SPR-I:OPRO         <*> Passed (1002;1004) - Command Rejected Counter incremented.
+21-126-11:15:43.535 00     SPR-I:OPRO         <*> Passed (1004) - Event message 36 received
+21-126-11:15:43.564 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:15:48.570 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:48.570 00     SPR-I:OPRO         ;  Step 4.9: Send the Recompute OS Code Segment command.              
+21-126-11:15:48.570 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:48.576 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:48.576 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 17
+21-126-11:15:48.576 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:48.578 00     CMH-I:CMD             Command SFDU received:<189FC00000010DB4> from gs582cfslab4:SPR
+21-126-11:15:48.595 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:49.021 00    TLMH-I:STS          58-012-14:11:02.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=17 Recompute of OS code segment started
+21-126-11:15:49.596 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:49.599 00     SPR-I:OPRO         <*> Passed (1003;3004) - CS RecomputeOS command sent properly.
+21-126-11:15:49.620 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:49.622 00     SPR-I:OPRO         <*> Passed (1003;3004) - Expected Event Msg 17 rcv'd.
+21-126-11:15:49.662 00     SPR-I:OPRO         <*> Passed (3004) - In Progress Flag set to True as expected.
+21-126-11:15:49.662 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:49.662 00     SPR-I:OPRO         ;  Step 4.10: Send the Recompute OS Code Segment command again. This  
+21-126-11:15:49.662 00     SPR-I:OPRO         ;  command should fail since there is already a recompute active.     
+21-126-11:15:49.663 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:49.684 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:49.684 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 19
+21-126-11:15:49.684 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:49.685 00     CMH-I:CMD             Command SFDU received:<189FC00000010DB4> from gs582cfslab4:SPR
+21-126-11:15:49.689 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:50.513 00    TLMH-I:STS          58-012-14:11:03.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=19 Recompute OS code segment failed: child task in use
+21-126-11:15:51.692 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:51.694 00     SPR-I:OPRO         <*> Passed (1004;3004.2) - CS RecomputeOS command failed as expected.
+21-126-11:15:51.713 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:51.715 00     SPR-I:OPRO         <*> Passed (1004) - Expected Event Msg 19 rcv'd.
+21-126-11:15:51.752 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:51.752 00     SPR-I:OPRO         ;  Step 4.11: Send the Recompute cFE Code Segment command again. This 
+21-126-11:15:51.752 00     SPR-I:OPRO         ;  command should fail since there is already a recompute active.     
+21-126-11:15:51.752 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:51.754 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:51.754 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 16
+21-126-11:15:51.754 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:51.756 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:51.756 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:15:51.756 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:51.766 00     CMH-I:CMD             Command SFDU received:<189FC000000109B0> from gs582cfslab4:SPR
+21-126-11:15:51.780 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:52.513 00    TLMH-I:STS          58-012-14:11:05.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=16 Recompute cFE core failed: child task in use
+21-126-11:15:53.783 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:53.786 00     SPR-I:OPRO         <*> Passed (1004;3009.2) - CS RecomputeCFECore command failed as expected.
+21-126-11:15:53.797 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:53.798 00     SPR-I:OPRO         <*> Passed (1004) - Expected Event Msg 16 rcv'd.
+21-126-11:15:53.827 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:53.827 00     SPR-I:OPRO         ;  Step 4.12: Send the One Shot CRC command. This should fail since 
+21-126-11:15:53.827 00     SPR-I:OPRO         ;  there is already a recompute active.     
+21-126-11:15:53.827 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:15:53.829 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:53.829 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 22
+21-126-11:15:53.829 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:15:53.830 00     CMH-I:CMD             Command SFDU received:<189FC000000D02B7000000000000080000000800> from gs582cfslab4:SPR
+21-126-11:15:53.834 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:15:54.514 00    TLMH-I:STS          58-012-14:11:07.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=22 OneShot checksum failed: child task in use
+21-126-11:15:55.846 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:15:55.849 00     SPR-I:OPRO         <*> Passed (1004;3009.2) - One Shot CRC command failed as expected.
+21-126-11:15:55.873 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:17:34.015 00    TLMH-I:STS          58-012-14:12:47.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 OS entry 0 recompute finished. New baseline is 0XFFFFB69D
+21-126-11:17:34.998 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:35.001 00     SPR-I:OPRO         <*> Passed - RecomputeCFE task completed.
+21-126-11:17:35.006 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:17:36.007 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:36.010 00     SPR-I:OPRO         <*> Passed (3009.1) - In Progress Flag set to False as expected.
+21-126-11:17:36.013 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:17:36.013 00     SPR-I:OPRO         ;  Step 4.13: Send the Recompute cFE Code Segment command.              
+21-126-11:17:36.013 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:17:36.015 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:36.015 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 14
+21-126-11:17:36.015 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:36.026 00     CMH-I:CMD             Command SFDU received:<189FC000000109B0> from gs582cfslab4:SPR
+21-126-11:17:36.040 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:17:36.520 00    TLMH-I:STS          58-012-14:12:49.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=14 Recompute of cFE core started
+21-126-11:17:37.041 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:37.043 00     SPR-I:OPRO         <*> Passed (1003;3009) - CS RecomputeCFECore command sent properly.
+21-126-11:17:37.050 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:37.050 00     SPR-I:OPRO         <*> Passed (1003;3009) - Expected Event Msg 14 rcv'd.
+21-126-11:17:37.071 00     SPR-I:OPRO         <*> Passed (3009) - In Progress Flag set to True as expected.
+21-126-11:17:37.072 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:17:37.072 00     SPR-I:OPRO         ;  Step 4.14: Send the Recompute cFE Code Segment command again. This 
+21-126-11:17:37.072 00     SPR-I:OPRO         ;  command should fail since there is already a recompute active.     
+21-126-11:17:37.072 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:17:37.090 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:37.090 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 16
+21-126-11:17:37.091 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:37.091 00     CMH-I:CMD             Command SFDU received:<189FC000000109B0> from gs582cfslab4:SPR
+21-126-11:17:37.106 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:17:37.513 00    TLMH-I:STS          58-012-14:12:50.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=16 Recompute cFE core failed: child task in use
+21-126-11:17:39.108 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:39.110 00     SPR-I:OPRO         <*> Passed (1004;3009.2) - CS RecomputeCFECore command failed as expected.
+21-126-11:17:39.118 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:39.119 00     SPR-I:OPRO         <*> Passed (1004) - Expected Event Msg 16 rcv'd.
+21-126-11:17:39.146 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:17:39.146 00     SPR-I:OPRO         ;  Step 4.15: Send the Recompute OS Code Segment command again. This  
+21-126-11:17:39.146 00     SPR-I:OPRO         ;  command should fail since there is already a recompute active.     
+21-126-11:17:39.146 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:17:39.147 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:39.147 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 19
+21-126-11:17:39.148 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:39.150 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:39.150 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:17:39.150 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:39.160 00     CMH-I:CMD             Command SFDU received:<189FC00000010DB4> from gs582cfslab4:SPR
+21-126-11:17:39.174 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:17:39.516 00    TLMH-I:STS          58-012-14:12:52.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=19 Recompute OS code segment failed: child task in use
+21-126-11:17:41.176 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:41.178 00     SPR-I:OPRO         <*> Passed (1004;3004.2) - CS RecomputeOS command failed as expected.
+21-126-11:17:41.187 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:41.187 00     SPR-I:OPRO         <*> Passed (1004) - Expected Event Msg 19 rcv'd.
+21-126-11:17:41.213 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:17:41.213 00     SPR-I:OPRO         ;  Step 4.16: Send the One Shot CRC command. This should fail since 
+21-126-11:17:41.213 00     SPR-I:OPRO         ;  there is already a recompute active.     
+21-126-11:17:41.213 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:17:41.215 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:41.215 00     SPR-I:OPRO         ; Setup event 1 with CS ERROR 22
+21-126-11:17:41.215 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:17:41.216 00     CMH-I:CMD             Command SFDU received:<189FC000000D02B7000000000000080000000800> from gs582cfslab4:SPR
+21-126-11:17:41.231 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:17:42.015 00    TLMH-I:STS          58-012-14:12:55.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=22 OneShot checksum failed: child task in use
+21-126-11:17:43.234 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:43.236 00     SPR-I:OPRO         <*> Passed (1004;3004.2) - One Shot CRC command failed as expected.
+21-126-11:17:43.243 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:17:58.518 00    TLMH-I:STS          58-012-14:13:11.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 cFE Core entry 0 recompute finished. New baseline is 0X000041E0
+21-126-11:17:59.264 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:17:59.266 00     SPR-I:OPRO         <*> Passed - RecomputeOS task completed.
+21-126-11:17:59.271 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:18:01.273 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:18:01.275 00     SPR-I:OPRO         <*> Passed (3004.1) - In Progress Flag set to False as expected.
+21-126-11:18:01.278 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:18:01.278 00     SPR-I:OPRO         ;  Step 5.0: Disabled Checksum Test.
+21-126-11:18:01.279 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:18:01.279 00     SPR-I:OPRO         ;  Step 5.1: Send the Disable Checksum command.                       
+21-126-11:18:01.279 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:18:01.280 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:18:01.280 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 4
+21-126-11:18:01.280 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:18:01.292 00     CMH-I:CMD             Command SFDU received:<189FC000000105BC> from gs582cfslab4:SPR
+21-126-11:18:01.307 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:18:02.015 00    TLMH-I:STS          58-012-14:13:15.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=4 Background Checksumming Disabled
+21-126-11:18:03.309 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:18:03.311 00     SPR-I:OPRO         <*> Passed (1003;8001) - CS DisableALL command sent properly.
+21-126-11:18:03.318 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:18:03.318 00     SPR-I:OPRO         <*> Passed (1003;8001) - Expected Event Msg 4 rcv'd.
+21-126-11:18:03.339 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:18:08.344 00     SPR-I:OPRO         <*> Passed (8000) - Overall CS State set to 'Disabled'.
+21-126-11:18:08.347 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:18:08.348 00     SPR-I:OPRO         ;  Step 5.2: Send the Disable OS Code Segment command.                
+21-126-11:18:08.348 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:18:08.350 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:18:08.350 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 8
+21-126-11:18:08.350 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:18:08.351 00     CMH-I:CMD             Command SFDU received:<189FC00000010BB2> from gs582cfslab4:SPR
+21-126-11:18:08.366 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:18:09.016 00    TLMH-I:STS          58-012-14:13:22.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=8 Checksumming of OS code segment is Disabled
+21-126-11:18:09.367 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:18:09.367 00     SPR-I:OPRO         <*> Passed (1003;3003) - CS DisableOS command sent properly.
+21-126-11:18:09.374 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:18:09.374 00     SPR-I:OPRO         <*> Passed (1003;3003) - Expected Event Msg 8 rcv'd.
+21-126-11:18:09.403 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:18:14.409 00     SPR-I:OPRO         <*> Passed (3003) - OS State set to 'Disabled'.
+21-126-11:18:14.413 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:18:14.413 00     SPR-I:OPRO         ;  Step 5.3: Send the Recompute OS Code Segment command.               
+21-126-11:18:14.413 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:18:14.417 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:18:14.417 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 17
+21-126-11:18:14.417 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:18:14.420 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:18:14.420 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:18:14.421 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:18:14.433 00     CMH-I:CMD             Command SFDU received:<189FC00000010DB4> from gs582cfslab4:SPR
+21-126-11:18:14.449 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:18:15.016 00    TLMH-I:STS          58-012-14:13:28.003 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=17 Recompute of OS code segment started
+21-126-11:18:15.450 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:18:15.453 00     SPR-I:OPRO         <*> Passed (1003;3004) - CS RecomputeOS command sent properly.
+21-126-11:18:15.461 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:18:15.462 00     SPR-I:OPRO         <*> Passed (1003;3004) - Expected Event Msg 17 rcv'd.
+21-126-11:18:15.490 00     SPR-I:OPRO         <*> Passed (3004) - In Progress Flag set to True as expected.
+21-126-11:18:15.493 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:20:00.010 00    TLMH-I:STS          58-012-14:15:13.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 OS entry 0 recompute finished. New baseline is 0XFFFFB69D
+21-126-11:20:00.624 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:20:00.626 00     SPR-I:OPRO         <*> Passed (3004.1) - Expected Event Msg 95 rcv'd.
+21-126-11:20:00.630 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:20:01.634 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:20:01.636 00     SPR-I:OPRO         <*> Passed (3004.1) - In Progress Flag set to False as expected.
+21-126-11:20:01.640 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:20:01.640 00     SPR-I:OPRO         ;  Step 5.4: Send the Report OS Code Segment command.                 
+21-126-11:20:01.640 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:20:01.644 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:20:01.644 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 12
+21-126-11:20:01.644 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:20:01.656 00     CMH-I:CMD             Command SFDU received:<189FC00000010CB5> from gs582cfslab4:SPR
+21-126-11:20:01.669 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:20:02.015 00    TLMH-I:STS          58-012-14:15:15.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=12 Baseline of OS code segment is 0xFFFFB69D
+21-126-11:20:03.671 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:20:03.672 00     SPR-I:OPRO         <*> Passed (1003;3005) - CS ReportOS command sent properly.
+21-126-11:20:03.679 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:20:03.679 00     SPR-I:OPRO         <*> Passed (1003;3005) - Expected Event Msg 12 rcv'd.
+21-126-11:20:03.703 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:20:08.707 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:20:08.707 00     SPR-I:OPRO         ;  Step 5.5: Send the Enable OS Code Segment command.                 
+21-126-11:20:08.707 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:20:08.710 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:20:08.710 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 9
+21-126-11:20:08.710 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:20:08.712 00     CMH-I:CMD             Command SFDU received:<189FC00000010AB3> from gs582cfslab4:SPR
+21-126-11:20:08.726 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:20:09.518 00    TLMH-I:STS          58-012-14:15:22.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=9 Checksumming of OS code segment is Enabled
+21-126-11:20:11.730 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:20:11.732 00     SPR-I:OPRO         <*> Passed (1003;3002) - CS EnableOS command sent properly.
+21-126-11:20:11.739 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:20:11.739 00     SPR-I:OPRO         <*> Passed (1003;3002) - Expected Event Msg 9 rcv'd.
+21-126-11:20:11.760 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:20:16.764 00     SPR-I:OPRO         <*> Passed (3003) - OS State set to 'Enabled'.
+21-126-11:20:16.768 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:20:16.769 00     SPR-I:OPRO         ;  Step 5.6: Send the Recompute OS Code Segment command.               
+21-126-11:20:16.769 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:20:16.772 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:20:16.772 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 17
+21-126-11:20:16.772 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:20:16.774 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:20:16.774 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:20:16.774 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:20:16.783 00     CMH-I:CMD             Command SFDU received:<189FC00000010DB4> from gs582cfslab4:SPR
+21-126-11:20:16.787 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:20:17.517 00    TLMH-I:STS          58-012-14:15:30.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=17 Recompute of OS code segment started
+21-126-11:20:19.790 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:20:19.792 00     SPR-I:OPRO         <*> Passed (1003;3004) - CS RecomputeOS command sent properly.
+21-126-11:20:19.804 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:20:19.805 00     SPR-I:OPRO         <*> Passed (1003;3004) - Expected Event Msg 17 rcv'd.
+21-126-11:20:19.843 00     SPR-I:OPRO         <*> Passed (3004) - In Progress Flag set to True as expected.
+21-126-11:20:19.847 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:02.516 00    TLMH-I:STS          58-012-14:17:15.533 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 OS entry 0 recompute finished. New baseline is 0XFFFFB69D
+21-126-11:22:02.977 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:02.979 00     SPR-I:OPRO         <*> Passed (3004.1) - Expected Event Msg 95 rcv'd.
+21-126-11:22:02.986 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:03.987 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:03.988 00     SPR-I:OPRO         <*> Passed (3004.1) - In Progress Flag set to False as expected.
+21-126-11:22:03.989 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:22:08.993 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:22:08.993 00     SPR-I:OPRO         ;  Step 5.7: Send the Report OS Code Segment command.                 
+21-126-11:22:08.993 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:22:08.999 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:09.000 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 12
+21-126-11:22:09.000 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:09.004 00     CMH-I:CMD             Command SFDU received:<189FC00000010CB5> from gs582cfslab4:SPR
+21-126-11:22:09.020 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:09.511 00    TLMH-I:STS          58-012-14:17:22.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=12 Baseline of OS code segment is 0xFFFFB69D
+21-126-11:22:11.023 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:11.025 00     SPR-I:OPRO         <*> Passed (1003;3005) - CS ReportOS command sent properly.
+21-126-11:22:11.031 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:11.032 00     SPR-I:OPRO         <*> Passed (1003;3005) - Expected Event Msg 12 rcv'd.
+21-126-11:22:11.053 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:22:16.058 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:22:16.058 00     SPR-I:OPRO         ;  Step 5.8: Send the Disable cFE Code Segment command.                
+21-126-11:22:16.058 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:22:16.066 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:16.067 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 6
+21-126-11:22:16.067 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:16.071 00     CMH-I:CMD             Command SFDU received:<189FC000000107BE> from gs582cfslab4:SPR
+21-126-11:22:16.094 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:16.512 00    TLMH-I:STS          58-012-14:17:29.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=6 Checksumming of cFE Core is Disabled
+21-126-11:22:17.095 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:17.098 00     SPR-I:OPRO         <*> Passed (1003;3008) - CS DisableCFECore command sent properly.
+21-126-11:22:17.120 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:17.123 00     SPR-I:OPRO         <*> Passed (1003;3008) - Expected Event Msg 6 rcv'd.
+21-126-11:22:17.161 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:22:22.166 00     SPR-I:OPRO         <*> Passed (3008) - cFE Core State set to 'Disabled'.
+21-126-11:22:22.170 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:22:22.171 00     SPR-I:OPRO         ;  Step 5.9: Send the Recompute cFE Code Segment command.               
+21-126-11:22:22.171 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:22:22.179 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:22.180 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 14
+21-126-11:22:22.180 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:22.188 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:22.188 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:22:22.188 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:22.215 00     CMH-I:CMD             Command SFDU received:<189FC000000109B0> from gs582cfslab4:SPR
+21-126-11:22:22.232 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:23.014 00    TLMH-I:STS          58-012-14:17:36.003 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=14 Recompute of cFE core started
+21-126-11:22:23.233 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:23.237 00     SPR-I:OPRO         <*> Passed (1003;3009) - CS RecomputeCFECore command sent properly.
+21-126-11:22:23.260 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:23.263 00     SPR-I:OPRO         <*> Passed (1003;3009) - Expected Event Msg 14 rcv'd.
+21-126-11:22:23.305 00     SPR-I:OPRO         <*> Passed (3009) - In Progress Flag set to True as expected.
+21-126-11:22:23.309 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:45.018 00    TLMH-I:STS          58-012-14:17:58.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 cFE Core entry 0 recompute finished. New baseline is 0X000041E0
+21-126-11:22:45.337 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:45.339 00     SPR-I:OPRO         <*> Passed (3009.1) - Expected Event Msg 95 rcv'd.
+21-126-11:22:45.355 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:47.358 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:47.360 00     SPR-I:OPRO         <*> Passed (3009.1) - In Progress Flag set to False as expected.
+21-126-11:22:47.364 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:22:52.369 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:22:52.369 00     SPR-I:OPRO         ;  Step 5.10: Send the Report cFE Code Segment command.               
+21-126-11:22:52.369 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:22:52.377 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:52.377 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 10
+21-126-11:22:52.377 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:52.378 00     CMH-I:CMD             Command SFDU received:<189FC000000108B1> from gs582cfslab4:SPR
+21-126-11:22:52.394 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:53.013 00    TLMH-I:STS          58-012-14:18:06.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=10 Baseline of cFE Core is 0x000041E0
+21-126-11:22:53.395 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:53.397 00     SPR-I:OPRO         <*> Passed (1003;3010) - CS ReportCFECore command sent properly.
+21-126-11:22:53.404 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:53.405 00     SPR-I:OPRO         <*> Passed (1003;3010) - Expected Event Msg 10 rcv'd.
+21-126-11:22:53.425 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:22:58.430 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:22:58.430 00     SPR-I:OPRO         ;  Step 5.11: Send the Enable cFE Code Segment command.               
+21-126-11:22:58.431 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:22:58.436 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:58.437 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 7
+21-126-11:22:58.437 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:22:58.439 00     CMH-I:CMD             Command SFDU received:<189FC000000106BF> from gs582cfslab4:SPR
+21-126-11:22:58.454 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:22:59.015 00    TLMH-I:STS          58-012-14:18:12.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=7 Checksumming of cFE Core is Enabled
+21-126-11:22:59.455 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:59.458 00     SPR-I:OPRO         <*> Passed (1003;3007) - CS EnableCFECore command sent properly.
+21-126-11:22:59.465 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:22:59.466 00     SPR-I:OPRO         <*> Passed (1003;3007) - Expected Event Msg 7 rcv'd.
+21-126-11:22:59.487 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:23:04.491 00     SPR-I:OPRO         <*> Passed (3007) - cFE Core State set to 'Enabled'.
+21-126-11:23:04.496 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:23:04.496 00     SPR-I:OPRO         ;  Step 5.12: Send the Recompute cFE Code Segment command.             
+21-126-11:23:04.496 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:23:04.498 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:04.498 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 14
+21-126-11:23:04.498 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:04.500 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:04.500 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:23:04.500 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:04.512 00     CMH-I:CMD             Command SFDU received:<189FC000000109B0> from gs582cfslab4:SPR
+21-126-11:23:04.526 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:23:05.011 00    TLMH-I:STS          58-012-14:18:18.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=14 Recompute of cFE core started
+21-126-11:23:05.527 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:05.529 00     SPR-I:OPRO         <*> Passed (1003;3009) - CS RecomputeCFECore command sent properly.
+21-126-11:23:05.536 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:05.536 00     SPR-I:OPRO         <*> Passed (1003;3009) - Expected Event Msg 14 rcv'd.
+21-126-11:23:05.557 00     SPR-I:OPRO         <*> Passed (3009) - In Progress Flag set to True as expected.
+21-126-11:23:05.560 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:23:27.016 00    TLMH-I:STS          58-012-14:18:40.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 cFE Core entry 0 recompute finished. New baseline is 0X000041E0
+21-126-11:23:27.588 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:27.591 00     SPR-I:OPRO         <*> Passed (3009.1) - Expected Event Msg 95 rcv'd.
+21-126-11:23:27.598 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:23:29.600 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:29.602 00     SPR-I:OPRO         <*> Passed (3009.1) - In Progress Flag set to False as expected.
+21-126-11:23:29.605 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:23:34.610 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:23:34.610 00     SPR-I:OPRO         ;  Step 5.13: Send the Report cFE Code Segment command.               
+21-126-11:23:34.611 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:23:34.616 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:34.616 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 10
+21-126-11:23:34.616 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:34.618 00     CMH-I:CMD             Command SFDU received:<189FC000000108B1> from gs582cfslab4:SPR
+21-126-11:23:34.633 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:23:35.010 00    TLMH-I:STS          58-012-14:18:48.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=10 Baseline of cFE Core is 0x000041E0
+21-126-11:23:35.634 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:35.637 00     SPR-I:OPRO         <*> Passed (1003;3010) - CS ReportCFECore command sent properly.
+21-126-11:23:35.646 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:35.646 00     SPR-I:OPRO         <*> Passed (1003;3010) - Expected Event Msg 10 rcv'd.
+21-126-11:23:35.672 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:23:40.677 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:23:40.677 00     SPR-I:OPRO         ;  Step 5.14: Send the Enable Checksum command.                       
+21-126-11:23:40.677 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:23:40.683 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:40.683 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 5
+21-126-11:23:40.683 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:40.685 00     CMH-I:CMD             Command SFDU received:<189FC000000104BD> from gs582cfslab4:SPR
+21-126-11:23:40.700 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:23:41.009 00    TLMH-I:STS          58-012-14:18:54.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=5 Background Checksumming Enabled
+21-126-11:23:41.701 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:41.704 00     SPR-I:OPRO         <*> Passed (1003;8000) - CS EnableALL command sent properly.
+21-126-11:23:41.713 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:41.714 00     SPR-I:OPRO         <*> Passed (1003;8000) - Expected Event Msg 5 rcv'd.
+21-126-11:23:41.740 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:23:46.745 00     SPR-I:OPRO         <*> Passed (8000) - Overall State set to 'Enabled'.
+21-126-11:23:46.749 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:23:46.749 00     SPR-I:OPRO         ;  Step 5.15: Send the Disable OS Code Segment command.                
+21-126-11:23:46.749 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:23:46.752 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:46.752 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 8
+21-126-11:23:46.752 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:46.754 00     CMH-I:CMD             Command SFDU received:<189FC00000010BB2> from gs582cfslab4:SPR
+21-126-11:23:46.769 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:23:47.510 00    TLMH-I:STS          58-012-14:19:00.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=8 Checksumming of OS code segment is Disabled
+21-126-11:23:49.772 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:49.775 00     SPR-I:OPRO         <*> Passed (1003;3003) - CS DisableOS command sent properly.
+21-126-11:23:49.798 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:49.801 00     SPR-I:OPRO         <*> Passed (1003;3003) - Expected Event Msg 8 rcv'd.
+21-126-11:23:49.838 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:23:54.843 00     SPR-I:OPRO         <*> Passed (3003) - OS State set to 'Disabled'.
+21-126-11:23:54.848 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:23:54.848 00     SPR-I:OPRO         ;  Step 5.16: Send the Recompute OS Code Segment command.               
+21-126-11:23:54.848 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:23:54.854 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:54.855 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 17
+21-126-11:23:54.855 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:54.857 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:54.857 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:23:54.857 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:23:54.870 00     CMH-I:CMD             Command SFDU received:<189FC00000010DB4> from gs582cfslab4:SPR
+21-126-11:23:54.885 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:23:55.513 00    TLMH-I:STS          58-012-14:19:08.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=17 Recompute of OS code segment started
+21-126-11:23:57.889 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:57.892 00     SPR-I:OPRO         <*> Passed (1003;3004) - CS RecomputeOS command sent properly.
+21-126-11:23:57.911 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:23:57.912 00     SPR-I:OPRO         <*> Passed (1003;3004) - Expected Event Msg 17 rcv'd.
+21-126-11:23:57.945 00     SPR-I:OPRO         <*> Passed (3004) - In Progress Flag set to True as expected.
+21-126-11:23:57.949 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:25:40.512 00    TLMH-I:STS          58-012-14:20:53.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 OS entry 0 recompute finished. New baseline is 0XFFFFB69D
+21-126-11:25:41.079 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:25:41.082 00     SPR-I:OPRO         <*> Passed (3004.1) - Expected Event Msg 95 rcv'd.
+21-126-11:25:41.088 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:25:43.090 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:25:43.092 00     SPR-I:OPRO         <*> Passed (3004.1) - In Progress Flag set to False as expected.
+21-126-11:25:43.096 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:25:48.100 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:25:48.101 00     SPR-I:OPRO         ;  Step 5.17: Send the Report OS Code Segment command.                 
+21-126-11:25:48.101 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:25:48.106 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:25:48.106 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 12
+21-126-11:25:48.106 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:25:48.108 00     CMH-I:CMD             Command SFDU received:<189FC00000010CB5> from gs582cfslab4:SPR
+21-126-11:25:48.121 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:25:48.513 00    TLMH-I:STS          58-012-14:21:01.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=12 Baseline of OS code segment is 0xFFFFB69D
+21-126-11:25:49.122 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:25:49.125 00     SPR-I:OPRO         <*> Passed (1003;3005) - CS ReportOS command sent properly.
+21-126-11:25:49.155 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:25:49.157 00     SPR-I:OPRO         <*> Passed (1003;3005) - Expected Event Msg 12 rcv'd.
+21-126-11:25:49.160 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:25:54.193 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:25:54.194 00     SPR-I:OPRO         ;  Step 5.18: Send the Enable OS Code Segment command.                 
+21-126-11:25:54.194 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:25:54.197 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:25:54.197 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 9
+21-126-11:25:54.197 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:25:54.198 00     CMH-I:CMD             Command SFDU received:<189FC00000010AB3> from gs582cfslab4:SPR
+21-126-11:25:54.202 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:25:55.016 00    TLMH-I:STS          58-012-14:21:08.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=9 Checksumming of OS code segment is Enabled
+21-126-11:25:55.203 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:25:55.205 00     SPR-I:OPRO         <*> Passed (1003;3002) - CS EnableOS command sent properly.
+21-126-11:25:55.225 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:25:55.232 00     SPR-I:OPRO         <*> Passed (1003;3002) - Expected Event Msg 9 rcv'd.
+21-126-11:25:55.268 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:26:00.274 00     SPR-I:OPRO         <*> Passed (3003) - OS State set to 'Enabled'.
+21-126-11:26:00.277 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:26:00.278 00     SPR-I:OPRO         ;  Step 5.19: Send the Recompute OS Code Segment command.               
+21-126-11:26:00.278 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:26:00.285 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:26:00.285 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 17
+21-126-11:26:00.286 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:26:00.294 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:26:00.294 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:26:00.294 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:26:00.332 00     CMH-I:CMD             Command SFDU received:<189FC00000010DB4> from gs582cfslab4:SPR
+21-126-11:26:00.337 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:26:01.007 00    TLMH-I:STS          58-012-14:21:14.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=17 Recompute of OS code segment started
+21-126-11:26:01.338 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:26:01.340 00     SPR-I:OPRO         <*> Passed (1003;3004) - CS RecomputeOS command sent properly.
+21-126-11:26:01.360 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:26:01.363 00     SPR-I:OPRO         <*> Passed (1003;3004) - Expected Event Msg 17 rcv'd.
+21-126-11:26:01.402 00     SPR-I:OPRO         <*> Passed (3004) - In Progress Flag set to True as expected.
+21-126-11:26:01.405 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:27:46.004 00    TLMH-I:STS          58-012-14:22:59.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 OS entry 0 recompute finished. New baseline is 0XFFFFB69D
+21-126-11:27:46.536 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:27:46.538 00     SPR-I:OPRO         <*> Passed (3004.1) - Expected Event Msg 95 rcv'd.
+21-126-11:27:46.545 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:27:47.545 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:27:47.548 00     SPR-I:OPRO         <*> Passed (3004.1) - In Progress Flag set to False as expected.
+21-126-11:27:47.552 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:27:52.556 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:27:52.556 00     SPR-I:OPRO         ;  Step 5.20: Send the Report OS Code Segment command.                 
+21-126-11:27:52.557 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:27:52.563 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:27:52.563 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 12
+21-126-11:27:52.563 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:27:52.565 00     CMH-I:CMD             Command SFDU received:<189FC00000010CB5> from gs582cfslab4:SPR
+21-126-11:27:52.581 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:27:53.013 00    TLMH-I:STS          58-012-14:23:06.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=12 Baseline of OS code segment is 0xFFFFB69D
+21-126-11:27:53.582 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:27:53.584 00     SPR-I:OPRO         <*> Passed (1003;3005) - CS ReportOS command sent properly.
+21-126-11:27:53.592 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:27:53.593 00     SPR-I:OPRO         <*> Passed (1003;3005) - Expected Event Msg 12 rcv'd.
+21-126-11:27:53.620 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:27:58.626 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:27:58.627 00     SPR-I:OPRO         ;  Step 5.21: Send the Disable cFE Code Segment command.                
+21-126-11:27:58.627 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:27:58.634 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:27:58.635 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 6
+21-126-11:27:58.635 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:27:58.638 00     CMH-I:CMD             Command SFDU received:<189FC000000107BE> from gs582cfslab4:SPR
+21-126-11:27:58.666 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:27:59.015 00    TLMH-I:STS          58-012-14:23:12.003 INFO CPU=CPU1 APPNAME=CS EVENT ID=6 Checksumming of cFE Core is Disabled
+21-126-11:27:59.667 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:27:59.668 00     SPR-I:OPRO         <*> Passed (1003;3008) - CS DisableCFECore command sent properly.
+21-126-11:27:59.673 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:27:59.673 00     SPR-I:OPRO         <*> Passed (1003;3008) - Expected Event Msg 6 rcv'd.
+21-126-11:27:59.695 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:28:04.700 00     SPR-I:OPRO         <*> Passed (3008) - cFE Core State set to 'Disabled'.
+21-126-11:28:04.704 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:28:04.704 00     SPR-I:OPRO         ;  Step 5.22: Send the Recompute cFE Code Segment command.             
+21-126-11:28:04.704 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:28:04.707 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:04.707 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 14
+21-126-11:28:04.707 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:04.710 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:04.711 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:28:04.711 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:04.726 00     CMH-I:CMD             Command SFDU received:<189FC000000109B0> from gs582cfslab4:SPR
+21-126-11:28:04.741 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:28:05.504 00    TLMH-I:STS          58-012-14:23:18.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=14 Recompute of cFE core started
+21-126-11:28:07.744 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:07.747 00     SPR-I:OPRO         <*> Passed (1003;3009) - CS RecomputeCFECore command sent properly.
+21-126-11:28:07.754 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:07.755 00     SPR-I:OPRO         <*> Passed (1003;3009) - Expected Event Msg 14 rcv'd.
+21-126-11:28:07.781 00     SPR-I:OPRO         <*> Passed (3009) - In Progress Flag set to True as expected.
+21-126-11:28:07.786 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:28:27.515 00    TLMH-I:STS          58-012-14:23:40.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 cFE Core entry 0 recompute finished. New baseline is 0X000041E0
+21-126-11:28:27.811 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:27.815 00     SPR-I:OPRO         <*> Passed (3009.1) - Expected Event Msg 95 rcv'd.
+21-126-11:28:27.823 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:28:29.826 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:29.829 00     SPR-I:OPRO         <*> Passed (3009.1) - In Progress Flag set to False as expected.
+21-126-11:28:29.832 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:28:34.837 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:28:34.837 00     SPR-I:OPRO         ;  Step 5.23: Send the Report cFE Code Segment command.               
+21-126-11:28:34.837 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:28:34.843 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:34.843 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 10
+21-126-11:28:34.843 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:34.845 00     CMH-I:CMD             Command SFDU received:<189FC000000108B1> from gs582cfslab4:SPR
+21-126-11:28:34.850 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:28:35.515 00    TLMH-I:STS          58-012-14:23:48.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=10 Baseline of cFE Core is 0x000041E0
+21-126-11:28:37.854 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:37.856 00     SPR-I:OPRO         <*> Passed (1003;3010) - CS ReportCFECore command sent properly.
+21-126-11:28:37.862 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:37.863 00     SPR-I:OPRO         <*> Passed (1003;3010) - Expected Event Msg 10 rcv'd.
+21-126-11:28:37.884 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:28:42.888 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:28:42.888 00     SPR-I:OPRO         ;  Step 5.24: Send the Enable cFE Code Segment command.               
+21-126-11:28:42.889 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:28:42.894 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:42.894 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 7
+21-126-11:28:42.894 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:42.895 00     CMH-I:CMD             Command SFDU received:<189FC000000106BF> from gs582cfslab4:SPR
+21-126-11:28:42.909 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:28:43.508 00    TLMH-I:STS          58-012-14:23:56.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=7 Checksumming of cFE Core is Enabled
+21-126-11:28:45.912 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:45.915 00     SPR-I:OPRO         <*> Passed (1003;3007) - CS EnableCFECore command sent properly.
+21-126-11:28:45.922 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:45.922 00     SPR-I:OPRO         <*> Passed (1003;3007) - Expected Event Msg 7 rcv'd.
+21-126-11:28:45.942 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:28:50.947 00     SPR-I:OPRO         <*> Passed (3007) - cFE Core State set to 'Enabled'.
+21-126-11:28:50.951 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:28:50.952 00     SPR-I:OPRO         ;  Step 5.25: Send the Recompute cFE Code Segment command.             
+21-126-11:28:50.952 00     SPR-I:OPRO         ;**********************************************************************
+21-126-11:28:50.956 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:50.956 00     SPR-I:OPRO         ; Setup event 1 with CS DEBUG 14
+21-126-11:28:50.956 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:50.958 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:50.958 00     SPR-I:OPRO         ; Setup event 2 with CS INFO 95
+21-126-11:28:50.958 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:28:50.971 00     CMH-I:CMD             Command SFDU received:<189FC000000109B0> from gs582cfslab4:SPR
+21-126-11:28:50.988 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:28:51.511 00    TLMH-I:STS          58-012-14:24:04.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=14 Recompute of cFE core started
+21-126-11:28:53.992 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:53.994 00     SPR-I:OPRO         <*> Passed (1003;3009) - CS RecomputeCFECore command sent properly.
+21-126-11:28:54.003 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:28:54.004 00     SPR-I:OPRO         <*> Passed (1003;3009) - Expected Event Msg 14 rcv'd.
+21-126-11:28:54.031 00     SPR-I:OPRO         <*> Passed (3009) - In Progress Flag set to True as expected.
+21-126-11:28:54.035 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:29:13.514 00    TLMH-I:STS          58-012-14:24:26.533 INFO CPU=CPU1 APPNAME=CS EVENT ID=95 cFE Core entry 0 recompute finished. New baseline is 0X000041E0
+21-126-11:29:14.060 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:29:14.063 00     SPR-I:OPRO         <*> Passed (3009.1) - Expected Event Msg 95 rcv'd.
+21-126-11:29:14.069 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:29:15.069 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:29:15.070 00     SPR-I:OPRO         <*> Passed (3009.1) - In Progress Flag set to False as expected.
+21-126-11:29:15.071 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:29:20.076 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:29:20.076 00     SPR-I:OPRO         ;  Step 5.26: Send the Report cFE Code Segment command.               
+21-126-11:29:20.076 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:29:20.082 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:29:20.082 00     SPR-I:OPRO         ; Setup event 1 with CS INFO 10
+21-126-11:29:20.082 00     SPR-I:OPRO         ;***********************************************************************
+21-126-11:29:20.083 00     CMH-I:CMD             Command SFDU received:<189FC000000108B1> from gs582cfslab4:SPR
+21-126-11:29:20.087 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:29:20.510 00    TLMH-I:STS          58-012-14:24:33.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=10 Baseline of cFE Core is 0x000041E0
+21-126-11:29:21.088 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:29:21.089 00     SPR-I:OPRO         <*> Passed (1003;3010) - CS ReportCFECore command sent properly.
+21-126-11:29:21.095 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:29:21.096 00     SPR-I:OPRO         <*> Passed (1003;3010) - Expected Event Msg 10 rcv'd.
+21-126-11:29:21.123 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:29:26.127 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:29:26.128 00     SPR-I:OPRO         ;  Step 6.0: Clean-up. 
+21-126-11:29:26.128 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:29:26.128 00     SPR-I:OPRO         ;  Step 6.1: Send the Power-On Reset command. 
+21-126-11:29:26.128 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:29:26.130 00     CMH-I:CMD             Command SFDU received:<1806C000000302220002> from gs582cfslab4:SPR
+21-126-11:29:26.144 00     SPR-I:STTE         Wait mode - waiting 10 seconds ...
+21-126-11:29:36.155 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/clear_spacecraft_status.i
+21-126-11:29:36.157 00     SPR-I:STS          Procedure CLEAR_SPACECRAFT_STATUS started
+21-126-11:29:36.163 00     SPR-I:STS          Procedure CLEAR_SPACECRAFT_STATUS completed
+21-126-11:29:36.207 00     SPR-I:STTE         Wait mode - waiting 60 seconds ...
+21-126-11:30:36.275 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:30:42.235 00     CMH-I:STS          Connected to FEDS:FEDS for commanding (internal ID 0). 
+21-126-11:30:46.291 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:30:46.362 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/send_that_to_command.i
+21-126-11:30:46.363 00     SPR-I:STS          Procedure SEND_THAT_TO_COMMAND started
+21-126-11:30:46.367 00     SPR-I:OPRO         Sending: /SCX_CPU1_TO_OUTPUT_ENA gs582cfslab4
+21-126-11:30:46.369 00     CMH-I:CMD             Command SFDU received:<1880C0000011069A3139322E3136382E312E313031000000> from gs582cfslab4:SPR
+21-126-11:30:46.421 00     SPR-I:STS          Procedure SEND_THAT_TO_COMMAND completed
+21-126-11:30:46.422 00     SPR-I:STTE         Wait mode - WAIT UNTIL ...
+21-126-11:30:47.545 00    TLMH-I:STS          58-012-14:03:49.350 INFO CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=3 TO telemetry output enabled for IP 192.168.1.101
+21-126-11:30:50.427 00     SPR-I:STTE         WAIT UNTIL completed
+21-126-11:30:50.427 00     SPR-I:STS          Loading file /s/opr/accounts/cfs_test/prc/fill_in_spacecraft_status.i
+21-126-11:30:50.429 00     SPR-I:STS          Procedure FILL_IN_SPACECRAFT_STATUS started
+21-126-11:30:50.440 00     SPR-I:STS          Procedure FILL_IN_SPACECRAFT_STATUS completed
+21-126-11:30:50.442 00     SPR-I:STTE         Wait mode - waiting 5 seconds ...
+21-126-11:30:55.446 00     SPR-I:OPRO         **** Requirements Status Reporting
+21-126-11:30:55.447 00     SPR-I:OPRO         --------------------------
+21-126-11:30:55.447 00     SPR-I:OPRO            Requirement(s) Report
+21-126-11:30:55.447 00     SPR-I:OPRO         --------------------------
+21-126-11:30:55.448 00     SPR-I:OPRO         FSW Requirement: CS_1002                          P/F: P
+21-126-11:30:55.451 00     SPR-I:OPRO         FSW Requirement: CS_1003                          P/F: P
+21-126-11:30:55.452 00     SPR-I:OPRO         FSW Requirement: CS_1004                          P/F: P
+21-126-11:30:55.453 00     SPR-I:OPRO         FSW Requirement: CS_3000                          P/F: P
+21-126-11:30:55.454 00     SPR-I:OPRO         FSW Requirement: CS_3000.1                        P/F: P
+21-126-11:30:55.470 00     SPR-I:OPRO         FSW Requirement: CS_3002                          P/F: P
+21-126-11:30:55.471 00     SPR-I:OPRO         FSW Requirement: CS_3003                          P/F: P
+21-126-11:30:55.472 00     SPR-I:OPRO         FSW Requirement: CS_3004                          P/F: P
+21-126-11:30:55.488 00     SPR-I:OPRO         FSW Requirement: CS_3004.1                        P/F: P
+21-126-11:30:55.489 00     SPR-I:OPRO         FSW Requirement: CS_3004.2                        P/F: P
+21-126-11:30:55.490 00     SPR-I:OPRO         FSW Requirement: CS_3005                          P/F: P
+21-126-11:30:55.508 00     SPR-I:OPRO         FSW Requirement: CS_3006                          P/F: P
+21-126-11:30:55.509 00     SPR-I:OPRO         FSW Requirement: CS_3006.1                        P/F: P
+21-126-11:30:55.510 00     SPR-I:OPRO         FSW Requirement: CS_3007                          P/F: P
+21-126-11:30:55.528 00     SPR-I:OPRO         FSW Requirement: CS_3008                          P/F: P
+21-126-11:30:55.529 00     SPR-I:OPRO         FSW Requirement: CS_3009                          P/F: P
+21-126-11:30:55.530 00     SPR-I:OPRO         FSW Requirement: CS_3009.1                        P/F: P
+21-126-11:30:55.549 00     SPR-I:OPRO         FSW Requirement: CS_3009.2                        P/F: P
+21-126-11:30:55.550 00     SPR-I:OPRO         FSW Requirement: CS_3010                          P/F: P
+21-126-11:30:55.551 00     SPR-I:OPRO         FSW Requirement: CS_8000                          P/F: P
+21-126-11:30:55.569 00     SPR-I:OPRO         FSW Requirement: CS_8001                          P/F: P
+21-126-11:30:55.570 00     SPR-I:OPRO         FSW Requirement: CS_9000                          P/F: P
+21-126-11:30:55.571 00     SPR-I:OPRO         FSW Requirement: CS_9001                          P/F: P
+21-126-11:30:55.589 00     SPR-I:STS          Variable "UT_REQUIREMENT" deleted
+21-126-11:30:55.589 00     SPR-I:STS          Variable "UT_REQ_ARRAY_SIZE" deleted
+21-126-11:30:55.589 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:30:55.589 00     SPR-I:OPRO         ;  End procedure SCX_CPU1_cs_corecode
+21-126-11:30:55.589 00     SPR-I:OPRO         ;*********************************************************************
+21-126-11:30:55.589 00     SPR-I:STS          Procedure SCX_CPU1_CS_CORECODE completed
+21-126-11:30:55.604 00     SPR-I:OPRO         *** Telemetry Info ***
+21-126-11:30:55.604 00     SPR-I:OPRO         
+21-126-11:30:55.604 00     SPR-I:OPRO         Pkt Loss Count: N/A
+21-126-11:30:55.604 00     SPR-I:OPRO         
+21-126-11:30:55.604 00     SPR-I:OPRO         ******************
+21-126-11:30:55.604 00     SPR-I:OPRO         
+21-126-11:30:55.604 00     SPR-I:OPRO         Elapsed time:  1421.32 seconds
+21-126-11:30:55.608 00     SPR-I:OPRO         Elapsed time:  23.6887 minutes
+21-126-11:30:55.608 00     SPR-I:STTE         Wait mode - waiting 10 seconds ...
+21-126-11:31:05.618 00     SPR-I:OPRO         Creating filtered log at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_cs_corecode-2021-126-11h07m14s.logf
+21-126-11:31:05.619 00     SPR-I:OPRO         Creating filtered output log at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_cs_corecode-2021-126-11h07m14s.logp
+21-126-11:31:05.619 00     SPR-I:OPRO         Creating filtered output log (without SFDUs) at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_cs_corecode-2021-126-11h07m14s.logs
+21-126-11:31:05.620 00     SPR-I:OPRO         Creating filtered event log at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_cs_corecode-2021-126-11h07m14s.loge
+21-126-11:31:05.620 00     SPR-I:OPRO         Creating filtered requirements log at /s/opr/accounts/cfs_test/test_logs/scx_cpu1_cs_corecode-2021-126-11h07m14s.logr
+21-126-11:31:05.747 00     SPR-I:OPRI     --> newlog scx_cpu1_cs_corecode-2021-126-11h07m14s.log

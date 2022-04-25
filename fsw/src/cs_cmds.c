@@ -41,15 +41,15 @@
 /* CS no operation command                                         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_NoopCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_NoopCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
 
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )  
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )  
     {
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
         
         CFE_EVS_SendEvent (CS_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION,
                            "No-op command. Version %d.%d.%d.%d",
@@ -66,24 +66,24 @@ void CS_NoopCmd (CFE_SB_MsgPtr_t MessagePtr)
 /* CS Reset Application counters command                           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ResetCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_ResetCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
 
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )  
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )  
     {
-        CS_AppData.CmdCounter          = 0;
-        CS_AppData.CmdErrCounter       = 0;
+        CS_AppData.HkPacket.CmdCounter          = 0;
+        CS_AppData.HkPacket.CmdErrCounter       = 0;
         
-        CS_AppData.EepromCSErrCounter  = 0;
-        CS_AppData.MemoryCSErrCounter  = 0;
-        CS_AppData.TablesCSErrCounter  = 0;
-        CS_AppData.AppCSErrCounter     = 0;
-        CS_AppData.CfeCoreCSErrCounter = 0;
-        CS_AppData.OSCSErrCounter      = 0;
-        CS_AppData.PassCounter         = 0;        
+        CS_AppData.HkPacket.EepromCSErrCounter  = 0;
+        CS_AppData.HkPacket.MemoryCSErrCounter  = 0;
+        CS_AppData.HkPacket.TablesCSErrCounter  = 0;
+        CS_AppData.HkPacket.AppCSErrCounter     = 0;
+        CS_AppData.HkPacket.CfeCoreCSErrCounter = 0;
+        CS_AppData.HkPacket.OSCSErrCounter      = 0;
+        CS_AppData.HkPacket.PassCounter         = 0;        
         
         CFE_EVS_SendEvent (CS_RESET_DBG_EID, CFE_EVS_EventType_DEBUG,
                            "Reset Counters command recieved");
@@ -94,40 +94,53 @@ void CS_ResetCmd (CFE_SB_MsgPtr_t MessagePtr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS's background checksumming command                            */
+/* CS's background checksumming cycle                              */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_BackgroundCheckCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_BackgroundCheckCycle (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     bool                                    DoneWithCycle = false   ;
     bool                                    EndOfList = false   ;
-    CFE_SB_MsgId_t MessageID;
-    uint16  CommandCode;
-    uint16  ActualLength = CFE_SB_GetTotalMsgLength(MessagePtr);
-    
+    CFE_SB_MsgId_t MessageID = CFE_SB_INVALID_MSG_ID;;
+    CFE_MSG_FcnCode_t  CommandCode = 0;
+    size_t     ActualLength = 0; 
+
+    CFE_MSG_GetSize(&BufPtr->Msg, &ActualLength);
+
     /* Verify the command packet length */
     if (ExpectedLength != ActualLength)
     {
-        CommandCode = CFE_SB_GetCmdCode(MessagePtr);
-        MessageID= CFE_SB_GetMsgId(MessagePtr);
+        CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
+        CFE_MSG_GetFcnCode(&BufPtr->Msg, &CommandCode);
         
         CFE_EVS_SendEvent(CS_LEN_ERR_EID,
                           CFE_EVS_EventType_ERROR,
-                          "Invalid msg length: ID = 0x%04X, CC = %d, Len = %d, Expected = %d",
+                          "Invalid msg length: ID = 0x%08X, CC = %d, Len = %lu, Expected = %lu",
                           MessageID,
                           CommandCode,
-                          ActualLength,
-                          ExpectedLength);
+                          (unsigned long) ActualLength,
+                          (unsigned long) ExpectedLength);
     }    
     else
     {
-        if (CS_AppData.ChecksumState == CS_STATE_ENABLED)
+        if (CS_AppData.HkPacket.ChecksumState == CS_STATE_ENABLED)
         {
+
             DoneWithCycle = false   ;
             EndOfList = false   ;
-            
+
+            /* Skip this background cycle if there's a recompute or one shot in
+             * progress */
+            if (CS_AppData.HkPacket.RecomputeInProgress == true || CS_AppData.HkPacket.OneShotInProgress == true)
+            {
+                CFE_EVS_SendEvent(CS_BKGND_COMPUTE_PROG_INF_EID,
+                                  CFE_EVS_EventType_INFORMATION,
+                                  "Skipping background cycle. Recompute or oneshot in progress.");
+                DoneWithCycle = true;
+            }
+
             /* We check for end-of-list because we don't necessarily know the
                order in which the table entries are defined, and we don't
                want to keep looping through the list */
@@ -137,14 +150,14 @@ void CS_BackgroundCheckCmd (CFE_SB_MsgPtr_t MessagePtr)
                 /* We need to check the current table value here because
                    it is updated (and possibly reset to zero) inside each
                    function called */
-                if (CS_AppData.CurrentCSTable >= (CS_NUM_TABLES - 1))
+                if (CS_AppData.HkPacket.CurrentCSTable >= (CS_NUM_TABLES - 1))
                 {
                     EndOfList = true   ;
                 }
                 
                 /* Call the appropriate background function based on the current table
                    value.  The value is updated inside each function */
-                switch (CS_AppData.CurrentCSTable)
+                switch (CS_AppData.HkPacket.CurrentCSTable)
                 {
                     case (CS_CFECORE):
                         DoneWithCycle = CS_BackgroundCfeCore();
@@ -172,13 +185,13 @@ void CS_BackgroundCheckCmd (CFE_SB_MsgPtr_t MessagePtr)
                         DoneWithCycle = CS_BackgroundApp();
                         break;
                         
-                        /* default case in case CS_AppData.CurrentCSTable is some random bad value */
+                        /* default case in case CS_AppData.HkPacket.CurrentCSTable is some random bad value */
                     default:
                         
                         /* We are at the end of the line */
-                        CS_AppData.CurrentCSTable = 0;
-                        CS_AppData.CurrentEntryInTable = 0;
-                        CS_AppData.PassCounter++;
+                        CS_AppData.HkPacket.CurrentCSTable = 0;
+                        CS_AppData.HkPacket.CurrentEntryInTable = 0;
+                        CS_AppData.HkPacket.PassCounter++;
                         DoneWithCycle = true   ;
                         break;
                         
@@ -192,22 +205,22 @@ void CS_BackgroundCheckCmd (CFE_SB_MsgPtr_t MessagePtr)
         }
     }
     return;
-} /* End of CS_BackgroundCheckCmd () */
+} /* End of CS_BackgroundCheckCycle () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* CS Disable all background checksumming command                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableAllCSCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_DisableAllCSCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )  
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )  
     {
-        CS_AppData.ChecksumState = CS_STATE_DISABLED;
+        CS_AppData.HkPacket.ChecksumState = CS_STATE_DISABLED;
         
         /* zero out the temp values in all the tables
          so that when the checksums are re-enabled,
@@ -219,7 +232,7 @@ void CS_DisableAllCSCmd (CFE_SB_MsgPtr_t MessagePtr)
         CS_ZeroCfeCoreTempValues();
         CS_ZeroOSTempValues();
         
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
         
         CFE_EVS_SendEvent (CS_DISABLE_ALL_INF_EID,
                            CFE_EVS_EventType_INFORMATION,
@@ -233,17 +246,17 @@ void CS_DisableAllCSCmd (CFE_SB_MsgPtr_t MessagePtr)
 /* CS Enable all background checksumming command                   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_EnableAllCSCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_EnableAllCSCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )  
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )  
     {
-        CS_AppData.ChecksumState = CS_STATE_ENABLED;
+        CS_AppData.HkPacket.ChecksumState = CS_STATE_ENABLED;
         
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
         
         CFE_EVS_SendEvent (CS_ENABLE_ALL_INF_EID,
                            CFE_EVS_EventType_INFORMATION,
@@ -257,15 +270,15 @@ void CS_EnableAllCSCmd (CFE_SB_MsgPtr_t MessagePtr)
 /* CS Disable background checking of the cFE core command          */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_DisableCfeCoreCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )  
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )  
     {
-        CS_AppData.CfeCoreCSState = CS_STATE_DISABLED;
+        CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_DISABLED;
         CS_ZeroCfeCoreTempValues();
         
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
@@ -276,7 +289,7 @@ void CS_DisableCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
                            CFE_EVS_EventType_INFORMATION, 
                            "Checksumming of cFE Core is Disabled");
         
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
     }
     return;
 } /* End of CS_DisableCfeCoreCmd () */
@@ -286,15 +299,15 @@ void CS_DisableCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Enable background checking of the cFE core command           */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_EnableCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_EnableCfeCoreCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )  
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )  
     {
-        CS_AppData.CfeCoreCSState = CS_STATE_ENABLED;
+        CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_ENABLED;
         
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
         CS_UpdateCDS();
@@ -304,7 +317,7 @@ void CS_EnableCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
                            CFE_EVS_EventType_INFORMATION, 
                            "Checksumming of cFE Core is Enabled");
         
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
     }
     
     return;
@@ -316,15 +329,15 @@ void CS_EnableCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Disable background checking of the OS code segment command   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableOSCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_DisableOSCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )  
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )  
     {
-        CS_AppData.OSCSState = CS_STATE_DISABLED;
+        CS_AppData.HkPacket.OSCSState = CS_STATE_DISABLED;
         CS_ZeroOSTempValues();
         
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
@@ -335,7 +348,7 @@ void CS_DisableOSCmd(CFE_SB_MsgPtr_t MessagePtr)
                            CFE_EVS_EventType_INFORMATION, 
                            "Checksumming of OS code segment is Disabled");
         
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
     }
     return;
 } /* End of CS_DisableOSCmd () */
@@ -345,15 +358,15 @@ void CS_DisableOSCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Enable background checking of the OS code segment command    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_EnableOSCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_EnableOSCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )   
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )   
     {
-        CS_AppData.OSCSState = CS_STATE_ENABLED;
+        CS_AppData.HkPacket.OSCSState = CS_STATE_ENABLED;
         
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
         CS_UpdateCDS();
@@ -363,7 +376,7 @@ void CS_EnableOSCmd(CFE_SB_MsgPtr_t MessagePtr)
                            CFE_EVS_EventType_INFORMATION, 
                            "Checksumming of OS code segment is Enabled");
         
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
     }
     return;
 } /* End of CS_OSEnableCmd () */
@@ -373,14 +386,14 @@ void CS_EnableOSCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Report the baseline checksum for the cFE core command        */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ReportBaselineCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_ReportBaselineCfeCoreCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
         if (CS_AppData.CfeCoreCodeSeg.ComputedYet == true   )
         {
@@ -395,7 +408,7 @@ void CS_ReportBaselineCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
                                CFE_EVS_EventType_INFORMATION, 
                                "Baseline of cFE Core has not been computed yet");   
         }
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
     }
     return;
 } /* End of CS_ReportBaselineCfeCoreCmd () */
@@ -405,13 +418,13 @@ void CS_ReportBaselineCfeCoreCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Report the baseline checksum for the OS code segment command */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ReportBaselineOSCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_ReportBaselineOSCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
         if (CS_AppData.OSCodeSeg.ComputedYet == true   )
         {
@@ -426,7 +439,7 @@ void CS_ReportBaselineOSCmd(CFE_SB_MsgPtr_t MessagePtr)
                                CFE_EVS_EventType_INFORMATION, 
                                "Baseline of OS code segment has not been computed yet");   
         }
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
     }
     return;
 } /* End of CS_ReportBaselineOSCmd () */
@@ -436,20 +449,20 @@ void CS_ReportBaselineOSCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Recompute the baseline checksum for the cFE core command     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_RecomputeBaselineCfeCoreCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_RecomputeBaselineCfeCoreCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     uint32              ChildTaskID;
     int32               Status;
     
     /* Verify command packet length... */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        if (CS_AppData.RecomputeInProgress == false    && CS_AppData.OneShotInProgress == false   )
+        if (CS_AppData.HkPacket.RecomputeInProgress == false    && CS_AppData.HkPacket.OneShotInProgress == false   )
         {
             /* There is no child task running right now, we can use it*/
-            CS_AppData.RecomputeInProgress           = true   ;
+            CS_AppData.HkPacket.RecomputeInProgress           = true   ;
             
             /* fill in child task variables */
             CS_AppData.ChildTaskTable                = CS_CFECORE;
@@ -470,7 +483,7 @@ void CS_RecomputeBaselineCfeCoreCmd (CFE_SB_MsgPtr_t MessagePtr)
                 CFE_EVS_SendEvent (CS_RECOMPUTE_CFECORE_STARTED_DBG_EID,
                                    CFE_EVS_EventType_DEBUG, 
                                    "Recompute of cFE core started");
-                CS_AppData.CmdCounter++;
+                CS_AppData.HkPacket.CmdCounter++;
             }
             else/* child task creation failed */
             {
@@ -478,8 +491,8 @@ void CS_RecomputeBaselineCfeCoreCmd (CFE_SB_MsgPtr_t MessagePtr)
                                    CFE_EVS_EventType_ERROR,
                                    "Recompute cFE core failed, CFE_ES_CreateChildTask returned: 0x%08X",
                                    (unsigned int)Status);
-                CS_AppData.CmdErrCounter++;
-                CS_AppData.RecomputeInProgress = false   ;
+                CS_AppData.HkPacket.CmdErrCounter++;
+                CS_AppData.HkPacket.RecomputeInProgress = false   ;
             }
         }
         else
@@ -488,7 +501,7 @@ void CS_RecomputeBaselineCfeCoreCmd (CFE_SB_MsgPtr_t MessagePtr)
             CFE_EVS_SendEvent (CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID,
                                CFE_EVS_EventType_ERROR,
                                "Recompute cFE core failed: child task in use");
-            CS_AppData.CmdErrCounter++;
+            CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
     return;
@@ -499,20 +512,20 @@ void CS_RecomputeBaselineCfeCoreCmd (CFE_SB_MsgPtr_t MessagePtr)
 /* CS Recompute the baseline checksum for the OS code seg command  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_RecomputeBaselineOSCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_RecomputeBaselineOSCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     uint32              ChildTaskID;
     int32               Status;
     
     /* Verify command packet length... */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        if (CS_AppData.RecomputeInProgress == false    && CS_AppData.OneShotInProgress == false   )
+        if (CS_AppData.HkPacket.RecomputeInProgress == false    && CS_AppData.HkPacket.OneShotInProgress == false   )
         {
             /* There is no child task running right now, we can use it*/
-            CS_AppData.RecomputeInProgress                = true   ;
+            CS_AppData.HkPacket.RecomputeInProgress                = true   ;
             
             /* fill in child task variables */
             CS_AppData.ChildTaskTable                = CS_OSCORE;
@@ -532,7 +545,7 @@ void CS_RecomputeBaselineOSCmd (CFE_SB_MsgPtr_t MessagePtr)
                 CFE_EVS_SendEvent (CS_RECOMPUTE_OS_STARTED_DBG_EID, 
                                    CFE_EVS_EventType_DEBUG, 
                                    "Recompute of OS code segment started");
-                CS_AppData.CmdCounter++;
+                CS_AppData.HkPacket.CmdCounter++;
             }
             else/* child task creation failed */
             {
@@ -540,8 +553,8 @@ void CS_RecomputeBaselineOSCmd (CFE_SB_MsgPtr_t MessagePtr)
                                    CFE_EVS_EventType_ERROR,
                                    "Recompute OS code segment failed, CFE_ES_CreateChildTask returned: 0x%08X",
                                    (unsigned int)Status);
-                CS_AppData.CmdErrCounter++;
-                CS_AppData.RecomputeInProgress = false   ;
+                CS_AppData.HkPacket.CmdErrCounter++;
+                CS_AppData.HkPacket.RecomputeInProgress = false   ;
             }
         }
         else
@@ -550,7 +563,7 @@ void CS_RecomputeBaselineOSCmd (CFE_SB_MsgPtr_t MessagePtr)
             CFE_EVS_SendEvent (CS_RECOMPUTE_OS_CHDTASK_ERR_EID,
                                CFE_EVS_EventType_ERROR,
                                "Recompute OS code segment failed: child task in use");
-            CS_AppData.CmdErrCounter++;
+            CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
     return;
@@ -561,42 +574,42 @@ void CS_RecomputeBaselineOSCmd (CFE_SB_MsgPtr_t MessagePtr)
 /* CS Compute the OneShot checksum command                         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_OneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_OneShotCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_OneShotCmd_t);
+    size_t ExpectedLength = sizeof(CS_OneShotCmd_t);
     uint32              ChildTaskID;
     int32               Status;
     CS_OneShotCmd_t   * CmdPtr;
     
     /* Verify command packet length... */    
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_OneShotCmd_t*) MessagePtr;
+        CmdPtr = (CS_OneShotCmd_t*) BufPtr;
         
         /* validate size and address */
         Status = CFE_PSP_MemValidateRange(CmdPtr -> Address, CmdPtr -> Size, CFE_PSP_MEM_ANY);
         
-        if (Status == OS_SUCCESS)
+        if (Status == CFE_SUCCESS)
         {
-            if (CS_AppData.RecomputeInProgress == false    && CS_AppData.OneShotInProgress == false   )
+            if (CS_AppData.HkPacket.RecomputeInProgress == false    && CS_AppData.HkPacket.OneShotInProgress == false   )
             {
                 /* There is no child task running right now, we can use it*/
-                CS_AppData.RecomputeInProgress                   = false   ;
-                CS_AppData.OneShotInProgress                 = true   ;
+                CS_AppData.HkPacket.RecomputeInProgress                   = false   ;
+                CS_AppData.HkPacket.OneShotInProgress                 = true   ;
                 
-                CS_AppData.LastOneShotAddress   = CmdPtr -> Address;
-                CS_AppData.LastOneShotSize      = CmdPtr -> Size;
+                CS_AppData.HkPacket.LastOneShotAddress   = CmdPtr -> Address;
+                CS_AppData.HkPacket.LastOneShotSize      = CmdPtr -> Size;
                 if (CmdPtr -> MaxBytesPerCycle == 0)
                 {
-                    CS_AppData.LastOneShotMaxBytesPerCycle    = CS_AppData.MaxBytesPerCycle;
+                    CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle    = CS_AppData.MaxBytesPerCycle;
                 }
                 else
                 {
-                    CS_AppData.LastOneShotMaxBytesPerCycle    = CmdPtr -> MaxBytesPerCycle;
+                    CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle    = CmdPtr -> MaxBytesPerCycle;
                 }
 
-                CS_AppData.LastOneShotChecksum  = 0;
+                CS_AppData.HkPacket.LastOneShotChecksum  = 0;
                 
                 Status = CFE_ES_CreateChildTask(&ChildTaskID,
                                                 CS_ONESHOT_TASK_NAME,
@@ -614,7 +627,7 @@ void CS_OneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
                                        (int)(CmdPtr -> Size));
                     
                     CS_AppData.ChildTaskID = ChildTaskID;
-                    CS_AppData.CmdCounter++;
+                    CS_AppData.HkPacket.CmdCounter++;
                 }
                 else/* child task creation failed */
                 {
@@ -623,9 +636,9 @@ void CS_OneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
                                        "OneShot checkum failed, CFE_ES_CreateChildTask returned: 0x%08X",
                                        (unsigned int)Status);
                     
-                    CS_AppData.CmdErrCounter++;
-                    CS_AppData.RecomputeInProgress   = false   ;
-                    CS_AppData.OneShotInProgress = false   ;
+                    CS_AppData.HkPacket.CmdErrCounter++;
+                    CS_AppData.HkPacket.RecomputeInProgress   = false   ;
+                    CS_AppData.HkPacket.OneShotInProgress = false   ;
                 }
             }
             else
@@ -635,7 +648,7 @@ void CS_OneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
                                    CFE_EVS_EventType_ERROR,
                                    "OneShot checksum failed: child task in use");
                 
-                CS_AppData.CmdErrCounter++;
+                CS_AppData.HkPacket.CmdErrCounter++;
             }
         }/* end if CFE_PSP_MemValidateRange */
         else
@@ -645,7 +658,7 @@ void CS_OneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
                                "OneShot checksum failed, CFE_PSP_MemValidateRange returned: 0x%08X",
                                (unsigned int)Status);
             
-            CS_AppData.CmdErrCounter++;
+            CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
     return;
@@ -656,26 +669,26 @@ void CS_OneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
 /* CS Cancel the OneShot checksum command                          */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_CancelOneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_CancelOneShotCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     int32               Status;
     
     /* Verify command packet length... */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
         /* Make sure there is a OneShot command in use */
-        if (CS_AppData.RecomputeInProgress == false     && CS_AppData.OneShotInProgress == true   )
+        if (CS_AppData.HkPacket.RecomputeInProgress == false     && CS_AppData.HkPacket.OneShotInProgress == true   )
         {
             Status= CFE_ES_DeleteChildTask(CS_AppData.ChildTaskID);
             
             if (Status == CFE_SUCCESS)
             {
                 CS_AppData.ChildTaskID          = 0;
-                CS_AppData.RecomputeInProgress       = false   ;
-                CS_AppData.OneShotInProgress     = false   ;
-                CS_AppData.CmdCounter++;
+                CS_AppData.HkPacket.RecomputeInProgress       = false   ;
+                CS_AppData.HkPacket.OneShotInProgress     = false   ;
+                CS_AppData.HkPacket.CmdCounter++;
                 CFE_EVS_SendEvent (CS_ONESHOT_CANCELLED_INF_EID,
                                    CFE_EVS_EventType_INFORMATION,
                                    "OneShot checksum calculation has been cancelled");
@@ -686,7 +699,7 @@ void CS_CancelOneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
                                    CFE_EVS_EventType_ERROR,
                                    "Cancel OneShot checksum failed, CFE_ES_DeleteChildTask returned:  0x%08X",
                                    (unsigned int)Status);
-                CS_AppData.CmdErrCounter++;
+                CS_AppData.HkPacket.CmdErrCounter++;
             }
         }
         else
@@ -694,7 +707,7 @@ void CS_CancelOneShotCmd (CFE_SB_MsgPtr_t MessagePtr)
             CFE_EVS_SendEvent (CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID,
                                CFE_EVS_EventType_ERROR,
                                "Cancel OneShot checksum failed. No OneShot active");
-            CS_AppData.CmdErrCounter++;
+            CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
     return;

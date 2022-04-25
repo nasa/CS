@@ -51,7 +51,7 @@
  */
 typedef struct
 {
-    CFE_SB_TlmHdr_t     TlmHeader;                          /**< \brief cFE SB Tlm Msg Hdr */
+    CFE_MSG_TelemetryHeader_t     TlmHeader;                /**< \brief cFE SB Tlm Msg Hdr */
 
     uint8               CmdCounter;                         /**< \cstlmmnemonic \CS_CMDPC
                                                                  \brief CS Application Command Counter */
@@ -115,17 +115,17 @@ typedef struct
                                                                  \brief Number of times CS has passed through all of its tables */
 } CS_HkPacket_t;
 
-
 /**
  ** \brief No arguments command data type
- **  For command details see #CS_NOOP_CC #CS_RESET_CC, #CS_ENABLE_ALL_CS_CC, #CS_DISABLE_ALL_CS_CC,
- **  #CS_ENABLE_CFECORE_CC, #CS_DISABLE_CFECORE_CC, #CS_ENABLE_OS_CC, #CS_DISABLE_OS_CC, #CS_ENABLE_EEPROM_CC,
- **  #CS_DISABLE_EEPROM_CC, #CS_ENABLE_MEMORY_CC, #CS_DISABLE_MEMORY_CC, #CS_ENABLE_TABLES_CC, #CS_DISABLE_TABLES_CC
+ **  For command details see #CS_NOOP_CC #CS_RESET_CC, #CS_ENABLE_ALL_CS_CC, 
+ **  #CS_DISABLE_ALL_CS_CC, #CS_ENABLE_CFECORE_CC, #CS_DISABLE_CFECORE_CC, #CS_ENABLE_OS_CC, 
+ **  #CS_DISABLE_OS_CC, #CS_ENABLE_EEPROM_CC, #CS_DISABLE_EEPROM_CC, #CS_ENABLE_MEMORY_CC, 
+ **  #CS_DISABLE_MEMORY_CC, #CS_ENABLE_TABLES_CC, #CS_DISABLE_TABLES_CC
  **  #CS_ENABLE_APPS_CC, #CS_DISABLE_APPS_CC, #CS_CANCEL_ONESHOT_CC
  */
 typedef struct
 {
-    CFE_SB_CmdHdr_t  CmdHeader;
+    CFE_MSG_CommandHeader_t  CmdHeader;
 }CS_NoArgsCmd_t;
     
     
@@ -135,8 +135,8 @@ typedef struct
  */
 typedef struct
 {
-    CFE_SB_CmdHdr_t  CmdHeader;
-    uint32           Address;                            /**< \brief Address to get the ID for */
+    CFE_MSG_CommandHeader_t  CmdHeader;
+    uint32                   Address;           /**< \brief Address to get the ID for */
     
 }CS_GetEntryIDCmd_t;
 
@@ -147,8 +147,8 @@ typedef struct
  */
 typedef struct
 {
-    CFE_SB_CmdHdr_t  CmdHeader;
-    uint32           EntryID;                            /**< \brief EntryID to perform a command on */
+    CFE_MSG_CommandHeader_t  CmdHeader;
+    uint32                   EntryID;         /**< \brief EntryID to perform a command on */
 } CS_EntryCmd_t;
 
 /**
@@ -158,7 +158,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_SB_CmdHdr_t  CmdHeader;
+    CFE_MSG_CommandHeader_t  CmdHeader;
     char             Name[CFE_TBL_MAX_FULL_NAME_LEN];    /**< \brief Table name to perform a command on */
 } CS_TableNameCmd_t;
 
@@ -170,7 +170,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_SB_CmdHdr_t  CmdHeader;
+    CFE_MSG_CommandHeader_t  CmdHeader;
     char             Name[OS_MAX_API_NAME];              /**< \brief App name to perform a command on */
 } CS_AppNameCmd_t;
 
@@ -180,7 +180,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_SB_CmdHdr_t  CmdHeader;
+    CFE_MSG_CommandHeader_t  CmdHeader;
     uint32           Address;                            /**< \brief Address to start checksum */
     uint32           Size;                               /**< \brief Number of bytes to checksum */
     uint32           MaxBytesPerCycle;                   /**< \brief Max Number of bytes to compute per cycle. Value of Zero to use platform config value */

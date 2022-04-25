@@ -1,7 +1,6 @@
 /**
   \mainpage
   <UL>
-      <LI> \subpage cfscsrevhist
       <LI> \subpage cfscsintro
       <LI> \subpage cfscsovr
       <LI> \subpage cfscsopr
@@ -18,44 +17,14 @@
 **/
 
 /**
-  \page cfscsrevhist CFS Checksum User's Guide Revision History
-
-  \verbatim  
-  $Log: cfs_cs.dox  $
-  Revision 1.3.1.1 2017/03/31 12:10:15EDT sstrege 
-  Updated overview section to make it clear that all checksum regions are now configurable.
-  Revision 1.3 2017/02/24 10:14:31EST mdeschu 
-  Update doxgyen user guide to reference the new options for cfe core and OS code segment checksumming
-  Revision 1.2 2017/02/13 14:51:48EST mdeschu 
-  Update doxygen User Guide to describe how the new way table enable/disable states are set at init
-  Revision 1.1 2015/07/24 19:10:04EDT rperera 
-  Initial revision
-  Member added to project /CFS-APPs-PROJECT/cs/docs/dox_src/users_guide/project.pj
-  Revision 1.5 2011/09/19 17:32:54EDT jmdagost 
-  Added text pointing out the risk of changing the default CRC algorithm.
-  Revision 1.4 2010/03/09 14:53:53EST jmdagost 
-  Made requested corrections and added tables discussion.
-  Revision 1.3 2010/03/09 14:47:23EST jmdagost 
-  Updated overview and deployment guide.
-  Revision 1.2 2009/04/18 12:12:42EDT dkobe 
-  Made User's Guide match standard format
-  Revision 1.1 2009/04/16 13:19:51EDT dkobe 
-  Initial revision
-  Member added to project c:/MKSDATA/MKS-REPOSITORY/CFS-REPOSITORY/cs/docs/dox_src/users_guide/project.pj
-  \endverbatim
- 
-  Next: \ref cfscsintro
-**/
-
-/**
   \page cfscsintro CFS Checksum Introduction
 
   <H1> Scope </H1>
 
   This document provides a complete specification for the commands and telemetry associated
   with the CFS Checksum (CS) application software.  The document is intended primarily 
-  for users of the software (operations personal, test engineers, and maintenance personal).  
-  The deployment guide section, is intended for mission developers when deploying and 
+  for users of the software (operations personnel, test engineers, and maintenance personnel).  
+  The deployment guide section is intended for mission developers when deploying and 
   configuring the CS application software for a mission flight software build environment. 
 
   <H1> Applicable Documents </H1>
@@ -89,6 +58,7 @@
   <TR><TD WIDTH="20%"> Cmd     </TD> <TD WIDTH="40%"> Command                                         </TD>
   <TR><TD WIDTH="20%"> CPU     </TD> <TD WIDTH="40%"> Central Processing Unit                         </TD>
   <TR><TD WIDTH="20%"> EDAC    </TD> <TD WIDTH="40%"> Error Detection and Correction                  </TD>
+  <TR><TD WIDTH="20%"> EEPROM  </TD> <TD WIDTH="40%"> Electrically Erasable Programmable Read-Only Memory </TD>
   <TR><TD WIDTH="20%"> FDS     </TD> <TD WIDTH="40%"> Flight Data System                              </TD>
   <TR><TD WIDTH="20%"> FM      </TD> <TD WIDTH="40%"> File Manager                                    </TD>
   <TR><TD WIDTH="20%"> FSW     </TD> <TD WIDTH="40%"> Flight Software                                 </TD>
@@ -178,8 +148,8 @@
   default definition tables located in non-volatile memory.  Each table has
   a corresponding setting in the platform configuration of the enable/disabled
   state of each table, the OS code segments and cFE Core for checksumming. 
-  These values are used for at initialization for power-on reset or if CS is
-  not configured to preserve states on via the CDS they will also be used for 
+  These values are used at initialization for power-on reset or if CS is
+  not configured to preserve states via the CDS they will also be used for 
   processor-reset.  If CS is configured to preserve enable state of the tables 
   on a proc reset, states from CDS will be used upon processor reset.
 
@@ -195,6 +165,14 @@
   automatically sets up checksumming for those areas and enables them for 
   checksumming. 
 
+  <H2>CDS Usage</H2>
+  If the CS application is configured to preserve states across processor
+  resets, the enable/disable state of each individual checksum region will
+  be stored in the CDS.  The CDS is updated each time an Enable or Disable
+  ground command is processed for a specific checksum region.
+
+  CS also includes a ground command to enable or disable all checksumming.  This
+  overall setting is not saved to the CDS.  
    
   Next: \ref cfscsreq <BR>
   Prev: \ref cfscsovr

@@ -482,8 +482,8 @@
  */
 #define CS_OS_MISCOMPARE_ERR_EID                            32
 
-  /** \brief <tt> 'Invalid command pipe message ID: 0x\%X' </tt>
- **  \event <tt> 'Invalid command pipe message ID: 0x\%X' </tt>
+  /** \brief <tt> 'Invalid command pipe message ID: 0x\%08X' </tt>
+ **  \event <tt> 'Invalid command pipe message ID: 0x\%08X' </tt>
  **  
  **  \par Type: ERROR
  **
@@ -497,8 +497,8 @@
  */
 #define CS_MID_ERR_EID                                      33
 
-  /** \brief <tt> 'Invalid ground command code: ID = 0x\%X, CC = \%d' </tt>
- **  \event <tt> 'Invalid ground command code: ID = 0x\%X, CC = \%d' </tt>
+  /** \brief <tt> 'Invalid ground command code: ID = 0x\%08X, CC = \%d' </tt>
+ **  \event <tt> 'Invalid ground command code: ID = 0x\%08X, CC = \%d' </tt>
  **  
  **  \par Type: ERROR
  **
@@ -530,8 +530,8 @@
 #define CS_EXIT_ERR_EID                                     35
 
 
- /** \brief <tt> 'Invalid msg length: ID = 0x\%04X, CC = \%d, Len = \%d, Expected = \%d' </tt>
- **  \event <tt> 'Invalid msg length: ID = 0x\%04X, CC = \%d, Len = \%d, Expected = \%d' </tt>
+ /** \brief <tt> 'Invalid msg length: ID = 0x\%08X, CC = \%d, Len = \%d, Expected = \%d' </tt>
+ **  \event <tt> 'Invalid msg length: ID = 0x\%08X, CC = \%d, Len = \%d, Expected = \%d' </tt>
  **  
  **  \par Type: ERROR
  **
@@ -542,7 +542,7 @@
  **
  **  The \c ID field contains the message ID. <br>
  **  The \c CC field contains the command code. <br>
- **  The \c Len field is the actual length returned by the CFE_SB_GetTotalMsgLength call. <br>
+ **  The \c Len field is the actual length returned by the #CFE_MSG_GetSize call. <br>
  **  The \c Expected field is the expected length for messages with that command code.
  */
 #define CS_LEN_ERR_EID                                      36
@@ -2240,10 +2240,60 @@
 **  The CS application optionally stores the table states
 **  in the Critical Data Store (CDS).  This ensures that CS
 **  will not overwrite old data storage files following a processor reset.
-**  This event indicates an error at startup as CS is initializing access
-**  to the Critical Data Store.  Subsequent CDS errors are ignored by CS.
+**  This event is issued if CS cannot register the CDS during startup
+**  initialization.  Subsequent CDS errors are ignored by CS.
 */
-#define CS_INIT_CDS_ERR_EID 145
+#define CS_CR_CDS_REG_ERR_EID                                         145
+
+/**
+**  \brief <tt> 'Critical Data Store Access Error' </tt>
+**
+**  \event <tt> 'Critical Data Store access error = 0x\%08X' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  The CS application optionally stores the table states
+**  in the Critical Data Store (CDS).  This ensures that CS
+**  will not overwrite old data storage files following a processor reset.
+**  This event is issued if CS cannot copy to the CDS during startup
+**  initialization.  Subsequent CDS errors are ignored by CS.
+*/
+#define CS_CR_CDS_CPY_ERR_EID                                       146
+
+/**
+**  \brief <tt> 'Critical Data Store Access Error' </tt>
+**
+**  \event <tt> 'Critical Data Store access error = 0x\%08X' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  The CS application optionally stores the table states
+**  in the Critical Data Store (CDS).  This ensures that CS
+**  will not overwrite old data storage files following a processor reset.
+**  This event is issued if CS cannot restore from an existing CDS during 
+**  startup initialization.  Subsequent CDS errors are ignored by CS.
+*/
+#define CS_CR_CDS_RES_ERR_EID                                       147
+
+/**
+**  \brief <tt> 'Critical Data Store Access Error' </tt>
+**
+**  \event <tt> 'Critical Data Store access error = 0x\%08X' </tt>
+**
+**  \par Type: ERROR
+**
+**  \par Cause:
+**
+**  The CS application optionally stores the table states
+**  in the Critical Data Store (CDS).  This ensures that CS
+**  will not overwrite old data storage files following a processor reset.
+**  This event is issued if CS cannot update the CDS.
+*/
+#define CS_UPDATE_CDS_ERR_EID                                      148
 
 
  /** \brief <tt> 'App terminating, RunStatus:0x\%08X' </tt>
@@ -2259,7 +2309,7 @@
  **  The \c RunStatus field specifies the reason for CS to 
  **  stop execution.
  */
-#define CS_EXIT_INF_EID                                     146
+#define CS_EXIT_INF_EID                                            149
 
 /** \brief <tt> 'CFE Text Segment disabled' </tt>
  ** \event <tt> 'CFE Text Segment disabled' </tt>
@@ -2272,7 +2322,47 @@
  **  address and size of the CFE Text Segment.
  **
  */
-#define CS_CFE_TEXT_SEG_INF_EID                             147
+#define CS_CFE_TEXT_SEG_INF_EID                             150
+
+/** \brief <tt> 'Call to CDS restore command returned' </tt>
+ ** \event <tt> 'Call to CDS restore command returned' </tt>
+ **
+ **  \par Type: INFORMATION
+ **
+ **  \par Cause:
+ **
+ **  This event message is issued when the call to
+ **  CS_CreateRestoreStatesFromCDS fails
+ **
+ */
+#define CS_CREATE_RESTORE_STATES_INF_EID                    151
+
+/** \brief <tt> 'Cannot perform command. Recompute or oneshot in progress.' </tt>
+ ** \event <tt> 'Cannot perform command. Recompute or oneshot in progress.' </tt>
+ **
+ **  \par Type: ERROR
+ **
+ **  \par Cause:
+ **
+ **  This event message is issued when certain commands are received while a 
+ **  recompute or oneshot is in progress.  Affected commands are those that
+ **  affect the checksum processing (such as enable/disable commands).
+ **
+ */
+#define CS_CMD_COMPUTE_PROG_ERR_EID                        152
+
+/** \brief <tt> 'Skipping background cycle. Recompute or oneshot in progress.' </tt>
+ ** \event <tt> 'Skipping background cycle. Recompute or oneshot in progress.' </tt>
+ **
+ **  \par Type: INFORMATION
+ **
+ **  \par Cause:
+ **
+ **  This event message is issued when the background cycle is attempted 
+ **  while a recompute or oneshot is in progress. 
+ **
+ */
+#define CS_BKGND_COMPUTE_PROG_INF_EID                    153
 
 
 #endif /* _cs_events_ */

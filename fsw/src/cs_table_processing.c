@@ -469,10 +469,10 @@ int32 CS_ValidateAppChecksumDefinitionTable (void * TblPtr)
 /* CS  processing new definition tables for Eeprom or Memory       */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ProcessNewEepromMemoryDefinitionTable (CS_Def_EepromMemory_Table_Entry_t   * DefinitionTblPtr, 
-                                               CS_Res_EepromMemory_Table_Entry_t      * ResultsTblPtr,
-                                                uint16 NumEntries, 
-                                                uint16 Table)
+void CS_ProcessNewEepromMemoryDefinitionTable (const CS_Def_EepromMemory_Table_Entry_t   * DefinitionTblPtr, 
+                                               const CS_Res_EepromMemory_Table_Entry_t      * ResultsTblPtr,
+                                               uint16 NumEntries, 
+                                               uint16 Table)
 {
     CS_Def_EepromMemory_Table_Entry_t         * StartOfDefTable     = NULL;
     CS_Def_EepromMemory_Table_Entry_t         * DefEntry            = NULL;
@@ -491,13 +491,13 @@ void CS_ProcessNewEepromMemoryDefinitionTable (CS_Def_EepromMemory_Table_Entry_t
     /* We don't want to be doing chekcksums while changing the table out */
     if( Table == CS_EEPROM_TABLE)
     {
-        PreviousState = CS_AppData.EepromCSState;
-        CS_AppData.EepromCSState = CS_STATE_DISABLED;
+        PreviousState = CS_AppData.HkPacket.EepromCSState;
+        CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
     }
     if( Table == CS_MEMORY_TABLE)
     {
-        PreviousState = CS_AppData.MemoryCSState;
-        CS_AppData.MemoryCSState = CS_STATE_DISABLED;
+        PreviousState = CS_AppData.HkPacket.MemoryCSState;
+        CS_AppData.HkPacket.MemoryCSState = CS_STATE_DISABLED;
     }
     
     for (Loop = 0; Loop < NumEntries; Loop++)
@@ -534,13 +534,13 @@ void CS_ProcessNewEepromMemoryDefinitionTable (CS_Def_EepromMemory_Table_Entry_t
     /* Reset the table back to the original checksumming state */
     if( Table == CS_EEPROM_TABLE)
     {
-        CS_AppData.EepromCSState = PreviousState;
+        CS_AppData.HkPacket.EepromCSState = PreviousState;
         CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);
     }
 
     if( Table == CS_MEMORY_TABLE)
     {
-        CS_AppData.MemoryCSState = PreviousState;
+        CS_AppData.HkPacket.MemoryCSState = PreviousState;
         CS_ResetTablesTblResultEntry(CS_AppData.MemResTablesTblPtr);
     }
     
@@ -568,8 +568,8 @@ void CS_ProcessNewEepromMemoryDefinitionTable (CS_Def_EepromMemory_Table_Entry_t
 /* CS processing new definition tables for Tables                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ProcessNewTablesDefinitionTable    (CS_Def_Tables_Table_Entry_t      * DefinitionTblPtr, 
-                                            CS_Res_Tables_Table_Entry_t      * ResultsTblPtr)
+void CS_ProcessNewTablesDefinitionTable    (const CS_Def_Tables_Table_Entry_t      * DefinitionTblPtr, 
+                                            const CS_Res_Tables_Table_Entry_t      * ResultsTblPtr)
 {
     CS_Def_Tables_Table_Entry_t               * StartOfDefTable     = NULL;
     CS_Def_Tables_Table_Entry_t               * DefEntry            = NULL;
@@ -595,8 +595,8 @@ void CS_ProcessNewTablesDefinitionTable    (CS_Def_Tables_Table_Entry_t      * D
     CFE_ES_GetAppName( AppName, AppID, OS_MAX_API_NAME);
     
     /* We don't want to be doing chekcksums while changing the table out */
-    PreviousState = CS_AppData.TablesCSState;
-    CS_AppData.TablesCSState = CS_STATE_DISABLED;
+    PreviousState = CS_AppData.HkPacket.TablesCSState;
+    CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
 
     /* Assume none of the CS tables are listed in the new Tables table */
     CS_AppData.EepResTablesTblPtr = NULL;
@@ -756,7 +756,7 @@ void CS_ProcessNewTablesDefinitionTable    (CS_Def_Tables_Table_Entry_t      * D
     
     /* Reset the table back to the original checksumming state */
 
-    CS_AppData.TablesCSState = PreviousState;
+    CS_AppData.HkPacket.TablesCSState = PreviousState;
 
     if (NumRegionsInTable == 0)
     {
@@ -772,8 +772,8 @@ void CS_ProcessNewTablesDefinitionTable    (CS_Def_Tables_Table_Entry_t      * D
 /* CS processing new definition tables for Apps                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ProcessNewAppDefinitionTable    (CS_Def_App_Table_Entry_t      * DefinitionTblPtr, 
-                                         CS_Res_App_Table_Entry_t      * ResultsTblPtr)
+void CS_ProcessNewAppDefinitionTable    (const CS_Def_App_Table_Entry_t      * DefinitionTblPtr, 
+                                         const CS_Res_App_Table_Entry_t      * ResultsTblPtr)
 {
     CS_Def_App_Table_Entry_t                  * StartOfDefTable     = NULL;
     CS_Def_App_Table_Entry_t                  * DefEntry            = NULL;
@@ -788,8 +788,8 @@ void CS_ProcessNewAppDefinitionTable    (CS_Def_App_Table_Entry_t      * Definit
     
     /* We don't want to be doing chekcksums while changing the table out */
 
-    PreviousState = CS_AppData.AppCSState;
-    CS_AppData.AppCSState = CS_STATE_DISABLED;
+    PreviousState = CS_AppData.HkPacket.AppCSState;
+    CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
     
     for (Loop = 0; Loop < CS_MAX_NUM_APP_TABLE_ENTRIES; Loop++)
     {
@@ -829,7 +829,7 @@ void CS_ProcessNewAppDefinitionTable    (CS_Def_App_Table_Entry_t      * Definit
     
     /* Reset the table back to the original checksumming state */
     
-    CS_AppData.AppCSState = PreviousState;
+    CS_AppData.HkPacket.AppCSState = PreviousState;
     CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);
     
     if (NumRegionsInTable == 0)
@@ -855,17 +855,18 @@ int32 CS_TableInit (CFE_TBL_Handle_t          * DefinitionTableHandle,
                     const char                * ResultsTableName,
                     uint16                      NumEntries,
                     const char                * DefinitionTableFileName,
-                    void                      * DefaultDefTableAddress,
+                    const void                      * DefaultDefTableAddress,
                     uint16                      SizeofDefinitionTableEntry,
                     uint16                      SizeofResultsTableEntry,
                     CFE_TBL_CallbackFuncPtr_t   CallBackFunction)
 {
     int32       Result           = CFE_SUCCESS;
+    int32       OS_Status        = -1;
     int32       ResultFromLoad   = OS_ERROR;
     int32       SizeOfTable      = 0;
     bool        LoadedFromMemory = false   ;
     bool        ValidFile        = false   ;
-    int32       Fd               = -1;
+    osal_id_t   Fd               = CS_ERROR;
     char        TableType[CS_TABLETYPE_NAME_SIZE];
     
     strncpy(TableType, "Undef Tbl", CS_TABLETYPE_NAME_SIZE);   /* Init table type */
@@ -900,9 +901,10 @@ int32 CS_TableInit (CFE_TBL_Handle_t          * DefinitionTableHandle,
         
     }
     
-    Fd = OS_open(DefinitionTableFileName, OS_READ_ONLY, 0);
+    OS_Status = OS_OpenCreate(&Fd, DefinitionTableFileName, 
+                              OS_FILE_FLAG_NONE, OS_READ_ONLY);
     
-    if (Fd >= 0)
+    if (OS_Status == OS_SUCCESS)
     {
         ValidFile = true   ;
         OS_close (Fd);
@@ -997,16 +999,16 @@ int32 CS_TableInit (CFE_TBL_Handle_t          * DefinitionTableHandle,
         switch (Table)
         {
             case CS_EEPROM_TABLE:
-                CS_AppData.EepromCSState = CS_STATE_DISABLED;
+                CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
                 break;
             case CS_MEMORY_TABLE:
-                CS_AppData.MemoryCSState = CS_STATE_DISABLED;
+                CS_AppData.HkPacket.MemoryCSState = CS_STATE_DISABLED;
                 break;
             case CS_APP_TABLE:
-                CS_AppData.AppCSState    = CS_STATE_DISABLED;
+                CS_AppData.HkPacket.AppCSState    = CS_STATE_DISABLED;
                 break;
             case CS_TABLES_TABLE:
-                CS_AppData.TablesCSState = CS_STATE_DISABLED;
+                CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
                 break;
             default:
                 break;

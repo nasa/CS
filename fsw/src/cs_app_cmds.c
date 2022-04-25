@@ -38,25 +38,31 @@
 /* CS Disable background checking of App command                   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableAppCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_DisableAppCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CS_AppData.AppCSState = CS_STATE_DISABLED;
-        CS_ZeroAppTempValues();
+
+        if(CS_CheckRecomputeOneshot() == false)
+        {
+
+            CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
+            CS_ZeroAppTempValues();
         
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
-        CS_UpdateCDS();
+            CS_UpdateCDS();
 #endif
         
-        CFE_EVS_SendEvent (CS_DISABLE_APP_INF_EID,
-                           CFE_EVS_EventType_INFORMATION,
-                           "Checksumming of App is Disabled");
-        CS_AppData.CmdCounter++;
+            CFE_EVS_SendEvent (CS_DISABLE_APP_INF_EID,
+                               CFE_EVS_EventType_INFORMATION,
+                               "Checksumming of App is Disabled");
+            CS_AppData.HkPacket.CmdCounter++;
+        }
+        
     }
     return;
 } /* End of CS_DisableAppCmd () */
@@ -66,24 +72,30 @@ void CS_DisableAppCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Enable background checking of App command                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_EnableAppCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_EnableAppCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16              ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CS_AppData.AppCSState = CS_STATE_ENABLED;
+
+        if(CS_CheckRecomputeOneshot() == false)
+        {
+
+            CS_AppData.HkPacket.AppCSState = CS_STATE_ENABLED;
         
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
-        CS_UpdateCDS();
+            CS_UpdateCDS();
 #endif
         
-        CFE_EVS_SendEvent (CS_ENABLE_APP_INF_EID,
-                           CFE_EVS_EventType_INFORMATION,
-                           "Checksumming of App is Enabled");
-        CS_AppData.CmdCounter++;
+            CFE_EVS_SendEvent (CS_ENABLE_APP_INF_EID,
+                               CFE_EVS_EventType_INFORMATION,
+                               "Checksumming of App is Enabled");
+            CS_AppData.HkPacket.CmdCounter++;
+        }
+        
     }
     return;
 } /* End of CS_EnableAppCmd () */
@@ -93,19 +105,19 @@ void CS_EnableAppCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Report the baseline checksum of an entry in the App table    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ReportBaselineAppCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_ReportBaselineAppCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_AppNameCmd_t);
+    size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
     
     CS_AppNameCmd_t                       * CmdPtr;
     CS_Res_App_Table_Entry_t              * ResultsEntry; 
     uint32                                  Baseline;
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_AppNameCmd_t *) MessagePtr;
+        CmdPtr = (CS_AppNameCmd_t *) BufPtr;
         
         CmdPtr -> Name[OS_MAX_API_NAME - 1] = '\0';
         if ( CS_GetAppResTblEntryByName(&ResultsEntry, CmdPtr -> Name))
@@ -126,7 +138,7 @@ void CS_ReportBaselineAppCmd(CFE_SB_MsgPtr_t MessagePtr)
                                    "Report baseline of app %s has not been computed yet", 
                                    CmdPtr -> Name);   
             }
-            CS_AppData.CmdCounter++;
+            CS_AppData.HkPacket.CmdCounter++;
         }
         else
         {
@@ -134,7 +146,7 @@ void CS_ReportBaselineAppCmd(CFE_SB_MsgPtr_t MessagePtr)
                                CFE_EVS_EventType_ERROR,
                                "App report baseline failed, app %s not found",
                                CmdPtr -> Name);
-            CS_AppData.CmdErrCounter++;
+            CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
     return;
@@ -145,10 +157,10 @@ void CS_ReportBaselineAppCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Recompute the baseline of an entry in the App table cmd      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_RecomputeBaselineAppCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_AppNameCmd_t);
+    size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
     
     uint32                                  ChildTaskID;
     int32                                   Status;
@@ -157,11 +169,11 @@ void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr)
     
     /* Verify command packet length */
     
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_AppNameCmd_t *) MessagePtr;
+        CmdPtr = (CS_AppNameCmd_t *) BufPtr;
         
-        if (CS_AppData.RecomputeInProgress == false    && CS_AppData.OneShotInProgress == false   )
+        if (CS_AppData.HkPacket.RecomputeInProgress == false    && CS_AppData.HkPacket.OneShotInProgress == false   )
         {
             
             /* make sure the entry is a valid number and is defined in the table */
@@ -171,7 +183,7 @@ void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr)
             if (CS_GetAppResTblEntryByName(&ResultsEntry, CmdPtr -> Name))
             {
                 /* There is no child task running right now, we can use it*/
-                CS_AppData.RecomputeInProgress           = true   ;
+                CS_AppData.HkPacket.RecomputeInProgress           = true   ;
                 
                 /* fill in child task variables */
                 CS_AppData.ChildTaskTable                = CS_APP_TABLE;
@@ -192,7 +204,7 @@ void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr)
                                        CFE_EVS_EventType_DEBUG,
                                        "Recompute baseline of app %s started", 
                                        CmdPtr -> Name);
-                    CS_AppData.CmdCounter++;
+                    CS_AppData.HkPacket.CmdCounter++;
                 }
                 else/* child task creation failed */
                 {
@@ -201,8 +213,8 @@ void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr)
                                        "Recompute baseline of app %s failed, CFE_ES_CreateChildTask returned: 0x%08X",
                                        CmdPtr -> Name,
                                        (unsigned int)Status);
-                    CS_AppData.CmdErrCounter++;
-                    CS_AppData.RecomputeInProgress = false   ;
+                    CS_AppData.HkPacket.CmdErrCounter++;
+                    CS_AppData.HkPacket.RecomputeInProgress = false   ;
                 }
             }
             else
@@ -211,7 +223,7 @@ void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr)
                                    CFE_EVS_EventType_ERROR,
                                    "App recompute baseline failed, app %s not found",
                                    CmdPtr -> Name);
-                CS_AppData.CmdErrCounter++;
+                CS_AppData.HkPacket.CmdErrCounter++;
             }
         }
         else
@@ -221,7 +233,7 @@ void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr)
                                CFE_EVS_EventType_ERROR,
                                 "App recompute baseline for app %s failed: child task in use",
                                CmdPtr -> Name);
-            CS_AppData.CmdErrCounter++;
+            CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
     return;
@@ -232,58 +244,65 @@ void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr)
 /* CS Disable a specific entry in the App table command            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableNameAppCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_DisableNameAppCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                 ExpectedLength = sizeof(CS_AppNameCmd_t);
+    size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
     CS_AppNameCmd_t                      * CmdPtr;
      
     CS_Res_App_Table_Entry_t             * ResultsEntry;
     CS_Def_App_Table_Entry_t             * DefinitionEntry; 
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength)  )
-    {
-        CmdPtr = (CS_AppNameCmd_t *) MessagePtr;
-        
-        CmdPtr -> Name[OS_MAX_API_NAME - 1] = '\0';
-        
-        if ( CS_GetAppResTblEntryByName( &ResultsEntry, CmdPtr -> Name))
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength)  )
+    {   
+
+        if(CS_CheckRecomputeOneshot() == false)
         {
-            
-            ResultsEntry -> State = CS_STATE_DISABLED;
-            ResultsEntry -> TempChecksumValue = 0;
-            ResultsEntry -> ByteOffset = 0;
-            
-            CFE_EVS_SendEvent (CS_DISABLE_APP_NAME_INF_EID,
-                               CFE_EVS_EventType_INFORMATION,
-                               "Checksumming of app %s is Disabled", 
-                               CmdPtr -> Name);
-            
-            if ( CS_GetAppDefTblEntryByName(&DefinitionEntry, CmdPtr -> Name))
+
+            CmdPtr = (CS_AppNameCmd_t *) BufPtr;
+        
+            CmdPtr -> Name[OS_MAX_API_NAME - 1] = '\0';
+        
+            if ( CS_GetAppResTblEntryByName( &ResultsEntry, CmdPtr -> Name))
             {
-                DefinitionEntry -> State = CS_STATE_DISABLED;
-                CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);                
-                CFE_TBL_Modified(CS_AppData.DefAppTableHandle);
-            }
-            else 
-            {
-                CFE_EVS_SendEvent (CS_DISABLE_APP_DEF_NOT_FOUND_DBG_EID,
-                                   CFE_EVS_EventType_DEBUG,
-                                   "CS unable to update apps definition table for entry %s", 
+            
+                ResultsEntry -> State = CS_STATE_DISABLED;
+                ResultsEntry -> TempChecksumValue = 0;
+                ResultsEntry -> ByteOffset = 0;
+            
+                CFE_EVS_SendEvent (CS_DISABLE_APP_NAME_INF_EID,
+                                   CFE_EVS_EventType_INFORMATION,
+                                   "Checksumming of app %s is Disabled", 
                                    CmdPtr -> Name);
-            }
             
-            CS_AppData.CmdCounter++;
-        }
-        else
-        {
-            CFE_EVS_SendEvent (CS_DISABLE_APP_UNKNOWN_NAME_ERR_EID,
-                               CFE_EVS_EventType_ERROR,
-                               "App disable app command failed, app %s not found",
-                               CmdPtr -> Name);
-            CS_AppData.CmdErrCounter++;
-        }
+                if ( CS_GetAppDefTblEntryByName(&DefinitionEntry, CmdPtr -> Name))
+                {
+                    DefinitionEntry -> State = CS_STATE_DISABLED;
+                    CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);                
+                    CFE_TBL_Modified(CS_AppData.DefAppTableHandle);
+                }
+                else 
+                {
+                    CFE_EVS_SendEvent (CS_DISABLE_APP_DEF_NOT_FOUND_DBG_EID,
+                                       CFE_EVS_EventType_DEBUG,
+                                       "CS unable to update apps definition table for entry %s", 
+                                       CmdPtr -> Name);
+                }
+            
+                CS_AppData.HkPacket.CmdCounter++;
+            }
+        
+            else
+            {
+                CFE_EVS_SendEvent (CS_DISABLE_APP_UNKNOWN_NAME_ERR_EID,
+                                   CFE_EVS_EventType_ERROR,
+                                   "App disable app command failed, app %s not found",
+                                   CmdPtr -> Name);
+                CS_AppData.HkPacket.CmdErrCounter++;
+            }
+        } /* end InProgress if */
+        
     }
     return;
 } /* End of CS_DisableNameAppCmd () */
@@ -293,55 +312,60 @@ void CS_DisableNameAppCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Enable a specific entry in the App table command             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_EnableNameAppCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_EnableNameAppCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                 ExpectedLength = sizeof(CS_AppNameCmd_t);
+    size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
     CS_AppNameCmd_t                      * CmdPtr;
     
     CS_Res_App_Table_Entry_t             * ResultsEntry; 
     CS_Def_App_Table_Entry_t             * DefinitionEntry; 
 
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_AppNameCmd_t *) MessagePtr;
+
+        if(CS_CheckRecomputeOneshot() == false)
+        {
+
+            CmdPtr = (CS_AppNameCmd_t *) BufPtr;
         
-        CmdPtr -> Name[OS_MAX_API_NAME -1 ] = '\0';
+            CmdPtr -> Name[OS_MAX_API_NAME -1 ] = '\0';
      
-        if ( CS_GetAppResTblEntryByName(&ResultsEntry,CmdPtr -> Name))
-        {
-            ResultsEntry -> State = CS_STATE_ENABLED;
-            
-            CFE_EVS_SendEvent (CS_ENABLE_APP_NAME_INF_EID,
-                               CFE_EVS_EventType_INFORMATION,
-                               "Checksumming of app %s is Enabled", 
-                                CmdPtr -> Name);
-            
-            if ( CS_GetAppDefTblEntryByName(&DefinitionEntry, CmdPtr -> Name))
+            if ( CS_GetAppResTblEntryByName(&ResultsEntry,CmdPtr -> Name))
             {
-                DefinitionEntry -> State = CS_STATE_ENABLED;
-                CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);                
-                CFE_TBL_Modified(CS_AppData.DefAppTableHandle);
+                ResultsEntry -> State = CS_STATE_ENABLED;
+            
+                CFE_EVS_SendEvent (CS_ENABLE_APP_NAME_INF_EID,
+                                   CFE_EVS_EventType_INFORMATION,
+                                   "Checksumming of app %s is Enabled", 
+                                    CmdPtr -> Name);
+            
+                if ( CS_GetAppDefTblEntryByName(&DefinitionEntry, CmdPtr -> Name))
+                {
+                    DefinitionEntry -> State = CS_STATE_ENABLED;
+                    CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);                
+                    CFE_TBL_Modified(CS_AppData.DefAppTableHandle);
+                }
+                else 
+                {
+                    CFE_EVS_SendEvent (CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID,
+                                       CFE_EVS_EventType_DEBUG,
+                                       "CS unable to update apps definition table for entry %s", 
+                                       CmdPtr -> Name);
+                }
+            
+                CS_AppData.HkPacket.CmdCounter++;
             }
-            else 
+            else
             {
-                CFE_EVS_SendEvent (CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID,
-                                   CFE_EVS_EventType_DEBUG,
-                                   "CS unable to update apps definition table for entry %s", 
+                CFE_EVS_SendEvent (CS_ENABLE_APP_UNKNOWN_NAME_ERR_EID,
+                                   CFE_EVS_EventType_ERROR,
+                                   "App enable app command failed, app %s not found",
                                    CmdPtr -> Name);
+                CS_AppData.HkPacket.CmdErrCounter++;
             }
-            
-            CS_AppData.CmdCounter++;
-        }
-        else
-        {
-            CFE_EVS_SendEvent (CS_ENABLE_APP_UNKNOWN_NAME_ERR_EID,
-                               CFE_EVS_EventType_ERROR,
-                               "App enable app command failed, app %s not found",
-                               CmdPtr -> Name);
-            CS_AppData.CmdErrCounter++;
-        }
+        } /* end InProgress if */
     }
     return;
 } /* End of CS_EnableNameAppCmd () */

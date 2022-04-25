@@ -40,26 +40,32 @@
 /* CS Disable background checking of Eeprom command                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_DisableEepromCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CS_AppData.EepromCSState = CS_STATE_DISABLED;
-        CS_ZeroEepromTempValues();
+
+        if(CS_CheckRecomputeOneshot() == false)
+        {
+
+            CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
+            CS_ZeroEepromTempValues();
         
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
-        CS_UpdateCDS();
+            CS_UpdateCDS();
 #endif
         
-        CFE_EVS_SendEvent (CS_DISABLE_EEPROM_INF_EID,
-                           CFE_EVS_EventType_INFORMATION,
-                           "Checksumming of Eeprom is Disabled");
+            CFE_EVS_SendEvent (CS_DISABLE_EEPROM_INF_EID,
+                               CFE_EVS_EventType_INFORMATION,
+                               "Checksumming of Eeprom is Disabled");
         
-        CS_AppData.CmdCounter++;
+            CS_AppData.HkPacket.CmdCounter++;
+        }
+        
     }
     return;
 } /* End of CS_DisableEepromCmd () */
@@ -69,25 +75,31 @@ void CS_DisableEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Enable background checking of Eeprom command                 */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_EnableEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_EnableEepromCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CS_AppData.EepromCSState = CS_STATE_ENABLED;
+
+        if(CS_CheckRecomputeOneshot() == false)
+        {
+
+            CS_AppData.HkPacket.EepromCSState = CS_STATE_ENABLED;
         
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   )
-        CS_UpdateCDS();
+            CS_UpdateCDS();
 #endif
         
-        CFE_EVS_SendEvent (CS_ENABLE_EEPROM_INF_EID,
-                           CFE_EVS_EventType_INFORMATION,
-                           "Checksumming of Eeprom is Enabled");
+            CFE_EVS_SendEvent (CS_ENABLE_EEPROM_INF_EID,
+                               CFE_EVS_EventType_INFORMATION,
+                               "Checksumming of Eeprom is Enabled");
         
-        CS_AppData.CmdCounter++;
+            CS_AppData.HkPacket.CmdCounter++;
+        }
+        
     }
     return;
 } /* End of CS_EnableEepromCmd () */
@@ -97,10 +109,10 @@ void CS_EnableEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Report the baseline checksum of an entry in the Eeprom table */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ReportBaselineEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_ReportBaselineEntryIDEepromCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_EntryCmd_t);
+    size_t ExpectedLength = sizeof(CS_EntryCmd_t);
     
     CS_EntryCmd_t                         * CmdPtr         = 0;
     uint32                                  Baseline       = 0;
@@ -109,9 +121,9 @@ void CS_ReportBaselineEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
     CS_Res_EepromMemory_Table_Entry_t       ResultsEntry; 
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_EntryCmd_t *) MessagePtr;
+        CmdPtr = (CS_EntryCmd_t *) BufPtr;
         EntryID = CmdPtr -> EntryID;
         
         if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
@@ -136,7 +148,7 @@ void CS_ReportBaselineEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
                                    "Report baseline of Eeprom Entry %d has not been computed yet", 
                                    EntryID);   
             }
-            CS_AppData.CmdCounter++;
+            CS_AppData.HkPacket.CmdCounter++;
         }
         else
         {
@@ -155,7 +167,7 @@ void CS_ReportBaselineEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
                                EntryID,
                                State,
                                (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
-            CS_AppData.CmdErrCounter++;
+            CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
     return;
@@ -166,24 +178,24 @@ void CS_ReportBaselineEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Recompute the baseline of an entry in the Eeprom table cmd   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_RecomputeBaselineEepromCmd (CFE_SB_MsgPtr_t MessagePtr)
+void CS_RecomputeBaselineEepromCmd (const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_EntryCmd_t);
+    size_t ExpectedLength = sizeof(CS_EntryCmd_t);
     
     uint32                                  ChildTaskID    = 0;
-    int32                                   Status         = -1;
+    int32                                   Status         = CS_ERROR;
     CS_EntryCmd_t                         * CmdPtr         = NULL;
     uint16                                  EntryID        = 0;
     uint16                                  State          = CS_STATE_EMPTY;
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_EntryCmd_t *) MessagePtr;
+        CmdPtr = (CS_EntryCmd_t *) BufPtr;
         EntryID = CmdPtr -> EntryID;
         
-        if (CS_AppData.RecomputeInProgress == false    && CS_AppData.OneShotInProgress == false   )
+        if (CS_AppData.HkPacket.RecomputeInProgress == false    && CS_AppData.HkPacket.OneShotInProgress == false   )
         {            
             /* make sure the entry is a valid number and is defined in the table */
             if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
@@ -191,7 +203,7 @@ void CS_RecomputeBaselineEepromCmd (CFE_SB_MsgPtr_t MessagePtr)
             {
                 
                 /* There is no child task running right now, we can use it*/
-                CS_AppData.RecomputeInProgress           = true   ;
+                CS_AppData.HkPacket.RecomputeInProgress           = true   ;
                 
                 /* fill in child task variables */
                 CS_AppData.ChildTaskTable                = CS_EEPROM_TABLE;
@@ -213,7 +225,7 @@ void CS_RecomputeBaselineEepromCmd (CFE_SB_MsgPtr_t MessagePtr)
                                        CFE_EVS_EventType_DEBUG,
                                        "Recompute baseline of Eeprom Entry ID %d started", 
                                        EntryID);
-                    CS_AppData.CmdCounter++;
+                    CS_AppData.HkPacket.CmdCounter++;
                 }
                 else/* child task creation failed */
                 {
@@ -222,8 +234,8 @@ void CS_RecomputeBaselineEepromCmd (CFE_SB_MsgPtr_t MessagePtr)
                                        "Recompute baseline of Eeprom Entry ID %d failed, CFE_ES_CreateChildTask returned:  0x%08X",
                                        EntryID,
                                        (unsigned int)Status);
-                    CS_AppData.CmdErrCounter++;
-                    CS_AppData.RecomputeInProgress = false   ;
+                    CS_AppData.HkPacket.CmdErrCounter++;
+                    CS_AppData.HkPacket.RecomputeInProgress = false   ;
                 }
             }
             else
@@ -244,7 +256,7 @@ void CS_RecomputeBaselineEepromCmd (CFE_SB_MsgPtr_t MessagePtr)
                                    State,
                                    (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
                 
-                CS_AppData.CmdErrCounter++;
+                CS_AppData.HkPacket.CmdErrCounter++;
             }
         }
         else
@@ -254,7 +266,7 @@ void CS_RecomputeBaselineEepromCmd (CFE_SB_MsgPtr_t MessagePtr)
                                CFE_EVS_EventType_ERROR,
                                "Recompute baseline of Eeprom Entry ID %d failed: child task in use",
                                EntryID);
-            CS_AppData.CmdErrCounter++;
+            CS_AppData.HkPacket.CmdErrCounter++;
         }
     }    
     return;
@@ -265,10 +277,10 @@ void CS_RecomputeBaselineEepromCmd (CFE_SB_MsgPtr_t MessagePtr)
 /* CS Enable a specific entry in the Eeprom table command          */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_EnableEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_EnableEntryIDEepromCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_EntryCmd_t);
+    size_t ExpectedLength = sizeof(CS_EntryCmd_t);
     
     CS_EntryCmd_t                         * CmdPtr         = NULL;
     CS_Res_EepromMemory_Table_Entry_t     * ResultsEntry   = NULL; 
@@ -276,58 +288,67 @@ void CS_EnableEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
     uint16                                  State          = CS_STATE_EMPTY;
 
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_EntryCmd_t *) MessagePtr;
-        EntryID = CmdPtr -> EntryID;
+
+        if(CS_CheckRecomputeOneshot() == false)
+        {
+
+            CmdPtr = (CS_EntryCmd_t *) BufPtr;
+            EntryID = CmdPtr -> EntryID;
                 
-        if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
-            (CS_AppData.ResEepromTblPtr[EntryID].State != CS_STATE_EMPTY) )
-        {
-            ResultsEntry = &CS_AppData.ResEepromTblPtr[EntryID]; 
+            if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
+                (CS_AppData.ResEepromTblPtr[EntryID].State != CS_STATE_EMPTY) )
+            {
+                ResultsEntry = &CS_AppData.ResEepromTblPtr[EntryID]; 
              
-            ResultsEntry -> State = CS_STATE_ENABLED;
+                ResultsEntry -> State = CS_STATE_ENABLED;
             
-            CFE_EVS_SendEvent (CS_ENABLE_EEPROM_ENTRY_INF_EID,
-                               CFE_EVS_EventType_INFORMATION,
-                               "Checksumming of Eeprom Entry ID %d is Enabled", 
-                                EntryID);
+                CFE_EVS_SendEvent (CS_ENABLE_EEPROM_ENTRY_INF_EID,
+                                   CFE_EVS_EventType_INFORMATION,
+                                   "Checksumming of Eeprom Entry ID %d is Enabled", 
+                                    EntryID);
             
-            if (CS_AppData.DefEepromTblPtr[EntryID].State != CS_STATE_EMPTY)
-            {
-                CS_AppData.DefEepromTblPtr[EntryID].State = CS_STATE_ENABLED;
-                CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);                
-                CFE_TBL_Modified(CS_AppData.DefEepromTableHandle);
-            }
-            else 
-            {
-                CFE_EVS_SendEvent (CS_ENABLE_EEPROM_DEF_EMPTY_DBG_EID,
-                                   CFE_EVS_EventType_DEBUG,
-                                   "CS unable to update Eeprom definition table for entry %d, State: %d",
-                                   EntryID,
-                                   State);
-            }
+                if (CS_AppData.DefEepromTblPtr[EntryID].State != CS_STATE_EMPTY)
+                {
+                    CS_AppData.DefEepromTblPtr[EntryID].State = CS_STATE_ENABLED;
+                    CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);                
+                    CFE_TBL_Modified(CS_AppData.DefEepromTableHandle);
+                }
+                else 
+                {
+                    CFE_EVS_SendEvent (CS_ENABLE_EEPROM_DEF_EMPTY_DBG_EID,
+                                       CFE_EVS_EventType_DEBUG,
+                                       "CS unable to update Eeprom definition table for entry %d, State: %d",
+                                       EntryID,
+                                       State);
+                }
         
-            CS_AppData.CmdCounter++;
-        }
-        else
-        {
-            if (EntryID >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
-            {
-                State = CS_STATE_UNDEFINED;
+                CS_AppData.HkPacket.CmdCounter++;
             }
             else
             {
-                State = CS_AppData.ResEepromTblPtr[EntryID].State;
-            }
+                if (EntryID >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
+                {
+                    State = CS_STATE_UNDEFINED;
+                }
+                else
+                {
+                    State = CS_AppData.ResEepromTblPtr[EntryID].State;
+                }
             
-            CFE_EVS_SendEvent (CS_ENABLE_EEPROM_INVALID_ENTRY_ERR_EID,
-                               CFE_EVS_EventType_ERROR,
-                               "Enable Eeprom entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d",
-                               EntryID,
-                               State,
-                               (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
-            CS_AppData.CmdErrCounter++;
+                CFE_EVS_SendEvent (CS_ENABLE_EEPROM_INVALID_ENTRY_ERR_EID,
+                                   CFE_EVS_EventType_ERROR,
+                                   "Enable Eeprom entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d",
+                                   EntryID,
+                                   State,
+                                   (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
+                CS_AppData.HkPacket.CmdErrCounter++;
+            }
+        } /* end InProgress if */
+        else
+        {
+            /* TODO */
         }
     }
     return;
@@ -338,10 +359,10 @@ void CS_EnableEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Disable a specific entry in the Eeprom table command         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_DisableEntryIDEepromCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength = sizeof(CS_EntryCmd_t);
+    size_t ExpectedLength = sizeof(CS_EntryCmd_t);
     
     CS_EntryCmd_t                         * CmdPtr         = NULL;
     CS_Res_EepromMemory_Table_Entry_t     * ResultsEntry   = NULL;
@@ -349,62 +370,67 @@ void CS_DisableEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
     uint16                                  State          = CS_STATE_EMPTY;
 
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_EntryCmd_t *) MessagePtr;
-        EntryID = CmdPtr -> EntryID;
+
+        if(CS_CheckRecomputeOneshot() == false)
+        {
+
+            CmdPtr = (CS_EntryCmd_t *) BufPtr;
+            EntryID = CmdPtr -> EntryID;
         
-        if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
-            (CS_AppData.ResEepromTblPtr[EntryID].State != CS_STATE_EMPTY) )
-        {
-            ResultsEntry = & CS_AppData.ResEepromTblPtr[EntryID]; 
-            
-            ResultsEntry -> State = CS_STATE_DISABLED;
-            ResultsEntry -> TempChecksumValue = 0;
-            ResultsEntry -> ByteOffset = 0;
-            
-            CFE_EVS_SendEvent (CS_DISABLE_EEPROM_ENTRY_INF_EID,
-                               CFE_EVS_EventType_INFORMATION,
-                               "Checksumming of Eeprom Entry ID %d is Disabled", 
-                               EntryID);
-            
-            if (CS_AppData.DefEepromTblPtr[EntryID].State != CS_STATE_EMPTY)
+            if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
+                (CS_AppData.ResEepromTblPtr[EntryID].State != CS_STATE_EMPTY) )
             {
-                CS_AppData.DefEepromTblPtr[EntryID].State = CS_STATE_DISABLED;
-                CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);                
-                CFE_TBL_Modified(CS_AppData.DefEepromTableHandle);
-            }
-            else 
-            {
-                CFE_EVS_SendEvent (CS_DISABLE_EEPROM_DEF_EMPTY_DBG_EID,
-                                   CFE_EVS_EventType_DEBUG,
-                                   "CS unable to update Eeprom definition table for entry %d, State: %d",
-                                   EntryID,
-                                   State);
-            }
+                ResultsEntry = & CS_AppData.ResEepromTblPtr[EntryID]; 
             
-            CS_AppData.CmdCounter++;
-        }
-        else
-        {
-            if (EntryID >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
-            {
-                State = CS_STATE_UNDEFINED;
+                ResultsEntry -> State = CS_STATE_DISABLED;
+                ResultsEntry -> TempChecksumValue = 0;
+                ResultsEntry -> ByteOffset = 0;
+            
+                CFE_EVS_SendEvent (CS_DISABLE_EEPROM_ENTRY_INF_EID,
+                                   CFE_EVS_EventType_INFORMATION,
+                                   "Checksumming of Eeprom Entry ID %d is Disabled", 
+                                   EntryID);
+            
+                if (CS_AppData.DefEepromTblPtr[EntryID].State != CS_STATE_EMPTY)
+                {
+                    CS_AppData.DefEepromTblPtr[EntryID].State = CS_STATE_DISABLED;
+                    CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);                
+                    CFE_TBL_Modified(CS_AppData.DefEepromTableHandle);
+                }
+                else 
+                {
+                    CFE_EVS_SendEvent (CS_DISABLE_EEPROM_DEF_EMPTY_DBG_EID,
+                                       CFE_EVS_EventType_DEBUG,
+                                       "CS unable to update Eeprom definition table for entry %d, State: %d",
+                                       EntryID,
+                                       State);
+                }
+            
+                CS_AppData.HkPacket.CmdCounter++;
             }
             else
             {
-                State = CS_AppData.ResEepromTblPtr[EntryID].State;
+                if (EntryID >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
+                {
+                    State = CS_STATE_UNDEFINED;
+                }
+                else
+                {
+                    State = CS_AppData.ResEepromTblPtr[EntryID].State;
+                }
+            
+                CFE_EVS_SendEvent (CS_DISABLE_EEPROM_INVALID_ENTRY_ERR_EID,
+                                   CFE_EVS_EventType_ERROR,
+                                   "Disable Eeprom entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d",
+                                   EntryID,
+                                   State,
+                                   (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
+            
+                CS_AppData.HkPacket.CmdErrCounter++;
             }
-            
-            CFE_EVS_SendEvent (CS_DISABLE_EEPROM_INVALID_ENTRY_ERR_EID,
-                               CFE_EVS_EventType_ERROR,
-                               "Disable Eeprom entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d",
-                               EntryID,
-                               State,
-                               (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
-            
-            CS_AppData.CmdErrCounter++;
-        }
+        } /* end InProgress if */
     }
     return;
 } /* End of CS_DisableCSEntryIDEepromCmd () */
@@ -414,10 +440,10 @@ void CS_DisableEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
 /* CS Retrieve an EntryID based on Address from Eeprom table cmd   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_GetEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
+void CS_GetEntryIDEepromCmd(const CFE_SB_Buffer_t* BufPtr)
 {
     /* command verification variables */
-    uint16                                  ExpectedLength      = sizeof(CS_GetEntryIDCmd_t);
+    size_t ExpectedLength      = sizeof(CS_GetEntryIDCmd_t);
     
     CS_GetEntryIDCmd_t                    * CmdPtr              = NULL;
     CS_Res_EepromMemory_Table_Entry_t     * StartOfResultsTable = NULL; 
@@ -426,9 +452,9 @@ void CS_GetEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
     CS_Res_EepromMemory_Table_Entry_t       ResultsEntry;
     
     /* Verify command packet length */
-    if ( CS_VerifyCmdLength (MessagePtr,ExpectedLength) )
+    if ( CS_VerifyCmdLength (&BufPtr->Msg, ExpectedLength) )
     {
-        CmdPtr = (CS_GetEntryIDCmd_t *) MessagePtr;
+        CmdPtr = (CS_GetEntryIDCmd_t *) BufPtr;
         
         StartOfResultsTable = CS_AppData.ResEepromTblPtr;   
         
@@ -457,7 +483,7 @@ void CS_GetEntryIDEepromCmd(CFE_SB_MsgPtr_t MessagePtr)
                                "Address 0x%08X was not found in Eeprom table",
                                (unsigned int)(CmdPtr -> Address));
         }
-        CS_AppData.CmdCounter++;
+        CS_AppData.HkPacket.CmdCounter++;
     }
     return;
 } /* End of CS_GetEntryIDEepromCmd () */

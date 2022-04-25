@@ -256,10 +256,10 @@ int32 CS_ValidateAppChecksumDefinitionTable (void * TblPtr);
  **  \param [in]    Table               The specific table we are operating on
  **
  *************************************************************************/
-void CS_ProcessNewEepromMemoryDefinitionTable (CS_Def_EepromMemory_Table_Entry_t   * DefinitionTblPtr, 
-                                               CS_Res_EepromMemory_Table_Entry_t   * ResultsTblPtr,
-                                               uint16 NumEntries, 
-                                               uint16 Table);
+void CS_ProcessNewEepromMemoryDefinitionTable (const CS_Def_EepromMemory_Table_Entry_t   * DefinitionTblPtr, 
+                                               const CS_Res_EepromMemory_Table_Entry_t   * ResultsTblPtr,
+                                               const uint16 NumEntries, 
+                                               const uint16 Table);
 
 /************************************************************************/
 /** \brief Processes a new definition table for the Tables table
@@ -281,8 +281,8 @@ void CS_ProcessNewEepromMemoryDefinitionTable (CS_Def_EepromMemory_Table_Entry_t
  **                                     to operate on 
  **
  *************************************************************************/
-void CS_ProcessNewTablesDefinitionTable       (CS_Def_Tables_Table_Entry_t      * DefinitionTblPtr, 
-                                               CS_Res_Tables_Table_Entry_t      * ResultsTblPtr);
+void CS_ProcessNewTablesDefinitionTable       (const CS_Def_Tables_Table_Entry_t      * DefinitionTblPtr, 
+                                               const CS_Res_Tables_Table_Entry_t      * ResultsTblPtr);
 
 /************************************************************************/
 /** \brief Processes a new definition table for the App table
@@ -304,8 +304,8 @@ void CS_ProcessNewTablesDefinitionTable       (CS_Def_Tables_Table_Entry_t      
  **                                     to operate on 
  **
  *************************************************************************/
-void CS_ProcessNewAppDefinitionTable          (CS_Def_App_Table_Entry_t      * DefinitionTblPtr, 
-                                               CS_Res_App_Table_Entry_t      * ResultsTblPtr);
+void CS_ProcessNewAppDefinitionTable          (const CS_Def_App_Table_Entry_t      * DefinitionTblPtr, 
+                                               const CS_Res_App_Table_Entry_t      * ResultsTblPtr);
 
 
 /************************************************************************/
@@ -379,15 +379,15 @@ int32 CS_TableInit (CFE_TBL_Handle_t          * DefinitionTableHandle,
                     CFE_TBL_Handle_t          * ResultsTableHandle,
                     void                      * DefinitionTblPtr,
                     void                      * ResultsTblPtr,
-                    uint16                      Table, 
+                    const uint16                      Table, 
                     const char                * DefinitionTableName,
                     const char                * ResultsTableName,
-                    uint16                      NumEntries,
+                    const uint16                      NumEntries,
                     const char                * DefinitionTableFileName,
-                    void                      * DefaultDefTableAddress,
-                    uint16                      SizeofDefinitionTableEntry,
-                    uint16                      SizeofResultsTableEntry,
-                    CFE_TBL_CallbackFuncPtr_t   CallBackFunction);
+                    const void                      * DefaultDefTableAddress,
+                    const uint16                      SizeofDefinitionTableEntry,
+                    const uint16                      SizeofResultsTableEntry,
+                    const CFE_TBL_CallbackFuncPtr_t   CallBackFunction);
 
 /************************************************************************/
 /** \brief Handles table updates for all CS tables
@@ -416,10 +416,10 @@ int32 CS_TableInit (CFE_TBL_Handle_t          * DefinitionTableHandle,
  *************************************************************************/
 int32 CS_HandleTableUpdate (void           * DefinitionTblPtr,
                             void           * ResultsTblPtr,
-                            CFE_TBL_Handle_t DefinitionTableHandle,
-                            CFE_TBL_Handle_t ResultsTableHandle,
-                            uint16 Table,
-                            uint16 NumEntries);
+                            const CFE_TBL_Handle_t DefinitionTableHandle,
+                            const CFE_TBL_Handle_t ResultsTableHandle,
+                            const uint16 Table,
+                            const uint16 NumEntries);
 
 
 #endif  /* _cs_table_ */

@@ -153,10 +153,12 @@ void CS_GoToNextTable(void);
  **       
  **  \param [in]    *EntryPtr    A pointer to a #CS_Res_Tables_Table_Entry_t
  **                              that will be assigned an entry where the name
- **                              field matches the name passed in.
+ **                              field matches the name passed in.  Calling 
+ **                              function ensures this is non-null.
  **
  **  \param [in]    *Name        The name associated with the entry we want
- **                              to find.
+ **                              to find.  Calling function ensures this is
+ **                              non-null.
  **
  **  \param [out]  **EntryPtr    A pointer to a #CS_Res_Tables_Table_Entry_t
  **                              pointer that contains the start address of the 
@@ -164,14 +166,14 @@ void CS_GoToNextTable(void);
  **                              in the table passed in.
  **
  **  \returns
- **  \retstmt Returns TRUE if the name was found in the table      \endcode
- **  \retstmt Returns FALSE if the name was not found in the table \endcode
+ **  \retstmt Returns true if the name was found in the table      \endcode
+ **  \retstmt Returns false if the name was not found in the table \endcode
  **  \endreturns
  **
  **
  *************************************************************************/
 bool    CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t ** EntryPtr,
-                                     char                         * Name);
+                                     const char                         * Name);
 
 /************************************************************************/
 /** \brief Gets a pointer to the definition entry given a table name
@@ -186,10 +188,12 @@ bool    CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t ** EntryPtr,
  **       
  **  \param [in]    *EntryPtr    A pointer to a #CS_Def_Tables_Table_Entry_t
  **                              that will be assigned an entry where the name
- **                              field matches the name passed in.
+ **                              field matches the name passed in.  Calling
+ **                              function ensures this is non-null.
  **
  **  \param [in]    *Name        The name associated with the entry we want
- **                              to find.
+ **                              to find.  Calling function ensures this is
+ **                              non-null.
  **
  **  \param [out]  **EntryPtr    A pointer to a #CS_Def_Tables_Table_Entry_t
  **                              pointer that contains the start address of the 
@@ -197,14 +201,14 @@ bool    CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t ** EntryPtr,
  **                              in the table passed in.
  **
  **  \returns
- **  \retstmt Returns TRUE if the name was found in the table      \endcode
- **  \retstmt Returns FALSE if the name was not found in the table \endcode
+ **  \retstmt Returns true if the name was found in the table      \endcode
+ **  \retstmt Returns false if the name was not found in the table \endcode
  **  \endreturns
  **
  **
  *************************************************************************/
 bool    CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t ** EntryPtr,
-                                     char                         * Name);
+                                     const char                         * Name);
 
 /************************************************************************/
 /** \brief Gets a pointer to the results entry given a app name
@@ -219,10 +223,12 @@ bool    CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t ** EntryPtr,
  **       
  **  \param [in]     *EntryPtr   A pointer to a #CS_Res_App_Table_Entry_t
  **                              that will be assigned an entry where the name
- **                              field matches the name passed in.
+ **                              field matches the name passed in.  Calling
+ **                              function ensures this is non-null.
  **
  **  \param [in]      Name       The name associated with the entry we want
- **                              to find.
+ **                              to find.  Calling function ensures this is
+ **                              non-null.
  **
  **  \param [out]   **EntryPtr   A pointer to a #CS_Res_App_Table_Entry_t
  **                              pointer that contains the start address of the 
@@ -230,14 +236,14 @@ bool    CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t ** EntryPtr,
  **                              in the table passed in.
  **
  **  \returns
- **  \retstmt Returns TRUE if the name was found in the table      \endcode
- **  \retstmt Returns FALSE if the name was not found in the table \endcode
+ **  \retstmt Returns true if the name was found in the table      \endcode
+ **  \retstmt Returns false if the name was not found in the table \endcode
  **  \endreturns
  **
  **
  *************************************************************************/
 bool    CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t ** EntryPtr,
-                                   char                      * Name);
+                                   const char                      * Name);
 
 
 /************************************************************************/
@@ -253,10 +259,12 @@ bool    CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t ** EntryPtr,
  **       
  **  \param [in]     *EntryPtr   A pointer to a #CS_Def_App_Table_Entry_t
  **                              that will be assigned an entry where the name
- **                              field matches the name passed in.
+ **                              field matches the name passed in.  Calling
+ **                              function ensures this is non-null.
  **
  **  \param [in]      Name       The name associated with the entry we want
- **                              to find.
+ **                              to find.  Calling function ensures this is 
+ **                              non-null.
  **
  **  \param [out]   **EntryPtr   A pointer to a #CS_Res_Def_Table_Entry_t
  **                              pointer that contains the start address of the 
@@ -264,14 +272,14 @@ bool    CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t ** EntryPtr,
  **                              in the table passed in.
  **
  **  \returns
- **  \retstmt Returns TRUE if the name was found in the table      \endcode
- **  \retstmt Returns FALSE if the name was not found in the table \endcode
+ **  \retstmt Returns true if the name was found in the table      \endcode
+ **  \retstmt Returns false if the name was not found in the table \endcode
  **  \endreturns
  **
  **
  *************************************************************************/
 bool    CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t ** EntryPtr,
-                                   char                      * Name);
+                                   const char                      * Name);
 
 
 /************************************************************************/
@@ -286,14 +294,15 @@ bool    CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t ** EntryPtr,
  **       
  **  \param [in]      EnabledEntry   A pointer to a uint16 that will be
  **                                  assigned an enabled entry ID, if
- **                                  one exists
+ **                                  one exists.  Calling function ensures
+ **                                  this is non-null.
  **
  **  \param [out]   * EnabledEntry   The ID of an enabled entry in the
- **                                  table, if the function resturs TRUE
+ **                                  table, if the function resturs true
  **
  **  \returns
- **  \retstmt Returns TRUE if an enabled entry was found      \endcode
- **  \retstmt Returns FALSE if an enabled entry was not found \endcode
+ **  \retstmt Returns true if an enabled entry was found      \endcode
+ **  \retstmt Returns false if an enabled entry was not found \endcode
  **  \endreturns
  **
  **
@@ -312,14 +321,15 @@ bool    CS_FindEnabledEepromEntry(uint16* EnabledEntry);
  **       
  **  \param [in]      EnabledEntry   A pointer to a uint16 that will be
  **                                  assigned an enabled entry ID, if
- **                                  one exists
+ **                                  one exists.  Calling function ensures
+ **                                  this is non-null.
  **
  **  \param [out]   * EnabledEntry   The ID of an enabled entry in the
- **                                  table, if the function resturs TRUE
+ **                                  table, if the function resturs true
  **
  **  \returns
- **  \retstmt Returns TRUE if an enabled entry was found      \endcode
- **  \retstmt Returns FALSE if an enabled entry was not found \endcode
+ **  \retstmt Returns true if an enabled entry was found      \endcode
+ **  \retstmt Returns false if an enabled entry was not found \endcode
  **  \endreturns
  **
  **
@@ -338,14 +348,15 @@ bool    CS_FindEnabledMemoryEntry(uint16* EnabledEntry);
  **       
  **  \param [in]      EnabledEntry   A pointer to a uint16 that will be
  **                                  assigned an enabled entry ID, if
- **                                  one exists
+ **                                  one exists.  Calling function ensures
+ **                                  this is non-null.
  **
  **  \param [out]   * EnabledEntry   The ID of an enabled entry in the
- **                                  table, if the function resturs TRUE
+ **                                  table, if the function resturs true
  **
  **  \returns
- **  \retstmt Returns TRUE if an enabled entry was found      \endcode
- **  \retstmt Returns FALSE if an enabled entry was not found \endcode
+ **  \retstmt Returns true if an enabled entry was found      \endcode
+ **  \retstmt Returns false if an enabled entry was not found \endcode
  **  \endreturns
  **
  **
@@ -364,14 +375,15 @@ bool    CS_FindEnabledTablesEntry(uint16* EnabledEntry);
  **       
  **  \param [in]      EnabledEntry   A pointer to a uint16 that will be
  **                                  assigned an enabled entry ID, if
- **                                  one exists
+ **                                  one exists.  Calling function ensures
+ **                                  this is non-null.
  **
  **  \param [out]   * EnabledEntry   The ID of an enabled entry in the
- **                                  table, if the function resturs TRUE
+ **                                  table, if the function resturs true
  **
  **  \returns
- **  \retstmt Returns TRUE if an enabled entry was found      \endcode
- **  \retstmt Returns FALSE if an enabled entry was not found \endcode
+ **  \retstmt Returns true if an enabled entry was found      \endcode
+ **  \retstmt Returns false if an enabled entry was not found \endcode
  **  \endreturns
  **
  **
@@ -389,22 +401,24 @@ bool    CS_FindEnabledAppEntry(uint16* EnabledEntry);
  **  \par Assumptions, External Events, and Notes:
  **       None
  **       
- **  \param [in]   msg              A #CFE_SB_MsgPtr_t pointer that
- **                                 references the software bus message 
+ **  \param [in]   msg              A #CFE_MSG_Message_t* pointer that
+ **                                 references the software bus message.
+ **                                 Calling function ensures this is 
+ **                                 non-null.
  **
  **  \param [in]   ExpectedLength   The expected length of the message
  **                                 based upon the command code
  **
  **  \returns
- **  \retstmt Returns TRUE if the length is as expected      \endcode
- **  \retstmt Returns FALSE if the length is not as expected \endcode
+ **  \retstmt Returns true if the length is as expected      \endcode
+ **  \retstmt Returns false if the length is not as expected \endcode
  **  \endreturns
  **
  **  \sa #CS_LEN_ERR_EID
  **
  *************************************************************************/
-bool    CS_VerifyCmdLength(CFE_SB_MsgPtr_t msg, 
-                           uint16          ExpectedLength);
+bool    CS_VerifyCmdLength(const CFE_MSG_Message_t* msg, 
+                           size_t ExpectedLength);
 
 /************************************************************************/
 /** \brief Compute a background check cycle on the OS 
@@ -416,8 +430,8 @@ bool    CS_VerifyCmdLength(CFE_SB_MsgPtr_t msg,
  **       None
  **    
  **  \returns
- **  \retstmt Returns TRUE if checksumming was done      \endcode
- **  \retstmt Returns FALSE if checksumming was NOT done \endcode
+ **  \retstmt Returns true if checksumming was done      \endcode
+ **  \retstmt Returns false if checksumming was NOT done \endcode
  **  \endreturns
  **
  *************************************************************************/
@@ -433,8 +447,8 @@ bool    CS_BackgroundOS(void);
  **       None
  **    
  **  \returns
- **  \retstmt Returns TRUE if checksumming was done      \endcode
- **  \retstmt Returns FALSE if checksumming was NOT done \endcode
+ **  \retstmt Returns true if checksumming was done      \endcode
+ **  \retstmt Returns false if checksumming was NOT done \endcode
  **  \endreturns
  **
  *************************************************************************/
@@ -450,8 +464,8 @@ bool    CS_BackgroundCfeCore(void);
  **       None
  **    
  **  \returns
- **  \retstmt Returns TRUE if checksumming was done      \endcode
- **  \retstmt Returns FALSE if checksumming was NOT done \endcode
+ **  \retstmt Returns true if checksumming was done      \endcode
+ **  \retstmt Returns false if checksumming was NOT done \endcode
  **  \endreturns
  **
  *************************************************************************/
@@ -467,8 +481,8 @@ bool    CS_BackgroundEeprom(void);
  **       None
  **    
  **  \returns
- **  \retstmt Returns TRUE if checksumming was done      \endcode
- **  \retstmt Returns FALSE if checksumming was NOT done \endcode
+ **  \retstmt Returns true if checksumming was done      \endcode
+ **  \retstmt Returns false if checksumming was NOT done \endcode
  **  \endreturns
  **
  *************************************************************************/
@@ -484,8 +498,8 @@ bool    CS_BackgroundMemory(void);
  **       None
  **    
  **  \returns
- **  \retstmt Returns TRUE if checksumming was done      \endcode
- **  \retstmt Returns FALSE if checksumming was NOT done \endcode
+ **  \retstmt Returns true if checksumming was done      \endcode
+ **  \retstmt Returns false if checksumming was NOT done \endcode
  **  \endreturns
  **
  *************************************************************************/
@@ -501,8 +515,8 @@ bool    CS_BackgroundTables(void);
  **       None
  **    
  **  \returns
- **  \retstmt Returns TRUE if checksumming was done      \endcode
- **  \retstmt Returns FALSE if checksumming was NOT done \endcode
+ **  \retstmt Returns true if checksumming was done      \endcode
+ **  \retstmt Returns false if checksumming was NOT done \endcode
  **  \endreturns
  **
  *************************************************************************/
@@ -518,7 +532,7 @@ bool    CS_BackgroundApp(void);
  **       have their enable/disable state flags modified.
  **
  **       This function will set ByteOffset and TempChecksumValue to zero,
- **       and ComputedYet to FALSE for the specifified CS tables table entry.
+ **       and ComputedYet to false for the specifified CS tables table entry.
  **
  **  \par Assumptions, External Events, and Notes:
  **       None
@@ -526,7 +540,50 @@ bool    CS_BackgroundApp(void);
  *************************************************************************/
 void CS_ResetTablesTblResultEntry(CS_Res_Tables_Table_Entry_t *TablesTblResultEntry);
 
+/************************************************************************/
+/** \brief Update All CS Tables
+ **  
+ **  \par Description
+ **       Updates all CS tables if no recompute is happening on that table.
+ **
+ **       This is called as part of the regular housekeeping cycle or
+ **       at the wakeup interval if no housekeeping request is received.
+ **
+ **  \par Assumptions, External Events, and Notes:
+ **       None
+ **    
+ **  \returns
+ **  \retstmt Returns return code from CS_HandleTableUpdate \endcode
+ **  \endreturns
 
+ *************************************************************************/
+int32 CS_HandleRoutineTableUpdates(void);
+
+/************************************************************************/
+/** \brief Attempts to re-share a table
+ **  
+ **  \par Description
+ **       This function is called if the first attempt to share the table
+ **       is unsuccessful.  This function attempts to share the table again
+ **       to see if it reappeared.  Calling function ensures that parameters
+ **       are non-null.
+ **
+ **  \par Assumptions, External Events, and Notes:
+ **       None
+ **    
+ **  \returns
+ **  \retstmt Returns return code from CFE_TBL_Share \endcode
+ **  \retstmt Returns return code from CFE_TBL_GetAddress \endcode
+ **  \endreturns
+ *************************************************************************/
+int32 CS_AttemptTableReshare(CS_Res_Tables_Table_Entry_t    * ResultsEntry,
+                            CFE_TBL_Handle_t* LocalTblHandle, 
+                            CFE_TBL_Info_t* TblInfo,
+                            uint32* LocalAddress,
+                            int32* ResultGetInfo);
+
+
+bool CS_CheckRecomputeOneshot(void);
 #endif /* _cs_utils_ */
 
 /************************/

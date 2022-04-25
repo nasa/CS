@@ -44,13 +44,13 @@
  **       Tables, and App) to occur, the table must be enabled
  **       and overall checksumming must be enabled.
  **       
- **  \param [in]   MessagePtr   A #CFE_SB_MsgPtr_t pointer that
+ **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
  **                             references the software bus message 
  **
  **  \sa #CS_DISABLE_APPS_CC
  **
  *************************************************************************/
-void CS_DisableAppCmd(CFE_SB_MsgPtr_t MessagePtr);
+void CS_DisableAppCmd(const CFE_SB_Buffer_t* BufPtr);
 
 /************************************************************************/
 /** \brief Process an enable background checking for the App 
@@ -65,13 +65,13 @@ void CS_DisableAppCmd(CFE_SB_MsgPtr_t MessagePtr);
  **       Tables, and App) to occur, the table must be enabled
  **       and overall checksumming must be enabled.
  **       
- **  \param [in]   MessagePtr   A #CFE_SB_MsgPtr_t pointer that
+ **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
  **                             references the software bus message 
  **
  **  \sa #CS_ENABLE_APPS_CC
  **
  *************************************************************************/
-void CS_EnableAppCmd(CFE_SB_MsgPtr_t MessagePtr);
+void CS_EnableAppCmd(const CFE_SB_Buffer_t* BufPtr);
 
 /************************************************************************/
 /** \brief Proccess a report baseline of a App command 
@@ -83,13 +83,13 @@ void CS_EnableAppCmd(CFE_SB_MsgPtr_t MessagePtr);
  **  \par Assumptions, External Events, and Notes:
  **        None
  **       
- **  \param [in]   MessagePtr   A #CFE_SB_MsgPtr_t pointer that
+ **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
  **                             references the software bus message 
  **
  **  \sa #CS_REPORT_BASELINE_APP_CC
  **
  *************************************************************************/
-void CS_ReportBaselineAppCmd(CFE_SB_MsgPtr_t MessagePtr);
+void CS_ReportBaselineAppCmd(const CFE_SB_Buffer_t* BufPtr);
 
 
 /************************************************************************/
@@ -102,13 +102,14 @@ void CS_ReportBaselineAppCmd(CFE_SB_MsgPtr_t MessagePtr);
  **  \par Assumptions, External Events, and Notes:
  **       None
  **       
- **  \param [in]   MessagePtr   A #CFE_SB_MsgPtr_t pointer that
+ **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
  **                             references the software bus message 
  **
  **  \sa #CS_RECOMPUTE_BASELINE_APP_CC
  **
  *************************************************************************/
-void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr);
+void CS_RecomputeBaselineAppCmd (const CFE_SB_Buffer_t* BufPtr);
+
 /************************************************************************/
 /** \brief Process a disable background checking for an App 
  **        entry command 
@@ -126,13 +127,14 @@ void CS_RecomputeBaselineAppCmd (CFE_SB_MsgPtr_t MessagePtr);
  **       is not updated.  If the entry does not exist in the results table, 
  **       neither table is updated.
  **       
- **  \param [in]   MessagePtr   A #CFE_SB_MsgPtr_t pointer that
+ **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
  **                             references the software bus message 
  **
  **  \sa #CS_DISABLE_NAME_APP_CC
  **
  *************************************************************************/
-void CS_DisableNameAppCmd(CFE_SB_MsgPtr_t MessagePtr);
+void CS_DisableNameAppCmd(const CFE_SB_Buffer_t* BufPtr);
+
 /************************************************************************/
 /** \brief Process an enable background checking for an App 
  **        entry command 
@@ -150,13 +152,13 @@ void CS_DisableNameAppCmd(CFE_SB_MsgPtr_t MessagePtr);
  **       is not updated.  If the entry does not exist in the results table, 
  **       neither table is updated.
  **       
- **  \param [in]   MessagePtr   A #CFE_SB_MsgPtr_t pointer that
+ **  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
  **                             references the software bus message 
  **
  **  \sa #CS_ENABLE_NAME_APP_CC
  **
  *************************************************************************/
-void CS_EnableNameAppCmd(CFE_SB_MsgPtr_t MessagePtr);
+void CS_EnableNameAppCmd(const CFE_SB_Buffer_t* BufPtr);
 
 #endif /* _cs_app_cmds_ */
 /************************/

@@ -175,19 +175,19 @@ void CS_InitializeDefaultTables(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_GoToNextTable(void)
 {    
-    if ( CS_AppData.CurrentCSTable < (CS_NUM_TABLES - 1))
+    if ( CS_AppData.HkPacket.CurrentCSTable < (CS_NUM_TABLES - 1))
     {
-        CS_AppData.CurrentCSTable++;
+        CS_AppData.HkPacket.CurrentCSTable++;
     }
     else
     {
-        CS_AppData.CurrentCSTable = 0;
+        CS_AppData.HkPacket.CurrentCSTable = 0;
         /* we are back to the beginning of the tables to checksum
          we need to update the pass counter */
-        CS_AppData.PassCounter++;
+        CS_AppData.HkPacket.PassCounter++;
     }
     
-    CS_AppData.CurrentEntryInTable = 0;
+    CS_AppData.HkPacket.CurrentEntryInTable = 0;
     return;
 }
 
@@ -197,7 +197,7 @@ void CS_GoToNextTable(void)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool    CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t ** EntryPtr,
-                                     char* Name)
+                                     const char* Name)
 {
     CS_Res_Tables_Table_Entry_t           * StartOfResultsTable = NULL;
     CS_Res_Tables_Table_Entry_t           * ResultsEntry        = NULL; 
@@ -230,7 +230,7 @@ bool    CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t ** EntryPtr,
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool    CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t ** EntryPtr,
-                                     char* Name)
+                                     const char* Name)
 {
     CS_Def_Tables_Table_Entry_t           * StartOfDefinitionTable = NULL;
     CS_Def_Tables_Table_Entry_t           * DefinitionEntry           = NULL; 
@@ -263,7 +263,7 @@ bool    CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t ** EntryPtr,
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool    CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t ** EntryPtr,
-                                   char                    * Name)
+                                   const char                    * Name)
 {
     CS_Res_App_Table_Entry_t              * StartOfResultsTable = NULL;
     CS_Res_App_Table_Entry_t              * ResultsEntry        = NULL; 
@@ -295,7 +295,7 @@ bool    CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t ** EntryPtr,
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool    CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t ** EntryPtr,
-                                   char                    * Name)
+                                   const char                    * Name)
 {
     CS_Def_App_Table_Entry_t              * StartOfDefinitionTable = NULL;
     CS_Def_App_Table_Entry_t              * DefinitionEntry        = NULL; 
@@ -335,23 +335,23 @@ bool    CS_FindEnabledEepromEntry(uint16* EnabledEntry)
     
     StartOfResultsTable = CS_AppData.ResEepromTblPtr;    
 
-    ResultsEntry = & StartOfResultsTable[ CS_AppData.CurrentEntryInTable];
+    ResultsEntry = & StartOfResultsTable[ CS_AppData.HkPacket.CurrentEntryInTable];
     
     while ( ResultsEntry -> State != CS_STATE_ENABLED)
     {
-        CS_AppData.CurrentEntryInTable++;
+        CS_AppData.HkPacket.CurrentEntryInTable++;
         
-        if (CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
+        if (CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
         {
             /* we reached the end no more enabled entries */
             EnabledEntries = false   ;
             break;
         }
         
-        ResultsEntry = & StartOfResultsTable[ CS_AppData.CurrentEntryInTable];
+        ResultsEntry = & StartOfResultsTable[ CS_AppData.HkPacket.CurrentEntryInTable];
     }/* end while */
     
-    *EnabledEntry = CS_AppData.CurrentEntryInTable;
+    *EnabledEntry = CS_AppData.HkPacket.CurrentEntryInTable;
     
     return EnabledEntries;
 } /* end CS FindEnabledEepromEntry */
@@ -369,23 +369,23 @@ bool    CS_FindEnabledMemoryEntry(uint16* EnabledEntry)
     
     
     StartOfResultsTable = CS_AppData.ResMemoryTblPtr;    
-    ResultsEntry        = & StartOfResultsTable[ CS_AppData.CurrentEntryInTable];
+    ResultsEntry        = & StartOfResultsTable[ CS_AppData.HkPacket.CurrentEntryInTable];
     
     while ( ResultsEntry -> State != CS_STATE_ENABLED)
     {
-        CS_AppData.CurrentEntryInTable++;
+        CS_AppData.HkPacket.CurrentEntryInTable++;
         
-        if (CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_MEMORY_TABLE_ENTRIES)
+        if (CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_MEMORY_TABLE_ENTRIES)
         {
             /* we reached the end no more enabled entries */
             EnabledEntries = false   ;
             break;
         }
         
-        ResultsEntry = & StartOfResultsTable[ CS_AppData.CurrentEntryInTable];
+        ResultsEntry = & StartOfResultsTable[ CS_AppData.HkPacket.CurrentEntryInTable];
     }/* end while */
     
-    *EnabledEntry = CS_AppData.CurrentEntryInTable;
+    *EnabledEntry = CS_AppData.HkPacket.CurrentEntryInTable;
     
     return EnabledEntries;
 } /* end CS FindEnabledMemoryEntry */
@@ -402,13 +402,13 @@ bool    CS_FindEnabledTablesEntry(uint16* EnabledEntry)
     bool                                EnabledEntries          = true   ;
     
     StartOfResultsTable = CS_AppData.ResTablesTblPtr;    
-    ResultsEntry = & StartOfResultsTable[ CS_AppData.CurrentEntryInTable];
+    ResultsEntry = & StartOfResultsTable[ CS_AppData.HkPacket.CurrentEntryInTable];
 
     while ( ResultsEntry -> State != CS_STATE_ENABLED)
     {
-        CS_AppData.CurrentEntryInTable++;
+        CS_AppData.HkPacket.CurrentEntryInTable++;
         
-        if (CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_TABLES_TABLE_ENTRIES)
+        if (CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_TABLES_TABLE_ENTRIES)
         {
             /* we reached the end no more enabled entries */
             EnabledEntries = false   ;
@@ -416,11 +416,11 @@ bool    CS_FindEnabledTablesEntry(uint16* EnabledEntry)
             break;
         }
         
-        ResultsEntry = & StartOfResultsTable[ CS_AppData.CurrentEntryInTable];
+        ResultsEntry = & StartOfResultsTable[ CS_AppData.HkPacket.CurrentEntryInTable];
         
     }/* end while */
     
-    *EnabledEntry = CS_AppData.CurrentEntryInTable;
+    *EnabledEntry = CS_AppData.HkPacket.CurrentEntryInTable;
     
     return EnabledEntries;
 } /* end CS FindEnabledTablesEntry */
@@ -436,25 +436,25 @@ bool    CS_FindEnabledAppEntry(uint16* EnabledEntry)
     bool                                EnabledEntries          = true   ;
     
     StartOfResultsTable = CS_AppData.ResAppTblPtr;    
-    ResultsEntry = & StartOfResultsTable[ CS_AppData.CurrentEntryInTable];
+    ResultsEntry = & StartOfResultsTable[ CS_AppData.HkPacket.CurrentEntryInTable];
     
 
     while ( ResultsEntry -> State != CS_STATE_ENABLED)
     {
-        CS_AppData.CurrentEntryInTable++;
+        CS_AppData.HkPacket.CurrentEntryInTable++;
         
-        if (CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_APP_TABLE_ENTRIES)
+        if (CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_APP_TABLE_ENTRIES)
         {
             /* we reached the end no more enabled entries */
             EnabledEntries = false   ;
             break;
         }
         
-        ResultsEntry = & StartOfResultsTable[ CS_AppData.CurrentEntryInTable];
+        ResultsEntry = & StartOfResultsTable[ CS_AppData.HkPacket.CurrentEntryInTable];
         
     }/* end while */
     
-    *EnabledEntry = CS_AppData.CurrentEntryInTable;
+    *EnabledEntry = CS_AppData.HkPacket.CurrentEntryInTable;
     
     
     return EnabledEntries;
@@ -465,29 +465,32 @@ bool    CS_FindEnabledAppEntry(uint16* EnabledEntry)
 /* CS Verify the length of the command                             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-bool    CS_VerifyCmdLength(CFE_SB_MsgPtr_t msg, 
-                           uint16          ExpectedLength)
+bool    CS_VerifyCmdLength(const CFE_MSG_Message_t* msg, 
+                           size_t ExpectedLength)
 {
-    CFE_SB_MsgId_t MessageID;
-    uint16  CommandCode;
+    CFE_SB_MsgId_t MessageID = CFE_SB_INVALID_MSG_ID;
+    CFE_MSG_FcnCode_t  CommandCode = 0;
     bool    Result = true   ;
-    uint16  ActualLength = CFE_SB_GetTotalMsgLength(msg);
+    size_t ActualLength = 0;
     
+    CFE_MSG_GetSize(msg, &ActualLength);
+
     /* Verify the command packet length */
     if (ExpectedLength != ActualLength)
     {
-        CommandCode = CFE_SB_GetCmdCode(msg);
-        MessageID= CFE_SB_GetMsgId(msg);
         
+        CFE_MSG_GetMsgId(msg, &MessageID);
+        CFE_MSG_GetFcnCode(msg, &CommandCode);
+
         CFE_EVS_SendEvent(CS_LEN_ERR_EID,
                           CFE_EVS_EventType_ERROR,
-                          "Invalid msg length: ID = 0x%04X, CC = %d, Len = %d, Expected = %d",
+                          "Invalid msg length: ID = 0x%08X, CC = %d, Len = %lu, Expected = %lu",
                           MessageID,
                           CommandCode,
-                          ActualLength,
-                          ExpectedLength);
+                          (unsigned long) ActualLength,
+                          (unsigned long) ExpectedLength);
         Result = false   ;
-        CS_AppData.CmdErrCounter++;
+        CS_AppData.HkPacket.CmdErrCounter++;
     }    
     return(Result);
 } /* End of CS_VerifyCmdLength */
@@ -505,7 +508,7 @@ bool    CS_BackgroundCfeCore(void)
     uint32                                  ComputedCSValue     = 0;
     int32                                   Status;
     
-    if( CS_AppData.CfeCoreCSState == CS_STATE_ENABLED)
+    if( CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED)
     {
         ResultsEntry = & CS_AppData.CfeCoreCodeSeg;
         
@@ -526,7 +529,7 @@ bool    CS_BackgroundCfeCore(void)
             {
                 /* we had a miscompare */
             
-                CS_AppData.CfeCoreCSErrCounter++;                
+                CS_AppData.HkPacket.CfeCoreCSErrCounter++;                
             
                 CFE_EVS_SendEvent (CS_CFECORE_MISCOMPARE_ERR_EID,
                                    CFE_EVS_EventType_ERROR,
@@ -537,14 +540,14 @@ bool    CS_BackgroundCfeCore(void)
         
             if (DoneWithEntry == true   )
             {
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
             }
         
             /* only one entry to do */
-            if ( CS_AppData.CurrentEntryInTable > 0)
+            if ( CS_AppData.HkPacket.CurrentEntryInTable > 0)
             {
                 /* We are done with this table */
-                CS_AppData.CfeCoreBaseline = ResultsEntry -> ComparisonValue;
+                CS_AppData.HkPacket.CfeCoreBaseline = ResultsEntry -> ComparisonValue;
                 CS_GoToNextTable();
             }
         }
@@ -575,7 +578,7 @@ bool    CS_BackgroundOS(void)
     uint32                                  ComputedCSValue     = 0;
     int32                                   Status;
     
-    if( CS_AppData.OSCSState == CS_STATE_ENABLED)
+    if( CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED)
     {
         ResultsEntry = & CS_AppData.OSCodeSeg;
         
@@ -594,7 +597,7 @@ bool    CS_BackgroundOS(void)
             if(Status == CS_ERROR)
             {
                 /* we had a miscompare */
-                CS_AppData.OSCSErrCounter++;                
+                CS_AppData.HkPacket.OSCSErrCounter++;                
             
                 CFE_EVS_SendEvent (CS_OS_MISCOMPARE_ERR_EID,
                                    CFE_EVS_EventType_ERROR,
@@ -605,14 +608,14 @@ bool    CS_BackgroundOS(void)
         
             if (DoneWithEntry == true   )
             {
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
             }
         
             /* only one entry to do */
-            if ( CS_AppData.CurrentEntryInTable > 0)
+            if ( CS_AppData.HkPacket.CurrentEntryInTable > 0)
             {
                 /* We are done with this table */
-                CS_AppData.OSBaseline = ResultsEntry -> ComparisonValue;
+                CS_AppData.HkPacket.OSBaseline = ResultsEntry -> ComparisonValue;
                 CS_GoToNextTable();
             }
         }
@@ -647,7 +650,7 @@ bool    CS_BackgroundEeprom(void)
     uint16                                  CurrEntry;
     int32                                   Status;
     
-    if (CS_AppData.EepromCSState == CS_STATE_ENABLED)
+    if (CS_AppData.HkPacket.EepromCSState == CS_STATE_ENABLED)
     {                   
         if(CS_FindEnabledEepromEntry( &CurrEntry) == true   )
         {
@@ -667,7 +670,7 @@ bool    CS_BackgroundEeprom(void)
             {
                 /* we had a miscompare */
                 
-                CS_AppData.EepromCSErrCounter++;                
+                CS_AppData.HkPacket.EepromCSErrCounter++;                
                 
                 CFE_EVS_SendEvent (CS_EEPROM_MISCOMPARE_ERR_EID,
                                    CFE_EVS_EventType_ERROR,
@@ -679,10 +682,10 @@ bool    CS_BackgroundEeprom(void)
             
             if (DoneWithEntry == true   )
             {
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
             }
                         
-            if ( CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
+            if ( CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
             {   
                 /* Since we are done CS'ing the entire Eeprom table, update the baseline 
                  number for telemetry */
@@ -692,7 +695,7 @@ bool    CS_BackgroundEeprom(void)
                     EntireEepromCS += CS_AppData.ResEepromTblPtr[Loop].ComparisonValue;
                 }
                 
-                CS_AppData.EepromBaseline = EntireEepromCS;
+                CS_AppData.HkPacket.EepromBaseline = EntireEepromCS;
                 
                 /* We are done with this table */
                 CS_GoToNextTable();
@@ -702,7 +705,7 @@ bool    CS_BackgroundEeprom(void)
         {
             /* If we don't have a full table, the above set of code won't get
              executed, so we do it if there aren't any more full entries left */
-            if ( CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
+            if ( CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
             {   
                 /* Since we are done CS'ing the entire Eeprom table, update the baseline 
                  number for telemetry */
@@ -711,7 +714,7 @@ bool    CS_BackgroundEeprom(void)
                 {
                     EntireEepromCS += CS_AppData.ResEepromTblPtr[Loop].ComparisonValue;
                 }                
-                CS_AppData.EepromBaseline = EntireEepromCS;
+                CS_AppData.HkPacket.EepromBaseline = EntireEepromCS;
             }
             
             /* There are no enabled entries in this table */
@@ -742,7 +745,7 @@ bool    CS_BackgroundMemory(void)
     uint16                                  CurrEntry;
     int32                                   Status;
     
-    if (CS_AppData.MemoryCSState == CS_STATE_ENABLED)
+    if (CS_AppData.HkPacket.MemoryCSState == CS_STATE_ENABLED)
     {                   
         /* If we complete an entry's checksum, this function will update it for us */
         
@@ -764,7 +767,7 @@ bool    CS_BackgroundMemory(void)
             {
                 /* we had a miscompare */
                 
-                CS_AppData.MemoryCSErrCounter++;                
+                CS_AppData.HkPacket.MemoryCSErrCounter++;                
                 
                 CFE_EVS_SendEvent (CS_MEMORY_MISCOMPARE_ERR_EID,
                                    CFE_EVS_EventType_ERROR,
@@ -773,15 +776,15 @@ bool    CS_BackgroundMemory(void)
                                    (unsigned int)(ResultsEntry -> ComparisonValue),
                                    (unsigned int)ComputedCSValue);
                  
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
             }
             
             if (DoneWithEntry == true   )
             {
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
             }
             
-            if ( CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_MEMORY_TABLE_ENTRIES)
+            if ( CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_MEMORY_TABLE_ENTRIES)
             {
                 /* We are done with this table */
                 CS_GoToNextTable();
@@ -816,7 +819,7 @@ bool    CS_BackgroundTables(void)
     uint16                                  CurrEntry;
     int32                                   Status;
     
-    if (CS_AppData.TablesCSState == CS_STATE_ENABLED)
+    if (CS_AppData.HkPacket.TablesCSState == CS_STATE_ENABLED)
     {                                        
         /* If we complete an entry's checksum, this function will update it for us */
         
@@ -837,7 +840,7 @@ bool    CS_BackgroundTables(void)
             if(Status == CS_ERROR)
             {
                 /* we had a miscompare */
-                CS_AppData.TablesCSErrCounter++;                
+                CS_AppData.HkPacket.TablesCSErrCounter++;                
                 
                 CFE_EVS_SendEvent (CS_TABLES_MISCOMPARE_ERR_EID,
                                    CFE_EVS_EventType_ERROR,
@@ -854,15 +857,15 @@ bool    CS_BackgroundTables(void)
                                    "Tables table computing: Table %s could not be found, skipping", 
                                    TablesResultsEntry -> Name);
                 
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
             }
             
             if (DoneWithEntry == true   )
             {
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
             }
             
-            if ( CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_TABLES_TABLE_ENTRIES)
+            if ( CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_TABLES_TABLE_ENTRIES)
             {
                 /* We are done with this table */
                 CS_GoToNextTable();
@@ -897,7 +900,7 @@ bool    CS_BackgroundApp(void)
     uint16                                  CurrEntry;
     int32                                   Status;
 
-    if (CS_AppData.AppCSState == CS_STATE_ENABLED)
+    if (CS_AppData.HkPacket.AppCSState == CS_STATE_ENABLED)
     {                    
         if (CS_FindEnabledAppEntry( &CurrEntry) == true   )
         {
@@ -917,7 +920,7 @@ bool    CS_BackgroundApp(void)
             if(Status == CS_ERROR)
             {
                 /* we had a miscompare */
-                CS_AppData.AppCSErrCounter++;                
+                CS_AppData.HkPacket.AppCSErrCounter++;                
                 
                 CFE_EVS_SendEvent (CS_APP_MISCOMPARE_ERR_EID, CFE_EVS_EventType_ERROR,
                                    "Checksum Failure: Application %s, Expected: 0x%08X, Calculated: 0x%08X",                                   
@@ -933,16 +936,16 @@ bool    CS_BackgroundApp(void)
                                    "App table computing: App %s could not be found, skipping", 
                                    AppResultsEntry -> Name);
                 
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
 
             }
             
             if (DoneWithEntry == true   )
             {
-                CS_AppData.CurrentEntryInTable ++;
+                CS_AppData.HkPacket.CurrentEntryInTable ++;
             }
             
-            if ( CS_AppData.CurrentEntryInTable >= CS_MAX_NUM_APP_TABLE_ENTRIES)
+            if ( CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_APP_TABLE_ENTRIES)
             {
                 /* We are done with this table */
                 CS_GoToNextTable();
@@ -980,6 +983,173 @@ void CS_ResetTablesTblResultEntry(CS_Res_Tables_Table_Entry_t *TablesTblResultEn
     return;
 
 }/* end CS_ResetTablesTblResultEntry */
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Update all tables                                               */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+int32 CS_HandleRoutineTableUpdates(void)
+{
+    int32 Result = CFE_SUCCESS;
+    int32 ErrorCode = CFE_SUCCESS;
+
+    if (!((CS_AppData.HkPacket.RecomputeInProgress == true   )  && 
+          ( CS_AppData.HkPacket.OneShotInProgress == false   ) && 
+          (CS_AppData.ChildTaskTable == CS_EEPROM_TABLE)))
+    {
+        Result = CS_HandleTableUpdate ((void*) & CS_AppData.DefEepromTblPtr,
+                                       (void*) & CS_AppData.ResEepromTblPtr,
+                                       CS_AppData.DefEepromTableHandle,
+                                       CS_AppData.ResEepromTableHandle,
+                                       CS_EEPROM_TABLE,
+                                       CS_MAX_NUM_EEPROM_TABLE_ENTRIES);
+                
+        if(Result != CFE_SUCCESS)
+        {
+            CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
+            Result = CFE_EVS_SendEvent (CS_UPDATE_EEPROM_ERR_EID,
+                                        CFE_EVS_EventType_ERROR,
+                                        "Table update failed for Eeprom: 0x%08X, checksumming Eeprom is disabled",
+                                        (unsigned int)Result);
+            ErrorCode = Result;
+        }
+    }
+            
+    if (!((CS_AppData.HkPacket.RecomputeInProgress == true   )  && 
+          ( CS_AppData.HkPacket.OneShotInProgress == false   ) && 
+          (CS_AppData.ChildTaskTable == CS_MEMORY_TABLE)))
+    {
+        Result = CS_HandleTableUpdate ((void*) & CS_AppData.DefMemoryTblPtr,
+                                       (void*) & CS_AppData.ResMemoryTblPtr,
+                                       CS_AppData.DefMemoryTableHandle,
+                                       CS_AppData.ResMemoryTableHandle,
+                                       CS_MEMORY_TABLE,
+                                       CS_MAX_NUM_MEMORY_TABLE_ENTRIES);
+        if(Result != CFE_SUCCESS)
+        {
+            CS_AppData.HkPacket.MemoryCSState = CS_STATE_DISABLED;
+            Result = CFE_EVS_SendEvent (CS_UPDATE_MEMORY_ERR_EID,
+                                        CFE_EVS_EventType_ERROR,
+                                        "Table update failed for Memory: 0x%08X, checksumming Memory is disabled",
+                                        (unsigned int)Result);
+
+            if(ErrorCode == CFE_SUCCESS)
+            {
+                ErrorCode = Result;
+            }
+        }
+    }
+      
+    if (!((CS_AppData.HkPacket.RecomputeInProgress == true   )  && 
+          ( CS_AppData.HkPacket.OneShotInProgress == false   ) && 
+          (CS_AppData.ChildTaskTable == CS_APP_TABLE)))
+    {
+        Result = CS_HandleTableUpdate ((void*) & CS_AppData.DefAppTblPtr,
+                                       (void*) & CS_AppData.ResAppTblPtr,
+                                       CS_AppData.DefAppTableHandle,
+                                       CS_AppData.ResAppTableHandle,
+                                       CS_APP_TABLE,
+                                       CS_MAX_NUM_APP_TABLE_ENTRIES);
+        if(Result != CFE_SUCCESS)
+        {
+            CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
+            Result = CFE_EVS_SendEvent (CS_UPDATE_APP_ERR_EID,
+                                        CFE_EVS_EventType_ERROR,
+                                        "Table update failed for Apps: 0x%08X, checksumming Apps is disabled",
+                                        (unsigned int)Result);
+            if(ErrorCode == CFE_SUCCESS)
+            {
+                ErrorCode = Result;
+            }
+        }
+    }
+            
+    if (!((CS_AppData.HkPacket.RecomputeInProgress == true   )  && 
+          ( CS_AppData.HkPacket.OneShotInProgress == false   ) && 
+          (CS_AppData.ChildTaskTable == CS_TABLES_TABLE)))
+    {
+        Result = CS_HandleTableUpdate ((void*) & CS_AppData.DefTablesTblPtr,
+                                       (void*) & CS_AppData.ResTablesTblPtr,
+                                       CS_AppData.DefTablesTableHandle,
+                                       CS_AppData.ResTablesTableHandle,
+                                       CS_TABLES_TABLE,
+                                       CS_MAX_NUM_TABLES_TABLE_ENTRIES);
+               
+        if(Result != CFE_SUCCESS)
+        {
+            CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
+            Result = CFE_EVS_SendEvent (CS_UPDATE_TABLES_ERR_EID,
+                                        CFE_EVS_EventType_ERROR,
+                                        "Table update failed for Tables: 0x%08X, checksumming Tables is disabled",
+                                        (unsigned int)Result);
+            if(ErrorCode == CFE_SUCCESS)
+            {
+                ErrorCode = Result;
+            }
+        }
+                
+    }
+
+    return ErrorCode;
+} /* end CS_HandleRoutineTableUpdates */
+
+int32 CS_AttemptTableReshare(CS_Res_Tables_Table_Entry_t    * ResultsEntry,
+                            CFE_TBL_Handle_t* LocalTblHandle, 
+                            CFE_TBL_Info_t* TblInfo,
+                            uint32* LocalAddress,
+                            int32* ResultGetInfo)
+{
+    int32  Result            = CS_SUCCESS;
+    int32  ResultShare       = 0;
+    int32  ResultGetAddress  = 0;
+
+    /* Maybe the table came back, try and reshare it */
+    ResultShare = CFE_TBL_Share(LocalTblHandle, ResultsEntry -> Name);
+
+    if (ResultShare == CFE_SUCCESS)
+    {            
+        ResultsEntry -> TblHandle = *LocalTblHandle;
+            
+        *ResultGetInfo = CFE_TBL_GetInfo(TblInfo, ResultsEntry -> Name);
+                
+        /* need to try to get the address again */
+        ResultGetAddress = CFE_TBL_GetAddress((void*) LocalAddress, *LocalTblHandle);
+        Result = ResultGetAddress;
+            
+        /* if the table was never loaded, release the address to prevent the table from being
+        locked by CS, which would prevent the owner app from updating it*/
+        if ( ResultGetAddress == CFE_TBL_ERR_NEVER_LOADED)
+        {
+            CFE_TBL_ReleaseAddress(*LocalTblHandle); 
+        }
+    }
+
+    else /* table was not there on the new share */
+    {
+        Result = ResultShare;
+    }
+
+    return Result;
+}
+
+bool CS_CheckRecomputeOneshot(void)
+{
+    bool Result = false;
+
+    if (CS_AppData.HkPacket.RecomputeInProgress == true ||
+        CS_AppData.HkPacket.OneShotInProgress == true)
+    {
+        CFE_EVS_SendEvent(CS_CMD_COMPUTE_PROG_ERR_EID, 
+                          CFE_EVS_EventType_ERROR,
+                          "Cannot perform command. Recompute or oneshot in progress.");
+
+        CS_AppData.HkPacket.CmdErrCounter++;
+
+        Result = true;
+    }   
+    return Result;
+}
 
 /************************/
 /*  End of File Comment */

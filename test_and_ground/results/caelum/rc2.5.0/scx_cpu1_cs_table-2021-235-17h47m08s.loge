@@ -1,0 +1,278 @@
+21-235-17:48:39.356 00    TLMH-I:STS          58-012-14:03:49.450 INFO CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=3 TO telemetry output enabled for IP 192.168.1.101
+21-235-17:49:09.360 00    TLMH-I:STS          58-012-14:04:19.501 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/tbl_def_tbl_ld_1' into 'CS.DefTablesTbl' working buffer
+21-235-17:49:17.864 00    TLMH-I:STS          58-012-14:04:28.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=139 CS Tables Table verification results: good = 7, bad = 0, unused = 17
+21-235-17:49:17.865 00    TLMH-I:STS          58-012-14:04:28.005 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 CS validation successful for Inactive 'CS.DefTablesTbl'
+21-235-17:49:21.857 00    TLMH-I:STS          58-012-14:04:32.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 CS Successfully Updated 'CS.DefTablesTbl'
+21-235-17:49:27.860 00    TLMH-I:STS          58-012-14:04:38.010 INFO CPU=CPU1 APPNAME=CFE_ES EVENT ID=6 Started LC from /ram/lc.o, AppID = 1114126
+21-235-17:49:27.860 00    TLMH-I:STS          58-012-14:04:38.069 INFO CPU=CPU1 APPNAME=LC EVENT ID=56 WDT verify results: good = 0, bad = 0, unused = 176
+21-235-17:49:27.860 00    TLMH-I:STS          58-012-14:04:38.092 INFO CPU=CPU1 APPNAME=LC EVENT ID=66 ADT verify results: good = 0, bad = 0, unused = 176
+21-235-17:49:27.860 00    TLMH-I:STS          58-012-14:04:38.093 INFO CPU=CPU1 APPNAME=LC EVENT ID=23 LC use of Critical Data Store disabled, activity mask = 0x00991990
+21-235-17:49:27.860 00    TLMH-I:STS          58-012-14:04:38.093 INFO CPU=CPU1 APPNAME=LC EVENT ID=2 LC Initialized. Version 2.1.2.0
+21-235-17:49:29.859 00    TLMH-E:STS          Execution time exceeded [SCX_CPU1_PSEUDO_LC_TLM](/s/opr/accounts/cfs_test/rdl/scx_pseudo_tlm_cpu1_lc_hk_3593.rdl:49)
+21-235-17:49:29.860 00    TLMH-I:STS          Equation SCX_CPU1_PSEUDO_LC_TLM in "/s/opr/accounts/cfs_test/rdl/scx_pseudo_tlm_cpu1_lc_hk_3593.rdl" at line 49 disabled due to previous error
+21-235-17:49:39.858 00    TLMH-I:STS          58-012-14:04:50.002 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.DefTablesTbl' to '/ram/cpu1_deftbl1_10'
+21-235-17:50:20.356 00    TLMH-I:STS          58-012-14:05:30.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=5 Background Checksumming Enabled
+21-235-17:50:23.358 00    TLMH-I:STS          58-012-14:05:33.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=8 Checksumming of OS code segment is Disabled
+21-235-17:50:24.362 00    TLMH-I:STS          58-012-14:05:34.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=6 Checksumming of cFE Core is Disabled
+21-235-17:50:25.355 00    TLMH-I:STS          58-012-14:05:35.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=37 Checksumming of Eeprom is Disabled
+21-235-17:50:26.359 00    TLMH-I:STS          58-012-14:05:36.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=80 Checksumming of App is Disabled
+21-235-17:50:31.357 00    TLMH-I:STS          58-012-14:05:41.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=68 Checksumming of Tables is Enabled
+21-235-17:50:45.855 00    TLMH-I:STS          58-012-14:05:56.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl2_3'
+21-235-17:51:25.854 00    TLMH-I:STS          58-012-14:06:36.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl2_4'
+21-235-17:51:59.360 00    TLMH-I:STS          58-012-14:07:09.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=78 Checksumming of table CS.DefAppTbl is Disabled
+21-235-17:52:03.353 00    TLMH-I:STS          58-012-14:07:13.501 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.DefTablesTbl' to '/ram/cpu1_deftbl2_5'
+21-235-17:52:48.357 00    TLMH-I:STS          58-012-14:07:58.500 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=7 Corrupt Table CRC command for 'CS.DefAppTbl' successful
+21-235-17:52:54.353 00    TLMH-I:STS          58-012-14:08:04.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=76 Checksumming of table CS.DefAppTbl is Enabled
+21-235-17:52:55.853 00    TLMH-I:STS          58-012-14:08:06.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:52:58.852 00    TLMH-I:STS          58-012-14:08:09.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:00.858 00    TLMH-I:STS          58-012-14:08:11.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:03.853 00    TLMH-I:STS          58-012-14:08:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:06.858 00    TLMH-I:STS          58-012-14:08:17.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:08.857 00    TLMH-I:STS          58-012-14:08:19.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:09.853 00    TLMH-I:STS          58-012-14:08:20.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl2_8'
+21-235-17:53:11.852 00    TLMH-I:STS          58-012-14:08:22.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:14.860 00    TLMH-I:STS          58-012-14:08:25.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:16.860 00    TLMH-I:STS          58-012-14:08:27.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:19.854 00    TLMH-I:STS          58-012-14:08:30.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:22.854 00    TLMH-I:STS          58-012-14:08:33.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:24.854 00    TLMH-I:STS          58-012-14:08:35.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:27.860 00    TLMH-I:STS          58-012-14:08:38.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:30.857 00    TLMH-I:STS          58-012-14:08:41.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:32.858 00    TLMH-I:STS          58-012-14:08:43.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:35.850 00    TLMH-I:STS          58-012-14:08:46.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:38.859 00    TLMH-I:STS          58-012-14:08:49.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:40.860 00    TLMH-I:STS          58-012-14:08:51.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0x00000000
+21-235-17:53:43.850 00    TLMH-I:STS          58-012-14:08:54.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=72 Recompute baseline of table CS.DefAppTbl started
+21-235-17:53:43.852 00    TLMH-I:STS          58-012-14:08:54.002 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:53:44.855 00    TLMH-I:STS          58-012-14:08:55.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:53:44.857 00    TLMH-I:STS          58-012-14:08:55.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:53:44.858 00    TLMH-I:STS          58-012-14:08:55.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=98 Table CS.DefAppTbl recompute finished. New baseline is 0x00000000
+21-235-17:53:57.350 00    TLMH-I:STS          58-012-14:09:07.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=72 Recompute baseline of table CS.ResTablesTbl started
+21-235-17:53:57.857 00    TLMH-I:STS          58-012-14:09:08.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:53:58.354 00    TLMH-I:STS          58-012-14:09:08.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=98 Table CS.ResTablesTbl recompute finished. New baseline is 0x000010C5
+21-235-17:54:08.356 00    TLMH-I:STS          58-012-14:09:18.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.DefAppTbl is 0x00000000
+21-235-17:54:21.854 00    TLMH-I:STS          58-012-14:09:32.002 ERROR CPU=CPU1 APPNAME=CFE_TBL EVENT ID=62 Error creating dump file '/ram/cpu1_tblrestbl2_11_1', Status=0xFFFFFF98
+21-235-17:55:01.853 00    TLMH-I:STS          58-012-14:10:12.001 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/app_def_tbl_ld_2' into 'CS.DefAppTbl' working buffer
+21-235-17:55:02.855 00    TLMH-I:STS          58-012-14:10:13.001 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=16 Tbl Services issued validation request for 'CS.DefAppTbl'
+21-235-17:55:05.859 00    TLMH-I:STS          58-012-14:10:16.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=142 CS Apps Table verification results: good = 3, bad = 0, unused = 21
+21-235-17:55:05.861 00    TLMH-I:STS          58-012-14:10:16.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 CS validation successful for Inactive 'CS.DefAppTbl'
+21-235-17:55:06.857 00    TLMH-I:STS          58-012-14:10:17.000 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=17 Tbl Services notifying App that 'CS.DefAppTbl' has a load pending
+21-235-17:55:09.853 00    TLMH-I:STS          58-012-14:10:20.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 CS Successfully Updated 'CS.DefAppTbl'
+21-235-17:55:45.857 00    TLMH-I:STS          58-012-14:10:56.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/c1_tblrestbl2112'
+21-235-17:56:32.350 00    TLMH-I:STS          58-012-14:11:42.754 INFO CPU=CPU1 APPNAME=CFE_ES EVENT ID=8 Stop Application LC Completed.
+21-235-17:56:32.849 00    TLMH-I:STS          58-012-14:11:43.001 ERROR CPU=CPU1 APPNAME=CFE_TBL EVENT ID=91 CS Failed to Share 'LC.LC_ART', Status=0xCC000002
+21-235-17:56:32.850 00    TLMH-I:STS          58-012-14:11:43.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=121 CS Tables: Problem Getting table LC.LC_ART info Share: 0x00000000, GetInfo: 0xCC000002, GetAddress: 0xCC000009
+21-235-17:56:32.852 00    TLMH-I:STS          58-012-14:11:43.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=94 Tables table computing: Table LC.LC_ART could not be found, skipping
+21-235-17:56:34.353 00    TLMH-I:STS          58-012-14:11:44.509 INFO CPU=CPU1 APPNAME=CFE_ES EVENT ID=6 Started LC from /ram/lc.o, AppID = 1114127
+21-235-17:56:34.354 00    TLMH-I:STS          58-012-14:11:44.569 INFO CPU=CPU1 APPNAME=LC EVENT ID=56 WDT verify results: good = 0, bad = 0, unused = 176
+21-235-17:56:34.355 00    TLMH-I:STS          58-012-14:11:44.569 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'LC.LC_WDT' from '/cf/lc_def_wdt.tbl'
+21-235-17:56:34.356 00    TLMH-I:STS          58-012-14:11:44.592 INFO CPU=CPU1 APPNAME=LC EVENT ID=66 ADT verify results: good = 0, bad = 0, unused = 176
+21-235-17:56:34.357 00    TLMH-I:STS          58-012-14:11:44.592 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'LC.LC_ADT' from '/cf/lc_def_adt.tbl'
+21-235-17:56:34.358 00    TLMH-I:STS          58-012-14:11:44.593 INFO CPU=CPU1 APPNAME=LC EVENT ID=23 LC use of Critical Data Store disabled, activity mask = 0x00991990
+21-235-17:56:34.360 00    TLMH-I:STS          58-012-14:11:44.593 INFO CPU=CPU1 APPNAME=LC EVENT ID=2 LC Initialized. Version 2.1.2.0
+21-235-17:56:35.857 00    TLMH-I:STS          58-012-14:11:45.933 ERROR CPU=CPU1 APPNAME=CFE_SB EVENT ID=6 Subscribe Err:Bad Arg,MsgId 0x9040000,PipeId 1441800,app TO_LAB_APP,scope 0
+21-235-17:56:35.858 00    TLMH-I:STS          58-012-14:11:45.933 ERROR CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=10 L481 TO Can't subscribe 0x9040000 status -905969661
+21-235-17:56:45.350 00    TLMH-I:STS          58-012-14:11:55.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=72 Recompute baseline of table CS.DefTablesTbl started
+21-235-17:56:45.858 00    TLMH-I:STS          58-012-14:11:56.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:56:46.354 00    TLMH-I:STS          58-012-14:11:56.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=98 Table CS.DefTablesTbl recompute finished. New baseline is 0xFFFF99D2
+21-235-17:57:15.849 00    TLMH-I:STS          58-012-14:12:26.001 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=72 Recompute baseline of table CS.ResTablesTbl started
+21-235-17:57:15.850 00    TLMH-I:STS          58-012-14:12:26.002 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:57:16.852 00    TLMH-I:STS          58-012-14:12:27.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:57:16.855 00    TLMH-I:STS          58-012-14:12:27.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:57:16.856 00    TLMH-I:STS          58-012-14:12:27.050 INFO CPU=CPU1 APPNAME=CS EVENT ID=98 Table CS.ResTablesTbl recompute finished. New baseline is 0xFFFFCC82
+21-235-17:57:47.848 00    TLMH-I:STS          58-012-14:12:58.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 28, Len = 9, Expected = 8
+21-235-17:57:55.854 00    TLMH-I:STS          58-012-14:13:06.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 29, Len = 9, Expected = 8
+21-235-17:58:03.856 00    TLMH-I:STS          58-012-14:13:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 32, Len = 47, Expected = 48
+21-235-17:58:11.853 00    TLMH-I:STS          58-012-14:13:22.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=77 Tables enable table command failed, table  not found
+21-235-17:58:20.348 00    TLMH-I:STS          58-012-14:13:30.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=77 Tables enable table command failed, table CS_TST not found
+21-235-17:58:28.352 00    TLMH-I:STS          58-012-14:13:38.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 33, Len = 47, Expected = 48
+21-235-17:58:36.351 00    TLMH-I:STS          58-012-14:13:46.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=79 Tables disable table command failed, table  not found
+21-235-17:58:44.355 00    TLMH-I:STS          58-012-14:13:54.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=79 Tables disable table command failed, table CS_TST not found
+21-235-17:58:52.352 00    TLMH-I:STS          58-012-14:14:02.500 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 30, Len = 47, Expected = 48
+21-235-17:58:59.854 00    TLMH-I:STS          58-012-14:14:10.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=71 Tables report baseline failed, table  not found
+21-235-17:59:07.856 00    TLMH-I:STS          58-012-14:14:18.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=71 Tables report baseline failed, table CS_TST not found
+21-235-17:59:15.849 00    TLMH-I:STS          58-012-14:14:26.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=36 Invalid msg length: ID = 0x0000189F, CC = 31, Len = 47, Expected = 48
+21-235-17:59:23.848 00    TLMH-I:STS          58-012-14:14:34.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=74 Tables recompute baseline failed, table  not found
+21-235-17:59:31.856 00    TLMH-I:STS          58-012-14:14:42.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=74 Tables recompute baseline failed, table CS_TST not found
+21-235-17:59:40.348 00    TLMH-I:STS          58-012-14:14:50.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=72 Recompute baseline of table CS.ResTablesTbl started
+21-235-17:59:40.350 00    TLMH-I:STS          58-012-14:14:50.501 ERROR CPU=CPU1 APPNAME=CS EVENT ID=75 Tables recompute baseline for table LC.LC_ADT failed: child task in use
+21-235-17:59:40.856 00    TLMH-I:STS          58-012-14:14:51.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:59:40.857 00    TLMH-I:STS          58-012-14:14:51.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:59:41.352 00    TLMH-I:STS          58-012-14:14:51.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=98 Table CS.ResTablesTbl recompute finished. New baseline is 0x00001F47
+21-235-17:59:43.349 00    TLMH-I:STS          58-012-14:14:53.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=72 Recompute baseline of table CS.ResTablesTbl started
+21-235-17:59:43.350 00    TLMH-I:STS          58-012-14:14:53.501 ERROR CPU=CPU1 APPNAME=CS EVENT ID=22 OneShot checksum failed: child task in use
+21-235-17:59:43.847 00    TLMH-I:STS          58-012-14:14:54.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=153 Skipping background cycle. Recompute or oneshot in progress.
+21-235-17:59:44.354 00    TLMH-I:STS          58-012-14:14:54.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=98 Table CS.ResTablesTbl recompute finished. New baseline is 0xFFFFDFBF
+21-235-17:59:57.850 00    TLMH-I:STS          58-012-14:15:08.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl3_13'
+21-235-18:00:32.851 00    TLMH-I:STS          58-012-14:15:43.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=4 Background Checksumming Disabled
+21-235-18:00:39.848 00    TLMH-I:STS          58-012-14:15:50.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=67 Checksumming of Tables is Disabled
+21-235-18:00:47.853 00    TLMH-I:STS          58-012-14:15:58.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=76 Checksumming of table CS.ResAppTbl is Enabled
+21-235-18:01:01.856 00    TLMH-I:STS          58-012-14:16:12.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl4_4'
+21-235-18:01:36.347 00    TLMH-I:STS          58-012-14:16:46.500 DEBUG CPU=CPU1 APPNAME=CS EVENT ID=72 Recompute baseline of table CS.ResAppTbl started
+21-235-18:01:37.351 00    TLMH-I:STS          58-012-14:16:47.550 INFO CPU=CPU1 APPNAME=CS EVENT ID=98 Table CS.ResAppTbl recompute finished. New baseline is 0x00003C22
+21-235-18:01:44.345 00    TLMH-I:STS          58-012-14:16:54.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.ResAppTbl is 0x00003C22
+21-235-18:01:52.352 00    TLMH-I:STS          58-012-14:17:02.500 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=7 Corrupt Table CRC command for 'CS.ResAppTbl' successful
+21-235-18:01:58.855 00    TLMH-I:STS          58-012-14:17:09.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=78 Checksumming of table CS.DefAppTbl is Disabled
+21-235-18:02:13.855 00    TLMH-I:STS          58-012-14:17:24.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl4_8'
+21-235-18:02:47.849 00    TLMH-I:STS          58-012-14:17:58.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.DefAppTbl is 0xFFFFAC1E
+21-235-18:02:55.848 00    TLMH-I:STS          58-012-14:18:06.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=68 Checksumming of Tables is Enabled
+21-235-18:03:04.346 00    TLMH-I:STS          58-012-14:18:14.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=76 Checksumming of table CS.DefAppTbl is Enabled
+21-235-18:03:17.852 00    TLMH-I:STS          58-012-14:18:28.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl4_12'
+21-235-18:03:52.353 00    TLMH-I:STS          58-012-14:19:02.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.DefAppTbl is 0xFFFFAC1E
+21-235-18:03:59.845 00    TLMH-I:STS          58-012-14:19:10.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=78 Checksumming of table CS.DefAppTbl is Disabled
+21-235-18:04:13.847 00    TLMH-I:STS          58-012-14:19:24.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl4_15'
+21-235-18:04:47.843 00    TLMH-I:STS          58-012-14:19:58.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.DefAppTbl is 0xFFFFAC1E
+21-235-18:04:56.346 00    TLMH-I:STS          58-012-14:20:06.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=5 Background Checksumming Enabled
+21-235-18:04:57.849 00    TLMH-I:STS          58-012-14:20:08.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:05:00.846 00    TLMH-I:STS          58-012-14:20:11.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:05:02.846 00    TLMH-I:STS          58-012-14:20:13.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:05:04.346 00    TLMH-I:STS          58-012-14:20:14.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=67 Checksumming of Tables is Disabled
+21-235-18:05:12.347 00    TLMH-I:STS          58-012-14:20:22.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=76 Checksumming of table CS.DefAppTbl is Enabled
+21-235-18:05:25.845 00    TLMH-I:STS          58-012-14:20:36.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl4_20'
+21-235-18:06:00.842 00    TLMH-I:STS          58-012-14:21:11.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.DefAppTbl is 0xFFFFAC1E
+21-235-18:06:07.844 00    TLMH-I:STS          58-012-14:21:18.001 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=7 Corrupt Table CRC command for 'CS.DefAppTbl' successful
+21-235-18:06:13.850 00    TLMH-I:STS          58-012-14:21:24.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=78 Checksumming of table CS.DefAppTbl is Disabled
+21-235-18:06:25.843 00    TLMH-I:STS          58-012-14:21:36.003 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl4_24'
+21-235-18:07:00.345 00    TLMH-I:STS          58-012-14:22:10.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.DefAppTbl is 0x0012D687
+21-235-18:07:08.351 00    TLMH-I:STS          58-012-14:22:18.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=68 Checksumming of Tables is Enabled
+21-235-18:07:08.846 00    TLMH-I:STS          58-012-14:22:19.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:10.843 00    TLMH-I:STS          58-012-14:22:21.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:13.848 00    TLMH-I:STS          58-012-14:22:24.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:16.344 00    TLMH-I:STS          58-012-14:22:26.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=76 Checksumming of table CS.DefAppTbl is Enabled
+21-235-18:07:16.851 00    TLMH-I:STS          58-012-14:22:27.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:16.852 00    TLMH-I:STS          58-012-14:22:27.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:19.843 00    TLMH-I:STS          58-012-14:22:30.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:20.847 00    TLMH-I:STS          58-012-14:22:31.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:22.851 00    TLMH-I:STS          58-012-14:22:33.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:23.846 00    TLMH-I:STS          58-012-14:22:34.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:26.850 00    TLMH-I:STS          58-012-14:22:37.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:26.851 00    TLMH-I:STS          58-012-14:22:37.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:29.842 00    TLMH-I:STS          58-012-14:22:40.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl4_28'
+21-235-18:07:29.853 00    TLMH-I:STS          58-012-14:22:40.008 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:30.846 00    TLMH-I:STS          58-012-14:22:41.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:32.845 00    TLMH-I:STS          58-012-14:22:43.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:33.850 00    TLMH-I:STS          58-012-14:22:44.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:36.842 00    TLMH-I:STS          58-012-14:22:47.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:36.843 00    TLMH-I:STS          58-012-14:22:47.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:39.844 00    TLMH-I:STS          58-012-14:22:50.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:40.847 00    TLMH-I:STS          58-012-14:22:51.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:42.847 00    TLMH-I:STS          58-012-14:22:53.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:43.842 00    TLMH-I:STS          58-012-14:22:54.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:46.850 00    TLMH-I:STS          58-012-14:22:57.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:46.852 00    TLMH-I:STS          58-012-14:22:57.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:49.847 00    TLMH-I:STS          58-012-14:23:00.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:50.842 00    TLMH-I:STS          58-012-14:23:01.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:52.850 00    TLMH-I:STS          58-012-14:23:03.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:53.844 00    TLMH-I:STS          58-012-14:23:04.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:56.846 00    TLMH-I:STS          58-012-14:23:07.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:07:56.848 00    TLMH-I:STS          58-012-14:23:07.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:07:59.849 00    TLMH-I:STS          58-012-14:23:10.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:08:00.850 00    TLMH-I:STS          58-012-14:23:11.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:02.844 00    TLMH-I:STS          58-012-14:23:13.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:08:03.846 00    TLMH-I:STS          58-012-14:23:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:04.847 00    TLMH-I:STS          58-012-14:23:15.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.DefAppTbl is 0x0012D687
+21-235-18:08:06.844 00    TLMH-I:STS          58-012-14:23:17.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:08:06.845 00    TLMH-I:STS          58-012-14:23:17.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:09.846 00    TLMH-I:STS          58-012-14:23:20.005 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.DefAppTbl, Expected: 0x0012D687, Calculated: 0xFFFFAC1E
+21-235-18:08:10.851 00    TLMH-I:STS          58-012-14:23:21.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:11.844 00    TLMH-I:STS          58-012-14:23:22.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=78 Checksumming of table CS.DefAppTbl is Disabled
+21-235-18:08:12.847 00    TLMH-I:STS          58-012-14:23:23.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:15.847 00    TLMH-I:STS          58-012-14:23:26.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:18.851 00    TLMH-I:STS          58-012-14:23:29.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:20.847 00    TLMH-I:STS          58-012-14:23:31.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:23.850 00    TLMH-I:STS          58-012-14:23:34.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:25.850 00    TLMH-I:STS          58-012-14:23:36.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl4_31'
+21-235-18:08:26.845 00    TLMH-I:STS          58-012-14:23:37.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:28.850 00    TLMH-I:STS          58-012-14:23:39.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:31.844 00    TLMH-I:STS          58-012-14:23:42.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:34.844 00    TLMH-I:STS          58-012-14:23:45.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:36.841 00    TLMH-I:STS          58-012-14:23:47.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:39.847 00    TLMH-I:STS          58-012-14:23:50.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:42.851 00    TLMH-I:STS          58-012-14:23:53.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:44.841 00    TLMH-I:STS          58-012-14:23:55.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:47.844 00    TLMH-I:STS          58-012-14:23:58.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:50.845 00    TLMH-I:STS          58-012-14:24:01.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:52.845 00    TLMH-I:STS          58-012-14:24:03.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:55.849 00    TLMH-I:STS          58-012-14:24:06.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:08:58.842 00    TLMH-I:STS          58-012-14:24:09.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:00.342 00    TLMH-I:STS          58-012-14:24:10.483 INFO CPU=CPU1 APPNAME=CS EVENT ID=69 Report baseline of table CS.DefAppTbl is 0x0012D687
+21-235-18:09:00.847 00    TLMH-I:STS          58-012-14:24:11.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:03.847 00    TLMH-I:STS          58-012-14:24:14.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:06.841 00    TLMH-I:STS          58-012-14:24:17.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:08.841 00    TLMH-I:STS          58-012-14:24:19.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:11.848 00    TLMH-I:STS          58-012-14:24:22.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:14.846 00    TLMH-I:STS          58-012-14:24:25.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:16.846 00    TLMH-I:STS          58-012-14:24:27.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:18.347 00    TLMH-I:STS          58-012-14:24:28.501 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/tbldefemptytable' into 'CS.DefTablesTbl' working buffer
+21-235-18:09:19.849 00    TLMH-I:STS          58-012-14:24:30.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:22.842 00    TLMH-I:STS          58-012-14:24:33.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:24.843 00    TLMH-I:STS          58-012-14:24:35.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:27.340 00    TLMH-I:STS          58-012-14:24:37.500 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=16 Tbl Services issued validation request for 'CS.DefTablesTbl'
+21-235-18:09:27.848 00    TLMH-I:STS          58-012-14:24:38.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:29.848 00    TLMH-I:STS          58-012-14:24:40.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=139 CS Tables Table verification results: good = 0, bad = 0, unused = 24
+21-235-18:09:29.848 00    TLMH-I:STS          58-012-14:24:40.005 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 CS validation successful for Inactive 'CS.DefTablesTbl'
+21-235-18:09:30.843 00    TLMH-I:STS          58-012-14:24:41.001 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=17 Tbl Services notifying App that 'CS.DefTablesTbl' has a load pending
+21-235-18:09:30.844 00    TLMH-I:STS          58-012-14:24:41.002 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:32.845 00    TLMH-I:STS          58-012-14:24:43.001 ERROR CPU=CPU1 APPNAME=CS EVENT ID=29 Checksum Failure: Table CS.ResAppTbl, Expected: 0x0012D687, Calculated: 0x00003C22
+21-235-18:09:33.850 00    TLMH-I:STS          58-012-14:24:44.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 CS Successfully Updated 'CS.DefTablesTbl'
+21-235-18:09:33.851 00    TLMH-I:STS          58-012-14:24:44.005 INFO CPU=CPU1 APPNAME=CS EVENT ID=109 CS Tables Table: No valid entries in the table
+21-235-18:09:45.848 00    TLMH-I:STS          58-012-14:24:56.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl5_5'
+21-235-18:10:35.345 00    TLMH-I:STS          58-012-14:25:45.501 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/tbl_def_tbl_invalid' into 'CS.DefTablesTbl' working buffer
+21-235-18:10:44.349 00    TLMH-I:STS          58-012-14:25:54.500 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=16 Tbl Services issued validation request for 'CS.DefTablesTbl'
+21-235-18:10:45.842 00    TLMH-I:STS          58-012-14:25:56.004 ERROR CPU=CPU1 APPNAME=CS EVENT ID=105 CS Tables Table Validate: Illegal State Field (0x0007) found with name IN_VALID_Table
+21-235-18:10:45.843 00    TLMH-I:STS          58-012-14:25:56.005 INFO CPU=CPU1 APPNAME=CS EVENT ID=139 CS Tables Table verification results: good = 5, bad = 1, unused = 18
+21-235-18:10:45.844 00    TLMH-I:STS          58-012-14:25:56.005 ERROR CPU=CPU1 APPNAME=CFE_TBL EVENT ID=96 CS validation failed for Inactive 'CS.DefTablesTbl', Status=0xFFFFFFFD
+21-235-18:10:47.347 00    TLMH-I:STS          58-012-14:25:57.500 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=21 Table Load Aborted for 'CS.DefTablesTbl'
+21-235-18:11:00.845 00    TLMH-I:STS          58-012-14:26:11.001 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=12 Successful load of '/ram/tbl_def_tbl_ld_2' into 'CS.DefTablesTbl' working buffer
+21-235-18:11:07.847 00    TLMH-I:STS          58-012-14:26:18.001 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=16 Tbl Services issued validation request for 'CS.DefTablesTbl'
+21-235-18:11:09.847 00    TLMH-I:STS          58-012-14:26:20.004 INFO CPU=CPU1 APPNAME=CS EVENT ID=139 CS Tables Table verification results: good = 5, bad = 0, unused = 19
+21-235-18:11:09.848 00    TLMH-I:STS          58-012-14:26:20.005 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=36 CS validation successful for Inactive 'CS.DefTablesTbl'
+21-235-18:11:10.841 00    TLMH-I:STS          58-012-14:26:21.001 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=17 Tbl Services notifying App that 'CS.DefTablesTbl' has a load pending
+21-235-18:11:13.846 00    TLMH-I:STS          58-012-14:26:24.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=37 CS Successfully Updated 'CS.DefTablesTbl'
+21-235-18:11:19.847 00    TLMH-I:STS          58-012-14:26:30.002 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.DefTablesTbl' to '/ram/cpu1_deftbl5_13'
+21-235-18:12:05.841 00    TLMH-I:STS          58-012-14:27:16.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl5_13'
+21-235-18:12:40.340 00    TLMH-I:STS          58-012-14:27:50.500 INFO CPU=CPU1 APPNAME=CS EVENT ID=37 Checksumming of Eeprom is Disabled
+21-235-18:12:47.839 00    TLMH-I:STS          58-012-14:27:58.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=8 Checksumming of OS code segment is Disabled
+21-235-18:12:55.845 00    TLMH-I:STS          58-012-14:28:06.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=6 Checksumming of cFE Core is Disabled
+21-235-18:13:03.841 00    TLMH-I:STS          58-012-14:28:14.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=80 Checksumming of App is Disabled
+21-235-18:13:11.839 00    TLMH-I:STS          58-012-14:28:22.001 INFO CPU=CPU1 APPNAME=CS EVENT ID=52 Checksumming of Memory is Disabled
+21-235-18:13:25.839 00    TLMH-I:STS          58-012-14:28:36.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl6_6'
+21-235-18:14:00.344 00    TLMH-I:STS          58-012-14:29:10.500 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=15 Set Max Bytes per cycle command
+21-235-18:14:17.843 00    TLMH-I:STS          58-012-14:29:28.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl6_8'
+21-235-18:14:53.839 00    TLMH-I:STS          58-012-14:30:04.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:15:33.842 00    TLMH-I:STS          58-012-14:30:44.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:16:09.842 00    TLMH-I:STS          58-012-14:31:20.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:16:49.838 00    TLMH-I:STS          58-012-14:32:00.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:17:25.842 00    TLMH-I:STS          58-012-14:32:36.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:18:05.837 00    TLMH-I:STS          58-012-14:33:16.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:18:45.839 00    TLMH-I:STS          58-012-14:33:56.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:19:21.840 00    TLMH-I:STS          58-012-14:34:32.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:20:01.834 00    TLMH-I:STS          58-012-14:35:12.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:20:37.843 00    TLMH-I:STS          58-012-14:35:48.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:21:17.842 00    TLMH-I:STS          58-012-14:36:28.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:21:53.835 00    TLMH-I:STS          58-012-14:37:04.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:22:33.835 00    TLMH-I:STS          58-012-14:37:44.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:23:13.832 00    TLMH-I:STS          58-012-14:38:24.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:23:49.836 00    TLMH-I:STS          58-012-14:39:00.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=13 Successfully overwrote '/ram/cpu1_tblrestbl6_8' with Table 'CS.ResTablesTbl'
+21-235-18:24:22.839 00    TLMH-I:STS          58-012-14:39:33.026 ERROR CPU=CPU1 APPNAME=TST_CS EVENT ID=41 TST_CS_AppMain terminating!, Error = 0x0
+21-235-18:24:22.840 00    TLMH-I:STS          58-012-14:39:33.176 INFO CPU=CPU1 APPNAME=CFE_ES EVENT ID=10 Restart Application TST_CS Completed, AppID=1114128
+21-235-18:24:22.841 00    TLMH-I:STS          58-012-14:39:33.309 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=1 Version 2.4: Application Initialized
+21-235-18:24:26.837 00    TLMH-I:STS          58-012-14:39:37.003 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=20 Request Housekeeping command
+21-235-18:24:27.831 00    TLMH-I:STS          58-012-14:39:38.019 INFO CPU=CPU1 APPNAME=CS EVENT ID=149 App terminating, RunStatus:0x00000005
+21-235-18:24:27.832 00    TLMH-I:STS          58-012-14:39:38.191 INFO CPU=CPU1 APPNAME=CFE_ES EVENT ID=10 Restart Application CS Completed, AppID=1114129
+21-235-18:24:27.833 00    TLMH-I:STS          58-012-14:39:38.283 INFO CPU=CPU1 APPNAME=CS EVENT ID=144 CS Eeprom Table verification results: good = 0, bad = 0, unused = 16
+21-235-18:24:27.834 00    TLMH-I:STS          58-012-14:39:38.283 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CS.DefEepromTbl' from '/cf/cs_eepromtbl.tbl'
+21-235-18:24:27.841 00    TLMH-I:STS          58-012-14:39:38.283 INFO CPU=CPU1 APPNAME=CS EVENT ID=107 CS Eeprom Table: No valid entries in the table
+21-235-18:24:27.843 00    TLMH-I:STS          58-012-14:39:38.300 INFO CPU=CPU1 APPNAME=CS EVENT ID=143 CS Memory Table verification results: good = 0, bad = 0, unused = 16
+21-235-18:24:27.844 00    TLMH-I:STS          58-012-14:39:38.300 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CS.DefMemoryTbl' from 'Addr 0x00A98C80'
+21-235-18:24:27.845 00    TLMH-I:STS          58-012-14:39:38.300 INFO CPU=CPU1 APPNAME=CS EVENT ID=107 CS Memory Table: No valid entries in the table
+21-235-18:24:27.846 00    TLMH-I:STS          58-012-14:39:38.334 INFO CPU=CPU1 APPNAME=CS EVENT ID=142 CS Apps Table verification results: good = 0, bad = 0, unused = 24
+21-235-18:24:27.847 00    TLMH-I:STS          58-012-14:39:38.335 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CS.DefAppTbl' from '/cf/cs_apptbl.tbl'
+21-235-18:24:27.848 00    TLMH-I:STS          58-012-14:39:38.335 INFO CPU=CPU1 APPNAME=CS EVENT ID=108 CS Apps Table: No valid entries in the table
+21-235-18:24:28.338 00    TLMH-I:STS          58-012-14:39:38.431 INFO CPU=CPU1 APPNAME=CS EVENT ID=139 CS Tables Table verification results: good = 0, bad = 0, unused = 24
+21-235-18:24:28.340 00    TLMH-I:STS          58-012-14:39:38.431 DEBUG CPU=CPU1 APPNAME=CFE_TBL EVENT ID=35 Successfully loaded 'CS.DefTablesTbl' from 'Addr 0x00A98D40'
+21-235-18:24:28.341 00    TLMH-I:STS          58-012-14:39:38.431 INFO CPU=CPU1 APPNAME=CS EVENT ID=109 CS Tables Table: No valid entries in the table
+21-235-18:24:28.342 00    TLMH-I:STS          58-012-14:39:38.431 INFO CPU=CPU1 APPNAME=CS EVENT ID=1 CS Initialized. Version 2.5.0.0
+21-235-18:24:30.833 00    TLMH-I:STS          58-012-14:39:41.002 INFO CPU=CPU1 APPNAME=TST_CS EVENT ID=20 Request Housekeeping command
+21-235-18:24:37.834 00    TLMH-I:STS          58-012-14:39:48.004 INFO CPU=CPU1 APPNAME=CFE_TBL EVENT ID=14 Successfully dumped Table 'CS.ResTablesTbl' to '/ram/cpu1_tblrestbl7_4'
+21-235-18:26:33.973 00    TLMH-I:STS          58-012-14:03:48.950 INFO CPU=CPU1 APPNAME=TO_LAB_APP EVENT ID=3 TO telemetry output enabled for IP 192.168.1.101

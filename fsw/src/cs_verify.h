@@ -30,6 +30,8 @@
 *************************************************************************/
 #include "cs_platform_cfg.h"
 #include "cs_mission_cfg.h"
+#include <stdint.h>
+
 /*************************************************************************
 ** Macro Definitions
 *************************************************************************/
@@ -85,6 +87,9 @@
     #error CS_CHILD_TASK_PRIORITY cannot be greater than 255!
 #endif
 
+#if (CS_DEFAULT_ALGORITHM != CFE_MISSION_ES_DEFAULT_CRC && CS_DEFAULT_ALGORITHM != CFE_ES_CRC_16)
+    #error CS_DEFAULT_ALGORITHM is limited to either CFE_MISSION_ES_DEFAULT_CRC or CFE_ES_CRC_16!
+#endif
 
 #endif
 /*_cs_verify_*/
