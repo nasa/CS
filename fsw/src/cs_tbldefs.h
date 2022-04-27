@@ -84,7 +84,7 @@ typedef struct
     uint16  ComputedYet;        /**< \brief Have we computed an Integrity value yet */
     uint32  NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
     uint32  ComparisonValue;    /**< \brief The Memory Integrity Value */
-    uint32  ByteOffset;         /**< \brief Where a previous unfinished calculation left off */
+    uint32  ByteOffset;         /**< \brief Where a previous unfinished calc left off */
     uint32  TempChecksumValue;  /**< \brief The unfinished caluculation */
     uint32  Filler32;           /**< \brief Padding */
 } CS_Res_EepromMemory_Table_Entry_t;
@@ -117,9 +117,9 @@ typedef struct
     uint16           ComputedYet;                     /**< \brief Have we computed an Integrity value yet */
     uint32           NumBytesToChecksum;              /**< \brief The number of Bytes to Checksum */
     uint32           ComparisonValue;                 /**< \brief The Memory Integrity Value */
-    uint32           ByteOffset;                      /**< \brief Where a previous unfinished calculation left off */
+    uint32           ByteOffset;                      /**< \brief Where a previous unfinished calc left off */
     uint32           TempChecksumValue;               /**< \brief The unfinished caluculation */
-    CFE_TBL_Handle_t TblHandle;                       /**< \brief handle recieved from table services */
+    CFE_TBL_Handle_t TblHandle;                       /**< \brief handle recieved from CFE_TBL */
     bool             IsCSOwner;                       /**< \brief Is CS the original owner of this table */
     bool             Filler8;                         /**< \brief Padding */
     char             Name[CFE_TBL_MAX_FULL_NAME_LEN]; /**< \brief name of the table */
@@ -135,7 +135,7 @@ typedef struct
     uint16  ComputedYet;           /**< \brief Have we computed an Integrity value yet */
     uint32  NumBytesToChecksum;    /**< \brief The number of Bytes to Checksum */
     uint32  ComparisonValue;       /**< \brief The Memory Integrity Value */
-    uint32  ByteOffset;            /**< \brief Where a previous unfinished calculation left off */
+    uint32  ByteOffset;            /**< \brief Where a previous unfinished calc left off */
     uint32  TempChecksumValue;     /**< \brief The unfinished caluculation */
     char    Name[OS_MAX_API_NAME]; /**< \brief name of the app */
 } CS_Res_App_Table_Entry_t;
@@ -301,46 +301,57 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
  *
  *  \param [in]    DefinitionTableHandle       A #CFE_TBL_Handle_t pointer
  *                                             that will get filled in with the
- *                                             table handle to the definition table
+ *                                             table handle to the definition
+ *                                             table
  *
  *  \param [in]    ResultsTableHandle          A #CFE_TBL_Handle_t pointer
  *                                             that will get filled in with the
- *                                             table handle to the results table
+ *                                             table handle to the results
+ *                                             table
  *
  *  \param [in]    DefinitionTblPtr            A pointer to the definiton table
- *                                             that we are operating on, it will get
- *                                             assigned during this call
+ *                                             that we are operating on, it
+ *                                             will get assigned during this
+ *                                             call
  *
  *  \param [in]    ResultsTblPtr               A pointer to the result table
  *                                             to operate on , it will get
  *                                             assigned during this call
  *
- *  \param [in]    Table                       The specific table we are operating on
+ *  \param [in]    Table                       The specific table we are
+ *                                             operating on
  *
  *  \param [in]    DefinitionTableName         The name of the definition table
  *
  *  \param [in]    ResultsTableName            The name of the results table
  *
- *  \param [in]    NumEntries                  The number of entries in the table
+ *  \param [in]    NumEntries                  The number of entries in the
+ *                                             table
  *
- *  \param [in]    DefinitionTableFileName     The name of the file to load the definition
- *                                             table from
- *  \param [in]    DefaultDefTableAddress      The address of the default definition table
- *                                             that we may have to load from memory if the
- *                                             file is absent
+ *  \param [in]    DefinitionTableFileName     The name of the file to load the
+ *                                             definition table from
  *
- *  \param [in]    SizeofDefinitionTableEntry  The sizeof an entry in the definition table
+ *  \param [in]    DefaultDefTableAddress      The address of the default
+ *                                             definition table that we may
+ *                                             have to load from memory if
+ *                                             the file is absent
  *
- *  \param [in]    SizeofResultsTableEntry     The size of an enrty in the results table
- *
- *  \param [in]    CallBackFunction            A pointer to a function used to validate the
+ *  \param [in]    SizeofDefinitionTableEntry  The sizeof an entry in the
  *                                             definition table
- *  \param [out]  * DefinitionTableHandle      A #CFE_TBL_Handle_t pointer
- *                                             that will get filled in with the
- *                                             table handle to the definition table
- *  \param [out]  * ResultsTableHandle         A #CFE_TBL_Handle_t pointer
- *                                             that will get filled in with the
- *                                             table handle to the results table
+ *
+ *  \param [in]    SizeofResultsTableEntry     The size of an enrty in the
+ *                                             results table
+ *
+ *  \param [in]    CallBackFunction            A pointer to a function used to
+ *                                             validate the definition table
+ *
+ *  \param [out]  * DefinitionTableHandle      A #CFE_TBL_Handle_t pointer that
+ *                                             will get filled in with the tbl
+ *                                             handle to the definition table
+ *
+ *  \param [out]  * ResultsTableHandle         A #CFE_TBL_Handle_t pointer that
+ *                                             will get filled in with the tbl
+ *                                             handle to the results table
  *
  *  \param [out]  * DefinitionTblPtr           A pointer to the definiton table
  *                                             that we are operating on
@@ -373,11 +384,16 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
  *
  *  \param [in]    ResultsTblPtr           A pointer to the result table
  *                                         to operate on
- *  \param [in]    DefinitionTableHandle   A table handle to the definition table
- *  \param [in]    ResultsTableHandle      A table handle to the results table
+ *  \param [in]    DefinitionTableHandle   A table handle to the definition
+ *                                         table
+ *
+ *  \param [in]    ResultsTableHandle      A table handle to the results
+ *                                         table
  *
  *  \param [in]    NumEntries              The number of entries in the table
- *  \param [in]    Table                   The specific table we are operating on
+ *
+ *  \param [in]    Table                   The specific table we are operating
+ *                                         on
  *
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS

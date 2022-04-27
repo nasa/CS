@@ -26,10 +26,10 @@
 ** Includes
 *************************************************************************/
 #include "cfe.h"
-#include "cs_platform_cfg.h"
-#include "cs_msgdefs.h"
-#include "cs_tbldefs.h"
 #include "cfe_tbl_filedef.h"
+#include "cs_msgdefs.h"
+#include "cs_platform_cfg.h"
+#include "cs_tbldefs.h"
 
 CS_Def_Tables_Table_Entry_t CS_TablesTable[CS_MAX_NUM_TABLES_TABLE_ENTRIES] = {
     /*         State             Name   */
@@ -57,8 +57,7 @@ CS_Def_Tables_Table_Entry_t CS_TablesTable[CS_MAX_NUM_TABLES_TABLE_ENTRIES] = {
     /*  20 */ {.State = CS_STATE_EMPTY, .Name = ""},
     /*  21 */ {.State = CS_STATE_EMPTY, .Name = ""},
     /*  22 */ {.State = CS_STATE_EMPTY, .Name = ""},
-    /*  23 */ {.State = CS_STATE_EMPTY, .Name = ""}
-};
+    /*  23 */ {.State = CS_STATE_EMPTY, .Name = ""}};
 
 /*
 ** Table file header
