@@ -592,6 +592,8 @@ int32 CS_CreateRestoreStatesFromCDS(void)
     int32 Result;
     int32 EventId = 0;
 
+    memset(DataStoreBuffer, 0, sizeof(DataStoreBuffer));
+
     /*
     ** Request for CDS area from cFE Executive Services...
     */
