@@ -945,6 +945,8 @@ void CS_AppPipe_Test_TableUpdateErrors(void)
     CFE_SB_MsgId_t TestMsgId;
     size_t         MsgSize;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_SEND_HK_MID);
@@ -973,6 +975,8 @@ void CS_AppPipe_Test_BackgroundCycle(void)
     CFE_SB_MsgId_t TestMsgId;
     size_t         MsgSize;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_BACKGROUND_CYCLE_MID);
@@ -999,6 +1003,8 @@ void CS_AppPipe_Test_NoopCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1028,6 +1034,8 @@ void CS_AppPipe_Test_ResetCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1055,6 +1063,8 @@ void CS_AppPipe_Test_OneShotCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1084,6 +1094,8 @@ void CS_AppPipe_Test_CancelOneShotCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1111,6 +1123,8 @@ void CS_AppPipe_Test_EnableAllCSCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1140,6 +1154,8 @@ void CS_AppPipe_Test_DisableAllCSCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1167,6 +1183,8 @@ void CS_AppPipe_Test_EnableCfeCoreCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1196,6 +1214,8 @@ void CS_AppPipe_Test_DisableCfeCoreCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1223,6 +1243,8 @@ void CS_AppPipe_Test_ReportBaselineCfeCoreCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1252,6 +1274,8 @@ void CS_AppPipe_Test_RecomputeBaselineCfeCoreCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1279,6 +1303,8 @@ void CS_AppPipe_Test_EnableOSCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1308,6 +1334,8 @@ void CS_AppPipe_Test_DisableOSCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1335,6 +1363,8 @@ void CS_AppPipe_Test_ReportBaselineOSCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1364,6 +1394,8 @@ void CS_AppPipe_Test_RecomputeBaselineOSCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1391,6 +1423,8 @@ void CS_AppPipe_Test_EnableEepromCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1420,6 +1454,8 @@ void CS_AppPipe_Test_DisableEepromCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1447,6 +1483,8 @@ void CS_AppPipe_Test_ReportBaselineEntryIDEepromCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1476,6 +1514,8 @@ void CS_AppPipe_Test_RecomputeBaselineEepromCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1503,6 +1543,8 @@ void CS_AppPipe_Test_EnableEntryIDEepromCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1532,6 +1574,8 @@ void CS_AppPipe_Test_DisableEntryIDEepromCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1559,6 +1603,8 @@ void CS_AppPipe_Test_GetEntryIDEepromCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1588,6 +1634,8 @@ void CS_AppPipe_Test_EnableMemoryCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1615,6 +1663,8 @@ void CS_AppPipe_Test_DisableMemoryCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1644,6 +1694,8 @@ void CS_AppPipe_Test_ReportBaselineEntryIDMemoryCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1671,6 +1723,8 @@ void CS_AppPipe_Test_RecomputeBaselineMemoryCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1700,6 +1754,8 @@ void CS_AppPipe_Test_EnableEntryIDMemoryCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1727,6 +1783,8 @@ void CS_AppPipe_Test_DisableEntryIDMemoryCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1756,6 +1814,8 @@ void CS_AppPipe_Test_GetEntryIDMemoryCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1783,6 +1843,8 @@ void CS_AppPipe_Test_EnableTablesCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1812,6 +1874,8 @@ void CS_AppPipe_Test_DisableTablesCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1839,6 +1903,8 @@ void CS_AppPipe_Test_ReportBaselineTablesCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1868,6 +1934,8 @@ void CS_AppPipe_Test_RecomputeBaselineTablesCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1895,6 +1963,8 @@ void CS_AppPipe_Test_EnableNameTablesCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1924,6 +1994,8 @@ void CS_AppPipe_Test_DisableNameTablesCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -1951,6 +2023,8 @@ void CS_AppPipe_Test_EnableAppCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -1980,6 +2054,8 @@ void CS_AppPipe_Test_DisableAppCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -2007,6 +2083,8 @@ void CS_AppPipe_Test_ReportBaselineAppCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -2036,6 +2114,8 @@ void CS_AppPipe_Test_RecomputeBaselineAppCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -2064,6 +2144,8 @@ void CS_AppPipe_Test_EnableNameAppCmd(void)
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
 
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
+
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
@@ -2091,6 +2173,8 @@ void CS_AppPipe_Test_DisableNameAppCmd(void)
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId;
     CFE_MSG_FcnCode_t FcnCode;
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     CS_AppData.ChildTaskTable = -1;
 
@@ -2121,6 +2205,8 @@ void CS_AppPipe_Test_InvalidCCError(void)
     CFE_MSG_FcnCode_t FcnCode;
     int32             strCmpResult;
     char              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Invalid ground command code: ID = 0x%%08lX, CC = %%d");
@@ -2160,6 +2246,8 @@ void CS_AppPipe_Test_InvalidMIDError(void)
     CFE_SB_MsgId_t TestMsgId;
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&CmdBuf, 0, sizeof(CmdBuf));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Invalid command pipe message ID: 0x%%08lX");
 

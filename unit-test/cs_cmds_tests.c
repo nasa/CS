@@ -172,6 +172,8 @@ void CS_BackgroundCheckCycle_Test_InvalidMsgLength(void)
     int32 strCmpResult;
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
+    memset(&CmdPacket, 0, sizeof(CmdPacket));
+
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Invalid msg length: ID = 0x%%08lX, CC = %%d, Len = %%lu, Expected = %%lu");
 
