@@ -241,7 +241,7 @@ int32 CS_AppInit(void)
     if (Result == CFE_SUCCESS)
     {
         /* Zero out all data in CS_AppData, including the housekeeping data*/
-        CFE_PSP_MemSet(&CS_AppData, 0, (unsigned)sizeof(CS_AppData));
+        memset(&CS_AppData, 0, sizeof(CS_AppData));
 
         CS_AppData.RunStatus = CFE_ES_RunStatus_APP_RUN;
 

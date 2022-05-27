@@ -453,8 +453,8 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
     uint16                             PreviousState       = CS_STATE_EMPTY;
     char                               TableType[CS_TABLETYPE_NAME_SIZE];
 
-    CFE_PSP_MemCpy(&StartOfResultsTable, ResultsTblPtr, sizeof(StartOfResultsTable));
-    CFE_PSP_MemCpy(&StartOfDefTable, DefinitionTblPtr, sizeof(StartOfDefTable));
+    memcpy(&StartOfResultsTable, ResultsTblPtr, sizeof(StartOfResultsTable));
+    memcpy(&StartOfDefTable, DefinitionTblPtr, sizeof(StartOfDefTable));
 
     strncpy(&TableType[0], "Undef Tbl", CS_TABLETYPE_NAME_SIZE); /* Init the table type string */
 
@@ -556,8 +556,8 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
     char                         TableAppName[OS_MAX_API_NAME];
     char                         TableTableName[CFE_MISSION_TBL_MAX_NAME_LENGTH];
 
-    CFE_PSP_MemCpy(&StartOfResultsTable, ResultsTblPtr, sizeof(StartOfResultsTable));
-    CFE_PSP_MemCpy(&StartOfDefTable, DefinitionTblPtr, sizeof(StartOfDefTable));
+    memcpy(&StartOfResultsTable, ResultsTblPtr, sizeof(StartOfResultsTable));
+    memcpy(&StartOfDefTable, DefinitionTblPtr, sizeof(StartOfDefTable));
 
     CFE_ES_GetAppID(&AppID);
     CFE_ES_GetAppName(AppName, AppID, OS_MAX_API_NAME);
@@ -740,8 +740,8 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
     uint16                    NumRegionsInTable   = 0;
     uint16                    PreviousState       = CS_STATE_EMPTY;
 
-    CFE_PSP_MemCpy(&StartOfResultsTable, ResultsTblPtr, sizeof(StartOfResultsTable));
-    CFE_PSP_MemCpy(&StartOfDefTable, DefinitionTblPtr, sizeof(StartOfDefTable));
+    memcpy(&StartOfResultsTable, ResultsTblPtr, sizeof(StartOfResultsTable));
+    memcpy(&StartOfDefTable, DefinitionTblPtr, sizeof(StartOfDefTable));
 
     /* We don't want to be doing chekcksums while changing the table out */
 

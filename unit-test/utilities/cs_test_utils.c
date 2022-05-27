@@ -78,7 +78,7 @@ void CS_Test_Setup(void)
     /* initialize test environment to default state for every test */
     UT_ResetState(0);
 
-    memset(&CS_AppData, 0, sizeof(CS_AppData_t));
+    memset(&CS_AppData, 0, sizeof(CS_AppData));
     memset(context_CFE_EVS_SendEvent, 0, sizeof(context_CFE_EVS_SendEvent));
     memset(&context_CFE_ES_WriteToSysLog, 0, sizeof(context_CFE_ES_WriteToSysLog));
 
