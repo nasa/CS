@@ -89,10 +89,11 @@ void CS_ComputeEepromMemory_Test_Nominal(void)
 {
     int32                             Result;
     CS_Res_EepromMemory_Table_Entry_t ResultsEntry;
-    uint32                            ComputedCSValue;
-    bool                              DoneWithEntry;
+    uint32                            ComputedCSValue = 0;
+    bool                              DoneWithEntry   = false;
 
-    ResultsEntry.ByteOffset         = 0;
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+
     ResultsEntry.NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle     = 2;
 
@@ -122,10 +123,11 @@ void CS_ComputeEepromMemory_Test_Error(void)
 {
     int32                             Result;
     CS_Res_EepromMemory_Table_Entry_t ResultsEntry;
-    uint32                            ComputedCSValue;
-    bool                              DoneWithEntry;
+    uint32                            ComputedCSValue = 0;
+    bool                              DoneWithEntry   = false;
 
-    ResultsEntry.ByteOffset         = 0;
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+
     ResultsEntry.NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle     = 2;
 
@@ -155,10 +157,11 @@ void CS_ComputeEepromMemory_Test_FirstTimeThrough(void)
 {
     int32                             Result;
     CS_Res_EepromMemory_Table_Entry_t ResultsEntry;
-    uint32                            ComputedCSValue;
-    bool                              DoneWithEntry;
+    uint32                            ComputedCSValue = 0;
+    bool                              DoneWithEntry   = false;
 
-    ResultsEntry.ByteOffset         = 0;
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+
     ResultsEntry.NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle     = 2;
 
@@ -192,10 +195,11 @@ void CS_ComputeEepromMemory_Test_NotFinished(void)
 {
     int32                             Result;
     CS_Res_EepromMemory_Table_Entry_t ResultsEntry;
-    uint32                            ComputedCSValue;
-    bool                              DoneWithEntry;
+    uint32                            ComputedCSValue = 0;
+    bool                              DoneWithEntry   = false;
 
-    ResultsEntry.ByteOffset         = 0;
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+
     ResultsEntry.NumBytesToChecksum = 2;
     CS_AppData.MaxBytesPerCycle     = 1;
 
@@ -224,10 +228,12 @@ void CS_ComputeTables_Test_TableNeverLoaded(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = true;
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s info Share: 0x%%08X, GetInfo: 0x%%08X, GetAddress: 0x%%08X");
@@ -265,10 +271,12 @@ void CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = true;
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s info Share: 0x%%08X, GetInfo: 0x%%08X, GetAddress: 0x%%08X");
@@ -316,10 +324,12 @@ void CS_ComputeTables_Test_ResultShareNotSuccess(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = true;
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s info Share: 0x%%08X, GetInfo: 0x%%08X, GetAddress: 0x%%08X");
@@ -367,13 +377,14 @@ void CS_ComputeTables_Test_TblInfoUpdated(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = true;
     CFE_TBL_Info_t              TblInfo;
 
-    ResultsEntry.TblHandle = 99;
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
 
-    ResultsEntry.ByteOffset     = 0;
+    ResultsEntry.TblHandle      = 99;
     CS_AppData.MaxBytesPerCycle = 5;
 
     /* Sets TblInfo.Size = 5 and returns CFE_TBL_INFO_UPDATED */
@@ -413,15 +424,16 @@ void CS_ComputeTables_Test_GetInfoResult(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = true;
     CFE_TBL_Info_t              TblInfo;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
 
     ResultsEntry.TblHandle = 99;
 
-    ResultsEntry.ByteOffset         = 0;
-    ResultsEntry.NumBytesToChecksum = 0;
-    CS_AppData.MaxBytesPerCycle     = 5;
+    CS_AppData.MaxBytesPerCycle = 5;
 
     /* Sets TblInfo.Size = 5 and returns CFE_TBL_INFO_UPDATED */
     TblInfo.Size = 5;
@@ -460,13 +472,15 @@ void CS_ComputeTables_Test_CSError(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = false;
     CFE_TBL_Info_t              TblInfo;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
 
     ResultsEntry.TblHandle = 99;
 
-    ResultsEntry.ByteOffset     = 0;
     CS_AppData.MaxBytesPerCycle = 5;
 
     ResultsEntry.ComputedYet = true;
@@ -510,13 +524,15 @@ void CS_ComputeTables_Test_NominalBadTableHandle(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = false;
     CFE_TBL_Info_t              TblInfo;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
 
     ResultsEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 
-    ResultsEntry.ByteOffset     = 0;
     CS_AppData.MaxBytesPerCycle = 5;
 
     ResultsEntry.ComputedYet = true;
@@ -565,13 +581,15 @@ void CS_ComputeTables_Test_FirstTimeThrough(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = false;
     CFE_TBL_Info_t              TblInfo;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
 
     ResultsEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 
-    ResultsEntry.ByteOffset     = 0;
     CS_AppData.MaxBytesPerCycle = 5;
 
     ResultsEntry.ComputedYet = false;
@@ -624,13 +642,15 @@ void CS_ComputeTables_Test_EntryNotFinished(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = true;
     CFE_TBL_Info_t              TblInfo;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
 
     ResultsEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 
-    ResultsEntry.ByteOffset     = 0;
     CS_AppData.MaxBytesPerCycle = 3;
 
     ResultsEntry.ComputedYet = false;
@@ -680,18 +700,20 @@ void CS_ComputeTables_Test_ComputeTablesReleaseError(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = true;
     CFE_TBL_Info_t              TblInfo;
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Could not release addresss for table %%s, returned: 0x%%08X");
 
     ResultsEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 
-    ResultsEntry.ByteOffset     = 0;
     CS_AppData.MaxBytesPerCycle = 3;
 
     ResultsEntry.ComputedYet = false;
@@ -753,11 +775,14 @@ void CS_ComputeTables_Test_ComputeTablesError(void)
 {
     int32                       Result;
     CS_Res_Tables_Table_Entry_t ResultsEntry;
-    uint32                      ComputedCSValue;
-    bool                        DoneWithEntry;
+    uint32                      ComputedCSValue = 0;
+    bool                        DoneWithEntry   = true;
     CFE_TBL_Info_t              TblInfo;
     int32                       strCmpResult;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s info Share: 0x%%08X, GetInfo: 0x%%08X, GetAddress: 0x%%08X");
@@ -803,10 +828,11 @@ void CS_ComputeApp_Test_Nominal(void)
 {
     int32                    Result;
     CS_Res_App_Table_Entry_t ResultsEntry;
-    uint32                   ComputedCSValue;
-    bool                     DoneWithEntry;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
 
-    ResultsEntry.ByteOffset     = 0;
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+
     CS_AppData.MaxBytesPerCycle = 5;
 
     ResultsEntry.ComputedYet = true;
@@ -846,10 +872,12 @@ void CS_ComputeApp_Test_GetAppIDByNameError(void)
 {
     int32                    Result;
     CS_Res_App_Table_Entry_t ResultsEntry;
-    uint32                   ComputedCSValue;
-    bool                     DoneWithEntry;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = true;
     int32                    strCmpResult;
     char                     ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Apps: Problems getting app %%s info, GetAppID: 0x%%08X, GetAppInfo: 0x%%08X, AddressValid: %%d");
@@ -885,10 +913,12 @@ void CS_ComputeApp_Test_GetAppInfoError(void)
 {
     int32                    Result;
     CS_Res_App_Table_Entry_t ResultsEntry;
-    uint32                   ComputedCSValue;
-    bool                     DoneWithEntry;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = true;
     int32                    strCmpResult;
     char                     ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Apps: Problems getting app %%s info, GetAppID: 0x%%08X, GetAppInfo: 0x%%08X, AddressValid: %%d");
@@ -924,10 +954,12 @@ void CS_ComputeApp_Test_ComputeAppPlatformError(void)
 {
     int32                    Result;
     CS_Res_App_Table_Entry_t ResultsEntry;
-    uint32                   ComputedCSValue;
-    bool                     DoneWithEntry;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = true;
     int32                    strCmpResult;
     char                     ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS cannot get a valid address for %%s, due to the platform");
@@ -975,9 +1007,11 @@ void CS_ComputeApp_Test_DifferFromSavedValue(void)
 {
     int32                    Result;
     CS_Res_App_Table_Entry_t ResultsEntry;
-    uint32                   ComputedCSValue;
-    bool                     DoneWithEntry;
-    ResultsEntry.ByteOffset     = 0;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+
     CS_AppData.MaxBytesPerCycle = 5;
 
     ResultsEntry.ComputedYet = true;
@@ -1013,10 +1047,11 @@ void CS_ComputeApp_Test_FirstTimeThrough(void)
 {
     int32                    Result;
     CS_Res_App_Table_Entry_t ResultsEntry;
-    uint32                   ComputedCSValue;
-    bool                     DoneWithEntry;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
 
-    ResultsEntry.ByteOffset     = 0;
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+
     CS_AppData.MaxBytesPerCycle = 5;
 
     ResultsEntry.ComputedYet = false;
@@ -1059,11 +1094,13 @@ void CS_ComputeApp_Test_EntryNotFinished(void)
 {
     int32                    Result;
     CS_Res_App_Table_Entry_t ResultsEntry;
-    uint32                   ComputedCSValue;
-    bool                     DoneWithEntry;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = true;
     CFE_TBL_Info_t           TblInfo;
 
-    ResultsEntry.ByteOffset     = 0;
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&TblInfo, 0, sizeof(TblInfo));
+
     CS_AppData.MaxBytesPerCycle = 3;
 
     ResultsEntry.ComputedYet = true;
@@ -1111,6 +1148,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
+    memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
+    memset(DefEepromTbl, 0, sizeof(DefEepromTbl));
+
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
@@ -1127,7 +1167,6 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
 
     DefEepromTbl[1].State = 1;
 
-    CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeEepromMemoryEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                                  = 2;
 
@@ -1174,6 +1213,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
+    memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
+    memset(DefMemoryTbl, 0, sizeof(DefMemoryTbl));
+
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
@@ -1190,7 +1232,6 @@ void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
 
     DefMemoryTbl[1].State = 1;
 
-    CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeEepromMemoryEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                                  = 2;
 
@@ -1237,6 +1278,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
+    memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
+    memset(DefMemoryTbl, 0, sizeof(DefMemoryTbl));
+
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
@@ -1253,7 +1297,6 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
 
     DefMemoryTbl[1].State = 1;
 
-    CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeEepromMemoryEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                                  = 2;
 
@@ -1302,6 +1345,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
+    memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
+    memset(DefMemoryTbl, 0, sizeof(DefMemoryTbl));
+
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
@@ -1318,7 +1364,6 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
 
     DefMemoryTbl[1].State = 1;
 
-    CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeEepromMemoryEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                                  = 2;
 
@@ -1367,6 +1412,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
+    memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
+    memset(DefEepromTbl, 0, sizeof(DefEepromTbl));
+
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
@@ -1383,9 +1431,6 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId(void)
 
     DefEepromTbl[1].State = 1;
 
-    CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State = 0;
-
-    CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeEepromMemoryEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                                  = 2;
 
@@ -1408,8 +1453,6 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId(void)
                   "CS_AppData.RecomputeEepromMemoryEntryPtr->ComputedYet == true");
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr->State == 99,
                   "CS_AppData.RecomputeEepromMemoryEntryPtr->State == 99");
-    UtAssert_True(CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == 0,
-                  "CS_AppData.DefEepromTblPtr[CS_AppData.ChildTaskEntryID].State == 0");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -1432,6 +1475,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
+    memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
+    memset(DefEepromTbl, 0, sizeof(DefEepromTbl));
+
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
@@ -1448,7 +1494,6 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
 
     DefEepromTbl[1].State = 1;
 
-    CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeEepromMemoryEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                                  = 2;
 
@@ -1495,6 +1540,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
     int32                             strCmpResult;
     char                              ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
+    memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
+    memset(DefEepromTbl, 0, sizeof(DefEepromTbl));
+
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
@@ -1511,7 +1559,6 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
 
     DefEepromTbl[1].State = CS_STATE_EMPTY;
 
-    CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeEepromMemoryEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                                  = 2;
 
@@ -1573,7 +1620,6 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
 
     DefAppTbl[1].State = 1;
 
-    CS_AppData.RecomputeAppEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeAppEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                         = 2;
 
@@ -1702,7 +1748,6 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
 
     CS_AppData.ChildTaskEntryID = 1;
 
-    CS_AppData.RecomputeAppEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeAppEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                         = 2;
 
@@ -1768,7 +1813,6 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
 
     DefTablesTbl[1].State = 1;
 
-    CS_AppData.RecomputeTablesEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeTablesEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                            = 2;
 
@@ -1915,7 +1959,6 @@ void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
 
     CS_AppData.ChildTaskEntryID = 1;
 
-    CS_AppData.RecomputeTablesEntryPtr->ByteOffset         = 0;
     CS_AppData.RecomputeTablesEntryPtr->NumBytesToChecksum = 1;
     CS_AppData.MaxBytesPerCycle                            = 2;
 

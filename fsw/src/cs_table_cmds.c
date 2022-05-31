@@ -118,7 +118,7 @@ void CS_ReportBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-        strncpy(Name, CmdPtr->Name, sizeof(Name));
+        strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
         Name[sizeof(Name) - 1] = '\0';
 
         if (CS_GetTableResTblEntryByName(&ResultsEntry, Name))
@@ -168,7 +168,7 @@ void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 
         if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == false)
         {
-            strncpy(Name, CmdPtr->Name, sizeof(Name));
+            strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
             Name[sizeof(Name) - 1] = '\0';
 
             /* make sure the entry is a valid number and is defined in the table */
@@ -236,7 +236,7 @@ void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
     {
         if (CS_CheckRecomputeOneshot() == false)
         {
-            strncpy(Name, CmdPtr->Name, sizeof(Name));
+            strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
             Name[sizeof(Name) - 1] = '\0';
 
             if (CS_GetTableResTblEntryByName(&ResultsEntry, Name))
@@ -293,7 +293,7 @@ void CS_EnableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
     {
         if (CS_CheckRecomputeOneshot() == false)
         {
-            strncpy(Name, CmdPtr->Name, sizeof(Name));
+            strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
             Name[sizeof(Name) - 1] = '\0';
 
             if (CS_GetTableResTblEntryByName(&ResultsEntry, Name))
