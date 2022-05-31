@@ -19,7 +19,7 @@ a)       Checksumming (as a whole) is Enabled
 b)       Non-volatile segment checksumming is Enabled
 c)       Checksumming for the individual Non-volatile segment is Enabled",Need to verify Non-volatile memory. Note that each segment within a non-volatile region can have a different size since the segment is defined as an address and number of bytes
 CS2001.1,CS2001.1,"If the Non-volatile segment CRC is not equal to the corresponding baseline CRC, CS shall increment the Non-volatile CRC Miscompare Counter and send an event message","Since the location of files loaded to Nonvolatile is unknown apriori, there is no way to determine which Nonvolatile segment or segments will be affected"
-CS2001.2,CS2001.2,"If the table-defined segement is invalid, CS shall send an error event message",
+CS2001.2,CS2001.2,"If the table-defined segement is invalid, CS shall send an error event message",Operational notification of invalid segment processing
 CS2002,CS2002,"Upon receipt of a Enable Non-volatile Checksumming command, CS shall enable non-volatile checksumming",Enable checksumming of all of the nonvolatile memory segments defined in the table
 CS2003,CS2003,"Upon receipt of a Disable Non-volatile Checksumming command, CS shall disable non-volatile checksumming",Disable checksumming of all of the nonvolatile memory segments defined in the table
 CS2004,CS2004,"Upon receipt of a Enable Non-volatile Segment command, CS shall enable checksumming of the command-specified non-volatile segment",Enable checksumming of a particular segment
@@ -30,7 +30,7 @@ b) Set the Recompute In Progress Flag to TRUE",Would be used after non-volatile 
 CS2006.1,CS2006.1,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Recompute is done in a background task so can only do one recompute at a time
 CS2006.2,CS2006.2,"Once the baseline CRC is computed, CS shall:
 a) Generate an informational event message containing the baseline CRC
-b) Set the Recompute In Progress Flag to FALSE",
+b) Set the Recompute In Progress Flag to FALSE",Operational notification of baseline CRC computation completion
 CS2007,CS2007,"Upon receipt of a Report Non-volatile Checksum Segment command, CS shall send an event message containing the baseline checksum for the command-specified non-volatile segment",Provides the ground with the baseline being used.
 CS2008,CS2008,"Upon receipt of a Get Non-volatile Checksum Segment command, CS shall send an event message containing the segment number for the command-specified non-volatile address",Provides the ground with ability to map the address to segment. Helpful since other commands use segment ID.
 CS2009,CS2009,"If a command-specified segment is invalid (for any of the non-volatile memory commands where segment is a command argument), CS shall reject the command and send an event message",Need to handle the case where an invalid segment is specified for any of the nonvolatile commands
@@ -38,7 +38,7 @@ CS2010,CS2010,CS shall provide the ability to dump the baseline CRCs and status 
 CS3000,CS3000,"Checksum shall calculate CRC for the OS code segment and compare them against the corresponding baseline OS code segment CRC if:
 a)       Checksumming (as a whole) is Enabled
 b)       OS segment checksumming is Enabled",Need to verify the OS code segment
-CS3000.1,CS3000.1,"If the OS code segment CRC is not equal to the baseline OS code segment CRC, CS shall increment the OS Code Segment CRC Miscompare Counter and send an event message",
+CS3000.1,CS3000.1,"If the OS code segment CRC is not equal to the baseline OS code segment CRC, CS shall increment the OS Code Segment CRC Miscompare Counter and send an event message",Operational notification of CRC mismatch.
 CS3002,CS3002,"Upon receipt of a Enable OS code segment command, CS shall enable checksumming of the OS Code segment",Enable checksumming of the OS code segment
 CS3003,CS3003,"Upon receipt of a Disable OS code segment command, CS shall Disable checksumming of the OS Code segment",Disable checksumming of the OS code segment
 CS3004,CS3004,"Upon receipt of a Recompute OS code segment CRC command, CS shall:
@@ -52,7 +52,7 @@ CS3005,CS3005,"Upon receipt of a Report OS code segment CRC command, CS shall se
 CS3006,CS3006,"Checksum shall calculate CRC for the cFE code segment and compare them against the corresponding baseline cFE code segment CRC if:
 a)       Checksumming (as a whole) is Enabled
 b)       cFE segment checksumming is Enabled",Need to verify the cFE code segment
-CS3006.1,CS3006.1,"If the cFE code segment CRC is not equal to the baseline cFE code segment CRC, CS shall increment the cFE Code Segment CRC Miscompare Counter and send an event message",
+CS3006.1,CS3006.1,"If the cFE code segment CRC is not equal to the baseline cFE code segment CRC, CS shall increment the cFE Code Segment CRC Miscompare Counter and send an event message",Operational notification of CRC mismatch
 CS3007,CS3007,"Upon receipt of a Enable cFE code segment command, CS shall enable checksumming of the cFE Code segment",Enable checksumming of the cFE code segment
 CS3008,CS3008,"Upon receipt of a Disable cFE code segment command, CS shall Disable checksumming of the cFE Code segment",Disable checksumming of the cFE code segment
 CS3009,CS3009,"Upon receipt of a Recompute cFE Code Segment CRC command, CS shall:
@@ -112,8 +112,8 @@ CS6000.1,CS6000.1,"If the User-Defined Memory's CRC is not equal to the correspo
 CS6000.2,CS6000.2,"If the table-defined Memory is invalid, CS shall send an event message.",This may be a result of an invalid User-Defined Memory area
 CS6001,CS6001,"Upon receipt of a Enable User-Defined Memory Checksumming command, CS shall enable checksumming of all User-Defined Memory.",Enable checksumming of all of the User-Defined Memory defined in the table
 CS6002,CS6002,"Upon receipt of a Disable User-Defined Memory Checksumming command, CS shall disable checksumming of all User-Defined Memory.",Disable checksumming of all of the User-Defined Memory defined in the table
-CS6003,CS6003,"Upon receipt of a Enable User-Defined Memory Item command, CS shall enable checksumming of the command-specified Memory.",
-CS6004,CS6004,"Upon receipt of a Disable User-Defined Memory Item command, CS shall Disable checksumming of the command-specified Memory.",
+CS6003,CS6003,"Upon receipt of a Enable User-Defined Memory Item command, CS shall enable checksumming of the command-specified Memory.",Operational control of checksumming command-specified memory
+CS6004,CS6004,"Upon receipt of a Disable User-Defined Memory Item command, CS shall Disable checksumming of the command-specified Memory.",Operational control of checksumming command specified memory
 CS6005,CS6005,"Upon receipt of a Recompute User-Defined Memory CRC command, CS shall:
 a) Recompute the baseline CRC for the command-specified User-Defined Memory.
 b) Set the Recompute In Progress Flag to TRUE",Allows continued CRC checking for areas of memory that are intentionally changed.
@@ -124,8 +124,8 @@ CS6005.2,CS6005.2,"If CS is already processing a Recompute CRC command or a One 
 CS6006,CS6006,"Upon receipt of a Report User-Defined Memory CRC command, CS shall send an event message containing the baseline CRC for the command-specified User-Defined Memory.",Provides the ground with the baseline being used.
 CS6007,CS6007,"If the command-specified User-Defined Memory is invalid (for any of the User-Defined memory commands where the memory ID is a command argument), CS shall reject the command and send an event message",Need to handle the case where an invalid User-Defined Memory is specified
 CS6008,CS6008,CS shall provide the ability to dump the baseline CRCs and status for all the User-Defined Memory via a dump-only table.,Need the ability to get all of the User-Defined Memory checksums. Easiest to use the cFE User-Defined Memory services dump-only User-Defined Memory feature
-CS6009,CS6009,"Upon receipt of a Get User-Defined Memory Entry ID command, CS shall send an informational event message containing the User-Defined Memory Table Entry ID for the command-specified Memory Address.",
-CS6009.1,CS6009.1,"If the command-specified Memory Address cannot be found within the User-Defined Memory Table, CS shall send an informational event message.",
+CS6009,CS6009,"Upon receipt of a Get User-Defined Memory Entry ID command, CS shall send an informational event message containing the User-Defined Memory Table Entry ID for the command-specified Memory Address.",Operational support for getting memory table entry ID
+CS6009.1,CS6009.1,"If the command-specified Memory Address cannot be found within the User-Defined Memory Table, CS shall send an informational event message.",Operational notification of memory address not found
 CS7000,CS7000,The CS software shall limit the amount of bytes processed during each of its execution cycles to a maximum of <PLATFORM_DEFINED> bytes,Want to make sure that CS does not hog the CPU
 CS8000,CS8000,"Upon receipt of a Enable Checksum command, CS shall start calculating CRCs and compare them against the baseline CRCs.",Provides global control over CS
 CS8001,CS8001,"Upon receipt of a Disable Checksum command, CS shall stop calculating  CRCs and comparing them against the baseline CRCs.","Provides global control over CS. Note that this supercedes the enable/disable status of each region’s enable/disable status AND the enable status of each element within a region (eg. Even if App code segment X is Enabled, CS will not perform checksumming operation. If Table checksumming is Enabled, CS will not perform checksumming."
@@ -134,9 +134,9 @@ a) Calculate the CRC starting at the command-specified address for the command-s
 b) Set the One Shot In Progress Flag to TRUE",Provides a generic capability to compute a checksum for any memory
 CS8002.1,CS8002.1,"Once the CRC is computed CS shall:
 a) Issue an event message containing the CRC
-b) Set the One Shot In Progress Flag to FALSE",
+b) Set the One Shot In Progress Flag to FALSE",Operational notification of CRC computation completion
 CS8002.2,CS8002.2,"If CS is already processing a One Shot CRC command or a Recompute CRC command, CS shall reject the command.",Can only process one One Shot command at a time
-CS8002.3,CS8002.3,"If the command-specified rate is zero, CS shall calculate the CRC at the <PLATFORM_DEFINED> rate (Max Bytes Per Cycle).",
+CS8002.3,CS8002.3,"If the command-specified rate is zero, CS shall calculate the CRC at the <PLATFORM_DEFINED> rate (Max Bytes Per Cycle).",Use default CRC calculation rate if not specified in command
 CS8003,CS8003,"Upon receipt of a Cancel One Shot command, CS shall stop the current One Shot calculation.","In the event that a memory region is too large, requiring too much time, cancelling the calculation may be required"
 CS9000,CS9000,"CS shall generate a housekeeping message containing the following:
 a)       Valid Ground Command Counter
@@ -208,35 +208,34 @@ b) cFE Code Segment Checksumming State
 c) Non-volatile Checksumming State
 d) Application Code Segment Checksumming State
 e) Table Checksumming State
-f) User-Defined Memory Checksumming State",
-CS9009,CS9009,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to False, CS shall perform initialization in accordance with a Power On reset.",
+f) User-Defined Memory Checksumming State",Reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET flag is true
+CS9009,CS9009,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to False, CS shall perform initialization in accordance with a Power On reset.",Reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is false
 CS9010,CS9010,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the segment's state is set to Enabled, CS shall compute baseline CRCs for the following regions:
 a)       OS code segment
-b)       cFE code segment",
-CS9011,CS9011,"Upon a Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Non-volatile Checksumming State is Enabled, CS shall compute baseline CRCs for Non-volatile segments based on the corresponding table definition for up to <PLATFORM_DEFINED> segments.",
+b)       cFE code segment",Baseline recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is true
+CS9011,CS9011,"Upon a Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Non-volatile Checksumming State is Enabled, CS shall compute baseline CRCs for Non-volatile segments based on the corresponding table definition for up to <PLATFORM_DEFINED> segments.",Baseline recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET flag is True.
 CS9011.1,CS9011.1,"If the address range for any of the Non-volatile segments is Invalid, CS shall send an event message and disable Non-volatile
-Checksumming",
+Checksumming",Operational notification of invalid address range for non-volatile segment
 CS9011.2,CS9011.2,"CS shall send an event message and disable Non-volatile Checksumming, if the state is not one of the following:
 a) enabled
 b) disabled
-c) empty",
-CS9012,CS9012,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Non-volatile Checksumming State is Enabled, CS shall compute the baseline CRC for the total of all of non-volatile segments",
-CS9013,CS9013,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Application Code Segment Checksumming State is Enabled, CS shall compute baseline CRCs for the Application code segments region based on the corresponding table definition for up to <PLATFORM_DEFINED> Applications",
+c) empty",Response to invalid state request
+CS9012,CS9012,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Non-volatile Checksumming State is Enabled, CS shall compute the baseline CRC for the total of all of non-volatile segments",Checksum recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is True
+CS9013,CS9013,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Application Code Segment Checksumming State is Enabled, CS shall compute baseline CRCs for the Application code segments region based on the corresponding table definition for up to <PLATFORM_DEFINED> Applications",Checksum recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is True
 CS9013.1,CS9013.1,"CS shall send an event message and disable Application code segment Checksumming, if the state is not one of the
 following:
 a) enabled
 b) disabled
-c) empty",
-CS9014,CS9014,"Upon a a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Table Checksumming State is Enabled, CS shall compute baseline CRCs for the tables specified in the corresponding table definition for up to <PLATFORM_DEFINED> tables",
+c) empty",Response to invalid state request
+CS9014,CS9014,"Upon a a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Table Checksumming State is Enabled, CS shall compute baseline CRCs for the tables specified in the corresponding table definition for up to <PLATFORM_DEFINED> tables",Checksum recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET flag is True
 CS9014.1,CS9014.1,"CS shall send an event message and disable Table Checksumming, if the state is not one of the following:
 a) enabled
 b) disabled
-c) empty",
-CS9015,CS9015,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the User-Defined Memory Checksumming State is Enabled, CS shall compute baseline CRCs for the User-Defined memory region based on the corresponding table definition for up to <PLATFORM_DEFINED> memory segments.",
-CS9015.1,CS9015.1,"If the address range for any of the User-Defined Memory is Invalid, CS shall send an event message and disable
-User-Defined Memory Checksumming",
+c) empty",Response to invalid state request
+CS9015,CS9015,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the User-Defined Memory Checksumming State is Enabled, CS shall compute baseline CRCs for the User-Defined memory region based on the corresponding table definition for up to <PLATFORM_DEFINED> memory segments.",Checksum recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is True
+CS9015.1,CS9015.1,"If the address range for any of the User-Defined Memory is Invalid, CS shall send an event message and disable User-Defined Memory Checksumming",Operational response to user-defined memory invalid address range
 CS9015.2,CS9015.2,"CS shall send an event message and disable Checksumming of the User-Defined Memory, if the state is not one of
 the following:
 a) enabled
 b) disabled
-c) empty",
+c) empty",Response to invalid state request
