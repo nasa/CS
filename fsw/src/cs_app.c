@@ -264,13 +264,6 @@ int32 CS_AppInit(void)
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
         Result = CS_CreateRestoreStatesFromCDS();
-        if (Result != CFE_SUCCESS)
-        {
-            CFE_EVS_SendEvent(CS_CREATE_RESTORE_STATES_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Call to CDS restore command returned: RC = 0x%08X\n", (unsigned int)Result);
-            /* failure to restore from CDS is not a fatal error */
-            Result = CFE_SUCCESS;
-        }
 #endif
     }
 
