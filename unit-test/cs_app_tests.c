@@ -552,8 +552,6 @@ void CS_AppInit_Test_NominalPowerOnReset(void)
     /* Set to prevent unintended error messages */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), CFE_SUCCESS);
 
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetResetType), 1, CFE_PSP_RST_TYPE_POWERON);
-
     /* Execute the function being tested */
     Result = CS_AppInit();
 
@@ -593,59 +591,25 @@ void CS_AppInit_Test_NominalPowerOnReset(void)
 
 void CS_AppInit_Test_NominalProcReset(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "CS Initialized. Version %%d.%%d.%%d.%%d");
-
     CS_AppData.HkPacket.EepromCSState = 99;
     CS_AppData.HkPacket.MemoryCSState = 99;
     CS_AppData.HkPacket.AppCSState    = 99;
     CS_AppData.HkPacket.TablesCSState = 99;
 
-    /* Set to prevent segmentation fault */
-    UT_SetDeferredRetcode(UT_KEY(CFE_MSG_GetMsgId), 1, 99);
-
-    /* Set to prevent unintended error messages */
-    UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), CFE_SUCCESS);
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetResetType), 2, CFE_PSP_RST_TYPE_PROCESSOR);
-
-    UT_SetHandlerFunction(UT_KEY(CFE_ES_RestoreFromCDS), CS_APP_TEST_CFE_ES_RestoreFromCDS_Handler, NULL);
-
     /* Execute the function being tested */
-    Result = CS_AppInit();
+    UtAssert_INT32_EQ(CS_AppInit(), CFE_SUCCESS);
 
     /* Verify results */
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.EepromCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.MemoryCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.AppCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.TablesCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.OSCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.CfeCoreCSState, CS_STATE_ENABLED);
 
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_INIT_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.EepromCSState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.MemoryCSState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.AppCSState    == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.TablesCSState == CS_STATE_ENABLED");
-
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
 
 } /* end CS_AppInit_Test_NominalProcReset */
 
@@ -659,8 +623,6 @@ void CS_CreateRestoreStatesFromCDS_Test_NoExistingCDS(void)
     CS_AppData.HkPacket.TablesCSState  = 99;
     CS_AppData.HkPacket.OSCSState      = 99;
     CS_AppData.HkPacket.CfeCoreCSState = 99;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetResetType), 2, CFE_PSP_RST_TYPE_PROCESSOR);
 
     /* Execute the function being tested */
     Result = CS_CreateRestoreStatesFromCDS();
@@ -694,8 +656,6 @@ void CS_CreateRestoreStatesFromCDS_Test_CDSSuccess(void)
     CS_AppData.HkPacket.TablesCSState  = 99;
     CS_AppData.HkPacket.OSCSState      = 99;
     CS_AppData.HkPacket.CfeCoreCSState = 99;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetResetType), 2, CFE_PSP_RST_TYPE_PROCESSOR);
 
     /* Set CDS return calls */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
@@ -744,8 +704,6 @@ void CS_CreateRestoreStatesFromCDS_Test_CDSFail(void)
     CS_AppData.HkPacket.TablesCSState  = 99;
     CS_AppData.HkPacket.OSCSState      = 99;
     CS_AppData.HkPacket.CfeCoreCSState = 99;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetResetType), 2, CFE_PSP_RST_TYPE_PROCESSOR);
 
     /* Set CDS return calls */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
@@ -802,8 +760,6 @@ void CS_CreateRestoreStatesFromCDS_Test_CopyToCDSFail(void)
     CS_AppData.HkPacket.TablesCSState  = 99;
     CS_AppData.HkPacket.OSCSState      = 99;
     CS_AppData.HkPacket.CfeCoreCSState = 99;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetResetType), 2, CFE_PSP_RST_TYPE_PROCESSOR);
 
     /* Set CDS return calls */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_SUCCESS);
@@ -862,8 +818,6 @@ void CS_CreateRestoreStatesFromCDS_Test_RegisterCDSFail(void)
     CS_AppData.HkPacket.TablesCSState  = 99;
     CS_AppData.HkPacket.OSCSState      = 99;
     CS_AppData.HkPacket.CfeCoreCSState = 99;
-
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetResetType), 2, CFE_PSP_RST_TYPE_PROCESSOR);
 
     /* Set CDS return calls */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, -1);
