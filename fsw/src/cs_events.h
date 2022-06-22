@@ -1950,18 +1950,6 @@
 #define CS_CFE_TEXT_SEG_INF_EID 150
 
 /**
- * \brief CS Restore States From Critical Data Store Failed Event ID
- *
- *  \par Type: INFORMATION
- *
- *  \par Cause:
- *
- *  This event message is issued when the call to
- *  CS_CreateRestoreStatesFromCDS fails
- */
-#define CS_CREATE_RESTORE_STATES_INF_EID 151
-
-/**
  * \brief CS Command Failed Due To Recompute Or Oneshot In Progress Event ID
  *
  *  \par Type: ERROR

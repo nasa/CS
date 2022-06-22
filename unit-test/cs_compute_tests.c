@@ -1668,14 +1668,9 @@ void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
 {
     CS_Res_App_Table_Entry_t RecomputeAppEntry;
     CS_Def_App_Table_Entry_t DefAppTbl[10];
-    int32                    strCmpResult;
-    char                     ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     memset(&RecomputeAppEntry, 0, sizeof(RecomputeAppEntry));
     memset(&DefAppTbl, 0, sizeof(DefAppTbl));
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "App %%s recompute failed. Could not get address");
 
     CS_AppData.RecomputeAppEntryPtr = &RecomputeAppEntry;
     CS_AppData.DefAppTblPtr         = DefAppTbl;
@@ -1684,7 +1679,8 @@ void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
 
     CS_AppData.ChildTaskEntryID = 1;
 
-    DefAppTbl[1].State = 1;
+    /* No matching non-empty state entry */
+    DefAppTbl[1].State = CS_STATE_EMPTY;
 
     CS_AppData.RecomputeAppEntryPtr->State = 99;
 
@@ -1702,29 +1698,19 @@ void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
     CS_RecomputeAppChildTask();
 
     /* Verify results */
-    UtAssert_True(CS_AppData.RecomputeAppEntryPtr->State == 99, "CS_AppData.RecomputeAppEntryPtr->State == 99");
-    UtAssert_True(CS_AppData.DefAppTblPtr[CS_AppData.ChildTaskEntryID].State == 1,
-                  "CS_AppData.DefAppTblPtr[CS_AppData.ChildTaskEntryID].State == 1");
-    UtAssert_True(CS_AppData.RecomputeAppEntryPtr->TempChecksumValue == 0,
-                  "CS_AppData.RecomputeAppEntryPtr->TempChecksumValue == 0");
-    UtAssert_True(CS_AppData.RecomputeAppEntryPtr->ByteOffset == 0, "CS_AppData.RecomputeAppEntryPtr->ByteOffset == 0");
-    UtAssert_True(CS_AppData.RecomputeAppEntryPtr->ComputedYet == false,
-                  "CS_AppData.RecomputeAppEntryPtr->ComputedYet == false");
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeAppEntryPtr->State, 99);
+    UtAssert_UINT32_EQ(CS_AppData.DefAppTblPtr[CS_AppData.ChildTaskEntryID].State, CS_STATE_EMPTY);
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeAppEntryPtr->TempChecksumValue, 0);
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeAppEntryPtr->ByteOffset, 0);
 
+    UtAssert_BOOL_FALSE(CS_AppData.RecomputeAppEntryPtr->ComputedYet);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_APP_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_RECOMPUTE_ERROR_APP_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
-                  call_count_CFE_EVS_SendEvent);
-    /* Generates 1 event message we don't care about in this test */
 
 } /* end CS_RecomputeAppChildTask_Test_CouldNotGetAddress */
 
@@ -1879,14 +1865,9 @@ void CS_RecomputeTablesChildTask_Test_CouldNotGetAddress(void)
 {
     CS_Res_Tables_Table_Entry_t RecomputeTablesEntry;
     CS_Def_Tables_Table_Entry_t DefTablesTbl[10];
-    int32                       strCmpResult;
-    char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     memset(&RecomputeTablesEntry, 0, sizeof(RecomputeTablesEntry));
     memset(&DefTablesTbl, 0, sizeof(DefTablesTbl));
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Table %%s recompute failed. Could not get address");
 
     CS_AppData.RecomputeTablesEntryPtr = &RecomputeTablesEntry;
     CS_AppData.DefTablesTblPtr         = DefTablesTbl;
@@ -1895,7 +1876,8 @@ void CS_RecomputeTablesChildTask_Test_CouldNotGetAddress(void)
 
     CS_AppData.ChildTaskEntryID = 1;
 
-    DefTablesTbl[1].State = 1;
+    /* No matching non-empty state entry */
+    DefTablesTbl[1].State = CS_STATE_EMPTY;
 
     CS_AppData.RecomputeTablesEntryPtr->State = 99;
 
@@ -1911,29 +1893,18 @@ void CS_RecomputeTablesChildTask_Test_CouldNotGetAddress(void)
     CS_RecomputeTablesChildTask();
 
     /* Verify results */
-    UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->State == 99, "CS_AppData.RecomputeTablesEntryPtr->State == 99");
-    UtAssert_True(CS_AppData.DefTablesTblPtr[CS_AppData.ChildTaskEntryID].State == 1,
-                  "CS_AppData.DefTablesTblPtr[CS_AppData.ChildTaskEntryID].State == 1");
-    UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->TempChecksumValue == 0,
-                  "CS_AppData.RecomputeTablesEntryPtr->TempChecksumValue == 0");
-    UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->ByteOffset == 0,
-                  "CS_AppData.RecomputeTablesEntryPtr->ByteOffset == 0");
-    UtAssert_True(CS_AppData.RecomputeTablesEntryPtr->ComputedYet == false,
-                  "CS_AppData.RecomputeTablesEntryPtr->ComputedYet == false");
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeTablesEntryPtr->State, 99);
+    UtAssert_UINT32_EQ(CS_AppData.DefTablesTblPtr[CS_AppData.ChildTaskEntryID].State, CS_STATE_EMPTY);
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeTablesEntryPtr->TempChecksumValue, 0);
+    UtAssert_UINT32_EQ(CS_AppData.RecomputeTablesEntryPtr->ByteOffset, 0);
 
+    UtAssert_BOOL_FALSE(CS_AppData.RecomputeTablesEntryPtr->ComputedYet);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_RECOMPUTE_ERROR_TABLES_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
 
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
-                  call_count_CFE_EVS_SendEvent);
     /* Note: generates 1 event message we don't care about in this test */
 
 } /* end CS_RecomputeTablesChildTask_Test_CouldNotGetAddress */

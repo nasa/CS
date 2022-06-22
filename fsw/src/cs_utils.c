@@ -665,40 +665,21 @@ bool CS_BackgroundEeprom(void)
             {
                 CS_AppData.HkPacket.CurrentEntryInTable++;
             }
-
-            if (CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
-            {
-                /* Since we are done CS'ing the entire Eeprom table, update the baseline
-                 number for telemetry */
-                EntireEepromCS = 0;
-                for (Loop = 0; Loop < CS_MAX_NUM_EEPROM_TABLE_ENTRIES; Loop++)
-                {
-                    EntireEepromCS += CS_AppData.ResEepromTblPtr[Loop].ComparisonValue;
-                }
-
-                CS_AppData.HkPacket.EepromBaseline = EntireEepromCS;
-
-                /* We are done with this table */
-                CS_GoToNextTable();
-            }
         }
-        else
+
+        if (CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
         {
-            /* If we don't have a full table, the above set of code won't get
-             executed, so we do it if there aren't any more full entries left */
-            if (CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
+            /* Since we are done CS'ing the entire Eeprom table, update the baseline
+             number for telemetry */
+            EntireEepromCS = 0;
+            for (Loop = 0; Loop < CS_MAX_NUM_EEPROM_TABLE_ENTRIES; Loop++)
             {
-                /* Since we are done CS'ing the entire Eeprom table, update the baseline
-                 number for telemetry */
-                EntireEepromCS = 0;
-                for (Loop = 0; Loop < CS_MAX_NUM_EEPROM_TABLE_ENTRIES; Loop++)
-                {
-                    EntireEepromCS += CS_AppData.ResEepromTblPtr[Loop].ComparisonValue;
-                }
-                CS_AppData.HkPacket.EepromBaseline = EntireEepromCS;
+                EntireEepromCS += CS_AppData.ResEepromTblPtr[Loop].ComparisonValue;
             }
 
-            /* There are no enabled entries in this table */
+            CS_AppData.HkPacket.EepromBaseline = EntireEepromCS;
+
+            /* We are done with this table */
             CS_GoToNextTable();
         }
     }
