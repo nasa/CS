@@ -63,26 +63,26 @@ a) Generate an event message containing the baseline CRC
 b) Set the Recompute In Progress Flag to FALSE",Gives the ground indication not only that the CRC baseline was calculated but what the value is
 CS3009.2,CS3009.2,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Only able to process one recompute one at a time
 CS3010,CS3010,"Upon receipt of a Report cFE code segment CRC command, CS shall send an event message containing the baseline cFE code segment CRC.",Provides the ability to view the cFE code segment baseline CRC
-CS4000,CS4000,"Checksum shall calculate CRCs for each Table-Defined Application's code segment and compare them against the corresponding Application's baseline code segment CRC if:
+CS4000,CS4000,"Checksum shall calculate CRCs for each Table-Defined Application or Library's code segment and compare them against the corresponding Application's baseline code segment CRC if:
 a)       Checksumming (as a whole) is Enabled
 b)       App code segment checksumming is Enabled
-c)       Checksumming of the individual Application Code Segment is Enabled",Need to verify each Application’s code segment. Note that CS depends on ES to provide the information as to which applications are running
-CS4000.1,CS4000.1,"If the Application's code segment CRC is not equal to the corresponding  Application's baseline code segment CRC, CS shall increment the Application Code Segment CRC Miscompare Counter and send an event message.","In practice, when a new application is being loaded, checksumming of Application code segments should be disabled prior to the load and then enabled after the load."
-CS4000.2,CS4000.2,"If the table-defined Application code segment is invalid, CS shall send an event message and skip that Application code segment.",This may be a result of an invalid Application code segment table or a deleted application.
-CS4001,CS4001,"Upon receipt of a Enable Application checksumming command, CS shall enable checksumming of all Application Code segments.",Enable checksumming of all of the Application code segments defined in the table
-CS4002,CS4002,"Upon receipt of a Disable Application checksumming command, CS shall Disable checksumming of all Application Code segments.",Disable checksumming of all of the Application code segments defined in the table
-CS4003,CS4003,"Upon receipt of a Enable Application code segment command, CS shall enable checksumming of the command-specified Application.",Enable checksumming of a particular Application code segment
-CS4004,CS4004,"Upon receipt of a Disable Application code segment command, CS shall Disable checksumming of the command-specified Application.",Disable checksumming of a particular Application Code segment. This may be particularly useful when reloading an existing application.
+c)       Checksumming of the individual Application or Library Code Segment is Enabled",Need to verify each Application or Library’s code segment. Note that CS depends on ES to provide the information as to which applications are running
+CS4000.1,CS4000.1,"If the Application or Library's code segment CRC is not equal to the corresponding  Application or Library's baseline code segment CRC, CS shall increment the Application Code Segment CRC Miscompare Counter and send an event message.","In practice, when a new application or library is being loaded, checksumming of Application or Library code segments should be disabled prior to the load and then enabled after the load."
+CS4000.2,CS4000.2,"If the table-defined Application or Library code segment is invalid, CS shall send an event message and skip that Application or Library code segment.",This may be a result of an invalid Application or Library code segment table or a deleted application.
+CS4001,CS4001,"Upon receipt of a Enable Application checksumming command, CS shall enable checksumming of all Application and Library Code segments.",Enable checksumming of all of the Application and Library code segments defined in the table
+CS4002,CS4002,"Upon receipt of a Disable Application checksumming command, CS shall Disable checksumming of all Application and Library Code segments.",Disable checksumming of all of the Application and Library code segments defined in the table
+CS4003,CS4003,"Upon receipt of a Enable Application code segment command, CS shall enable checksumming of the command-specified Application or Library.",Enable checksumming of a particular Application or Library code segment
+CS4004,CS4004,"Upon receipt of a Disable Application code segment command, CS shall Disable checksumming of the command-specified Application or Library.",Disable checksumming of a particular Application or Library Code segment. This may be particularly useful when reloading an existing application.
 CS4005,CS4005,"Upon receipt of a Recompute Application Code Segment CRC command, CS shall:
-a) Recompute the baseline CRC for the Application
-b) Set the Recompute In Progress Flag to TRUE",Would be used after an Application code segment is updated in order to regenerate the baseline
+a) Recompute the baseline CRC for the Application or Library
+b) Set the Recompute In Progress Flag to TRUE",Would be used after an Application or Library code segment is updated in order to regenerate the baseline
 CS4005.1,CS4005.1,"Once the baseline CRC is computed, CS shall:
 a) Generate an event message containing the baseline CRC
 b) Set the Recompute In Progress Flag to FALSE",Gives the ground indication not only that the CRC baseline was calculated but what the value is.
 CS4005.2,CS4005.2,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Can only support one recompute CRC at a time
-CS4006,CS4006,"Upon receipt of a Report Application code segment CRC command, CS shall send an event message containing the baseline Application code segment CRC",Provides the ground with the baseline being used.
-CS4007,CS4007,"If the command-specified Application is invalid (for any Application Code Segment command where the Application is a command argument, CS shall reject the command and send an event message",Need to handle the case where an invalid Application is specified for any of the Application code segment commands
-CS4008,CS4008,CS shall provide the ability to dump the baseline CRCs and status for the Application code segment memory segments via a dump-only table,Need the ability to get all of the application code segment checksums. Easiest to use the cFE Table services dump-only table feature
+CS4006,CS4006,"Upon receipt of a Report Application code segment CRC command, CS shall send an event message containing the baseline Application or Library code segment CRC",Provides the ground with the baseline being used.
+CS4007,CS4007,"If the command-specified Application or Library is invalid (for any Application Code Segment command where the Application/Library is a command argument, CS shall reject the command and send an event message",Need to handle the case where an invalid Application or Library is specified for any of the Application code segment commands
+CS4008,CS4008,CS shall provide the ability to dump the baseline CRCs and status for the Application or Library code segment memory segments via a dump-only table,Need the ability to get all of the application code segment checksums. Easiest to use the cFE Table services dump-only table feature
 CS5000,CS5000,"Checksum shall calculate CRCs for each Table-Defined Table and compare them against the corresponding Table's baseline CRC if:
 a)       Checksumming (as a whole) is Enabled
 b)       Table checksumming is Enabled
@@ -186,7 +186,7 @@ a)       enabled
 b)       disabled
 c)       empty",Table validation includes verifying that the table contains valid intial states.
 CS9004,CS9004,"Upon a cFE Power On Reset, if the Non-Volatile <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute the baseline CRC for the total of all of non-volatile segments.",Need to have a checksum for the entire image. Note that the CRCs for each of the non-volatile segments specified in the table are added together to arrive at this number.
-CS9005,CS9005,"Upon a cFE Power On Reset, if the Application <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute baseline CRCs for the Application code segments region based on the corresponding table definition for up to a <PLATFORM_DEFINED> Applications",Need to compute baselines for the Applications specified in the table. The platform-defined value could be equal to the max number of apps defined by cFE ES but could be less
+CS9005,CS9005,"Upon a cFE Power On Reset, if the Application <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute baseline CRCs for the Application or Library code segments region based on the corresponding table definition for up to a <PLATFORM_DEFINED> Applications and Libraries",Need to compute baselines for the Applications and Libraries specified in the table. The platform-defined value could be equal to the max number of apps defined by cFE ES but could be less
 CS9005.1,CS9005.1,"CS shall send an event message and disable Application code segment Checksumming, if the state is not one of the following:
 a)       enabled
 b)       disabled

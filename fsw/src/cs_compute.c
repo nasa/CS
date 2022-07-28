@@ -316,12 +316,12 @@ int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSVa
     uint32  NewChecksumValue        = 0;
     int32   Status                  = CS_SUCCESS;
     int32   Result;
-    int32   ResultGetAppID     = CS_ERROR;
-    int32   ResultGetAppInfo   = CS_ERROR;
-    int32   ResultAddressValid = false;
+    int32   ResultGetResourceID   = CS_ERROR;
+    int32   ResultGetResourceInfo = CS_ERROR;
+    int32   ResultAddressValid    = false;
 
     /* variables to get applications address */
-    CFE_ES_AppId_t   AppID = CFE_ES_APPID_UNDEFINED;
+    CFE_ResourceId_t ResourceID = CFE_RESOURCEID_UNDEFINED;
     CFE_ES_AppInfo_t AppInfo;
 
     /* By the time we get here, we know we have an enabled entry */
@@ -329,20 +329,25 @@ int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSVa
     /* set the done flag to false originally */
     *DoneWithEntry = false;
 
-    ResultGetAppID = CFE_ES_GetAppIDByName(&AppID, ResultsEntry->Name);
-    Result         = ResultGetAppID;
+    ResultGetResourceID = CFE_ES_GetAppIDByName((CFE_ES_AppId_t *)&ResourceID, ResultsEntry->Name);
+    if (ResultGetResourceID == CFE_ES_ERR_NAME_NOT_FOUND)
+    {
+        /* Also check for a matching library name */
+        ResultGetResourceID = CFE_ES_GetLibIDByName((CFE_ES_LibId_t *)&ResourceID, ResultsEntry->Name);
+    }
+    Result = ResultGetResourceID;
 
     if (Result == CFE_SUCCESS)
     {
-        /* We got a valid AppID, so get the App info */
+        /* We got a valid ResourceID, so get the Resource info */
 
-        ResultGetAppInfo = CFE_ES_GetAppInfo(&AppInfo, AppID);
-        Result           = ResultGetAppInfo;
+        ResultGetResourceInfo = CFE_ES_GetModuleInfo(&AppInfo, ResourceID);
+        Result                = ResultGetResourceInfo;
     }
 
     if (Result == CFE_SUCCESS)
     {
-        /* We got a valid AppID and good App info, so check the for valid addresses */
+        /* We got a valid ResourceID and good App info, so check the for valid addresses */
 
         if (AppInfo.AddressesAreValid == false)
         {
@@ -363,7 +368,7 @@ int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSVa
 
     if (Result == CFE_SUCCESS)
     {
-        /* We got valid AppID, good info, and valid addresses, so run the checksum */
+        /* We got valid ResourceID, good info, and valid addresses, so run the checksum */
 
         OffsetIntoCurrEntry     = ResultsEntry->ByteOffset;
         FirstAddrThisCycle      = ResultsEntry->StartAddress + OffsetIntoCurrEntry;
@@ -417,11 +422,11 @@ int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSVa
     } /* end if got module id ok */
     else
     {
-        /* Something failed -- either invalid AppID, bad App info, or invalid addresses, so notify ground */
+        /* Something failed -- either invalid ResourceID, bad App info, or invalid addresses, so notify ground */
         CFE_EVS_SendEvent(
             CS_COMPUTE_APP_ERR_EID, CFE_EVS_EventType_ERROR,
-            "CS Apps: Problems getting app %s info, GetAppID: 0x%08X, GetAppInfo: 0x%08X, AddressValid: %d",
-            ResultsEntry->Name, (unsigned int)ResultGetAppID, (unsigned int)ResultGetAppInfo,
+            "CS Apps: Problems getting module %s info, GetResourceID: 0x%08X, GetModuleInfo: 0x%08X, AddressValid: %d",
+            ResultsEntry->Name, (unsigned int)ResultGetResourceID, (unsigned int)ResultGetResourceInfo,
             (unsigned int)ResultAddressValid);
 
         Status = CS_ERR_NOT_FOUND;
