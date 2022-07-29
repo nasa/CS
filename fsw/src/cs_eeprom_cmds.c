@@ -315,10 +315,6 @@ void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
                 CS_AppData.HkPacket.CmdErrCounter++;
             }
         } /* end InProgress if */
-        else
-        {
-            /* TODO */
-        }
     }
     return;
 } /* End of CS_EnableCSEntryIDEepromCmd () */
