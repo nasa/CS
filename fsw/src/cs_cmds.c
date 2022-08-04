@@ -99,13 +99,12 @@ void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
 void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t         ExpectedLength = sizeof(CS_NoArgsCmd_t);
-    bool           DoneWithCycle  = false;
-    bool           EndOfList      = false;
-    CFE_SB_MsgId_t MessageID      = CFE_SB_INVALID_MSG_ID;
-    ;
-    CFE_MSG_FcnCode_t CommandCode  = 0;
-    size_t            ActualLength = 0;
+    size_t            ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    bool              DoneWithCycle  = false;
+    bool              EndOfList      = false;
+    CFE_SB_MsgId_t    MessageID      = CFE_SB_INVALID_MSG_ID;
+    CFE_MSG_FcnCode_t CommandCode    = 0;
+    size_t            ActualLength   = 0;
 
     CFE_MSG_GetSize(&CmdPtr->CmdHeader.Msg, &ActualLength);
 
