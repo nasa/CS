@@ -143,16 +143,11 @@ void CS_GoToNextTable(void);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param [in]    *EntryPtr    A pointer to a #CS_Res_Tables_Table_Entry_t
- *                              that will be assigned an entry where the name
- *                              field matches the name passed in.  Calling
- *                              function ensures this is non-null.
- *
- *  \param [in]    *Name        The name associated with the entry we want
+ *  \param [in]   Name          The name associated with the entry we want
  *                              to find.  Calling function ensures this is
  *                              non-null.
  *
- *  \param [out]  **EntryPtr    A pointer to a #CS_Res_Tables_Table_Entry_t
+ *  \param [out]  EntryPtr      A pointer to a #CS_Res_Tables_Table_Entry_t
  *                              pointer that contains the start address of the
  *                              entry whose name field matches the name passed in
  *                              in the table passed in.
@@ -174,16 +169,11 @@ bool CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t **EntryPtr, const 
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param [in]    *EntryPtr    A pointer to a #CS_Def_Tables_Table_Entry_t
- *                              that will be assigned an entry where the name
- *                              field matches the name passed in.  Calling
- *                              function ensures this is non-null.
- *
- *  \param [in]    *Name        The name associated with the entry we want
+ *  \param [in]   Name          The name associated with the entry we want
  *                              to find.  Calling function ensures this is
  *                              non-null.
  *
- *  \param [out]  **EntryPtr    A pointer to a #CS_Def_Tables_Table_Entry_t
+ *  \param [out]  EntryPtr      A pointer to a #CS_Def_Tables_Table_Entry_t
  *                              pointer that contains the start address of the
  *                              entry whose name field matches the name passed in
  *                              in the table passed in.
@@ -205,16 +195,11 @@ bool CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t **EntryPtr, const 
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param [in]     *EntryPtr   A pointer to a #CS_Res_App_Table_Entry_t
- *                              that will be assigned an entry where the name
- *                              field matches the name passed in.  Calling
- *                              function ensures this is non-null.
- *
- *  \param [in]      Name       The name associated with the entry we want
+ *  \param [in]    Name         The name associated with the entry we want
  *                              to find.  Calling function ensures this is
  *                              non-null.
  *
- *  \param [out]   **EntryPtr   A pointer to a #CS_Res_App_Table_Entry_t
+ *  \param [out]   EntryPtr     A pointer to a #CS_Res_App_Table_Entry_t
  *                              pointer that contains the start address of the
  *                              entry whose name field matches the name passed in
  *                              in the table passed in.
@@ -236,16 +221,11 @@ bool CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t **EntryPtr, const char 
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *  \param [in]     *EntryPtr   A pointer to a #CS_Def_App_Table_Entry_t
- *                              that will be assigned an entry where the name
- *                              field matches the name passed in.  Calling
- *                              function ensures this is non-null.
- *
- *  \param [in]      Name       The name associated with the entry we want
+ *  \param [in]    Name         The name associated with the entry we want
  *                              to find.  Calling function ensures this is
  *                              non-null.
  *
- *  \param [out]   **EntryPtr   A pointer to a #CS_Def_App_Table_Entry_t
+ *  \param [out]   EntryPtr     A pointer to a #CS_Def_App_Table_Entry_t
  *                              pointer that contains the start address of the
  *                              entry whose name field matches the name passed in
  *                              in the table passed in.
