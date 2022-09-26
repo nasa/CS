@@ -1568,7 +1568,7 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
 
     /* Sets AppInfo.CodeSize = 5, sets AppInfo.CodeAddress = 1, AppInfo.AddressesAreValid = true, and returns
      * CFE_SUCCESS */
-    UT_SetHandlerFunction(UT_KEY(CFE_ES_GetAppInfo), CS_COMPUTE_TEST_CFE_ES_GetModuleInfoHandler1, NULL);
+    UT_SetHandlerFunction(UT_KEY(CFE_ES_GetModuleInfo), CS_COMPUTE_TEST_CFE_ES_GetModuleInfoHandler1, NULL);
 
     /* Execute the function being tested */
     CS_RecomputeAppChildTask();
