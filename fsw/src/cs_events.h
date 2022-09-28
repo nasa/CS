@@ -1257,7 +1257,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a recompute entry for Eeprom or Memory
- *  has finished sucesessfully.
+ *  has finished succesessfully.
  */
 #define CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID 95
 
@@ -1293,7 +1293,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a recompute entry for a Table
- *  has finished sucesessfully.
+ *  has finished succesessfully.
  *
  *  For the CS Table Definitions Table only, the checksum
  *  value will be incorrect. This is because all entries in this
@@ -1312,7 +1312,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a recompute entry for an app
- *  has finished sucesessfully.
+ *  has finished succesessfully.
  */
 #define CS_RECOMPUTE_FINISH_APP_INF_EID 99
 

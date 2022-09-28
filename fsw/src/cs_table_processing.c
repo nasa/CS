@@ -528,7 +528,6 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
         CFE_EVS_SendEvent(CS_PROCESS_EEPROM_MEMORY_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
                           "CS %s Table: No valid entries in the table", TableType);
     }
-    return;
 } /* end of CS_ProcessNewEepromMemoryDefinitionTable () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -721,7 +720,6 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
         CFE_EVS_SendEvent(CS_PROCESS_TABLES_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
                           "CS Tables Table: No valid entries in the table");
     }
-    return;
 } /* end of CS_ProcessNewTablesDefinitionTable () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -794,7 +792,6 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
         CFE_EVS_SendEvent(CS_PROCESS_APP_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
                           "CS Apps Table: No valid entries in the table");
     }
-    return;
 } /* end of CS_ProcessNewAppsDefinitionTable () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

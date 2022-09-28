@@ -564,8 +564,6 @@ void CS_RecomputeEepromMemoryChildTask(void)
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
-
-    return;
 } /* end CS_RecomputeEepromMemoryChildTask */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -672,8 +670,6 @@ void CS_RecomputeAppChildTask(void)
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
-
-    return;
 } /* end CS_RecomputeAppChildTask */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -780,8 +776,6 @@ void CS_RecomputeTablesChildTask(void)
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
-
-    return;
 } /* end CS_RecomputeTablesChildTask */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -832,7 +826,6 @@ void CS_OneShotChildTask(void)
     CS_AppData.ChildTaskID                = CFE_ES_TASKID_UNDEFINED;
 
     CFE_ES_ExitChildTask();
-    return;
 } /* end CS_OneShotChildTask */
 
 /************************/
