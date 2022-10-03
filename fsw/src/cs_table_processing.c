@@ -117,7 +117,7 @@ int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
                       "CS Eeprom Table verification results: good = %d, bad = %d, unused = %d", (int)GoodCount,
                       (int)BadCount, (int)EmptyCount);
 
-    return (Result);
+    return Result;
 } /* CS_ValidateEEPROMCheckSumDefinitionTable */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -201,7 +201,7 @@ int32 CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr)
                       "CS Memory Table verification results: good = %d, bad = %d, unused = %d", (int)GoodCount,
                       (int)BadCount, (int)EmptyCount);
 
-    return (Result);
+    return Result;
 } /* CS_ValidateMemoryCheckSumDefinitionTable */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -317,7 +317,7 @@ int32 CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
                       "CS Tables Table verification results: good = %d, bad = %d, unused = %d", (int)GoodCount,
                       (int)BadCount, (int)EmptyCount);
 
-    return (Result);
+    return Result;
 } /* CS_ValidateTablesCheckSumDefinitionTable */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -432,7 +432,7 @@ int32 CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
                       "CS Apps Table verification results: good = %d, bad = %d, unused = %d", (int)GoodCount,
                       (int)BadCount, (int)EmptyCount);
 
-    return (Result);
+    return Result;
 } /* CS_ValidateAppCheckSumDefinitionTable */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -940,7 +940,7 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
                 break;
         }
     }
-    return (Result);
+    return Result;
 
 } /* end of CS_CheckSum_Definition_Table_Init () */
 
@@ -1052,7 +1052,7 @@ int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, CFE_TBL_
                               (unsigned int)ManageResult2, (unsigned int)GetResult2, TableType);
         }
     }
-    return (Result);
+    return Result;
 } /* end CS_HandleTableUpdate */
 
 /************************/

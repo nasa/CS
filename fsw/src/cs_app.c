@@ -294,7 +294,7 @@ int32 CS_AppInit(void)
             CFE_EVS_SendEvent(CS_INIT_INF_EID, CFE_EVS_EventType_INFORMATION, "CS Initialized. Version %d.%d.%d.%d",
                               CS_MAJOR_VERSION, CS_MINOR_VERSION, CS_REVISION, CS_MISSION_REV);
     }
-    return (Result);
+    return Result;
 } /* End of CS_AppInit () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -336,7 +336,7 @@ int32 CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
             break;
     }
 
-    return (Result);
+    return Result;
 } /* End of CS_AppPipe () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -663,7 +663,7 @@ int32 CS_CreateRestoreStatesFromCDS(void)
         Result = CFE_SUCCESS;
     }
 
-    return (Result);
+    return Result;
 
 } /* End of CS_CreateCDS() */
 

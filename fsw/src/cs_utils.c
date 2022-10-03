@@ -479,7 +479,7 @@ bool CS_VerifyCmdLength(const CFE_MSG_Message_t *msg, size_t ExpectedLength)
         Result = false;
         CS_AppData.HkPacket.CmdErrCounter++;
     }
-    return (Result);
+    return Result;
 } /* End of CS_VerifyCmdLength */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
