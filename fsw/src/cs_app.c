@@ -566,8 +566,6 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr)
         CFE_SB_TimeStampMsg(&CS_AppData.HkPacket.TlmHeader.Msg);
         CFE_SB_TransmitMsg(&CS_AppData.HkPacket.TlmHeader.Msg, true);
     }
-
-    return;
 } /* End of CS_HousekeepingCmd () */
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
@@ -710,9 +708,6 @@ void CS_UpdateCDS(void)
             CS_AppData.DataStoreHandle = CFE_ES_CDS_BAD_HANDLE;
         }
     }
-
-    return;
-
 } /* End of CS_UpdateCDS() */
 #endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   ) */
 

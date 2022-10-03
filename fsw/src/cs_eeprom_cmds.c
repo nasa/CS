@@ -71,7 +71,6 @@ void CS_DisableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdCounter++;
         }
     }
-    return;
 } /* End of CS_DisableEepromCmd () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -103,7 +102,6 @@ void CS_EnableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdCounter++;
         }
     }
-    return;
 } /* End of CS_EnableEepromCmd () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -162,7 +160,6 @@ void CS_ReportBaselineEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-    return;
 } /* End of CS_ReportBaselineEntryIDCmd () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -247,7 +244,6 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-    return;
 } /* end CS_RecomputeBaselineEepromCmd */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -316,7 +312,6 @@ void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
             }
         } /* end InProgress if */
     }
-    return;
 } /* End of CS_EnableCSEntryIDEepromCmd () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -387,7 +382,6 @@ void CS_DisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
             }
         } /* end InProgress if */
     }
-    return;
 } /* End of CS_DisableCSEntryIDEepromCmd () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -432,7 +426,6 @@ void CS_GetEntryIDEepromCmd(const CS_GetEntryIDCmd_t *CmdPtr)
         }
         CS_AppData.HkPacket.CmdCounter++;
     }
-    return;
 } /* End of CS_GetEntryIDEepromCmd () */
 
 /************************/

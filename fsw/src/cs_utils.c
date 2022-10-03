@@ -53,7 +53,6 @@ void CS_ZeroEepromTempValues(void)
         CS_AppData.ResEepromTblPtr[Loop].TempChecksumValue = 0;
         CS_AppData.ResEepromTblPtr[Loop].ByteOffset        = 0;
     }
-    return;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -70,8 +69,6 @@ void CS_ZeroMemoryTempValues(void)
         CS_AppData.ResMemoryTblPtr[Loop].TempChecksumValue = 0;
         CS_AppData.ResMemoryTblPtr[Loop].ByteOffset        = 0;
     }
-
-    return;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -88,8 +85,6 @@ void CS_ZeroTablesTempValues(void)
         CS_AppData.ResTablesTblPtr[Loop].TempChecksumValue = 0;
         CS_AppData.ResTablesTblPtr[Loop].ByteOffset        = 0;
     }
-
-    return;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -106,8 +101,6 @@ void CS_ZeroAppTempValues(void)
         CS_AppData.ResAppTblPtr[Loop].TempChecksumValue = 0;
         CS_AppData.ResAppTblPtr[Loop].ByteOffset        = 0;
     }
-
-    return;
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -118,8 +111,6 @@ void CS_ZeroCfeCoreTempValues(void)
 {
     CS_AppData.CfeCoreCodeSeg.TempChecksumValue = 0;
     CS_AppData.CfeCoreCodeSeg.ByteOffset        = 0;
-
-    return;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -131,8 +122,6 @@ void CS_ZeroOSTempValues(void)
 {
     CS_AppData.OSCodeSeg.TempChecksumValue = 0;
     CS_AppData.OSCodeSeg.ByteOffset        = 0;
-
-    return;
 }
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -168,8 +157,6 @@ void CS_InitializeDefaultTables(void)
         CS_AppData.DefaultTablesDefTable[Loop].State   = CS_STATE_EMPTY;
         CS_AppData.DefaultTablesDefTable[Loop].Name[0] = '\0';
     }
-
-    return;
 } /* end CS_InitializeDefaultTables */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -192,7 +179,6 @@ void CS_GoToNextTable(void)
     }
 
     CS_AppData.HkPacket.CurrentEntryInTable = 0;
-    return;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -929,9 +915,6 @@ void CS_ResetTablesTblResultEntry(CS_Res_Tables_Table_Entry_t *TablesTblResultEn
         TablesTblResultEntry->TempChecksumValue = 0;
         TablesTblResultEntry->ComputedYet       = false;
     }
-
-    return;
-
 } /* end CS_ResetTablesTblResultEntry */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
