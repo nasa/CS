@@ -109,7 +109,7 @@ int32 CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, ui
     }
 
     return Status;
-} /* End of CS_ComputeEepromMemory () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -297,7 +297,7 @@ int32 CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *Comput
     }
 
     return Status;
-} /* End of CS_ComputeTables () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -430,7 +430,7 @@ int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSVa
     }
 
     return Status;
-} /* End of CS_ComputeApp () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -560,7 +560,7 @@ void CS_RecomputeEepromMemoryChildTask(void)
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
-} /* end CS_RecomputeEepromMemoryChildTask */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -666,7 +666,7 @@ void CS_RecomputeAppChildTask(void)
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
-} /* end CS_RecomputeAppChildTask */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -772,7 +772,7 @@ void CS_RecomputeTablesChildTask(void)
 
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
-} /* end CS_RecomputeTablesChildTask */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -822,8 +822,4 @@ void CS_OneShotChildTask(void)
     CS_AppData.ChildTaskID                = CFE_ES_TASKID_UNDEFINED;
 
     CFE_ES_ExitChildTask();
-} /* end CS_OneShotChildTask */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

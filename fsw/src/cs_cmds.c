@@ -59,7 +59,7 @@ void CS_NoopCmd(const CS_NoArgsCmd_t *CmdPtr)
         CFE_EVS_SendEvent(CS_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION, "No-op command. Version %d.%d.%d.%d",
                           CS_MAJOR_VERSION, CS_MINOR_VERSION, CS_REVISION, CS_MISSION_REV);
     }
-} /* End of CS_NoopCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -87,7 +87,7 @@ void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
 
         CFE_EVS_SendEvent(CS_RESET_DBG_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command recieved");
     }
-} /* End of CS_ResetCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -195,7 +195,7 @@ void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)
             /* CS is disabled, Application-wide */
         }
     }
-} /* End of CS_BackgroundCheckCycle () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -226,7 +226,7 @@ void CS_DisableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 
         CFE_EVS_SendEvent(CS_DISABLE_ALL_INF_EID, CFE_EVS_EventType_INFORMATION, "Background Checksumming Disabled");
     }
-} /* End of CS_DisableAllCSCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -247,7 +247,7 @@ void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 
         CFE_EVS_SendEvent(CS_ENABLE_ALL_INF_EID, CFE_EVS_EventType_INFORMATION, "Background Checksumming Enabled");
     }
-} /* End of CS_EnableAllCSCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -274,7 +274,7 @@ void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 
         CS_AppData.HkPacket.CmdCounter++;
     }
-} /* End of CS_DisableCfeCoreCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -300,7 +300,7 @@ void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 
         CS_AppData.HkPacket.CmdCounter++;
     }
-} /* End of CS_EnableCfeCoreCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -327,7 +327,7 @@ void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 
         CS_AppData.HkPacket.CmdCounter++;
     }
-} /* End of CS_DisableOSCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -353,7 +353,7 @@ void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 
         CS_AppData.HkPacket.CmdCounter++;
     }
-} /* End of CS_OSEnableCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -381,7 +381,7 @@ void CS_ReportBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
         }
         CS_AppData.HkPacket.CmdCounter++;
     }
-} /* End of CS_ReportBaselineCfeCoreCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -409,7 +409,7 @@ void CS_ReportBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
         }
         CS_AppData.HkPacket.CmdCounter++;
     }
-} /* End of CS_ReportBaselineOSCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -463,7 +463,7 @@ void CS_RecomputeBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* end CS_RecomputeBaselineCfeCoreCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -515,7 +515,7 @@ void CS_RecomputeBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* end CS_RecomputeBaselineOSCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -596,7 +596,7 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* end CS_OneShotCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -641,8 +641,4 @@ void CS_CancelOneShotCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* end CS_CancelOneShotCmd */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

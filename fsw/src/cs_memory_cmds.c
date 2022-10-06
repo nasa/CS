@@ -69,7 +69,7 @@ void CS_DisableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdCounter++;
         }
     }
-} /* End of CS_DisableMemoryCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -98,7 +98,7 @@ void CS_EnableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdCounter++;
         }
     }
-} /* End of CS_EnableMemoryCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -155,7 +155,7 @@ void CS_ReportBaselineEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* End of CS_ReportBaselineEntryIDCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -237,7 +237,7 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* end CS_RecomputeBaselineMemoryCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -302,7 +302,7 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
             }
         } /* end InProgress if */
     }
-} /* End of CS_EnableCSEntryIDMemoryCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -370,7 +370,7 @@ void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
             }
         } /* end InProgress if */
     }
-} /* End of CS_DisableCSEntryIDMemoryCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -412,8 +412,4 @@ void CS_GetEntryIDMemoryCmd(const CS_GetEntryIDCmd_t *CmdPtr)
         }
         CS_AppData.HkPacket.CmdCounter++;
     }
-} /* End of CS_GetEntryIDMemoryCmd () */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

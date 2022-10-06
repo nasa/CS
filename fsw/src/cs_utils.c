@@ -159,7 +159,7 @@ void CS_InitializeDefaultTables(void)
         CS_AppData.DefaultTablesDefTable[Loop].State   = CS_STATE_EMPTY;
         CS_AppData.DefaultTablesDefTable[Loop].Name[0] = '\0';
     }
-} /* end CS_InitializeDefaultTables */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -211,7 +211,7 @@ bool CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t **EntryPtr, const 
         }
     }
     return Status;
-} /* end CS_GetTableResTblEntryByName */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -242,7 +242,7 @@ bool CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t **EntryPtr, const 
         }
     }
     return Status;
-} /* end CS_GetTableDefTblEntryByName */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -272,7 +272,7 @@ bool CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t **EntryPtr, const char 
         }
     }
     return Status;
-} /* end CS_GetAppResTblEntryByName */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -302,7 +302,7 @@ bool CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t **EntryPtr, const char 
         }
     }
     return Status;
-} /* end CS_GetAppDefTblEntryByName */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -336,7 +336,7 @@ bool CS_FindEnabledEepromEntry(uint16 *EnabledEntry)
     *EnabledEntry = CS_AppData.HkPacket.CurrentEntryInTable;
 
     return EnabledEntries;
-} /* end CS FindEnabledEepromEntry */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -369,7 +369,7 @@ bool CS_FindEnabledMemoryEntry(uint16 *EnabledEntry)
     *EnabledEntry = CS_AppData.HkPacket.CurrentEntryInTable;
 
     return EnabledEntries;
-} /* end CS FindEnabledMemoryEntry */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -404,7 +404,7 @@ bool CS_FindEnabledTablesEntry(uint16 *EnabledEntry)
     *EnabledEntry = CS_AppData.HkPacket.CurrentEntryInTable;
 
     return EnabledEntries;
-} /* end CS FindEnabledTablesEntry */
+}
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* CS Get the next CS-enabled entry of this table                  */
@@ -437,7 +437,7 @@ bool CS_FindEnabledAppEntry(uint16 *EnabledEntry)
     *EnabledEntry = CS_AppData.HkPacket.CurrentEntryInTable;
 
     return EnabledEntries;
-} /* end CS FindEnabledAppEntry */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -467,7 +467,7 @@ bool CS_VerifyCmdLength(const CFE_MSG_Message_t *msg, size_t ExpectedLength)
         CS_AppData.HkPacket.CmdErrCounter++;
     }
     return Result;
-} /* End of CS_VerifyCmdLength */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -534,7 +534,7 @@ bool CS_BackgroundCfeCore(void)
     }
 
     return DoneWithCycle;
-} /* end CS_BackgroundCfeCore */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -599,7 +599,7 @@ bool CS_BackgroundOS(void)
         CS_GoToNextTable();
     }
     return DoneWithCycle;
-} /* end CS_BackgroundOS */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -674,7 +674,7 @@ bool CS_BackgroundEeprom(void)
     }
 
     return DoneWithCycle;
-} /* end CS_BackgroundEeprom */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -743,7 +743,7 @@ bool CS_BackgroundMemory(void)
     }
 
     return DoneWithCycle;
-} /* end CS_BackgroundMemory */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -820,7 +820,7 @@ bool CS_BackgroundTables(void)
     }
 
     return DoneWithCycle;
-} /* end CS_BackgroundTables */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -894,7 +894,7 @@ bool CS_BackgroundApp(void)
         CS_GoToNextTable();
     }
     return DoneWithCycle;
-} /* end CS_BackgroundApp */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -910,7 +910,7 @@ void CS_ResetTablesTblResultEntry(CS_Res_Tables_Table_Entry_t *TablesTblResultEn
         TablesTblResultEntry->TempChecksumValue = 0;
         TablesTblResultEntry->ComputedYet       = false;
     }
-} /* end CS_ResetTablesTblResultEntry */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -999,7 +999,7 @@ int32 CS_HandleRoutineTableUpdates(void)
     }
 
     return ErrorCode;
-} /* end CS_HandleRoutineTableUpdates */
+}
 
 int32 CS_AttemptTableReshare(CS_Res_Tables_Table_Entry_t *ResultsEntry, CFE_TBL_Handle_t *LocalTblHandle,
                              CFE_TBL_Info_t *TblInfo, cpuaddr *LocalAddress, int32 *ResultGetInfo)
@@ -1052,7 +1052,3 @@ bool CS_CheckRecomputeOneshot(void)
     }
     return Result;
 }
-
-/************************/
-/*  End of File Comment */
-/************************/

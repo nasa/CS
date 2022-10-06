@@ -99,13 +99,9 @@ void CS_Test_Setup(void)
     memset(CS_DefaultMemoryResTable, 0, sizeof(CS_DefaultMemoryResTable));
     memset(CS_DefaultTablesResTable, 0, sizeof(CS_DefaultTablesResTable));
     memset(CS_DefaultAppResTable, 0, sizeof(CS_DefaultAppResTable));
-} /* end CS_Test_Setup */
+}
 
 void CS_Test_TearDown(void)
 {
     /* cleanup test environment */
-} /* end CS_Test_TearDown */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

@@ -107,7 +107,7 @@ void CS_DisableTablesCmd_Test(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_DisableTablesCmd_Test */
+}
 
 void CS_DisableTablesCmd_Test_VerifyError(void)
 {
@@ -126,7 +126,7 @@ void CS_DisableTablesCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_DisableTablesCmd_Test_VerifyError */
+}
 
 void CS_DisableTablesCmd_Test_OneShot(void)
 {
@@ -145,7 +145,7 @@ void CS_DisableTablesCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_DisableTablesCmd_Test_OneShot */
+}
 
 void CS_EnableTablesCmd_Test(void)
 {
@@ -178,7 +178,7 @@ void CS_EnableTablesCmd_Test(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_EnableTablesCmd_Test */
+}
 
 void CS_EnableTablesCmd_Test_VerifyError(void)
 {
@@ -197,7 +197,7 @@ void CS_EnableTablesCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_EnableTablesCmd_Test_VerifyError */
+}
 
 void CS_EnableTablesCmd_Test_OneShot(void)
 {
@@ -216,7 +216,7 @@ void CS_EnableTablesCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_EnableTablesCmd_Test_OneShot */
+}
 
 void CS_ReportBaselineTablesCmd_Test_Computed(void)
 {
@@ -257,7 +257,7 @@ void CS_ReportBaselineTablesCmd_Test_Computed(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_ReportBaselineTablesCmd_Test_Computed */
+}
 
 void CS_ReportBaselineTablesCmd_Test_NotYetComputed(void)
 {
@@ -298,7 +298,7 @@ void CS_ReportBaselineTablesCmd_Test_NotYetComputed(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_ReportBaselineTablesCmd_Test_NotYetComputed */
+}
 
 void CS_ReportBaselineTablesCmd_Test_TableNotFound(void)
 {
@@ -333,7 +333,7 @@ void CS_ReportBaselineTablesCmd_Test_TableNotFound(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_ReportBaselineTablesCmd_Test_TableNotFound */
+}
 
 void CS_ReportBaselineTablesCmd_Test_VerifyError(void)
 {
@@ -351,7 +351,7 @@ void CS_ReportBaselineTablesCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_ReportBaselineTablesCmd_Test_VerifyError */
+}
 
 void CS_RecomputeBaselineTablesCmd_Test_Nominal(void)
 {
@@ -394,7 +394,7 @@ void CS_RecomputeBaselineTablesCmd_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_RecomputeBaselineTablesCmd_Test_Nominal */
+}
 
 void CS_RecomputeBaselineTablesCmd_Test_CreateChildTaskError(void)
 {
@@ -442,7 +442,7 @@ void CS_RecomputeBaselineTablesCmd_Test_CreateChildTaskError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_RecomputeBaselineTablesCmd_Test_CreateChildTaskError */
+}
 
 void CS_RecomputeBaselineTablesCmd_Test_TableNotFound(void)
 {
@@ -476,7 +476,7 @@ void CS_RecomputeBaselineTablesCmd_Test_TableNotFound(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_RecomputeBaselineTablesCmd_Test_TableNotFound */
+}
 
 void CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress(void)
 {
@@ -512,7 +512,7 @@ void CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress */
+}
 
 void CS_RecomputeBaselineTablesCmd_Test_VerifyError(void)
 {
@@ -530,7 +530,7 @@ void CS_RecomputeBaselineTablesCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_RecomputeBaselineTablesCmd_Test_VerifyError */
+}
 
 void CS_RecomputeBaselineTablesCmd_Test_OneShot(void)
 {
@@ -566,7 +566,7 @@ void CS_RecomputeBaselineTablesCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_RecomputeBaselineTablesCmd_Test_OneShot */
+}
 
 void CS_DisableNameTablesCmd_Test_Nominal(void)
 {
@@ -615,7 +615,7 @@ void CS_DisableNameTablesCmd_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_DisableNameTablesCmd_Test_Nominal */
+}
 
 void CS_DisableNameTablesCmd_Test_TableDefNotFound(void)
 {
@@ -670,7 +670,7 @@ void CS_DisableNameTablesCmd_Test_TableDefNotFound(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_DisableNameTablesCmd_Test_TableDefNotFound */
+}
 
 void CS_DisableNameTablesCmd_Test_TableNotFound(void)
 {
@@ -705,7 +705,7 @@ void CS_DisableNameTablesCmd_Test_TableNotFound(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_DisableNameTablesCmd_Test_TableNotFound */
+}
 
 void CS_DisableNameTablesCmd_Test_VerifyError(void)
 {
@@ -724,7 +724,7 @@ void CS_DisableNameTablesCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_DisableNameTablesCmd_Test_VerifyError */
+}
 
 void CS_DisableNameTablesCmd_Test_OneShot(void)
 {
@@ -743,7 +743,7 @@ void CS_DisableNameTablesCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_DisableNameTablesCmd_Test_OneShot */
+}
 
 void CS_EnableNameTablesCmd_Test_Nominal(void)
 {
@@ -789,7 +789,7 @@ void CS_EnableNameTablesCmd_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_EnableNameTablesCmd_Test_Nominal */
+}
 
 void CS_EnableNameTablesCmd_Test_TableDefNotFound(void)
 {
@@ -841,7 +841,7 @@ void CS_EnableNameTablesCmd_Test_TableDefNotFound(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_EnableNameTablesCmd_Test_TableDefNotFound */
+}
 
 void CS_EnableNameTablesCmd_Test_TableNotFound(void)
 {
@@ -876,7 +876,7 @@ void CS_EnableNameTablesCmd_Test_TableNotFound(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_EnableNameTablesCmd_Test_TableNotFound */
+}
 
 void CS_EnableNameTablesCmd_Test_VerifyError(void)
 {
@@ -895,7 +895,7 @@ void CS_EnableNameTablesCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_EnableNameTablesCmd_Test_VerifyError */
+}
 
 void CS_EnableNameTablesCmd_Test_OneShot(void)
 {
@@ -914,7 +914,7 @@ void CS_EnableNameTablesCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-} /* end CS_EnableNameTablesCmd_Test_OneShot */
+}
 
 void UtTest_Setup(void)
 {
@@ -971,8 +971,4 @@ void UtTest_Setup(void)
                "CS_EnableNameTablesCmd_Test_VerifyError");
     UtTest_Add(CS_EnableNameTablesCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_EnableNameTablesCmd_Test_OneShot");
-} /* end UtTest_Setup */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

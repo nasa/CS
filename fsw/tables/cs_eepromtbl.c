@@ -70,7 +70,3 @@ CS_Def_EepromMemory_Table_Entry_t CS_EepromTable[CS_MAX_NUM_EEPROM_TABLE_ENTRIES
 ** Table file header
 */
 CFE_TBL_FILEDEF(CS_EepromTable, CS.DefEepromTbl, CS EEPROM Tbl, cs_eepromtbl.tbl)
-
-/************************/
-/*  End of File Comment */
-/************************/

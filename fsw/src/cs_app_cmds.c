@@ -65,7 +65,7 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdCounter++;
         }
     }
-} /* End of CS_DisableAppCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -92,7 +92,7 @@ void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdCounter++;
         }
     }
-} /* End of CS_EnableAppCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -136,7 +136,7 @@ void CS_ReportBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* End of CS_ReportBaselineAppCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -205,7 +205,7 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* end CS_RecomputeBaselineAppCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -261,7 +261,7 @@ void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
             }
         } /* end InProgress if */
     }
-} /* End of CS_DisableNameAppCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -314,8 +314,4 @@ void CS_EnableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
             }
         } /* end InProgress if */
     }
-} /* End of CS_EnableNameAppCmd () */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

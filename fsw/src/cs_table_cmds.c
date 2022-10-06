@@ -66,7 +66,7 @@ void CS_DisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdCounter++;
         }
     }
-} /* End of CS_DisableTablesCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -94,7 +94,7 @@ void CS_EnableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdCounter++;
         }
     }
-} /* End of CS_EnableTablesCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -138,7 +138,7 @@ void CS_ReportBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* End of CS_ReportBaselineTablesCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -207,7 +207,7 @@ void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
             CS_AppData.HkPacket.CmdErrCounter++;
         }
     }
-} /* end CS_RecomputeBaselineTablesCmd */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -262,7 +262,7 @@ void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
             }
         } /* end InProgress if */
     }
-} /* End of CS_DisableNameTablesCmd () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -315,8 +315,4 @@ void CS_EnableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
             }
         } /* end InProgress if */
     }
-} /* End of CS_EnableNameTablesCmd () */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}
