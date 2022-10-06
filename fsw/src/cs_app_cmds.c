@@ -52,10 +52,8 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_CheckRecomputeOneshot() == false)
         {
-
             CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
             CS_ZeroAppTempValues();
 
@@ -82,10 +80,8 @@ void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_CheckRecomputeOneshot() == false)
         {
-
             CS_AppData.HkPacket.AppCSState = CS_STATE_ENABLED;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
@@ -235,7 +231,6 @@ void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 
             if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
             {
-
                 ResultsEntry->State             = CS_STATE_DISABLED;
                 ResultsEntry->TempChecksumValue = 0;
                 ResultsEntry->ByteOffset        = 0;

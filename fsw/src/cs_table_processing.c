@@ -769,7 +769,6 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
         }
         else
         {
-
             ResultsEntry->State              = CS_STATE_EMPTY;
             ResultsEntry->ComputedYet        = false;
             ResultsEntry->NumBytesToChecksum = 0;
@@ -852,7 +851,6 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
      the default tables in CS */
     if (ResultFromLoad != CFE_SUCCESS)
     {
-
         Result           = CFE_TBL_Load(*DefinitionTableHandle, CFE_TBL_SRC_ADDRESS, DefaultDefTableAddress);
         LoadedFromMemory = true;
     }
@@ -865,7 +863,6 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
         {
             if (Table == CS_APP_TABLE)
             {
-
                 CS_ProcessNewAppDefinitionTable((CS_Def_App_Table_Entry_t *)DefinitionTblPtr,
                                                 (CS_Res_App_Table_Entry_t *)ResultsTblPtr);
             }
@@ -938,7 +935,6 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
         }
     }
     return Result;
-
 } /* end of CS_CheckSum_Definition_Table_Init () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -990,10 +986,8 @@ int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, CFE_TBL_
             {
                 if (CS_AppData.ResTablesTblPtr[Loop].TblHandle != CFE_TBL_BAD_TABLE_HANDLE)
                 {
-
                     if (CS_AppData.ResTablesTblPtr[Loop].IsCSOwner == false)
                     {
-
                         CFE_TBL_Unregister(CS_AppData.ResTablesTblPtr[Loop].TblHandle);
                     }
                 }
@@ -1004,7 +998,6 @@ int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, CFE_TBL_
         }
         else
         {
-
             if (Table == CS_APP_TABLE)
             {
                 CS_ProcessNewAppDefinitionTable((CS_Def_App_Table_Entry_t *)DefinitionTblPtr,

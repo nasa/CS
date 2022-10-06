@@ -102,6 +102,7 @@ void CS_ZeroAppTempValues(void)
         CS_AppData.ResAppTblPtr[Loop].ByteOffset        = 0;
     }
 }
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* CS Zero out the temp chcksum values ofthe cFE core              */
@@ -123,6 +124,7 @@ void CS_ZeroOSTempValues(void)
     CS_AppData.OSCodeSeg.TempChecksumValue = 0;
     CS_AppData.OSCodeSeg.ByteOffset        = 0;
 }
+
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* CS Nullifies the entries in the Results table for All           */
@@ -454,7 +456,6 @@ bool CS_VerifyCmdLength(const CFE_MSG_Message_t *msg, size_t ExpectedLength)
     /* Verify the command packet length */
     if (ExpectedLength != ActualLength)
     {
-
         CFE_MSG_GetMsgId(msg, &MessageID);
         CFE_MSG_GetFcnCode(msg, &CommandCode);
 
@@ -489,7 +490,6 @@ bool CS_BackgroundCfeCore(void)
            a ground-commanded recompute) */
         if (ResultsEntry->State == CS_STATE_ENABLED)
         {
-
             /* If we complete an entry's checksum, this function will update it for us */
             Status = CS_ComputeEepromMemory(ResultsEntry, &ComputedCSValue, &DoneWithEntry);
 
@@ -599,7 +599,6 @@ bool CS_BackgroundOS(void)
         CS_GoToNextTable();
     }
     return DoneWithCycle;
-
 } /* end CS_BackgroundOS */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -675,7 +674,6 @@ bool CS_BackgroundEeprom(void)
     }
 
     return DoneWithCycle;
-
 } /* end CS_BackgroundEeprom */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -745,7 +743,6 @@ bool CS_BackgroundMemory(void)
     }
 
     return DoneWithCycle;
-
 } /* end CS_BackgroundMemory */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -823,7 +820,6 @@ bool CS_BackgroundTables(void)
     }
 
     return DoneWithCycle;
-
 } /* end CS_BackgroundTables */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -898,7 +894,6 @@ bool CS_BackgroundApp(void)
         CS_GoToNextTable();
     }
     return DoneWithCycle;
-
 } /* end CS_BackgroundApp */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

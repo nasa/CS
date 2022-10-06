@@ -52,7 +52,6 @@ void CS_DisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_CheckRecomputeOneshot() == false)
         {
             CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
@@ -82,10 +81,8 @@ void CS_EnableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_CheckRecomputeOneshot() == false)
         {
-
             CS_AppData.HkPacket.TablesCSState = CS_STATE_ENABLED;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
@@ -162,7 +159,6 @@ void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == false)
         {
             strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
@@ -237,7 +233,6 @@ void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 
             if (CS_GetTableResTblEntryByName(&ResultsEntry, Name))
             {
-
                 ResultsEntry->State             = CS_STATE_DISABLED;
                 ResultsEntry->TempChecksumValue = 0;
                 ResultsEntry->ByteOffset        = 0;

@@ -109,7 +109,6 @@ int32 CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, ui
     }
 
     return Status;
-
 } /* End of CS_ComputeEepromMemory () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -289,7 +288,6 @@ int32 CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *Comput
     } /* end if tabled was success or updated */
     else
     {
-
         CFE_EVS_SendEvent(CS_COMPUTE_TABLES_ERR_EID, CFE_EVS_EventType_ERROR,
                           "CS Tables: Problem Getting table %s info Share: 0x%08X, GetInfo: 0x%08X, GetAddress: 0x%08X",
                           ResultsEntry->Name, (unsigned int)ResultShare, (unsigned int)ResultGetInfo,
@@ -299,7 +297,6 @@ int32 CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *Comput
     }
 
     return Status;
-
 } /* End of CS_ComputeTables () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -433,7 +430,6 @@ int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSVa
     }
 
     return Status;
-
 } /* End of CS_ComputeApp () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

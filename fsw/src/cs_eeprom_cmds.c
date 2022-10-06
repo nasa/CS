@@ -54,10 +54,8 @@ void CS_DisableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_CheckRecomputeOneshot() == false)
         {
-
             CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
             CS_ZeroEepromTempValues();
 
@@ -86,10 +84,8 @@ void CS_EnableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_CheckRecomputeOneshot() == false)
         {
-
             CS_AppData.HkPacket.EepromCSState = CS_STATE_ENABLED;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
@@ -188,7 +184,6 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
             if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
                 (CS_AppData.ResEepromTblPtr[EntryID].State != CS_STATE_EMPTY))
             {
-
                 /* There is no child task running right now, we can use it*/
                 CS_AppData.HkPacket.RecomputeInProgress = true;
 
@@ -263,10 +258,8 @@ void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_CheckRecomputeOneshot() == false)
         {
-
             EntryID = CmdPtr->EntryID;
 
             if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
@@ -331,7 +324,6 @@ void CS_DisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
     /* Verify command packet length */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         if (CS_CheckRecomputeOneshot() == false)
         {
             EntryID = CmdPtr->EntryID;
@@ -412,7 +404,6 @@ void CS_GetEntryIDEepromCmd(const CS_GetEntryIDCmd_t *CmdPtr)
                 CmdPtr->Address <= (ResultsEntry.StartAddress + ResultsEntry.NumBytesToChecksum) &&
                 ResultsEntry.State != CS_STATE_EMPTY)
             {
-
                 CFE_EVS_SendEvent(CS_GET_ENTRY_ID_EEPROM_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "Eeprom Found Address 0x%08X in Entry ID %d", (unsigned int)(CmdPtr->Address), Loop);
                 EntryFound = true;

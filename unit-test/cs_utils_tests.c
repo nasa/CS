@@ -194,7 +194,6 @@ void CS_GetAppResTblEntryByName_Test(void)
 
 void CS_GetAppDefTblEntryByName_Test(void)
 {
-
     CS_Def_App_Table_Entry_t *EntryPtr = NULL;
 
     /* Empty name, enabled state */
@@ -333,7 +332,6 @@ void CS_VerifyCmdLength_Test(void)
 
 void CS_BackgroundCfeCore_Test(void)
 {
-
     /* Entirely disabled */
     CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundCfeCore());
@@ -582,7 +580,6 @@ void CS_ResetTablesTblResultEntry_Test(void)
 
 void CS_HandleRoutineTableUpdates_Test(void)
 {
-
     uint16 ChildTaskTable[] = {CS_CFECORE, CS_EEPROM_TABLE, CS_MEMORY_TABLE, CS_APP_TABLE, CS_TABLES_TABLE};
     uint16 TblMax           = sizeof(ChildTaskTable) / sizeof(ChildTaskTable[0]);
     uint16 i;
@@ -684,7 +681,6 @@ void CS_AttemptTableReshare_Test(void)
 
 void CS_CheckRecomputeOneShot_Test(void)
 {
-
     /* Set up for false return */
     CS_AppData.HkPacket.RecomputeInProgress = false;
     CS_AppData.HkPacket.OneShotInProgress   = false;

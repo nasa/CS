@@ -91,7 +91,6 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateEepromChecksumDefinitionTable_Test_Nominal */
 
 void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalChecksumRangeStateEnabled(void)
@@ -139,7 +138,6 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalChecksumRangeStateEnab
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateEepromChecksumDefinitionTable_Test_IllegalChecksumRangeStateEnabled */
 
 void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalChecksumRangeStateDisabled(void)
@@ -187,7 +185,6 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalChecksumRangeStateDisa
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateEepromChecksumDefinitionTable_Test_IllegalChecksumRangeStateDisabled */
 
 void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalStateField(void)
@@ -231,7 +228,6 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalStateField(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateEepromChecksumDefinitionTable_Test_IllegalStateField */
 
 void CS_ValidateEepromChecksumDefinitionTable_Test_TableErrorResult(void)
@@ -279,7 +275,6 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_TableErrorResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateEepromChecksumDefinitionTable_Test_TableErrorResult */
 
 void CS_ValidateEepromChecksumDefinitionTable_Test_UndefTableErrorResult(void)
@@ -327,7 +322,6 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_UndefTableErrorResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateEepromChecksumDefinitionTable_Test_UndefTableErrorResult */
 
 void CS_ValidateMemoryChecksumDefinitionTable_Test_Nominal(void)
@@ -359,7 +353,6 @@ void CS_ValidateMemoryChecksumDefinitionTable_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateMemoryChecksumDefinitionTable_Test_Nominal */
 
 void CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalChecksumRangeStateEnabled(void)
@@ -407,7 +400,6 @@ void CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalChecksumRangeStateEnab
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalChecksumRangeStateEnabled */
 
 void CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalChecksumRangeStateDisabled(void)
@@ -455,7 +447,6 @@ void CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalChecksumRangeStateDisa
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalChecksumRangeStateDisabled */
 
 void CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalStateField(void)
@@ -499,7 +490,6 @@ void CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalStateField(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateMemoryChecksumDefinitionTable_Test_IllegalStateField */
 
 void CS_ValidateMemoryChecksumDefinitionTable_Test_TableErrorResult(void)
@@ -547,7 +537,6 @@ void CS_ValidateMemoryChecksumDefinitionTable_Test_TableErrorResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateMemoryChecksumDefinitionTable_Test_TableErrorResult */
 
 void CS_ValidateMemoryChecksumDefinitionTable_Test_UndefTableErrorResult(void)
@@ -595,7 +584,6 @@ void CS_ValidateMemoryChecksumDefinitionTable_Test_UndefTableErrorResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateMemoryChecksumDefinitionTable_Test_UndefTableErrorResult */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_Nominal(void)
@@ -629,7 +617,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_Nominal */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateEmpty(void)
@@ -676,7 +663,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateEmpty(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateEmpty */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateEnabled(void)
@@ -726,7 +712,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateEnabled(voi
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateEnabled */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateDisabled(void)
@@ -776,7 +761,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateDisabled(vo
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_DuplicateNameStateDisabled */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_IllegalStateField(void)
@@ -822,7 +806,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_IllegalStateField(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_IllegalStateField */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_IllegalStateEmptyName(void)
@@ -866,7 +849,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_IllegalStateEmptyName(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_IllegalStateEmptyName */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_TableErrorResult(void)
@@ -917,7 +899,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_TableErrorResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_TableErrorResult */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_UndefTableErrorResult(void)
@@ -966,7 +947,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_UndefTableErrorResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_UndefState */
 
 void CS_ValidateTablesChecksumDefinitionTable_Test_CsTableError(void)
@@ -1014,7 +994,6 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_CsTableError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateTablesChecksumDefinitionTable_Test_CsTableError */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_Nominal(void)
@@ -1048,7 +1027,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_Nominal */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateEmpty(void)
@@ -1095,7 +1073,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateEmpty(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateEmpty */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateEnabled(void)
@@ -1145,7 +1122,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateEnabled(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateEnabled */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateDisabled(void)
@@ -1195,7 +1171,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateDisabled(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateDisabled */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateField(void)
@@ -1241,7 +1216,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateField(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateField */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName(void)
@@ -1285,7 +1259,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult(void)
@@ -1335,7 +1308,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_UndefTableErrorResult(void)
@@ -1384,7 +1356,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_UndefTableErrorResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_UndefTableErrorResult */
 
 void CS_ValidateAppChecksumDefinitionTable_Test_EmptyNameTableResult(void)
@@ -1430,7 +1401,6 @@ void CS_ValidateAppChecksumDefinitionTable_Test_EmptyNameTableResult(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ValidateAppChecksumDefinitionTable_Test_EmptyNameTableResult */
 
 void CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNominal(void)
@@ -1485,7 +1455,6 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNominal */
 
 void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNominal(void)
@@ -1540,7 +1509,6 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNominal */
 
 void CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNoValidEntries(void)
@@ -1579,7 +1547,6 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNoValidEntries(voi
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNoValidEntries */
 
 void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNoValidEntries(void)
@@ -1618,7 +1585,6 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNoValidEntries(voi
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNoValidEntries */
 
 void CS_ProcessNewTablesDefinitionTable_Test_DefEepromTableHandle(void)
@@ -1671,7 +1637,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefEepromTableHandle(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_DefEepromTableHandle */
 
 void CS_ProcessNewTablesDefinitionTable_Test_DefMemoryTableHandle(void)
@@ -1724,7 +1689,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefMemoryTableHandle(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_DefMemoryTableHandle */
 
 void CS_ProcessNewTablesDefinitionTable_Test_DefTablesTableHandle(void)
@@ -1777,7 +1741,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefTablesTableHandle(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_DefTablesTableHandle */
 
 void CS_ProcessNewTablesDefinitionTable_Test_DefAppTableHandle(void)
@@ -1830,7 +1793,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefAppTableHandle(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_DefAppTableHandle */
 
 void CS_ProcessNewTablesDefinitionTable_Test_ResEepromTableHandle(void)
@@ -1881,7 +1843,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResEepromTableHandle(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_ResEepromTableHandle */
 
 void CS_ProcessNewTablesDefinitionTable_Test_ResMemoryTableHandle(void)
@@ -1932,7 +1893,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResMemoryTableHandle(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_ResMemoryTableHandle */
 
 void CS_ProcessNewTablesDefinitionTable_Test_ResTablesTableHandle(void)
@@ -1983,7 +1943,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResTablesTableHandle(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_ResTablesTableHandle */
 
 void CS_ProcessNewTablesDefinitionTable_Test_ResAppTableHandle(void)
@@ -2034,7 +1993,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResAppTableHandle(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_ResAppTableHandle */
 
 void CS_ProcessNewTablesDefinitionTable_Test_StateEmptyNoValidEntries(void)
@@ -2094,7 +2052,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_StateEmptyNoValidEntries(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_StateEmptyNoValidEntries */
 
 void CS_ProcessNewTablesDefinitionTable_Test_LimitApplicationNameLength(void)
@@ -2139,7 +2096,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_LimitApplicationNameLength(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_LimitApplicationNameLength */
 
 void CS_ProcessNewTablesDefinitionTable_Test_LimitTableNameLength(void)
@@ -2183,7 +2139,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_LimitTableNameLength(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_LimitTableNameLength */
 
 void CS_ProcessNewTablesDefinitionTable_Test_MaxTableNameLength(void)
@@ -2227,7 +2182,6 @@ void CS_ProcessNewTablesDefinitionTable_Test_MaxTableNameLength(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewTablesDefinitionTable_Test_MaxTableNameLength */
 
 void CS_ProcessNewAppDefinitionTable_Test_Nominal(void)
@@ -2263,7 +2217,6 @@ void CS_ProcessNewAppDefinitionTable_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewAppDefinitionTable_Test_Nominal */
 
 void CS_ProcessNewAppDefinitionTable_Test_StateEmptyNoValidEntries(void)
@@ -2309,7 +2262,6 @@ void CS_ProcessNewAppDefinitionTable_Test_StateEmptyNoValidEntries(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_ProcessNewAppDefinitionTable_Test_StateEmptyNoValidEntries */
 
 void CS_TableInit_Test_DefaultDefinitionTableLoadErrorEEPROM(void)
@@ -2350,7 +2302,6 @@ void CS_TableInit_Test_DefaultDefinitionTableLoadErrorEEPROM(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_DefaultDefinitionTableLoadErrorEEPROM */
 
 void CS_TableInit_Test_DefinitionTableGetAddressErrorEEPROM(void)
@@ -2394,7 +2345,6 @@ void CS_TableInit_Test_DefinitionTableGetAddressErrorEEPROM(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_DefinitionTableGetAddressErrorEEPROM */
 
 void CS_TableInit_Test_DefinitionTableGetAddressErrorMemory(void)
@@ -2438,7 +2388,6 @@ void CS_TableInit_Test_DefinitionTableGetAddressErrorMemory(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_DefinitionTableGetAddressErrorMemory */
 
 void CS_TableInit_Test_DefinitionTableGetAddressErrorTables(void)
@@ -2482,7 +2431,6 @@ void CS_TableInit_Test_DefinitionTableGetAddressErrorTables(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_DefinitionTableGetAddressErrorTables */
 
 void CS_TableInit_Test_DefinitionTableGetAddressErrorApps(void)
@@ -2525,7 +2473,6 @@ void CS_TableInit_Test_DefinitionTableGetAddressErrorApps(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_DefinitionTableGetAddressErrorApps */
 
 void CS_TableInit_Test_EepromTableAndNotLoadedFromMemory(void)
@@ -2558,7 +2505,6 @@ void CS_TableInit_Test_EepromTableAndNotLoadedFromMemory(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_TableInit_Test_EepromTableAndNotLoadedFromMemory */
 
 void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterResultsTableRegisterError(void)
@@ -2596,7 +2542,6 @@ void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterResultsTableRegisterEr
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterResultsTableRegisterError */
 
 void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterResultsTableGetAddressError(void)
@@ -2631,7 +2576,6 @@ void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterResultsTableGetAddress
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterResultsTableGetAddressError */
 
 void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterDefinitionTableRegisterError(void)
@@ -2669,7 +2613,6 @@ void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterDefinitionTableRegiste
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterDefinitionTableRegisterError */
 
 void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterDefinitionTableFileLoadError(void)
@@ -2705,7 +2648,6 @@ void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterDefinitionTableFileLoa
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterDefinitionTableFileLoadError */
 
 void CS_TableInit_Test_MemoryTableAndNotLoadedFromMemory(void)
@@ -2738,7 +2680,6 @@ void CS_TableInit_Test_MemoryTableAndNotLoadedFromMemory(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_TableInit_Test_MemoryTableAndNotLoadedFromMemory */
 
 void CS_TableInit_Test_MemoryTableAndLoadedFromMemory(void)
@@ -2776,7 +2717,6 @@ void CS_TableInit_Test_MemoryTableAndLoadedFromMemory(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_MemoryTableAndLoadedFromMemory */
 
 void CS_TableInit_Test_AppTableAndNotLoadedFromMemory(void)
@@ -2808,7 +2748,6 @@ void CS_TableInit_Test_AppTableAndNotLoadedFromMemory(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
-
 } /* end CS_TableInit_Test_AppTableAndNotLoadedFromMemory */
 
 void CS_TableInit_Test_AppTableAndLoadedFromMemory(void)
@@ -2845,7 +2784,6 @@ void CS_TableInit_Test_AppTableAndLoadedFromMemory(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_AppTableAndLoadedFromMemory */
 
 void CS_TableInit_Test_TablesTableAndNotLoadedFromMemory(void)
@@ -2878,7 +2816,6 @@ void CS_TableInit_Test_TablesTableAndNotLoadedFromMemory(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_TableInit_Test_TablesTableAndNotLoadedFromMemory */
 
 void CS_TableInit_Test_TablesTableAndLoadedFromMemory(void)
@@ -2916,7 +2853,6 @@ void CS_TableInit_Test_TablesTableAndLoadedFromMemory(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_TablesTableAndLoadedFromMemory */
 
 void CS_TableInit_Test_DefaultAndLoadedFromMemory(void)
@@ -2954,7 +2890,6 @@ void CS_TableInit_Test_DefaultAndLoadedFromMemory(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_DefaultAndLoadedFromMemory */
 
 void CS_TableInit_Test_OpenCreateError(void)
@@ -2994,7 +2929,6 @@ void CS_TableInit_Test_OpenCreateError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_TableInit_Test_OpenCreateError */
 
 void CS_HandleTableUpdate_Test_ProcessNewTablesDefinitionTable(void)
@@ -3026,7 +2960,6 @@ void CS_HandleTableUpdate_Test_ProcessNewTablesDefinitionTable(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_ProcessNewTablesDefinitionTable */
 
 void CS_HandleTableUpdate_Test_ProcessNewAppDefinitionTable(void)
@@ -3056,7 +2989,6 @@ void CS_HandleTableUpdate_Test_ProcessNewAppDefinitionTable(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_ProcessNewAppDefinitionTable */
 
 void CS_HandleTableUpdate_Test_ProcessNewEepromMemoryDefinitionTable(void)
@@ -3086,7 +3018,6 @@ void CS_HandleTableUpdate_Test_ProcessNewEepromMemoryDefinitionTable(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_ProcessNewEepromMemoryDefinitionTable */
 
 void CS_HandleTableUpdate_Test_ResultsTableGetAddressErrorEEPROM(void)
@@ -3130,7 +3061,6 @@ void CS_HandleTableUpdate_Test_ResultsTableGetAddressErrorEEPROM(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_ResultsTableGetAddressErrorEEPROM */
 
 void CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorEEPROM(void)
@@ -3175,7 +3105,6 @@ void CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorEEPROM(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorEEPROM */
 
 void CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorMemory(void)
@@ -3220,7 +3149,6 @@ void CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorMemory(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorMemory */
 
 void CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorTables(void)
@@ -3265,7 +3193,6 @@ void CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorTables(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorTables */
 
 void CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorApps(void)
@@ -3310,7 +3237,6 @@ void CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorApps(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 error message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_DefinitionTableGetAddressErrorApp */
 
 void CS_HandleTableUpdate_Test_BadTableHandle(void)
@@ -3342,7 +3268,6 @@ void CS_HandleTableUpdate_Test_BadTableHandle(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_BadTableHandle */
 
 void CS_HandleTableUpdate_Test_CsOwner(void)
@@ -3374,7 +3299,6 @@ void CS_HandleTableUpdate_Test_CsOwner(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
-
 } /* end CS_HandleTableUpdate_Test_CsOwner */
 
 void CS_HandleTableUpdate_Test_GetAddressError(void)
@@ -3403,7 +3327,6 @@ void CS_HandleTableUpdate_Test_GetAddressError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
 } /* end CS_HandleTableUpdate_Test_GetAddressError */
 
 void UtTest_Setup(void)
@@ -3568,7 +3491,6 @@ void UtTest_Setup(void)
     UtTest_Add(CS_HandleTableUpdate_Test_CsOwner, CS_Test_Setup, CS_Test_TearDown, "CS_HandleTableUpdate_Test_CsOwner");
     UtTest_Add(CS_HandleTableUpdate_Test_GetAddressError, CS_Test_Setup, CS_Test_TearDown,
                "CS_HandleTableUpdate_Test_GetAddressError");
-
 } /* end UtTest_Setup */
 
 /************************/

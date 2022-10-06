@@ -176,7 +176,6 @@ typedef struct
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
     CFE_ES_CDSHandle_t DataStoreHandle; /**< \brief Handle to critical data store created by CS */
 #endif
-
 } CS_AppData_t;
 
 /**************************************************************************

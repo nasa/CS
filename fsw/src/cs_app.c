@@ -218,7 +218,6 @@ void CS_AppMain(void)
 
     /* Let cFE kill the task (and child task) */
     CFE_ES_ExitApp(CS_AppData.RunStatus);
-
 } /* End of CS_AppMain () */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -250,7 +249,6 @@ int32 CS_AppInit(void)
 
     if (Result == CFE_SUCCESS)
     {
-
         /* Set up default tables in memory */
         CS_InitializeDefaultTables();
 
@@ -551,7 +549,6 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* Verify the command packet length */
     if (ExpectedLength != ActualLength)
     {
-
         CFE_MSG_GetMsgId(&CmdPtr->CmdHeader.Msg, &MessageID);
         CFE_MSG_GetFcnCode(&CmdPtr->CmdHeader.Msg, &CommandCode);
 
@@ -662,7 +659,6 @@ int32 CS_CreateRestoreStatesFromCDS(void)
     }
 
     return Result;
-
 } /* End of CS_CreateCDS() */
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

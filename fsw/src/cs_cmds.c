@@ -121,7 +121,6 @@ void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)
     {
         if (CS_AppData.HkPacket.ChecksumState == CS_STATE_ENABLED)
         {
-
             DoneWithCycle = false;
             EndOfList     = false;
 
@@ -533,7 +532,6 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
     /* Verify command packet length... */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
     {
-
         /* validate size and address */
         Status = CFE_PSP_MemValidateRange(CmdPtr->Address, CmdPtr->Size, CFE_PSP_MEM_ANY);
 
