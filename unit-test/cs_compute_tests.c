@@ -112,8 +112,7 @@ void CS_ComputeEepromMemory_Test_Nominal(void)
     UtAssert_BOOL_TRUE(DoneWithEntry);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeEepromMemory_Test_Nominal */
+}
 
 void CS_ComputeEepromMemory_Test_Error(void)
 {
@@ -140,8 +139,7 @@ void CS_ComputeEepromMemory_Test_Error(void)
     UtAssert_BOOL_TRUE(DoneWithEntry);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeEepromMemory_Test_Error */
+}
 
 void CS_ComputeEepromMemory_Test_FirstTimeThrough(void)
 {
@@ -172,8 +170,7 @@ void CS_ComputeEepromMemory_Test_FirstTimeThrough(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeEepromMemory_Test_FirstTimeThrough */
+}
 
 void CS_ComputeEepromMemory_Test_NotFinished(void)
 {
@@ -199,8 +196,7 @@ void CS_ComputeEepromMemory_Test_NotFinished(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeEepromMemory_Test_NotFinished */
+}
 
 void CS_ComputeTables_Test_TableNeverLoaded(void)
 {
@@ -234,8 +230,7 @@ void CS_ComputeTables_Test_TableNeverLoaded(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_ComputeTables_Test_TableNeverLoaded */
+}
 
 void CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded(void)
 {
@@ -279,8 +274,7 @@ void CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded */
+}
 
 void CS_ComputeTables_Test_ResultShareNotSuccess(void)
 {
@@ -323,8 +317,7 @@ void CS_ComputeTables_Test_ResultShareNotSuccess(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_ComputeTables_Test_ResultShareNotSuccess */
+}
 
 void CS_ComputeTables_Test_TblInfoUpdated(void)
 {
@@ -364,8 +357,7 @@ void CS_ComputeTables_Test_TblInfoUpdated(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeTables_Test_TblInfoUpdated */
+}
 
 void CS_ComputeTables_Test_GetInfoResult(void)
 {
@@ -406,8 +398,7 @@ void CS_ComputeTables_Test_GetInfoResult(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeTables_Test_GetInfoResult */
+}
 
 void CS_ComputeTables_Test_CSError(void)
 {
@@ -452,8 +443,7 @@ void CS_ComputeTables_Test_CSError(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeTables_Test_CSError */
+}
 
 void CS_ComputeTables_Test_NominalBadTableHandle(void)
 {
@@ -503,8 +493,7 @@ void CS_ComputeTables_Test_NominalBadTableHandle(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeTables_Test_NominalBadTableHandle */
+}
 
 void CS_ComputeTables_Test_FirstTimeThrough(void)
 {
@@ -558,8 +547,7 @@ void CS_ComputeTables_Test_FirstTimeThrough(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeTables_Test_FirstTimeThrough */
+}
 
 void CS_ComputeTables_Test_EntryNotFinished(void)
 {
@@ -610,8 +598,7 @@ void CS_ComputeTables_Test_EntryNotFinished(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 3);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeTables_Test_EntryNotFinished */
+}
 
 void CS_ComputeTables_Test_ComputeTablesReleaseError(void)
 {
@@ -677,8 +664,7 @@ void CS_ComputeTables_Test_ComputeTablesReleaseError(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_ComputeTables_Test_ComputeTablesReleaseError */
+}
 
 void CS_ComputeTables_Test_ComputeTablesError(void)
 {
@@ -722,8 +708,7 @@ void CS_ComputeTables_Test_ComputeTablesError(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_ComputeTables_Test_ComputeTablesError */
+}
 
 void CS_ComputeApp_Test_NominalApp(void)
 {
@@ -760,8 +745,7 @@ void CS_ComputeApp_Test_NominalApp(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeApp_Test_NominalApp */
+}
 
 void CS_ComputeApp_Test_NominalLib(void)
 {
@@ -801,8 +785,7 @@ void CS_ComputeApp_Test_NominalLib(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeApp_Test_NominalLib */
+}
 
 void CS_ComputeApp_Test_GetAppAndLibIDByNameError(void)
 {
@@ -838,8 +821,7 @@ void CS_ComputeApp_Test_GetAppAndLibIDByNameError(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_ComputeApp_Test_GetAppAndLibIDByNameError */
+}
 
 void CS_ComputeApp_Test_GetModuleInfoError(void)
 {
@@ -872,8 +854,7 @@ void CS_ComputeApp_Test_GetModuleInfoError(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_ComputeApp_Test_GetModuleInfoError */
+}
 
 void CS_ComputeApp_Test_ComputeAppPlatformError(void)
 {
@@ -915,8 +896,7 @@ void CS_ComputeApp_Test_ComputeAppPlatformError(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
-
-} /* end CS_ComputeApp_Test_ComputeAppPlatformError */
+}
 
 void CS_ComputeApp_Test_DifferFromSavedValue(void)
 {
@@ -949,8 +929,7 @@ void CS_ComputeApp_Test_DifferFromSavedValue(void)
     UtAssert_UINT32_EQ(ResultsEntry.StartAddress, 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeApp_Test_DifferFromSavedValue */
+}
 
 void CS_ComputeApp_Test_FirstTimeThrough(void)
 {
@@ -990,8 +969,7 @@ void CS_ComputeApp_Test_FirstTimeThrough(void)
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeApp_Test_FirstTimeThrough */
+}
 
 void CS_ComputeApp_Test_EntryNotFinished(void)
 {
@@ -1035,8 +1013,7 @@ void CS_ComputeApp_Test_EntryNotFinished(void)
     UtAssert_UINT32_EQ(ComputedCSValue, 2);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-
-} /* end CS_ComputeApp_Test_EntryNotFinished */
+}
 
 void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
 {
@@ -1090,8 +1067,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable */
+}
 
 void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
 {
@@ -1145,8 +1121,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeEepromMemoryChildTask_Test_MemoryTable */
+}
 
 void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
 {
@@ -1202,8 +1177,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
     UtAssert_UINT32_EQ(CS_AppData.HkPacket.CfeCoreBaseline, 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeEepromMemoryChildTask_Test_CFECore */
+}
 
 void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
 {
@@ -1259,8 +1233,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
     UtAssert_UINT32_EQ(CS_AppData.HkPacket.OSBaseline, 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeEepromMemoryChildTask_Test_OSCore */
+}
 
 void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId(void)
 {
@@ -1313,8 +1286,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId */
+}
 
 void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
 {
@@ -1368,8 +1340,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress */
+}
 
 void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
 {
@@ -1423,8 +1394,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState */
+}
 
 void CS_RecomputeAppChildTask_Test_Nominal(void)
 {
@@ -1481,8 +1451,7 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeAppChildTask_Test_Nominal */
+}
 
 void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
 {
@@ -1532,8 +1501,7 @@ void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_RECOMPUTE_ERROR_APP_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
-
-} /* end CS_RecomputeAppChildTask_Test_CouldNotGetAddress */
+}
 
 void CS_RecomputeAppChildTask_Test_DefEntryId(void)
 {
@@ -1589,8 +1557,7 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeAppChildTask_Test_DefEntryId */
+}
 
 void CS_RecomputeTablesChildTask_Test_Nominal(void)
 {
@@ -1665,8 +1632,7 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeTablesChildTask_Test_Nominal */
+}
 
 void CS_RecomputeTablesChildTask_Test_CouldNotGetAddress(void)
 {
@@ -1713,8 +1679,7 @@ void CS_RecomputeTablesChildTask_Test_CouldNotGetAddress(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
 
     /* Note: generates 1 event message we don't care about in this test */
-
-} /* end CS_RecomputeTablesChildTask_Test_CouldNotGetAddress */
+}
 
 void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
 {
@@ -1788,8 +1753,7 @@ void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_RecomputeTablesChildTask_Test_DefEntryId*/
+}
 
 void CS_OneShotChildTask_Test_Nominal(void)
 {
@@ -1823,8 +1787,7 @@ void CS_OneShotChildTask_Test_Nominal(void)
     UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-
-} /* end CS_OneShotChildTask_Test_Nominal */
+}
 
 void UtTest_Setup(void)
 {
@@ -1903,9 +1866,4 @@ void UtTest_Setup(void)
                "CS_RecomputeTablesChildTask_Test_DefEntryId");
 
     UtTest_Add(CS_OneShotChildTask_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_OneShotChildTask_Test_Nominal");
-
-} /* end UtTest_Setup */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

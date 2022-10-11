@@ -73,8 +73,7 @@ void CS_DisableMemoryCmd_Test(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableMemoryCmd_Test */
+}
 
 void CS_DisableMemoryCmd_Test_VerifyError(void)
 {
@@ -92,8 +91,7 @@ void CS_DisableMemoryCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableMemoryCmd_Test_VerifyError */
+}
 
 void CS_DisableMemoryCmd_Test_OneShot(void)
 {
@@ -112,8 +110,7 @@ void CS_DisableMemoryCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableMemoryCmd_Test_OneShot */
+}
 
 void CS_EnableMemoryCmd_Test(void)
 {
@@ -145,8 +142,7 @@ void CS_EnableMemoryCmd_Test(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableMemoryCmd_Test */
+}
 
 void CS_EnableMemoryCmd_Test_VerifyError(void)
 {
@@ -164,8 +160,7 @@ void CS_EnableMemoryCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableMemoryCmd_Test_VerifyError */
+}
 
 void CS_EnableMemoryCmd_Test_OneShot(void)
 {
@@ -184,8 +179,7 @@ void CS_EnableMemoryCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableMemoryCmd_Test_OneShot */
+}
 
 void CS_ReportBaselineEntryIDMemoryCmd_Test_Computed(void)
 {
@@ -220,8 +214,7 @@ void CS_ReportBaselineEntryIDMemoryCmd_Test_Computed(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_ReportBaselineEntryIDMemoryCmd_Test_Computed */
+}
 
 void CS_ReportBaselineEntryIDMemoryCmd_Test_NotYetComputed(void)
 {
@@ -257,8 +250,7 @@ void CS_ReportBaselineEntryIDMemoryCmd_Test_NotYetComputed(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_ReportBaselineEntryIDMemoryCmd_Test_NotYetComputed */
+}
 
 void CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 {
@@ -290,8 +282,7 @@ void CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh(void
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh */
+}
 
 void CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
 {
@@ -325,8 +316,7 @@ void CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty */
+}
 
 void CS_ReportBaselineEntryIDMemoryCmd_Test_VerifyError(void)
 {
@@ -344,8 +334,7 @@ void CS_ReportBaselineEntryIDMemoryCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_ReportBaselineEntryIDMemoryCmd_Test_VerifyError */
+}
 
 void CS_RecomputeBaselineMemoryCmd_Test_Nominal(void)
 {
@@ -387,8 +376,7 @@ void CS_RecomputeBaselineMemoryCmd_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_RecomputeBaselineMemoryCmd_Test_Nominal */
+}
 
 void CS_RecomputeBaselineMemoryCmd_Test_CreateChildTaskError(void)
 {
@@ -433,8 +421,7 @@ void CS_RecomputeBaselineMemoryCmd_Test_CreateChildTaskError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_RecomputeBaselineMemoryCmd_Test_CreateChildTaskError */
+}
 
 void CS_RecomputeBaselineMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 {
@@ -466,8 +453,7 @@ void CS_RecomputeBaselineMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_RecomputeBaselineMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh */
+}
 
 void CS_RecomputeBaselineMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
 {
@@ -501,8 +487,7 @@ void CS_RecomputeBaselineMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_RecomputeBaselineMemoryCmd_Test_InvalidEntryErrorStateEmpty */
+}
 
 void CS_RecomputeBaselineMemoryCmd_Test_RecomputeInProgress(void)
 {
@@ -536,8 +521,7 @@ void CS_RecomputeBaselineMemoryCmd_Test_RecomputeInProgress(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_RecomputeBaselineMemoryCmd_Test_RecomputeInProgress */
+}
 
 void CS_RecomputeBaselineMemoryCmd_Test_VerifyError(void)
 {
@@ -555,8 +539,7 @@ void CS_RecomputeBaselineMemoryCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_RecomputeBaselineMemoryCmd_Test_VerifyError */
+}
 
 void CS_RecomputeBaselineMemoryCmd_Test_OneShot(void)
 {
@@ -591,8 +574,7 @@ void CS_RecomputeBaselineMemoryCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_RecomputeBaselineMemoryCmd_Test_OneShot */
+}
 
 void CS_EnableEntryIDMemoryCmd_Test_Nominal(void)
 {
@@ -632,8 +614,7 @@ void CS_EnableEntryIDMemoryCmd_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableEntryIDMemoryCmd_Test_Nominal */
+}
 
 void CS_EnableEntryIDMemoryCmd_Test_DefMemoryTblPtrStateEmpty(void)
 {
@@ -683,8 +664,7 @@ void CS_EnableEntryIDMemoryCmd_Test_DefMemoryTblPtrStateEmpty(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableEntryIDMemoryCmd_Test_DefMemoryTblPtrStateEmpty */
+}
 
 void CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 {
@@ -716,8 +696,7 @@ void CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh */
+}
 
 void CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
 {
@@ -751,8 +730,7 @@ void CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty */
+}
 
 void CS_EnableEntryIDMemoryCmd_Test_VerifyError(void)
 {
@@ -770,8 +748,7 @@ void CS_EnableEntryIDMemoryCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableEntryIDMemoryCmd_Test_VerifyError */
+}
 
 void CS_EnableEntryIDMemoryCmd_Test_OneShot(void)
 {
@@ -790,8 +767,7 @@ void CS_EnableEntryIDMemoryCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_EnableEntryIDMemoryCmd_Test_OneShot */
+}
 
 void CS_DisableEntryIDMemoryCmd_Test_Nominal(void)
 {
@@ -836,8 +812,7 @@ void CS_DisableEntryIDMemoryCmd_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableEntryIDMemoryCmd_Test_Nominal */
+}
 
 void CS_DisableEntryIDMemoryCmd_Test_DefMemoryTblPtrStateEmpty(void)
 {
@@ -891,8 +866,7 @@ void CS_DisableEntryIDMemoryCmd_Test_DefMemoryTblPtrStateEmpty(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableEntryIDMemoryCmd_Test_DefMemoryTblPtrStateEmpty */
+}
 
 void CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 {
@@ -924,8 +898,7 @@ void CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh */
+}
 
 void CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
 {
@@ -959,8 +932,7 @@ void CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty */
+}
 
 void CS_DisableEntryIDMemoryCmd_Test_VerifyError(void)
 {
@@ -978,8 +950,7 @@ void CS_DisableEntryIDMemoryCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableEntryIDMemoryCmd_Test_VerifyError */
+}
 
 void CS_DisableEntryIDMemoryCmd_Test_OneShot(void)
 {
@@ -998,8 +969,7 @@ void CS_DisableEntryIDMemoryCmd_Test_OneShot(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_DisableEntryIDMemoryCmd_Test_OneShot */
+}
 
 void CS_GetEntryIDMemoryCmd_Test_Nominal(void)
 {
@@ -1035,8 +1005,7 @@ void CS_GetEntryIDMemoryCmd_Test_Nominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_GetEntryIDMemoryCmd_Test_Nominal */
+}
 
 void CS_GetEntryIDMemoryCmd_Test_AddressNotFound(void)
 {
@@ -1067,8 +1036,7 @@ void CS_GetEntryIDMemoryCmd_Test_AddressNotFound(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_GetEntryIDMemoryCmd_Test_AddressNotFound */
+}
 
 void CS_GetEntryIDMemoryCmd_Test_AddressPtr(void)
 {
@@ -1104,8 +1072,7 @@ void CS_GetEntryIDMemoryCmd_Test_AddressPtr(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_GetEntryIDMemoryCmd_Test_AddressPtr */
+}
 
 void CS_GetEntryIDMemoryCmd_Test_State(void)
 {
@@ -1141,8 +1108,7 @@ void CS_GetEntryIDMemoryCmd_Test_State(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_GetEntryIDMemoryCmd_Test_State */
+}
 
 void CS_GetEntryIDMemoryCmd_Test_VerifyError(void)
 {
@@ -1160,8 +1126,7 @@ void CS_GetEntryIDMemoryCmd_Test_VerifyError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_GetEntryIDMemoryCmd_Test_VerifyError */
+}
 
 void UtTest_Setup(void)
 {
@@ -1236,9 +1201,4 @@ void UtTest_Setup(void)
     UtTest_Add(CS_GetEntryIDMemoryCmd_Test_State, CS_Test_Setup, CS_Test_TearDown, "CS_GetEntryIDMemoryCmd_Test_State");
     UtTest_Add(CS_GetEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
                "CS_GetEntryIDMemoryCmd_Test_VerifyError");
-
-} /* end UtTest_Setup */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

@@ -99,7 +99,6 @@ typedef struct
 {
     CFE_MSG_CommandHeader_t CmdHeader;
     cpuaddr                 Address; /**< \brief Address to get the ID for */
-
 } CS_GetEntryIDCmd_t;
 
 /**

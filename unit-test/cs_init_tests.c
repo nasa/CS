@@ -69,8 +69,7 @@ void CS_Init_Test_SBCreatePipeError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_Init_Test_SBCreatePipeError */
+}
 
 void CS_Init_Test_SBSubscribeHKNominal(void)
 {
@@ -86,8 +85,7 @@ void CS_Init_Test_SBSubscribeHKNominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_Init_Test_SBSubscribeHKNominal */
+}
 
 void CS_Init_Test_SBSubscribeHKError(void)
 {
@@ -119,8 +117,7 @@ void CS_Init_Test_SBSubscribeHKError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_Init_Test_SBSubscribeHKError */
+}
 
 void CS_Init_Test_SBSubscribeBackgroundCycleError(void)
 {
@@ -151,8 +148,7 @@ void CS_Init_Test_SBSubscribeBackgroundCycleError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_Init_Test_SBSubscribeBackgroundCycleError */
+}
 
 void CS_Init_Test_SBSubscribeCmdError(void)
 {
@@ -183,8 +179,7 @@ void CS_Init_Test_SBSubscribeCmdError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_Init_Test_SBSubscribeCmdError */
+}
 
 void CS_Init_Test_TableInitNominal(void)
 {
@@ -201,8 +196,7 @@ void CS_Init_Test_TableInitNominal(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_Init_Test_TableInitNominal */
+}
 
 void CS_Init_Test_TableInitErrorEEPROM(void)
 {
@@ -235,8 +229,7 @@ void CS_Init_Test_TableInitErrorEEPROM(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
-
-} /* end CS_Init_Test_TableInitErrorEEPROM */
+}
 
 void CS_Init_Test_TableInitErrorMemory(void)
 {
@@ -274,8 +267,7 @@ void CS_Init_Test_TableInitErrorMemory(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
-
-} /* end CS_Init_Test_TableInitErrorMemory */
+}
 
 void CS_Init_Test_TableInitErrorApps(void)
 {
@@ -312,8 +304,7 @@ void CS_Init_Test_TableInitErrorApps(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
-
-} /* end CS_Init_Test_TableInitErrorApps */
+}
 
 void CS_Init_Test_TableInitErrorTables(void)
 {
@@ -351,8 +342,7 @@ void CS_Init_Test_TableInitErrorTables(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
-
-} /* end CS_Init_Test_TableInitErrorTables */
+}
 
 void CS_Init_Test_CFETextSegmentInfoError(void)
 {
@@ -384,8 +374,7 @@ void CS_Init_Test_CFETextSegmentInfoError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_Init_Test_TextSegmentInfoError */
+}
 
 void CS_Init_Test_KernelTextSegmentInfoError(void)
 {
@@ -417,8 +406,7 @@ void CS_Init_Test_KernelTextSegmentInfoError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-
-} /* end CS_Init_Test_TextSegmentInfoError */
+}
 
 void UtTest_Setup(void)
 {
@@ -437,9 +425,4 @@ void UtTest_Setup(void)
                "CS_Init_Test_CFETextSegmentInfoError");
     UtTest_Add(CS_Init_Test_KernelTextSegmentInfoError, CS_Test_Setup, CS_Test_TearDown,
                "CS_Init_Test_KernelTextSegmentInfoError");
-
-} /* end UtTest_Setup */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}

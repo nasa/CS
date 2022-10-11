@@ -62,7 +62,3 @@ CS_Def_App_Table_Entry_t CS_AppTable[CS_MAX_NUM_APP_TABLE_ENTRIES] = {
 ** Table file header
 */
 CFE_TBL_FILEDEF(CS_AppTable, CS.DefAppTbl, CS App Tbl, cs_apptbl.tbl)
-
-/************************/
-/*  End of File Comment */
-/************************/

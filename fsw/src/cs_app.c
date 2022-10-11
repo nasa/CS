@@ -218,8 +218,7 @@ void CS_AppMain(void)
 
     /* Let cFE kill the task (and child task) */
     CFE_ES_ExitApp(CS_AppData.RunStatus);
-
-} /* End of CS_AppMain () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -250,7 +249,6 @@ int32 CS_AppInit(void)
 
     if (Result == CFE_SUCCESS)
     {
-
         /* Set up default tables in memory */
         CS_InitializeDefaultTables();
 
@@ -295,7 +293,7 @@ int32 CS_AppInit(void)
                               CS_MAJOR_VERSION, CS_MINOR_VERSION, CS_REVISION, CS_MISSION_REV);
     }
     return Result;
-} /* End of CS_AppInit () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -337,7 +335,7 @@ int32 CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
     }
 
     return Result;
-} /* End of CS_AppPipe () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -551,7 +549,6 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* Verify the command packet length */
     if (ExpectedLength != ActualLength)
     {
-
         CFE_MSG_GetMsgId(&CmdPtr->CmdHeader.Msg, &MessageID);
         CFE_MSG_GetFcnCode(&CmdPtr->CmdHeader.Msg, &CommandCode);
 
@@ -566,7 +563,7 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr)
         CFE_SB_TimeStampMsg(&CS_AppData.HkPacket.TlmHeader.Msg);
         CFE_SB_TransmitMsg(&CS_AppData.HkPacket.TlmHeader.Msg, true);
     }
-} /* End of CS_HousekeepingCmd () */
+}
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
 
@@ -662,8 +659,7 @@ int32 CS_CreateRestoreStatesFromCDS(void)
     }
 
     return Result;
-
-} /* End of CS_CreateCDS() */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -708,9 +704,5 @@ void CS_UpdateCDS(void)
             CS_AppData.DataStoreHandle = CFE_ES_CDS_BAD_HANDLE;
         }
     }
-} /* End of CS_UpdateCDS() */
+}
 #endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   ) */
-
-/************************/
-/*  End of File Comment */
-/************************/

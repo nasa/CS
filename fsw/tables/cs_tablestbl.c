@@ -63,7 +63,3 @@ CS_Def_Tables_Table_Entry_t CS_TablesTable[CS_MAX_NUM_TABLES_TABLE_ENTRIES] = {
 ** Table file header
 */
 CFE_TBL_FILEDEF(CS_TablesTable, CS.DefTablesTbl, CS Tables Tbl, cs_tablestbl.tbl)
-
-/************************/
-/*  End of File Comment */
-/************************/

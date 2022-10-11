@@ -118,7 +118,7 @@ int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
                       (int)BadCount, (int)EmptyCount);
 
     return Result;
-} /* CS_ValidateEEPROMCheckSumDefinitionTable */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -202,7 +202,7 @@ int32 CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr)
                       (int)BadCount, (int)EmptyCount);
 
     return Result;
-} /* CS_ValidateMemoryCheckSumDefinitionTable */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -318,7 +318,7 @@ int32 CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
                       (int)BadCount, (int)EmptyCount);
 
     return Result;
-} /* CS_ValidateTablesCheckSumDefinitionTable */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -433,7 +433,7 @@ int32 CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
                       (int)BadCount, (int)EmptyCount);
 
     return Result;
-} /* CS_ValidateAppCheckSumDefinitionTable */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -528,7 +528,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
         CFE_EVS_SendEvent(CS_PROCESS_EEPROM_MEMORY_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
                           "CS %s Table: No valid entries in the table", TableType);
     }
-} /* end of CS_ProcessNewEepromMemoryDefinitionTable () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -720,7 +720,7 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
         CFE_EVS_SendEvent(CS_PROCESS_TABLES_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
                           "CS Tables Table: No valid entries in the table");
     }
-} /* end of CS_ProcessNewTablesDefinitionTable () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -769,7 +769,6 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
         }
         else
         {
-
             ResultsEntry->State              = CS_STATE_EMPTY;
             ResultsEntry->ComputedYet        = false;
             ResultsEntry->NumBytesToChecksum = 0;
@@ -792,7 +791,7 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
         CFE_EVS_SendEvent(CS_PROCESS_APP_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
                           "CS Apps Table: No valid entries in the table");
     }
-} /* end of CS_ProcessNewAppsDefinitionTable () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -852,7 +851,6 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
      the default tables in CS */
     if (ResultFromLoad != CFE_SUCCESS)
     {
-
         Result           = CFE_TBL_Load(*DefinitionTableHandle, CFE_TBL_SRC_ADDRESS, DefaultDefTableAddress);
         LoadedFromMemory = true;
     }
@@ -865,7 +863,6 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
         {
             if (Table == CS_APP_TABLE)
             {
-
                 CS_ProcessNewAppDefinitionTable((CS_Def_App_Table_Entry_t *)DefinitionTblPtr,
                                                 (CS_Res_App_Table_Entry_t *)ResultsTblPtr);
             }
@@ -938,8 +935,7 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
         }
     }
     return Result;
-
-} /* end of CS_CheckSum_Definition_Table_Init () */
+}
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -990,10 +986,8 @@ int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, CFE_TBL_
             {
                 if (CS_AppData.ResTablesTblPtr[Loop].TblHandle != CFE_TBL_BAD_TABLE_HANDLE)
                 {
-
                     if (CS_AppData.ResTablesTblPtr[Loop].IsCSOwner == false)
                     {
-
                         CFE_TBL_Unregister(CS_AppData.ResTablesTblPtr[Loop].TblHandle);
                     }
                 }
@@ -1004,7 +998,6 @@ int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, CFE_TBL_
         }
         else
         {
-
             if (Table == CS_APP_TABLE)
             {
                 CS_ProcessNewAppDefinitionTable((CS_Def_App_Table_Entry_t *)DefinitionTblPtr,
@@ -1050,8 +1043,4 @@ int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, CFE_TBL_
         }
     }
     return Result;
-} /* end CS_HandleTableUpdate */
-
-/************************/
-/*  End of File Comment */
-/************************/
+}
