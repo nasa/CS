@@ -561,7 +561,7 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
             break;
 
         default:
-            CFE_EVS_SendEvent(CS_CC1_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(CS_CC_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Invalid ground command code: ID = 0x%08lX, CC = %d",
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode);
 
@@ -591,7 +591,7 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr)
         CFE_MSG_GetMsgId(&CmdPtr->CmdHeader.Msg, &MessageID);
         CFE_MSG_GetFcnCode(&CmdPtr->CmdHeader.Msg, &CommandCode);
 
-        CFE_EVS_SendEvent(CS_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+        CFE_EVS_SendEvent(CS_CMD_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %lu, Expected = %lu",
                           (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (unsigned long)ActualLength,
                           (unsigned long)ExpectedLength);
