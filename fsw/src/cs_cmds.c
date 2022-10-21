@@ -72,7 +72,7 @@ void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
     CS_AppData.HkPacket.Payload.OSCSErrCounter      = 0;
     CS_AppData.HkPacket.Payload.PassCounter         = 0;
 
-    CFE_EVS_SendEvent(CS_RESET_DBG_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command recieved");
+    CFE_EVS_SendEvent(CS_RESET_INF_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command recieved");
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -98,7 +98,7 @@ void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)
         CFE_MSG_GetMsgId(CFE_MSG_PTR(CmdPtr->CommandHeader), &MessageID);
         CFE_MSG_GetFcnCode(CFE_MSG_PTR(CmdPtr->CommandHeader), &CommandCode);
 
-        CFE_EVS_SendEvent(CS_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+        CFE_EVS_SendEvent(CS_CMD_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %lu, Expected = %lu",
                           (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (unsigned long)ActualLength,
                           (unsigned long)ExpectedLength);
