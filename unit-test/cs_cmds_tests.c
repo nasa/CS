@@ -113,7 +113,7 @@ void CS_ResetCmd_Test(void)
     UtAssert_True(CS_AppData.HkPacket.Payload.OSCSErrCounter == 0, "CS_AppData.HkPacket.Payload.OSCSErrCounter == 0");
     UtAssert_True(CS_AppData.HkPacket.Payload.PassCounter == 0, "CS_AppData.HkPacket.Payload.PassCounter == 0");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RESET_DBG_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RESET_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
@@ -158,7 +158,7 @@ void CS_BackgroundCheckCycle_Test_InvalidMsgLength(void)
     CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CMD_LEN_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
