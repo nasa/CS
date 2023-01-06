@@ -25,7 +25,7 @@
 #ifndef CS_PLATFORM_CFG_H
 #define CS_PLATFORM_CFG_H
 
-#include "cfe_platform_cfg.h" /* for CFE_ES_DEFAULT_STACK_SIZE */
+#include <cfe_platform_cfg.h> /* for CFE_ES_DEFAULT_STACK_SIZE */
 
 /**
  * \defgroup cfscsplatformcfg CFS Checksum Platform Configuration

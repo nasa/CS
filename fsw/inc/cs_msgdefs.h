@@ -25,7 +25,7 @@
 #ifndef CS_MSGDEFS_H
 #define CS_MSGDEFS_H
 
-#include "cfe.h"
+#include <cfe.h>
 
 /**
  * \defgroup cfscscmdcodes CFS Checksum Command Codes

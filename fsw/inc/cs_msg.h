@@ -25,7 +25,7 @@
 #ifndef CS_MSG_H
 #define CS_MSG_H
 
-#include "cfe.h"
+#include <cfe.h>
 
 /**
  * \defgroup cfscstlm CFS Checksum Telemetry

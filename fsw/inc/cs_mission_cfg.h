@@ -25,7 +25,7 @@
 #ifndef CS_MISSION_CFG_H
 #define CS_MISSION_CFG_H
 
-#include "cfe_mission_cfg.h"
+#include <cfe_mission_cfg.h>
 
 /**
  * \defgroup cfscsmissioncfg CFS Checksum Mission Configuration
