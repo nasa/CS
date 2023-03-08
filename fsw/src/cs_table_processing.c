@@ -694,7 +694,8 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
             ResultsEntry->StartAddress       = 0; /* this is unknown at this time */
             ResultsEntry->TblHandle          = TableHandle;
             ResultsEntry->IsCSOwner          = Owned;
-            strncpy(ResultsEntry->Name, DefEntry->Name, CFE_TBL_MAX_FULL_NAME_LEN);
+            CFE_SB_MessageStringGet(ResultsEntry->Name, DefEntry->Name, NULL, sizeof(ResultsEntry->Name),
+                                    sizeof(DefEntry->Name));
         }
         else
         {
@@ -765,7 +766,8 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
             ResultsEntry->ByteOffset         = 0;
             ResultsEntry->TempChecksumValue  = 0;
             ResultsEntry->StartAddress       = 0; /* this is unknown at this time */
-            strncpy(ResultsEntry->Name, DefEntry->Name, OS_MAX_API_NAME);
+            CFE_SB_MessageStringGet(ResultsEntry->Name, DefEntry->Name, NULL, sizeof(ResultsEntry->Name),
+                                    sizeof(DefEntry->Name));
         }
         else
         {
