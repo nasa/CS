@@ -42,7 +42,7 @@ typedef struct
     uint8   CmdCounter;                  /**< \brief CS Application Command Counter */
     uint8   CmdErrCounter;               /**< \brief CS Application Command Error Counter */
     uint8   ChecksumState;               /**< \brief CS Application global checksum state */
-    uint8   EepromCSState;               /**< \brief CS Eeprom table checksum state */
+    uint8   EepromCSState;               /**< \brief CS EEPROM table checksum state */
     uint8   MemoryCSState;               /**< \brief CS Memory table checksum state */
     uint8   AppCSState;                  /**< \brief CS App table checksum state */
     uint8   TablesCSState;               /**< \brief CS Tables table checksum state */
@@ -51,7 +51,7 @@ typedef struct
     uint8   RecomputeInProgress;         /**< \brief CS "Recompute In Progress" flag */
     uint8   OneShotInProgress;           /**< \brief CS "OneShot In Progress" flag */
     uint8   Filler8;                     /**< \brief 8 bit padding */
-    uint16  EepromCSErrCounter;          /**< \brief Eeprom miscompare counter */
+    uint16  EepromCSErrCounter;          /**< \brief EEPROM miscompare counter */
     uint16  MemoryCSErrCounter;          /**< \brief Memory miscompare counter */
     uint16  AppCSErrCounter;             /**< \brief App miscompare counter */
     uint16  TablesCSErrCounter;          /**< \brief Tables miscompare counter */
@@ -59,7 +59,7 @@ typedef struct
     uint16  OSCSErrCounter;              /**< \brief OS code segment miscopmare counter */
     uint16  CurrentCSTable;              /**< \brief Current table being checksummed */
     uint16  CurrentEntryInTable;         /**< \brief Current entry ID in table being checksummed */
-    uint32  EepromBaseline;              /**< \brief Baseline checksum for all of Eeprom */
+    uint32  EepromBaseline;              /**< \brief Baseline checksum for all of EEPROM */
     uint32  OSBaseline;                  /**< \brief Baseline checksum for the OS code segment */
     uint32  CfeCoreBaseline;             /**< \brief Basline checksum for the cFE core */
     cpuaddr LastOneShotAddress;          /**< \brief Address used in last one shot checksum command */
@@ -102,7 +102,7 @@ typedef struct
 } CS_GetEntryIDCmd_t;
 
 /**
- * \brief Command type for commands using Memory or Eeprom tables
+ * \brief Command type for commands using Memory or EEPROM tables
  *
  *  For command details see #CS_ENABLE_ENTRY_EEPROM_CC, #CS_DISABLE_ENTRY_EEPROM_CC,
  * #CS_ENABLE_ENTRY_MEMORY_CC, #CS_DISABLE_ENTRY_MEMORY_CC

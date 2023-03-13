@@ -100,11 +100,11 @@
 #define CS_PIPE_DEPTH (3 * CFE_PLATFORM_SB_DEFAULT_MSG_LIMIT)
 
 /**
- * \brief  Maximum number of entries in the Eeprom table to checksum
+ * \brief  Maximum number of entries in the EEPROM table to checksum
  *
  *  \par  Description:
  *        Maximum number of entries that can be in the table of
- *        Eeprom areas to checksum.
+ *        EEPROM areas to checksum.
  *
  *  \par Limits:
  *     This parameter is limited by the  uint16 datatype that defines it.

@@ -66,8 +66,7 @@ int32 CS_SbInit(void)
             CFE_EVS_SendEvent(CS_INIT_SB_SUBSCRIBE_HK_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Software Bus subscribe to housekeeping returned: 0x%08X", (unsigned int)Result);
         }
-
-        if (Result == CFE_SUCCESS)
+        else
         {
             /* Subscribe to background checking schedule */
             Result = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(CS_BACKGROUND_CYCLE_MID), CS_AppData.CmdPipe);
@@ -113,10 +112,9 @@ int32 CS_InitAllTables(void)
     {
         CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
         CFE_EVS_SendEvent(CS_INIT_EEPROM_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Table initialization failed for Eeprom: 0x%08X", (unsigned int)ResultInit);
+                          "Table initialization failed for EEPROM: 0x%08X", (unsigned int)ResultInit);
     }
-
-    if (ResultInit == CFE_SUCCESS)
+    else
     {
         ResultInit = CS_TableInit(&CS_AppData.DefMemoryTableHandle, &CS_AppData.ResMemoryTableHandle,
                                   (void *)&CS_AppData.DefMemoryTblPtr, (void *)&CS_AppData.ResMemoryTblPtr,

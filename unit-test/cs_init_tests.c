@@ -205,7 +205,7 @@ void CS_Init_Test_TableInitErrorEEPROM(void)
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Table initialization failed for Eeprom: 0x%%08X");
+             "Table initialization failed for EEPROM: 0x%%08X");
 
     /* Set to generate error message CS_INIT_EEPROM_ERR_EID */
 

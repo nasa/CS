@@ -19,7 +19,7 @@
 
 /**
  * @file
- *   Specification for the CFS Checksum event identifers.
+ *   Specification for the CFS Checksum event identifiers.
  */
 #ifndef CS_EVENTS_H
 #define CS_EVENTS_H
@@ -489,7 +489,7 @@
  *  \par Cause:
  *
  *  This event message is issued when disable checksumming
- *  for the Eeprom table command has been received.
+ *  for the EEPROM table command has been received.
  */
 #define CS_DISABLE_EEPROM_INF_EID 37
 
@@ -501,7 +501,7 @@
  *  \par Cause:
  *
  *  This event message is issued when enable checksumming
- *  for the Eeprom table command has been received.
+ *  for the EEPROM table command has been received.
  */
 #define CS_ENABLE_EEPROM_INF_EID 38
 
@@ -513,7 +513,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a report baseline
- *  for the Eeprom entry specifiedcommand has been received
+ *  for the EEPROM entry specifiedcommand has been received
  *  and there is a baseline computed to report.
  */
 #define CS_BASELINE_EEPROM_INF_EID 39
@@ -552,7 +552,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a recompute baseline
- *  for the specified Eeprom Entry ID command has been received and the
+ *  for the specified EEPROM Entry ID command has been received and the
  *  recompute task has been started.
  */
 #define CS_RECOMPUTE_EEPROM_STARTED_DBG_EID 42
@@ -565,7 +565,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a recompute baseline
- *  for the specified Eeprom Entry ID command has been
+ *  for the specified EEPROM Entry ID command has been
  *  received and the recompute failed because
  *  CFE_ES_CreateChildTask returned an error.
  */
@@ -605,7 +605,7 @@
  *
  *  \par Cause:invalid
  *
- *  This event message is issued when an enable Eeprom Entry ID
+ *  This event message is issued when an enable EEPROM Entry ID
  *  command is accepted.
  */
 #define CS_ENABLE_EEPROM_ENTRY_INF_EID 46
@@ -617,7 +617,7 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when an enable Eeprom Entry ID
+ *  This event message is issued when an enable EEPROM Entry ID
  *  command is received, but has an invalid Entry ID.
  */
 #define CS_ENABLE_EEPROM_INVALID_ENTRY_ERR_EID 47
@@ -629,7 +629,7 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when a disable Eeprom Entry ID
+ *  This event message is issued when a disable EEPROM Entry ID
  *  command is accepted.
  */
 #define CS_DISABLE_EEPROM_ENTRY_INF_EID 48
@@ -641,7 +641,7 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when a disable Eeprom Entry ID
+ *  This event message is issued when a disable EEPROM Entry ID
  *  command is received, but has an invalid Entry ID.
  */
 #define CS_DISABLE_EEPROM_INVALID_ENTRY_ERR_EID 49
@@ -653,9 +653,9 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when a Get Entry ID Eeprom
+ *  This event message is issued when a Get Entry ID EEPROM
  *  command is received and the command specified address
- *  is found in the Eeprom table.
+ *  is found in the EEPROM table.
  *
  *  Note that more than one of these event messages can
  *  be sent per command (if the address is in several
@@ -671,8 +671,8 @@
  *  \par Cause:
  *
  *  This event message is issued when the command specified
- *  address in a Get Entry ID Eeprom command cannot be found
- *  in the Eeprom table.
+ *  address in a Get Entry ID EEPROM command cannot be found
+ *  in the EEPROM table.
  */
 #define CS_GET_ENTRY_ID_EEPROM_NOT_FOUND_INF_EID 51
 
@@ -1043,7 +1043,7 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when a disable able name
+ *  This event message is issued when a disable name
  *  command is received, but has an unknown name
  *  or is marked as #CS_STATE_EMPTY.
  */
@@ -1244,7 +1244,7 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when an table cannot be found when checksumming.
+ *  This event message is issued when a table cannot be found when checksumming.
  */
 
 #define CS_COMPUTE_TABLES_NOT_FOUND_ERR_EID 94
@@ -1256,8 +1256,8 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when a recompute entry for Eeprom or Memory
- *  has finished succesessfully.
+ *  This event message is issued when a recompute entry for EEPROM or Memory
+ *  has finished successfully.
  */
 #define CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID 95
 
@@ -1293,7 +1293,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a recompute entry for a Table
- *  has finished succesessfully.
+ *  has finished successfully.
  *
  *  For the CS Table Definitions Table only, the checksum
  *  value will be incorrect. This is because all entries in this
@@ -1312,7 +1312,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a recompute entry for an app
- *  has finished succesessfully.
+ *  has finished successfully.
  */
 #define CS_RECOMPUTE_FINISH_APP_INF_EID 99
 
@@ -1338,7 +1338,7 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when the Eeprom table validation function detects an illegal state
+ *  This event message is issued when the EEPROM table validation function detects an illegal state
  */
 #define CS_VAL_EEPROM_STATE_ERR_EID 101
 
@@ -1349,7 +1349,7 @@
  *
  *  \par Cause:
  *
- *  This event message is issued when the Eeprom table validation function detects an illegal checksum range
+ *  This event message is issued when the EEPROM table validation function detects an illegal checksum range
  */
 #define CS_VAL_EEPROM_RANGE_ERR_EID 102
 
@@ -1481,7 +1481,7 @@
 #define CS_INIT_SB_SUBSCRIBE_HK_ERR_EID 113
 
 /**
- * \brief CS Software Bus Subscribe To Backtround Cycle Failed Event ID
+ * \brief CS Software Bus Subscribe To Background Cycle Failed Event ID
  *
  *  \par Type: ERROR
  *
@@ -1694,7 +1694,7 @@
 #define CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID 131
 
 /**
- * \brief CS App Disable Checksum Unable To Find Entry In Defintion Table Event ID
+ * \brief CS App Disable Checksum Unable To Find Entry In Definition Table Event ID
  *
  *  \par Type: DEBUG
  *
@@ -1740,7 +1740,7 @@
  *  \par Cause:
  *
  *  This event message is issued when CS successfully disables an entry (specified
- *  by name) in the Eeprom results table but identifies the corresponding entry in
+ *  by name) in the EEPROM results table but identifies the corresponding entry in
  *  the definitions table to be set to #CS_STATE_EMPTY.
  */
 #define CS_DISABLE_EEPROM_DEF_EMPTY_DBG_EID 135
@@ -1753,7 +1753,7 @@
  *  \par Cause:
  *
  *  This event message is issued when CS successfully enables an entry (specified
- *  by name) in the Eeprom results table but identifies the corresponding entry in
+ *  by name) in the EEPROM results table but identifies the corresponding entry in
  *  the definitions table to be set to #CS_STATE_EMPTY.
  */
 #define CS_ENABLE_EEPROM_DEF_EMPTY_DBG_EID 136
@@ -1853,13 +1853,13 @@
 #define CS_VAL_MEMORY_INF_EID 143
 
 /**
- * \brief CS Eeprom Table Verification Results Event ID
+ * \brief CS EEPROM Table Verification Results Event ID
  *
  *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
- *  This event message when CS completes validation of the Eeprom definition table.  This message
+ *  This event message when CS completes validation of the EEPROM definition table.  This message
  *  reports the number of successful (#CS_STATE_ENABLED or #CS_STATE_DISABLED) entries, the number of
  *  bad entries (due to invalid state definitions or bad range), and the number of entries
  *  marked as #CS_STATE_EMPTY.

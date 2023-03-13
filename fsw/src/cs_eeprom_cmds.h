@@ -33,15 +33,15 @@
 #include "cs_msg.h"
 
 /**
- * \brief Process a disable background checking for the Eeprom
+ * \brief Process a disable background checking for the EEPROM
  *        table command
  *
  *  \par Description
- *       Disables background checking for the Eeprom table
+ *       Disables background checking for the EEPROM table
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occur, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -52,15 +52,15 @@
 void CS_DisableEepromCmd(const CS_NoArgsCmd_t *CmdPtr);
 
 /**
- * \brief Process an enable background checking for the Eeprom
+ * \brief Process an enable background checking for the EEPROM
  *        table command
  *
  *  \par Description
- *       Allows the Eeprom table to be background checksummed.
+ *       Allows the EEPROM table to be background checksummed.
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occur, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -71,10 +71,10 @@ void CS_DisableEepromCmd(const CS_NoArgsCmd_t *CmdPtr);
 void CS_EnableEepromCmd(const CS_NoArgsCmd_t *CmdPtr);
 
 /**
- * \brief Proccess a report baseline of a Eeprom Entry command
+ * \brief Proccess a report baseline of an EEPROM Entry command
  *
  *  \par Description
- *        Reports the baseline checksum of the specified Eeprom table
+ *        Reports the baseline checksum of the specified EEPROM table
  *        entry if it has already been computed
  *
  *  \par Assumptions, External Events, and Notes:
@@ -87,11 +87,11 @@ void CS_EnableEepromCmd(const CS_NoArgsCmd_t *CmdPtr);
 void CS_ReportBaselineEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr);
 
 /**
- * \brief Process a disable background checking for an Eeprom
+ * \brief Process a disable background checking for an EEPROM
  *        entry command
  *
  *  \par Description
- *       Disables the specified Eeprom entry to be background checksummed.
+ *       Disables the specified EEPROM entry to be background checksummed.
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual entries
@@ -110,10 +110,10 @@ void CS_ReportBaselineEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr);
 void CS_DisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr);
 
 /**
- * \brief Process a recopmute baseline of a Eeprom table entry command
+ * \brief Process a recopmute baseline of an EEPROM table entry command
  *
  *  \par Description
- *        Recomputes the checksum of a Eeprom table entry and use that
+ *        Recomputes the checksum of an EEPROM table entry and use that
  *        value as the new baseline for that entry.
  *
  *  \par Assumptions, External Events, and Notes:
@@ -126,11 +126,11 @@ void CS_DisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr);
 void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr);
 
 /**
- * \brief Process an enable background checking for an Eeprom
+ * \brief Process an enable background checking for an EEPROM
  *        entry command
  *
  *  \par Description
- *       Allows the specified Eeprom entry to be background checksummed.
+ *       Allows the specified EEPROM entry to be background checksummed.
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual entries
@@ -149,7 +149,7 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr);
 void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr);
 
 /**
- * \brief Process a get Eeprom Entry by Address command
+ * \brief Process a get EEPROM Entry by Address command
  *
  *  \par Description
  *       Send the entry ID of the specified address in an event message

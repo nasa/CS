@@ -94,7 +94,7 @@ void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr);
 void CS_DisableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr);
 
 /**
- * \brief Process a enable overall background checking command
+ * \brief Process an enable overall background checking command
  *
  *  \par Description
  *       Allows background checking to take place.
@@ -117,7 +117,7 @@ void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occurr, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -128,7 +128,7 @@ void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr);
 void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
 
 /**
- * \brief Process a enable background checking for the cFE core code
+ * \brief Process an enable background checking for the cFE core code
  *        segment command
  *
  *  \par Description
@@ -136,7 +136,7 @@ void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occurr, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -155,7 +155,7 @@ void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occurr, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -166,7 +166,7 @@ void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
 void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr);
 
 /**
- * \brief Process a enable background checking for the OS code
+ * \brief Process an enable background checking for the OS code
  *        segment command
  *
  *  \par Description
@@ -174,7 +174,7 @@ void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occurr, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -201,7 +201,7 @@ void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr);
 void CS_ReportBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
 
 /**
- * \brief Proccess a report baseline of the OS command
+ * \brief Process a report baseline of the OS command
  *
  *  \par Description
  *        Reports the baseline checksum of the OS code segment

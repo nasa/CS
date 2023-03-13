@@ -19,8 +19,8 @@
 
 /**
  * @file
- *   CFS Checksum (CS) Applications provides the service of background
- *   checksumming user defined objects in the CFS
+ *   CFS Checksum (CS) Application provides the service of background
+ *   checksumming user-defined objects in the CFS
  */
 #include <string.h>
 #include "cfe.h"
@@ -107,7 +107,7 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr);
  * \brief Command packet processor
  *
  * \par Description
- *      Proccesses all CS commands
+ *      Processes all CS commands
  *
  * \param [in] BufPtr A CFE_SB_Buffer_t* pointer that
  *                    references the software bus pointer. The
@@ -144,7 +144,7 @@ void CS_AppMain(void)
     /* Performance Log (start time counter) */
     CFE_ES_PerfLogEntry(CS_APPMAIN_PERF_ID);
 
-    /* Perform application specific initialization */
+    /* Perform application-specific initialization */
     Result = CS_AppInit();
 
     /* Check for start-up error */
@@ -236,8 +236,7 @@ int32 CS_AppInit(void)
     {
         CFE_ES_WriteToSysLog("CS App: Error Registering For Event Services, RC = 0x%08X\n", (unsigned int)Result);
     }
-
-    if (Result == CFE_SUCCESS)
+    else
     {
         /* Zero out all data in CS_AppData, including the housekeeping data*/
         memset(&CS_AppData, 0, sizeof(CS_AppData));
@@ -413,7 +412,7 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
             CS_RecomputeBaselineOSCmd((CS_NoArgsCmd_t *)BufPtr);
             break;
 
-        /* Eeprom Commands */
+        /* EEPROM Commands */
         case CS_ENABLE_EEPROM_CC:
             CS_EnableEepromCmd((CS_NoArgsCmd_t *)BufPtr);
             break;
