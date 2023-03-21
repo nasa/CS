@@ -1261,6 +1261,21 @@ void CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
+void CS_ValidateAppChecksumDefinitionTable_Test_LongName(void)
+{
+    memset(CS_AppData.DefAppTblPtr[0].Name, 'x', sizeof(CS_AppData.DefAppTblPtr[0].Name));
+    memset(CS_AppData.DefAppTblPtr[1].Name, 'y', sizeof(CS_AppData.DefAppTblPtr[1].Name));
+
+    UtAssert_INT32_EQ(CS_ValidateAppChecksumDefinitionTable(CS_AppData.DefAppTblPtr), CS_TABLE_ERROR);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_VAL_APP_DEF_TBL_LONG_NAME_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_VAL_APP_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_INFORMATION);
+}
+
 void CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult(void)
 {
     int32 Result;
@@ -3388,6 +3403,8 @@ void UtTest_Setup(void)
                "CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateField");
     UtTest_Add(CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName, CS_Test_Setup, CS_Test_TearDown,
                "CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName");
+    UtTest_Add(CS_ValidateAppChecksumDefinitionTable_Test_LongName, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ValidateAppChecksumDefinitionTable_Test_LongName");
     UtTest_Add(CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult, CS_Test_Setup, CS_Test_TearDown,
                "CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult");
     UtTest_Add(CS_ValidateAppChecksumDefinitionTable_Test_UndefTableErrorResult, CS_Test_Setup, CS_Test_TearDown,

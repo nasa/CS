@@ -343,11 +343,26 @@ int32 CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
     for (OuterLoop = 0; OuterLoop < CS_MAX_NUM_APP_TABLE_ENTRIES; OuterLoop++)
     {
         OuterEntry = &StartOfTable[OuterLoop];
+    }
+
+    for (OuterLoop = 0; OuterLoop < CS_MAX_NUM_APP_TABLE_ENTRIES; OuterLoop++)
+    {
+        OuterEntry = &StartOfTable[OuterLoop];
 
         StateField = OuterEntry->State;
 
-        /* Check for non-zero length for table name */
-        if (strlen(OuterEntry->Name) != 0)
+        if (memchr(OuterEntry->Name, 0, sizeof(OuterEntry->Name)) == NULL)
+        {
+            /* Not null-terminated, name is too long */
+            if (Result != CS_TABLE_ERROR)
+            {
+                CFE_EVS_SendEvent(CS_VAL_APP_DEF_TBL_LONG_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
+                                  "CS Apps Table Validate: Unterminated Name found at entry %d", (int)OuterLoop);
+                Result = CS_TABLE_ERROR;
+            }
+            BadCount++;
+        }
+        else if (strlen(OuterEntry->Name) != 0)
         {
             /* Verify valid state definition */
             if (((StateField == CS_STATE_EMPTY) || (StateField == CS_STATE_ENABLED) ||
@@ -356,9 +371,9 @@ int32 CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
                 DuplicateFound = false;
 
                 /* Verify the name field is not duplicated */
-                for (InnerLoop = OuterLoop + 1; InnerLoop < CS_MAX_NUM_APP_TABLE_ENTRIES; InnerLoop++)
+                for (InnerLoop = 0; InnerLoop < OuterLoop; InnerLoop++)
                 {
-                    if (strncmp(OuterEntry->Name, (&StartOfTable[InnerLoop])->Name, CFE_TBL_MAX_FULL_NAME_LEN) == 0)
+                    if (strcmp(OuterEntry->Name, StartOfTable[InnerLoop].Name) == 0)
                     {
                         if (DuplicateFound != true)
                         {
