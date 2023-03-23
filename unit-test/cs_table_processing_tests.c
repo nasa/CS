@@ -998,35 +998,18 @@ void CS_ValidateTablesChecksumDefinitionTable_Test_CsTableError(void)
 
 void CS_ValidateAppChecksumDefinitionTable_Test_Nominal(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS Apps Table verification results: good = %%d, bad = %%d, unused = %%d");
-
-    CS_AppData.DefAppTblPtr[0].State = CS_STATE_ENABLED; /* All other states are empty by default, and so this test also
-                                                            covers CS_STATE_EMPTY branch */
-
-    strncpy(CS_AppData.DefAppTblPtr[0].Name, "name", 10);
+    CS_AppData.DefAppTblPtr[0].State = CS_STATE_ENABLED;
+    strncpy(CS_AppData.DefAppTblPtr[0].Name, "app1", sizeof(CS_AppData.DefAppTblPtr[0].Name));
+    CS_AppData.DefAppTblPtr[1].State = CS_STATE_ENABLED;
+    strncpy(CS_AppData.DefAppTblPtr[1].Name, "app2", sizeof(CS_AppData.DefAppTblPtr[1].Name));
 
     /* Execute the function being tested */
-    Result = CS_ValidateAppChecksumDefinitionTable(CS_AppData.DefAppTblPtr);
+    UtAssert_INT32_EQ(CS_ValidateAppChecksumDefinitionTable(CS_AppData.DefAppTblPtr), CFE_SUCCESS);
 
     /* Verify results */
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_VAL_APP_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
-
-    UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
 }
 
 void CS_ValidateAppChecksumDefinitionTable_Test_DuplicateNameStateEmpty(void)
@@ -1259,6 +1242,21 @@ void CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
+}
+
+void CS_ValidateAppChecksumDefinitionTable_Test_LongName(void)
+{
+    memset(CS_AppData.DefAppTblPtr[0].Name, 'x', sizeof(CS_AppData.DefAppTblPtr[0].Name));
+    memset(CS_AppData.DefAppTblPtr[1].Name, 'y', sizeof(CS_AppData.DefAppTblPtr[1].Name));
+
+    UtAssert_INT32_EQ(CS_ValidateAppChecksumDefinitionTable(CS_AppData.DefAppTblPtr), CS_TABLE_ERROR);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_VAL_APP_DEF_TBL_LONG_NAME_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_VAL_APP_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_INFORMATION);
 }
 
 void CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult(void)
@@ -3388,6 +3386,8 @@ void UtTest_Setup(void)
                "CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateField");
     UtTest_Add(CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName, CS_Test_Setup, CS_Test_TearDown,
                "CS_ValidateAppChecksumDefinitionTable_Test_IllegalStateEmptyName");
+    UtTest_Add(CS_ValidateAppChecksumDefinitionTable_Test_LongName, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ValidateAppChecksumDefinitionTable_Test_LongName");
     UtTest_Add(CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult, CS_Test_Setup, CS_Test_TearDown,
                "CS_ValidateAppChecksumDefinitionTable_Test_TableErrorResult");
     UtTest_Add(CS_ValidateAppChecksumDefinitionTable_Test_UndefTableErrorResult, CS_Test_Setup, CS_Test_TearDown,
