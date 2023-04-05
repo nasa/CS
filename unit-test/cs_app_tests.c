@@ -82,14 +82,6 @@ void CS_APP_TEST_CFE_ES_RestoreFromCDS_Handler(void *UserObj, UT_EntryKey_t Func
     DataStoreBuffer[5] = CS_STATE_ENABLED;
 }
 
-int32 CS_AppInit(void);
-
-int32 CS_AppPipe(CFE_SB_Buffer_t *BufPtr);
-
-void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr);
-
-int32 CS_CreateRestoreStatesFromCDS(void);
-
 void CS_App_TestCmdTlmAlign(void)
 {
     /* Ensures the command and telemetry structures are padded to and aligned to 32-bits */
