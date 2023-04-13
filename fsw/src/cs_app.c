@@ -46,90 +46,10 @@
 
 /*************************************************************************
 **
-** Exported data
+** CS global application data
 **
 **************************************************************************/
 CS_AppData_t CS_AppData;
-
-/**
- * \brief Initialize the Checksum CFS application
- *
- *  \par Description
- *       Checksum application initialization routine. This
- *       function performs all the required startup steps to
- *       get the application registered with the cFE services so
- *       it can begin to receive command messages and begin
- *       background checksumming.
- *
- *  \par Assumptions, External Events, and Notes:
- *       None
- *
- * \return Execution status, see \ref CFEReturnCodes
- * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
- */
-int32 CS_AppInit(void);
-
-/**
- * \brief Process a command pipe message
- *
- *  \par Description
- *       Processes a single software bus command pipe message. Checks
- *       the message and command IDs and calls the appropriate routine
- *       to handle the command.
- *
- *  \par Assumptions, External Events, and Notes:
- *       None
- *
- *  \param [in]   BufPtr   A #CFE_SB_Buffer_t* pointer that
- *                         references the software bus message.  The
- *                         calling function verifies that BufPtr is
- *                         non-null.
- *
- * \return Execution status, see \ref CFEReturnCodes
- * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
- */
-int32 CS_AppPipe(const CFE_SB_Buffer_t *BufPtr);
-
-/**
- * \brief Process housekeeping request
- *
- *  \par Description
- *       Processes an on-board housekeeping request message.
- *
- *  \par Assumptions, External Events, and Notes:
- *       This command does not affect the command execution counter
- *
- *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
- */
-void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr);
-
-/**
- * \brief Command packet processor
- *
- * \par Description
- *      Processes all CS commands
- *
- * \param [in] BufPtr A CFE_SB_Buffer_t* pointer that
- *                    references the software bus pointer. The
- *                    BufPtr is verified non-null in CS_AppMain.
- */
-void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr);
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-/**
- * \brief Restore tables states from CDS if enabled
- *
- *  \par Description
- *       Restore CS state of tables from CDS
- *
- *  \par Assumptions, External Events, and Notes:
- *       None
- *
- * \return Execution status, see \ref CFEReturnCodes
- * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
- */
-int32 CS_CreateRestoreStatesFromCDS(void);
-#endif
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
