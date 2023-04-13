@@ -28,28 +28,28 @@
 #include "utassert.h"
 #include "utstubs.h"
 
-int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
+CFE_Status_t CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_ValidateEepromChecksumDefinitionTable), TblPtr);
 
     return UT_DEFAULT_IMPL(CS_ValidateEepromChecksumDefinitionTable);
 }
 
-int32 CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr)
+CFE_Status_t CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_ValidateMemoryChecksumDefinitionTable), TblPtr);
 
     return UT_DEFAULT_IMPL(CS_ValidateMemoryChecksumDefinitionTable);
 }
 
-int32 CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
+CFE_Status_t CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_ValidateTablesChecksumDefinitionTable), TblPtr);
 
     return UT_DEFAULT_IMPL(CS_ValidateTablesChecksumDefinitionTable);
 }
 
-int32 CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
+CFE_Status_t CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_ValidateAppChecksumDefinitionTable), TblPtr);
 
@@ -88,11 +88,12 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
     UT_DEFAULT_IMPL(CS_ProcessNewAppDefinitionTable);
 }
 
-int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *ResultsTableHandle,
-                   void *DefinitionTblPtr, void *ResultsTblPtr, const uint16 Table, const char *DefinitionTableName,
-                   const char *ResultsTableName, const uint16 NumEntries, const char *DefinitionTableFileName,
-                   const void *DefaultDefTableAddress, const uint16 SizeofDefinitionTableEntry,
-                   const uint16 SizeofResultsTableEntry, const CFE_TBL_CallbackFuncPtr_t CallBackFunction)
+CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *ResultsTableHandle,
+                          void *DefinitionTblPtr, void *ResultsTblPtr, const uint16 Table,
+                          const char *DefinitionTableName, const char *ResultsTableName, const uint16 NumEntries,
+                          const char *DefinitionTableFileName, const void *DefaultDefTableAddress,
+                          const uint16 SizeofDefinitionTableEntry, const uint16 SizeofResultsTableEntry,
+                          const CFE_TBL_CallbackFuncPtr_t CallBackFunction)
 
 {
     UT_Stub_RegisterContext(UT_KEY(CS_TableInit), DefinitionTableHandle);
@@ -112,8 +113,10 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
     return UT_DEFAULT_IMPL(CS_TableInit);
 }
 
-int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, const CFE_TBL_Handle_t DefinitionTableHandle,
-                           const CFE_TBL_Handle_t ResultsTableHandle, const uint16 Table, const uint16 NumEntries)
+CFE_Status_t CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr,
+                                  const CFE_TBL_Handle_t DefinitionTableHandle,
+                                  const CFE_TBL_Handle_t ResultsTableHandle, const uint16 Table,
+                                  const uint16 NumEntries)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_HandleTableUpdate), DefinitionTblPtr);
     UT_Stub_RegisterContext(UT_KEY(CS_HandleTableUpdate), ResultsTblPtr);

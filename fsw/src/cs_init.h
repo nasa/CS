@@ -44,7 +44,7 @@
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_SbInit(void);
+CFE_Status_t CS_SbInit(void);
 
 /**
  * \brief Initializes the tables for the Checksum Application
@@ -58,7 +58,7 @@ int32 CS_SbInit(void);
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_InitAllTables(void);
+CFE_Status_t CS_InitAllTables(void);
 
 /**
  * \brief Initializes the cFE and OS segments for the Checksum Application

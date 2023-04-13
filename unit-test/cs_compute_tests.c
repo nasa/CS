@@ -43,16 +43,16 @@ uint8 call_count_CFE_EVS_SendEvent;
  * Function Definitions
  */
 
-int32 CS_COMPUTE_TEST_CFE_TBL_GetAddressHook(void *UserObj, int32 StubRetcode, uint32 CallCount,
-                                             const UT_StubContext_t *Context)
+CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetAddressHook(void *UserObj, int32 StubRetcode, uint32 CallCount,
+                                                    const UT_StubContext_t *Context)
 {
     /* This function exists so that one return code can be set for the 1st run and a different for the 2nd run */
 
     return CFE_TBL_ERR_UNREGISTERED;
 }
 
-int32 CS_COMPUTE_TEST_CFE_TBL_GetInfoHook1(void *UserObj, int32 StubRetcode, uint32 CallCount,
-                                           const UT_StubContext_t *Context)
+CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetInfoHook1(void *UserObj, int32 StubRetcode, uint32 CallCount,
+                                                  const UT_StubContext_t *Context)
 {
     CFE_TBL_Info_t *TblInfoPtr = (CFE_TBL_Info_t *)Context->ArgPtr[0];
 

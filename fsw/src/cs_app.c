@@ -58,7 +58,7 @@ CS_AppData_t CS_AppData;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_AppMain(void)
 {
-    int32            Result = 0;
+    CFE_Status_t     Result = 0;
     CFE_SB_Buffer_t *BufPtr = NULL;
 
     /* Performance Log (start time counter) */
@@ -145,9 +145,9 @@ void CS_AppMain(void)
 /* CS Application initialization function                          */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 CS_AppInit(void)
+CFE_Status_t CS_AppInit(void)
 {
-    int32 Result = CFE_SUCCESS;
+    CFE_Status_t Result = CFE_SUCCESS;
 
     /* Register for event services */
     Result = CFE_EVS_Register(NULL, 0, 0);
@@ -219,10 +219,10 @@ int32 CS_AppInit(void)
 /* CS's command pipe processing                                    */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-int32 CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
+CFE_Status_t CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 {
     CFE_SB_MsgId_t MessageID = CFE_SB_INVALID_MSG_ID;
-    int32          Result    = CFE_SUCCESS;
+    CFE_Status_t   Result    = CFE_SUCCESS;
 
     CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
 
@@ -492,12 +492,12 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr)
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-int32 CS_CreateRestoreStatesFromCDS(void)
+CFE_Status_t CS_CreateRestoreStatesFromCDS(void)
 {
     /* Store task ena/dis state of tables in CDS */
-    uint8 DataStoreBuffer[CS_NUM_DATA_STORE_STATES];
-    int32 Result;
-    int32 EventId = 0;
+    uint8        DataStoreBuffer[CS_NUM_DATA_STORE_STATES];
+    CFE_Status_t Result;
+    int32        EventId = 0;
 
     memset(DataStoreBuffer, 0, sizeof(DataStoreBuffer));
 
@@ -589,8 +589,8 @@ int32 CS_CreateRestoreStatesFromCDS(void)
 void CS_UpdateCDS(void)
 {
     /* Store table ena/dis state in CDS */
-    uint8 DataStoreBuffer[CS_NUM_DATA_STORE_STATES];
-    int32 Result;
+    uint8        DataStoreBuffer[CS_NUM_DATA_STORE_STATES];
+    CFE_Status_t Result;
 
     /*
     ** Handle is defined when CDS is active...

@@ -480,7 +480,7 @@ void CS_ResetTablesTblResultEntry(CS_Res_Tables_Table_Entry_t *TablesTblResultEn
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_HandleRoutineTableUpdates(void);
+CFE_Status_t CS_HandleRoutineTableUpdates(void);
 
 /**
  * \brief Attempts to re-share a table
@@ -497,8 +497,8 @@ int32 CS_HandleRoutineTableUpdates(void);
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_AttemptTableReshare(CS_Res_Tables_Table_Entry_t *ResultsEntry, CFE_TBL_Handle_t *LocalTblHandle,
-                             CFE_TBL_Info_t *TblInfo, cpuaddr *LocalAddress, int32 *ResultGetInfo);
+CFE_Status_t CS_AttemptTableReshare(CS_Res_Tables_Table_Entry_t *ResultsEntry, CFE_TBL_Handle_t *LocalTblHandle,
+                                    CFE_TBL_Info_t *TblInfo, cpuaddr *LocalAddress, int32 *ResultGetInfo);
 
 bool CS_CheckRecomputeOneshot(void);
 

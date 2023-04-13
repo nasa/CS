@@ -654,7 +654,7 @@ void CS_AttemptTableReshare_Test(void)
     CFE_TBL_Handle_t            LocalTblHandle = CFE_TBL_BAD_TABLE_HANDLE;
     CFE_TBL_Info_t              TblInfo;
     cpuaddr                     LocalAddress;
-    int32                       ResultGetInfo = -1;
+    CFE_Status_t                ResultGetInfo = -1;
 
     memset(&TblEntry, 0, sizeof(TblEntry));
 

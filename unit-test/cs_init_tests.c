@@ -41,9 +41,9 @@ uint8 call_count_CFE_EVS_SendEvent;
 
 void CS_Init_Test_SBCreatePipeError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus Create Pipe for command returned: 0x%%08X");
@@ -73,7 +73,7 @@ void CS_Init_Test_SBCreatePipeError(void)
 
 void CS_Init_Test_SBSubscribeHKNominal(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Execute the function being tested */
     Result = CS_SbInit();
@@ -89,9 +89,9 @@ void CS_Init_Test_SBSubscribeHKNominal(void)
 
 void CS_Init_Test_SBSubscribeHKError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus subscribe to housekeeping returned: 0x%%08X");
@@ -121,9 +121,9 @@ void CS_Init_Test_SBSubscribeHKError(void)
 
 void CS_Init_Test_SBSubscribeBackgroundCycleError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus subscribe to background cycle returned: 0x%%08X");
@@ -152,9 +152,9 @@ void CS_Init_Test_SBSubscribeBackgroundCycleError(void)
 
 void CS_Init_Test_SBSubscribeCmdError(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus subscribe to command returned: 0x%%08X");
@@ -183,7 +183,7 @@ void CS_Init_Test_SBSubscribeCmdError(void)
 
 void CS_Init_Test_TableInitNominal(void)
 {
-    int32 Result;
+    CFE_Status_t Result;
 
     /* Execute the function being tested */
     Result = CS_InitAllTables();
@@ -200,9 +200,9 @@ void CS_Init_Test_TableInitNominal(void)
 
 void CS_Init_Test_TableInitErrorEEPROM(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Table initialization failed for EEPROM: 0x%%08X");
@@ -233,9 +233,9 @@ void CS_Init_Test_TableInitErrorEEPROM(void)
 
 void CS_Init_Test_TableInitErrorMemory(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Table initialization failed for Memory: 0x%%08X");
@@ -271,9 +271,9 @@ void CS_Init_Test_TableInitErrorMemory(void)
 
 void CS_Init_Test_TableInitErrorApps(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Table initialization failed for Apps: 0x%%08X");
 
@@ -308,9 +308,9 @@ void CS_Init_Test_TableInitErrorApps(void)
 
 void CS_Init_Test_TableInitErrorTables(void)
 {
-    int32 Result;
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
+    CFE_Status_t Result;
+    int32        strCmpResult;
+    char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Table initialization failed for Tables: 0x%%08X");
