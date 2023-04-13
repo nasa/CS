@@ -1004,34 +1004,26 @@ int32 CS_HandleRoutineTableUpdates(void)
 int32 CS_AttemptTableReshare(CS_Res_Tables_Table_Entry_t *ResultsEntry, CFE_TBL_Handle_t *LocalTblHandle,
                              CFE_TBL_Info_t *TblInfo, cpuaddr *LocalAddress, int32 *ResultGetInfo)
 {
-    int32 Result           = CS_SUCCESS;
-    int32 ResultShare      = 0;
-    int32 ResultGetAddress = 0;
+    int32 Result;
 
     /* Maybe the table came back, try and reshare it */
-    ResultShare = CFE_TBL_Share(LocalTblHandle, ResultsEntry->Name);
+    Result = CFE_TBL_Share(LocalTblHandle, ResultsEntry->Name);
 
-    if (ResultShare == CFE_SUCCESS)
+    if (Result == CFE_SUCCESS)
     {
         ResultsEntry->TblHandle = *LocalTblHandle;
 
         *ResultGetInfo = CFE_TBL_GetInfo(TblInfo, ResultsEntry->Name);
 
         /* need to try to get the address again */
-        ResultGetAddress = CFE_TBL_GetAddress((void *)LocalAddress, *LocalTblHandle);
-        Result           = ResultGetAddress;
+        Result = CFE_TBL_GetAddress((void *)LocalAddress, *LocalTblHandle);
 
         /* if the table was never loaded, release the address to prevent the table from being
         locked by CS, which would prevent the owner app from updating it*/
-        if (ResultGetAddress == CFE_TBL_ERR_NEVER_LOADED)
+        if (Result == CFE_TBL_ERR_NEVER_LOADED)
         {
             CFE_TBL_ReleaseAddress(*LocalTblHandle);
         }
-    }
-
-    else /* table was not there on the new share */
-    {
-        Result = ResultShare;
     }
 
     return Result;
