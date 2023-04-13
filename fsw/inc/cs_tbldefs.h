@@ -64,7 +64,7 @@
  **************************************************************************/
 
 /**
- * \brief Data structure for the Eeprom or Memory definition table
+ * \brief Data structure for the EEPROM or Memory definition table
  */
 typedef struct
 {
@@ -147,7 +147,7 @@ typedef struct
  **************************************************************************/
 
 /**
- * \brief Validate Eeprom definition table
+ * \brief Validate EEPROM definition table
  *
  *  \par Description
  *       This function is a callback to cFE Table Services that gets called
@@ -219,7 +219,7 @@ int32 CS_ValidateTablesChecksumDefinitionTable(void *TblPtr);
 int32 CS_ValidateAppChecksumDefinitionTable(void *TblPtr);
 
 /**
- * \brief Processes a new definition table for Eeprom or Memory tables
+ * \brief Processes a new definition table for EEPROM or Memory tables
  *
  *  \par Description
  *       Copies data from the definition table to the results table

@@ -41,7 +41,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS function that computes the checksum for Eeprom, Memory, OS   */
+/* CS function that computes the checksum for EEPROM, Memory, OS   */
 /* and cFE core code segments                                      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -161,7 +161,7 @@ int32 CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *Comput
     {
         ResultGetInfo = CFE_TBL_GetInfo(&TblInfo, ResultsEntry->Name);
 
-        /* We want to try to to get the address even if the GetInfo fails. This
+        /* We want to try to get the address even if the GetInfo fails. This
         provides the CFE_TBL_UNREGISTERED if the table has gone away */
         ResultGetAddress = CFE_TBL_GetAddress((void *)&LocalAddress, LocalTblHandle);
         Result           = ResultGetAddress;
@@ -434,7 +434,7 @@ int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSVa
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS child task for recomputing Eeprom and Memory entry baselines */
+/* CS child task for recomputing EEPROM and Memory entry baselines */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_RecomputeEepromMemoryChildTask(void)
@@ -537,7 +537,7 @@ void CS_RecomputeEepromMemoryChildTask(void)
 
     if (Table == CS_EEPROM_TABLE)
     {
-        strncpy(TableType, "Eeprom", CS_TABLETYPE_NAME_SIZE);
+        strncpy(TableType, "EEPROM", CS_TABLETYPE_NAME_SIZE);
     }
     if (Table == CS_MEMORY_TABLE)
     {
@@ -776,7 +776,7 @@ void CS_RecomputeTablesChildTask(void)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS child task for getting the checksum on a area of memory      */
+/* CS child task for getting the checksum on an area of memory      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_OneShotChildTask(void)

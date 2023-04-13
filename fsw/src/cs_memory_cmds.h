@@ -41,7 +41,7 @@
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occur, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -60,7 +60,7 @@ void CS_DisableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occur, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -87,7 +87,7 @@ void CS_EnableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr);
 void CS_ReportBaselineEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr);
 
 /**
- * \brief Process a disable background checking for an Memory
+ * \brief Process a disable background checking for a Memory
  *        entry command
  *
  *  \par Description
@@ -126,7 +126,7 @@ void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr);
 void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr);
 
 /**
- * \brief Process an enable background checking for an Memory
+ * \brief Process an enable background checking for a Memory
  *        entry command
  *
  *  \par Description

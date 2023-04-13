@@ -41,7 +41,7 @@
  *
  *  \par Limits:
  *         This parameter is limited to either #CFE_MISSION_ES_DEFAULT_CRC,
- *         or  #CFE_MISSION_ES_CRC_16
+ *         or  #CFE_ES_CrcType_CRC_16
  */
 #define CS_DEFAULT_ALGORITHM CFE_MISSION_ES_DEFAULT_CRC
 

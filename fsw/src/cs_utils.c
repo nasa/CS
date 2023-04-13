@@ -41,7 +41,7 @@
  **************************************************************************/
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Zero out the temp chcksum values of Eeprom                   */
+/* CS Zero out the temp chcksum values of EEPROM                   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ZeroEepromTempValues(void)
@@ -215,7 +215,7 @@ bool CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t **EntryPtr, const 
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Get the Defintion Table Entry info of a table by its name      */
+/* CS Get the Definition Table Entry info of a table by its name      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t **EntryPtr, const char *Name)
@@ -603,7 +603,7 @@ bool CS_BackgroundOS(void)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* Background check Eeprom                                         */
+/* Background check EEPROM                                         */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool CS_BackgroundEeprom(void)
@@ -641,7 +641,7 @@ bool CS_BackgroundEeprom(void)
                 CS_AppData.HkPacket.EepromCSErrCounter++;
 
                 CFE_EVS_SendEvent(CS_EEPROM_MISCOMPARE_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Checksum Failure: Entry %d in Eeprom Table, Expected: 0x%08X, Calculated: 0x%08X",
+                                  "Checksum Failure: Entry %d in EEPROM Table, Expected: 0x%08X, Calculated: 0x%08X",
                                   CurrEntry, (unsigned int)(ResultsEntry->ComparisonValue),
                                   (unsigned int)ComputedCSValue);
             }
@@ -654,7 +654,7 @@ bool CS_BackgroundEeprom(void)
 
         if (CS_AppData.HkPacket.CurrentEntryInTable >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
         {
-            /* Since we are done CS'ing the entire Eeprom table, update the baseline
+            /* Since we are done CS'ing the entire EEPROM table, update the baseline
              number for telemetry */
             EntireEepromCS = 0;
             for (Loop = 0; Loop < CS_MAX_NUM_EEPROM_TABLE_ENTRIES; Loop++)
@@ -933,7 +933,7 @@ int32 CS_HandleRoutineTableUpdates(void)
         {
             CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
             Result                            = CFE_EVS_SendEvent(CS_UPDATE_EEPROM_ERR_EID, CFE_EVS_EventType_ERROR,
-                                       "Table update failed for Eeprom: 0x%08X, checksumming Eeprom is disabled",
+                                       "Table update failed for EEPROM: 0x%08X, checksumming EEPROM is disabled",
                                        (unsigned int)Result);
             ErrorCode                         = Result;
         }

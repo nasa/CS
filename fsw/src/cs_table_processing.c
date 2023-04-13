@@ -42,7 +42,7 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Validation Callback function for Eeprom Table                */
+/* CS Validation Callback function for EEPROM Table                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
@@ -81,7 +81,7 @@ int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
                     if (Result != CS_TABLE_ERROR)
                     {
                         CFE_EVS_SendEvent(CS_VAL_EEPROM_RANGE_ERR_EID, CFE_EVS_EventType_ERROR,
-                                          "Eeprom Table Validate: Illegal checksum range found in Entry ID %d, "
+                                          "EEPROM Table Validate: Illegal checksum range found in Entry ID %d, "
                                           "CFE_PSP_MemValidateRange returned: 0x%08X",
                                           (int)OuterLoop, (unsigned int)Status);
                         Result = CS_TABLE_ERROR;
@@ -106,7 +106,7 @@ int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
             if (Result != CS_TABLE_ERROR)
             {
                 CFE_EVS_SendEvent(CS_VAL_EEPROM_STATE_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Eeprom Table Validate: Illegal State Field (0x%04X) found in Entry ID %d",
+                                  "EEPROM Table Validate: Illegal State Field (0x%04X) found in Entry ID %d",
                                   (unsigned short)StateField, (int)OuterLoop);
                 Result = CS_TABLE_ERROR;
             }
@@ -114,7 +114,7 @@ int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
     } /* for (OuterLoop = 0; OuterLoop < CS_MAX_NUM_EEPROM_TABLE_ENTRIES; OuterLoop++) */
 
     CFE_EVS_SendEvent(CS_VAL_EEPROM_INF_EID, CFE_EVS_EventType_INFORMATION,
-                      "CS Eeprom Table verification results: good = %d, bad = %d, unused = %d", (int)GoodCount,
+                      "CS EEPROM Table verification results: good = %d, bad = %d, unused = %d", (int)GoodCount,
                       (int)BadCount, (int)EmptyCount);
 
     return Result;
@@ -447,7 +447,7 @@ int32 CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS  processing new definition tables for Eeprom or Memory       */
+/* CS  processing new definition tables for EEPROM or Memory       */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_Entry_t *DefinitionTblPtr,
@@ -528,7 +528,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
     {
         if (Table == CS_EEPROM_TABLE)
         {
-            strncpy(&TableType[0], "Eeprom", CS_TABLETYPE_NAME_SIZE);
+            strncpy(&TableType[0], "EEPROM", CS_TABLETYPE_NAME_SIZE);
         }
         if (Table == CS_MEMORY_TABLE)
         {
@@ -904,7 +904,7 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
     {
         if (Table == CS_EEPROM_TABLE)
         {
-            strncpy(TableType, "Eeprom", CS_TABLETYPE_NAME_SIZE);
+            strncpy(TableType, "EEPROM", CS_TABLETYPE_NAME_SIZE);
         }
         if (Table == CS_MEMORY_TABLE)
         {
@@ -1031,7 +1031,7 @@ int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, CFE_TBL_
         {
             if (Table == CS_EEPROM_TABLE)
             {
-                strncpy(TableType, "Eeprom", CS_TABLETYPE_NAME_SIZE);
+                strncpy(TableType, "EEPROM", CS_TABLETYPE_NAME_SIZE);
             }
             if (Table == CS_MEMORY_TABLE)
             {

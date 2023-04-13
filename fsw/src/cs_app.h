@@ -120,7 +120,7 @@ typedef struct
     uint32 RunStatus; /**< \brief Application run status */
 
     CS_Res_EepromMemory_Table_Entry_t *RecomputeEepromMemoryEntryPtr; /**< \brief Pointer to an entry to recompute in
-                                                                         the Eeprom or Memory table */
+                                                                         the EEPROM or Memory table */
 
     CS_Res_App_Table_Entry_t *RecomputeAppEntryPtr;       /**< \brief Pointer to an entry to recompute in the
                                                                       Application table */
@@ -129,8 +129,8 @@ typedef struct
 
     CFE_SB_PipeId_t CmdPipe; /**< \brief Command pipe ID */
 
-    CFE_TBL_Handle_t DefEepromTableHandle; /**< \brief Handle to the Eeprom definition table */
-    CFE_TBL_Handle_t ResEepromTableHandle; /**< \brief Handle to the Eeprom results table */
+    CFE_TBL_Handle_t DefEepromTableHandle; /**< \brief Handle to the EEPROM definition table */
+    CFE_TBL_Handle_t ResEepromTableHandle; /**< \brief Handle to the EEPROM results table */
 
     CFE_TBL_Handle_t DefMemoryTableHandle; /**< \brief Handle to the Memory definition table */
     CFE_TBL_Handle_t ResMemoryTableHandle; /**< \brief Handle to the Memory results table */
@@ -141,8 +141,8 @@ typedef struct
     CFE_TBL_Handle_t DefAppTableHandle; /**< \brief Handle to the Apps definition table */
     CFE_TBL_Handle_t ResAppTableHandle; /**< \brief Hanlde to the Apps results table */
 
-    CS_Def_EepromMemory_Table_Entry_t *DefEepromTblPtr; /**< \brief Pointer to the Eeprom definition table */
-    CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr; /**< \brief Pointer to the Eeprom results table */
+    CS_Def_EepromMemory_Table_Entry_t *DefEepromTblPtr; /**< \brief Pointer to the EEPROM definition table */
+    CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr; /**< \brief Pointer to the EEPROM results table */
 
     CS_Def_EepromMemory_Table_Entry_t *DefMemoryTblPtr; /**< \brief Pointer to the Memory definition table */
     CS_Res_EepromMemory_Table_Entry_t *ResMemoryTblPtr; /**< \brief Pointer to the Memory results table */
@@ -157,7 +157,7 @@ typedef struct
     CS_Res_EepromMemory_Table_Entry_t CfeCoreCodeSeg; /**< \brief cFE core code segment 'table' */
 
     CS_Def_EepromMemory_Table_Entry_t
-        DefaultEepromDefTable[CS_MAX_NUM_EEPROM_TABLE_ENTRIES]; /**< \brief Default Eeprom definition table */
+        DefaultEepromDefTable[CS_MAX_NUM_EEPROM_TABLE_ENTRIES]; /**< \brief Default EEPROM definition table */
     CS_Def_EepromMemory_Table_Entry_t
         DefaultMemoryDefTable[CS_MAX_NUM_MEMORY_TABLE_ENTRIES]; /**< \brief Default Memory definition table */
     CS_Def_Tables_Table_Entry_t

@@ -69,7 +69,7 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_Nominal(void)
     char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS Eeprom Table verification results: good = %%d, bad = %%d, unused = %%d");
+             "CS EEPROM Table verification results: good = %%d, bad = %%d, unused = %%d");
 
     CS_AppData.DefEepromTblPtr[0].State = CS_STATE_ENABLED; /* All other states are empty by default, and so this test
                                                                also covers CS_STATE_EMPTY branch */
@@ -100,11 +100,11 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalChecksumRangeStateEnab
     char  ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom Table Validate: Illegal checksum range found in Entry ID %%d, CFE_PSP_MemValidateRange returned: "
+             "EEPROM Table Validate: Illegal checksum range found in Entry ID %%d, CFE_PSP_MemValidateRange returned: "
              "0x%%08X");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS Eeprom Table verification results: good = %%d, bad = %%d, unused = %%d");
+             "CS EEPROM Table verification results: good = %%d, bad = %%d, unused = %%d");
 
     CS_AppData.DefEepromTblPtr[0].State = CS_STATE_ENABLED;
 
@@ -147,11 +147,11 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalChecksumRangeStateDisa
     char  ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom Table Validate: Illegal checksum range found in Entry ID %%d, CFE_PSP_MemValidateRange returned: "
+             "EEPROM Table Validate: Illegal checksum range found in Entry ID %%d, CFE_PSP_MemValidateRange returned: "
              "0x%%08X");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS Eeprom Table verification results: good = %%d, bad = %%d, unused = %%d");
+             "CS EEPROM Table verification results: good = %%d, bad = %%d, unused = %%d");
 
     CS_AppData.DefEepromTblPtr[0].State = CS_STATE_DISABLED;
 
@@ -194,10 +194,10 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_IllegalStateField(void)
     char  ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom Table Validate: Illegal State Field (0x%%04X) found in Entry ID %%d");
+             "EEPROM Table Validate: Illegal State Field (0x%%04X) found in Entry ID %%d");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS Eeprom Table verification results: good = %%d, bad = %%d, unused = %%d");
+             "CS EEPROM Table verification results: good = %%d, bad = %%d, unused = %%d");
 
     CS_AppData.DefEepromTblPtr[0].State = 0xFFFF;
 
@@ -237,11 +237,11 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_TableErrorResult(void)
     char  ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom Table Validate: Illegal checksum range found in Entry ID %%d, CFE_PSP_MemValidateRange returned: "
+             "EEPROM Table Validate: Illegal checksum range found in Entry ID %%d, CFE_PSP_MemValidateRange returned: "
              "0x%%08X");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS Eeprom Table verification results: good = %%d, bad = %%d, unused = %%d");
+             "CS EEPROM Table verification results: good = %%d, bad = %%d, unused = %%d");
 
     CS_AppData.DefEepromTblPtr[0].State = CS_STATE_DISABLED;
     CS_AppData.DefEepromTblPtr[1].State = CS_STATE_DISABLED;
@@ -284,11 +284,11 @@ void CS_ValidateEepromChecksumDefinitionTable_Test_UndefTableErrorResult(void)
     char  ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom Table Validate: Illegal checksum range found in Entry ID %%d, CFE_PSP_MemValidateRange returned: "
+             "EEPROM Table Validate: Illegal checksum range found in Entry ID %%d, CFE_PSP_MemValidateRange returned: "
              "0x%%08X");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS Eeprom Table verification results: good = %%d, bad = %%d, unused = %%d");
+             "CS EEPROM Table verification results: good = %%d, bad = %%d, unused = %%d");
 
     CS_AppData.DefEepromTblPtr[0].State = CS_STATE_DISABLED;
     CS_AppData.DefEepromTblPtr[1].State = CS_STATE_UNDEFINED;

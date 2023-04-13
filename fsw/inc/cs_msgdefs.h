@@ -524,10 +524,10 @@
 #define CS_RECOMPUTE_BASELINE_OS_CC 13
 
 /**
- * \brief Enable checksumming for Eeprom table
+ * \brief Enable checksumming for EEPROM table
  *
  *  \par Description
- *       Allow the Eeprom table to checksummed in the background
+ *       Allow the EEPROM table to checksummed in the background
  *
  *  \par Command Structure
  *       #CS_NoArgsCmd_t
@@ -556,10 +556,10 @@
 #define CS_ENABLE_EEPROM_CC 14
 
 /**
- * \brief Disable checksumming for Eeprom table
+ * \brief Disable checksumming for EEPROM table
  *
  *  \par Description
- *       Disable the Eeprom table background checksumming
+ *       Disable the EEPROM table background checksumming
  *
  *  \par Command Structure
  *       #CS_NoArgsCmd_t
@@ -588,10 +588,10 @@
 #define CS_DISABLE_EEPROM_CC 15
 
 /**
- * \brief Report Baseline checksum of Eeprom Entry
+ * \brief Report Baseline checksum of EEPROM Entry
  *
  *  \par Description
- *       Reports the baseline checksum of the Eeprom
+ *       Reports the baseline checksum of the EEPROM
  *       table entry that has already been calculated.
  *
  *  \par Command Structure
@@ -623,10 +623,10 @@
 #define CS_REPORT_BASELINE_EEPROM_CC 16
 
 /**
- * \brief Recompute Baseline checksum of Eeprom Entry
+ * \brief Recompute Baseline checksum of EEPROM Entry
  *
  *  \par Description
- *       Recompute the baseline checksum of the Eeprom
+ *       Recompute the baseline checksum of the EEPROM
  *       table entry and use that value as the new baseline.
  *       This command spawns a child task to do the recompute.
  *
@@ -671,10 +671,10 @@
 #define CS_RECOMPUTE_BASELINE_EEPROM_CC 17
 
 /**
- * \brief Enable checksumming for an Eeprom entry
+ * \brief Enable checksumming for an EEPROM entry
  *
  *  \par Description
- *       Allow the Eeprom entry to checksummed in the background
+ *       Allow the EEPROM entry to checksummed in the background
  *
  *  \par Command Structure
  *       #CS_EntryCmd_t
@@ -704,10 +704,10 @@
 #define CS_ENABLE_ENTRY_EEPROM_CC 18
 
 /**
- * \brief Disable checksumming for an Eeprom entry
+ * \brief Disable checksumming for an EEPROM entry
  *
  *  \par Description
- *      Disable the Eeprom entry background checksumming
+ *      Disable the EEPROM entry background checksumming
  *
  *  \par Command Structure
  *       #CS_EntryCmd_t
@@ -737,10 +737,10 @@
 #define CS_DISABLE_ENTRY_EEPROM_CC 19
 
 /**
- * \brief Get the Entry ID for a given Eeprom address
+ * \brief Get the Entry ID for a given EEPROM address
  *
  *  \par Description
- *     Gets the Entry ID of an Eeprom address to use in
+ *     Gets the Entry ID of an EEPROM address to use in
  *     subsequent commands.
  *
  *  \par Command Structure
@@ -1296,7 +1296,7 @@
 #define CS_DISABLE_APPS_CC 35
 
 /**
- * \brief Report Baseline checksum of a app
+ * \brief Report Baseline checksum of an app
  *
  *  \par Description
  *       Reports the baseline checksum of the
@@ -1330,7 +1330,7 @@
 #define CS_REPORT_BASELINE_APP_CC 36
 
 /**
- * \brief Recompute Baseline checksum of a app
+ * \brief Recompute Baseline checksum of an app
  *
  *  \par Description
  *       Recompute the baseline checksum of the
@@ -1378,7 +1378,7 @@
 #define CS_RECOMPUTE_BASELINE_APP_CC 37
 
 /**
- * \brief Enable checksumming for a app
+ * \brief Enable checksumming for an app
  *
  *  \par Description
  *       Allow the app to checksummed in the background
@@ -1411,7 +1411,7 @@
 #define CS_ENABLE_NAME_APP_CC 38
 
 /**
- * \brief Disable checksumming for a app
+ * \brief Disable checksumming for an app
  *
  *  \par Description
  *       Disable background checking of the app

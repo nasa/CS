@@ -33,11 +33,11 @@
 #include "cs_tbldefs.h"
 
 /**
- * \brief Computes checksums on Eeprom or Memory types
+ * \brief Computes checksums on EEPROM or Memory types
  *
  *  \par Description
  *       Computes checksums up to MaxBytesPerCycle bytes every call. This
- *       function is used to compute checksums for Eeprom, Memory, the
+ *       function is used to compute checksums for EEPROM, Memory, the
  *       OS code segment and the cFE core code segment
  *
  *
@@ -123,11 +123,11 @@ int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSVa
 
 /**
  * \brief Child task main function for recomputing  baselines for
- *        Eeprom and Memory types
+ *        EEPROM and Memory types
  *
  *  \par Description
  *       Child task main function that is spawned when a recompute
- *       baseline command is received for Eeprom, Memory, OS code segment
+ *       baseline command is received for EEPROM, Memory, OS code segment
  *       or cFE core code segment.
  *
  *  \par Assumptions, External Events, and Notes:

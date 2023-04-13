@@ -49,7 +49,7 @@ void CS_DisableEepromCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of Eeprom is Disabled");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of EEPROM is Disabled");
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -118,7 +118,7 @@ void CS_EnableEepromCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of Eeprom is Enabled");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of EEPROM is Enabled");
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -187,7 +187,7 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_Computed(void)
     int32         strCmpResult;
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Report baseline of Eeprom Entry %%d is 0x%%08X");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Report baseline of EEPROM Entry %%d is 0x%%08X");
 
     CmdPacket.EntryID = 1;
 
@@ -223,7 +223,7 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_NotYetComputed(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Report baseline of Eeprom Entry %%d has not been computed yet");
+             "Report baseline of EEPROM Entry %%d has not been computed yet");
 
     CmdPacket.EntryID = 1;
 
@@ -259,7 +259,7 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom report baseline failed, Entry ID invalid: %%d, State: %%d Max ID: %%d");
+             "EEPROM report baseline failed, Entry ID invalid: %%d, State: %%d Max ID: %%d");
 
     CmdPacket.EntryID = CS_MAX_NUM_EEPROM_TABLE_ENTRIES;
 
@@ -291,7 +291,7 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom report baseline failed, Entry ID invalid: %%d, State: %%d Max ID: %%d");
+             "EEPROM report baseline failed, Entry ID invalid: %%d, State: %%d Max ID: %%d");
 
     CmdPacket.EntryID = 1;
 
@@ -343,7 +343,7 @@ void CS_RecomputeBaselineEepromCmd_Test_Nominal(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Recompute baseline of Eeprom Entry ID %%d started");
+             "Recompute baseline of EEPROM Entry ID %%d started");
 
     CmdPacket.EntryID = 1;
 
@@ -385,7 +385,7 @@ void CS_RecomputeBaselineEepromCmd_Test_CreateChildTaskError(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Recompute baseline of Eeprom Entry ID %%d failed, CFE_ES_CreateChildTask returned:  0x%%08X");
+             "Recompute baseline of EEPROM Entry ID %%d failed, CFE_ES_CreateChildTask returned:  0x%%08X");
 
     CmdPacket.EntryID = 1;
 
@@ -430,7 +430,7 @@ void CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom recompute baseline of entry failed, Entry ID invalid: %%d, State: %%d, Max ID: %%d");
+             "EEPROM recompute baseline of entry failed, Entry ID invalid: %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.EntryID = CS_MAX_NUM_EEPROM_TABLE_ENTRIES;
 
@@ -462,7 +462,7 @@ void CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Eeprom recompute baseline of entry failed, Entry ID invalid: %%d, State: %%d, Max ID: %%d");
+             "EEPROM recompute baseline of entry failed, Entry ID invalid: %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.EntryID = 1;
 
@@ -496,7 +496,7 @@ void CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Recompute baseline of Eeprom Entry ID %%d failed: child task in use");
+             "Recompute baseline of EEPROM Entry ID %%d failed: child task in use");
 
     CmdPacket.EntryID = 1;
 
@@ -548,7 +548,7 @@ void CS_RecomputeBaselineEepromCmd_Test_OneShot(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Recompute baseline of Eeprom Entry ID %%d failed: child task in use");
+             "Recompute baseline of EEPROM Entry ID %%d failed: child task in use");
 
     CmdPacket.EntryID = 1;
 
@@ -582,7 +582,7 @@ void CS_EnableEntryIDEepromCmd_Test_Nominal(void)
     int32         strCmpResult;
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of Eeprom Entry ID %%d is Enabled");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of EEPROM Entry ID %%d is Enabled");
 
     CmdPacket.EntryID = 1;
 
@@ -623,10 +623,10 @@ void CS_EnableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty(void)
     char          ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Checksumming of Eeprom Entry ID %%d is Enabled");
+             "Checksumming of EEPROM Entry ID %%d is Enabled");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS unable to update Eeprom definition table for entry %%d, State: %%d");
+             "CS unable to update EEPROM definition table for entry %%d, State: %%d");
 
     CmdPacket.EntryID = 1;
 
@@ -673,7 +673,7 @@ void CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Enable Eeprom entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
+             "Enable EEPROM entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.EntryID = CS_MAX_NUM_EEPROM_TABLE_ENTRIES;
 
@@ -705,7 +705,7 @@ void CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Enable Eeprom entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
+             "Enable EEPROM entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.EntryID = 1;
 
@@ -776,7 +776,7 @@ void CS_DisableEntryIDEepromCmd_Test_Nominal(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Checksumming of Eeprom Entry ID %%d is Disabled");
+             "Checksumming of EEPROM Entry ID %%d is Disabled");
 
     CmdPacket.EntryID = 1;
 
@@ -821,10 +821,10 @@ void CS_DisableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty(void)
     char          ExpectedEventString[2][CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Checksumming of Eeprom Entry ID %%d is Disabled");
+             "Checksumming of EEPROM Entry ID %%d is Disabled");
 
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS unable to update Eeprom definition table for entry %%d, State: %%d");
+             "CS unable to update EEPROM definition table for entry %%d, State: %%d");
 
     CmdPacket.EntryID = 1;
 
@@ -875,7 +875,7 @@ void CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Disable Eeprom entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
+             "Disable EEPROM entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.EntryID = CS_MAX_NUM_EEPROM_TABLE_ENTRIES;
 
@@ -907,7 +907,7 @@ void CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     char          ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "Disable Eeprom entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
+             "Disable EEPROM entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.EntryID = 1;
 
@@ -977,7 +977,7 @@ void CS_GetEntryIDEepromCmd_Test_Nominal(void)
     int32              strCmpResult;
     char               ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Eeprom Found Address 0x%%08X in Entry ID %%d");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "EEPROM Found Address 0x%%08X in Entry ID %%d");
 
     int16 EntryID = 1;
 
@@ -1013,7 +1013,7 @@ void CS_GetEntryIDEepromCmd_Test_AddressNotFound(void)
     int32              strCmpResult;
     char               ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Address 0x%%08X was not found in Eeprom table");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Address 0x%%08X was not found in EEPROM table");
 
     CmdPacket.Address = 0xFFFFFFFF;
 
@@ -1044,7 +1044,7 @@ void CS_GetEntryIDEepromCmd_Test_AddressPtr(void)
     int32              strCmpResult;
     char               ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Address 0x%%08X was not found in Eeprom table");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Address 0x%%08X was not found in EEPROM table");
 
     int16 EntryID = 1;
 
@@ -1080,7 +1080,7 @@ void CS_GetEntryIDEepromCmd_Test_State(void)
     int32              strCmpResult;
     char               ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Address 0x%%08X was not found in Eeprom table");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Address 0x%%08X was not found in EEPROM table");
 
     int16 EntryID = 1;
 

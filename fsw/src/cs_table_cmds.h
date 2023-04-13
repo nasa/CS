@@ -41,7 +41,7 @@
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occur, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -60,7 +60,7 @@ void CS_DisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Apps, and Tables) to occur, the table must be enabled
  *       and overall checksumming must be enabled.
  *

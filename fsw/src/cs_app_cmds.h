@@ -41,7 +41,7 @@
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Tables, and App) to occur, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -60,7 +60,7 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \par Assumptions, External Events, and Notes:
  *       In order for background checking of individual areas
- *       to checksum (OS code segment, cFE core, Eeprom, Memory,
+ *       to checksum (OS code segment, cFE core, EEPROM, Memory,
  *       Tables, and App) to occur, the table must be enabled
  *       and overall checksumming must be enabled.
  *
@@ -71,7 +71,7 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr);
 void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr);
 
 /**
- * \brief Proccess a report baseline of a App command
+ * \brief Process a report baseline of an App command
  *
  *  \par Description
  *        Reports the baseline checksum of the specified app
@@ -87,10 +87,10 @@ void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr);
 void CS_ReportBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr);
 
 /**
- * \brief Process a recopmute baseline of a app command
+ * \brief Process a recopmute baseline of an app command
  *
  *  \par Description
- *        Recomputes the checksum of a app and use that
+ *        Recomputes the checksum of an app and use that
  *        value as the new baseline for that entry.
  *
  *  \par Assumptions, External Events, and Notes:

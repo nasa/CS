@@ -33,7 +33,7 @@
 #include "cs_tbldefs.h"
 
 /**
- * \brief Zeros out temporary checksum values of Eeprom table entries
+ * \brief Zeros out temporary checksum values of EEPROM table entries
  *
  *  \par Description
  *       Zeros the TempChecksumValue and the byte offset for every entry
@@ -113,7 +113,7 @@ void CS_ZeroOSTempValues(void);
  *
  *  \par Description
  *       Sets all of the entries in the default definitions tables for
- *       Eeprom,Memory, Tables, and Apps to zero and sets theri states
+ *       EEPROM,Memory, Tables, and Apps to zero and sets theri states
  *       to 'empty'.
  *
  *  \par Assumptions, External Events, and Notes:
@@ -185,7 +185,7 @@ bool CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t **EntryPtr, const 
 bool CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t **EntryPtr, const char *Name);
 
 /**
- * \brief Gets a pointer to the results entry given a app name
+ * \brief Gets a pointer to the results entry given an app name
  *
  *  \par Description
  *       This routine will look through the App Results table
@@ -211,7 +211,7 @@ bool CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t **EntryPtr, const 
 bool CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t **EntryPtr, const char *Name);
 
 /**
- * \brief Gets a pointer to the definition entry given a app name
+ * \brief Gets a pointer to the definition entry given an app name
  *
  *  \par Description
  *       This routine will look through the App Definition table
@@ -237,7 +237,7 @@ bool CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t **EntryPtr, const char 
 bool CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t **EntryPtr, const char *Name);
 
 /**
- * \brief Find an enabled Eeprom entry
+ * \brief Find an enabled EEPROM entry
  *
  *  \par Description
  *       This routine will look from the current position to the end of
@@ -390,7 +390,7 @@ bool CS_BackgroundOS(void);
 bool CS_BackgroundCfeCore(void);
 
 /**
- * \brief Compute a background check cycle on Eeprom
+ * \brief Compute a background check cycle on EEPROM
  *
  *  \par Description
  *       This routine will try and complete a cycle of background checking
