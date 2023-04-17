@@ -123,7 +123,7 @@ void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
  *
- *  \sa #CS_DISABLE_CFECORE_CC
+ *  \sa #CS_DISABLE_CFE_CORE_CC
  */
 void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
 
@@ -142,7 +142,7 @@ void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
  *
- *  \sa #CS_ENABLE_CFECORE_CC
+ *  \sa #CS_ENABLE_CFE_CORE_CC
  */
 void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
 
@@ -196,7 +196,7 @@ void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
  *
- *  \sa #CS_REPORT_BASELINE_CFECORE_CC
+ *  \sa #CS_REPORT_BASELINE_CFE_CORE_CC
  */
 void CS_ReportBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
 
@@ -228,7 +228,7 @@ void CS_ReportBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
  *
- *  \sa #CS_RECOMPUTE_BASELINE_CFECORE_CC
+ *  \sa #CS_RECOMPUTE_BASELINE_CFE_CORE_CC
  */
 void CS_RecomputeBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr);
 
@@ -259,7 +259,7 @@ void CS_RecomputeBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
  *
- *  \sa #CS_ONESHOT_CC
+ *  \sa #CS_ONE_SHOT_CC
  */
 void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr);
 
@@ -274,7 +274,7 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr);
  *
  *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
  *
- *  \sa #CS_CANCEL_ONESHOT_CC
+ *  \sa #CS_CANCEL_ONE_SHOT_CC
  */
 void CS_CancelOneShotCmd(const CS_NoArgsCmd_t *CmdPtr);
 

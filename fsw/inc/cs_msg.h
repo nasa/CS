@@ -80,10 +80,10 @@ typedef struct
  * \brief No arguments command data type
  *
  *  For command details see #CS_NOOP_CC #CS_RESET_CC, #CS_ENABLE_ALL_CS_CC,
- *  #CS_DISABLE_ALL_CS_CC, #CS_ENABLE_CFECORE_CC, #CS_DISABLE_CFECORE_CC, #CS_ENABLE_OS_CC,
+ *  #CS_DISABLE_ALL_CS_CC, #CS_ENABLE_CFE_CORE_CC, #CS_DISABLE_CFE_CORE_CC, #CS_ENABLE_OS_CC,
  *  #CS_DISABLE_OS_CC, #CS_ENABLE_EEPROM_CC, #CS_DISABLE_EEPROM_CC, #CS_ENABLE_MEMORY_CC,
  *  #CS_DISABLE_MEMORY_CC, #CS_ENABLE_TABLES_CC, #CS_DISABLE_TABLES_CC
- *  #CS_ENABLE_APPS_CC, #CS_DISABLE_APPS_CC, #CS_CANCEL_ONESHOT_CC
+ *  #CS_ENABLE_APPS_CC, #CS_DISABLE_APPS_CC, #CS_CANCEL_ONE_SHOT_CC
  */
 typedef struct
 {
@@ -140,7 +140,7 @@ typedef struct
 /**
  * \brief Command type for sending one shot calculation
  *
- *  For command details see #CS_ONESHOT_CC
+ *  For command details see #CS_ONE_SHOT_CC
  */
 typedef struct
 {
