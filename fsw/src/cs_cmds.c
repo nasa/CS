@@ -421,7 +421,7 @@ void CS_RecomputeBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* command verification variables */
     size_t          ExpectedLength = sizeof(CS_NoArgsCmd_t);
     CFE_ES_TaskId_t ChildTaskID;
-    int32           Status;
+    CFE_Status_t    Status;
 
     /* Verify command packet length... */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
@@ -475,7 +475,7 @@ void CS_RecomputeBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* command verification variables */
     size_t          ExpectedLength = sizeof(CS_NoArgsCmd_t);
     CFE_ES_TaskId_t ChildTaskID;
-    int32           Status;
+    CFE_Status_t    Status;
 
     /* Verify command packet length... */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
@@ -527,7 +527,7 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
     /* command verification variables */
     size_t          ExpectedLength = sizeof(CS_OneShotCmd_t);
     CFE_ES_TaskId_t ChildTaskID;
-    int32           Status;
+    CFE_Status_t    Status;
 
     /* Verify command packet length... */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
@@ -606,8 +606,8 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
 void CS_CancelOneShotCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-    int32  Status;
+    size_t       ExpectedLength = sizeof(CS_NoArgsCmd_t);
+    CFE_Status_t Status;
 
     /* Verify command packet length... */
     if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))

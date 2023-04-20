@@ -52,7 +52,6 @@
  * \name CS Error Codes
  * \{
  */
-#define CS_SUCCESS       0    /**< \brief Success return code when a checksum compare did not fail */
 #define CS_ERROR         (-1) /**< \brief Error code returned when a checksum compare failed */
 #define CS_ERR_NOT_FOUND (-2) /**< \brief Error code returned the app or table requested could not be found */
 #define CS_TABLE_ERROR   (-3) /**< \brief Error code returned on table validation error */
@@ -237,7 +236,7 @@ void CS_UpdateCDS(void);
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_AppInit(void);
+CFE_Status_t CS_AppInit(void);
 
 /**
  * \brief Process a command pipe message
@@ -258,7 +257,7 @@ int32 CS_AppInit(void);
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_AppPipe(const CFE_SB_Buffer_t *BufPtr);
+CFE_Status_t CS_AppPipe(const CFE_SB_Buffer_t *BufPtr);
 
 /**
  * \brief Process housekeeping request
@@ -298,7 +297,7 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr);
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_CreateRestoreStatesFromCDS(void);
+CFE_Status_t CS_CreateRestoreStatesFromCDS(void);
 #endif
 
 #endif

@@ -28,8 +28,8 @@
 #include "utassert.h"
 #include "utstubs.h"
 
-int32 CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue,
-                             bool *DoneWithEntry)
+CFE_Status_t CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue,
+                                    bool *DoneWithEntry)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_ComputeEepromMemory), ResultsEntry);
     UT_Stub_RegisterContext(UT_KEY(CS_ComputeEepromMemory), ComputedCSValue);
@@ -38,7 +38,7 @@ int32 CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, ui
     return UT_DEFAULT_IMPL(CS_ComputeEepromMemory);
 }
 
-int32 CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry)
+CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_ComputeTables), ResultsEntry);
     UT_Stub_RegisterContext(UT_KEY(CS_ComputeTables), ComputedCSValue);
@@ -47,7 +47,7 @@ int32 CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *Comput
     return UT_DEFAULT_IMPL(CS_ComputeTables);
 }
 
-int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry)
+CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_ComputeApp), ResultsEntry);
     UT_Stub_RegisterContext(UT_KEY(CS_ComputeApp), ComputedCSValue);

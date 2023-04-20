@@ -162,7 +162,7 @@ typedef struct
  *  \retval #CFE_SUCCESS    \copydoc CFE_SUCCESS
  *  \retval #CS_TABLE_ERROR \copydoc CS_TABLE_ERROR
  */
-int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr);
+CFE_Status_t CS_ValidateEepromChecksumDefinitionTable(void *TblPtr);
 
 /**
  * \brief Validate Memory definition table
@@ -180,7 +180,7 @@ int32 CS_ValidateEepromChecksumDefinitionTable(void *TblPtr);
  *  \retval #CFE_SUCCESS    \copydoc CFE_SUCCESS
  *  \retval #CS_TABLE_ERROR \copydoc CS_TABLE_ERROR
  */
-int32 CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr);
+CFE_Status_t CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr);
 
 /**
  * \brief Validate Tables definition table
@@ -198,7 +198,7 @@ int32 CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr);
  *  \retval #CFE_SUCCESS    \copydoc CFE_SUCCESS
  *  \retval #CS_TABLE_ERROR \copydoc CS_TABLE_ERROR
  */
-int32 CS_ValidateTablesChecksumDefinitionTable(void *TblPtr);
+CFE_Status_t CS_ValidateTablesChecksumDefinitionTable(void *TblPtr);
 
 /**
  * \brief Validate App definition table
@@ -216,7 +216,7 @@ int32 CS_ValidateTablesChecksumDefinitionTable(void *TblPtr);
  *  \retval #CFE_SUCCESS    \copydoc CFE_SUCCESS
  *  \retval #CS_TABLE_ERROR \copydoc CS_TABLE_ERROR
  */
-int32 CS_ValidateAppChecksumDefinitionTable(void *TblPtr);
+CFE_Status_t CS_ValidateAppChecksumDefinitionTable(void *TblPtr);
 
 /**
  * \brief Processes a new definition table for EEPROM or Memory tables
@@ -363,11 +363,12 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *ResultsTableHandle,
-                   void *DefinitionTblPtr, void *ResultsTblPtr, const uint16 Table, const char *DefinitionTableName,
-                   const char *ResultsTableName, const uint16 NumEntries, const char *DefinitionTableFileName,
-                   const void *DefaultDefTableAddress, const uint16 SizeofDefinitionTableEntry,
-                   const uint16 SizeofResultsTableEntry, const CFE_TBL_CallbackFuncPtr_t CallBackFunction);
+CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *ResultsTableHandle,
+                          void *DefinitionTblPtr, void *ResultsTblPtr, const uint16 Table,
+                          const char *DefinitionTableName, const char *ResultsTableName, const uint16 NumEntries,
+                          const char *DefinitionTableFileName, const void *DefaultDefTableAddress,
+                          const uint16 SizeofDefinitionTableEntry, const uint16 SizeofResultsTableEntry,
+                          const CFE_TBL_CallbackFuncPtr_t CallBackFunction);
 
 /**
  * \brief Handles table updates for all CS tables
@@ -398,7 +399,9 @@ int32 CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *Re
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-int32 CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, const CFE_TBL_Handle_t DefinitionTableHandle,
-                           const CFE_TBL_Handle_t ResultsTableHandle, const uint16 Table, const uint16 NumEntries);
+CFE_Status_t CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr,
+                                  const CFE_TBL_Handle_t DefinitionTableHandle,
+                                  const CFE_TBL_Handle_t ResultsTableHandle, const uint16 Table,
+                                  const uint16 NumEntries);
 
 #endif

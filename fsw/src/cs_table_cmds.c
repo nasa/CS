@@ -151,7 +151,7 @@ void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
     size_t ExpectedLength = sizeof(CS_TableNameCmd_t);
 
     CFE_ES_TaskId_t              ChildTaskID;
-    int32                        Status;
+    CFE_Status_t                 Status;
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 

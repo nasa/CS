@@ -57,11 +57,11 @@
  *                                     completed during this call.
  *
  * \return Execution status
- * \retval #CS_SUCCESS \copybrief CS_SUCCESS
+ * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  * \retval #CS_ERROR   \copybrief CS_ERROR
  */
-int32 CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue,
-                             bool *DoneWithEntry);
+CFE_Status_t CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue,
+                                    bool *DoneWithEntry);
 
 /**
  * \brief Computes checksums on tables
@@ -86,11 +86,11 @@ int32 CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, ui
  *                                     completed during this call.
  *
  * \return Execution status
- * \retval #CS_SUCCESS       \copybrief CS_SUCCESS
+ * \retval #CFE_SUCCESS       \copybrief CFE_SUCCESS
  * \retval #CS_ERROR         \copybrief CS_ERROR
  * \retval #CS_ERR_NOT_FOUND \copydoc CS_ERR_NOT_FOUND
  */
-int32 CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry);
+CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry);
 
 /**
  * \brief Computes checksums on applications
@@ -115,11 +115,11 @@ int32 CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 *Comput
  *                                     completed during this call.
  *
  * \return Execution status
- * \retval #CS_SUCCESS       \copybrief CS_SUCCESS
+ * \retval #CFE_SUCCESS       \copybrief CFE_SUCCESS
  * \retval #CS_ERROR         \copybrief CS_ERROR
  * \retval #CS_ERR_NOT_FOUND \copydoc CS_ERR_NOT_FOUND
  */
-int32 CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry);
+CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry);
 
 /**
  * \brief Child task main function for recomputing  baselines for

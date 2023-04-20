@@ -169,7 +169,7 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
     size_t ExpectedLength = sizeof(CS_EntryCmd_t);
 
     CFE_ES_TaskId_t ChildTaskID = CFE_ES_TASKID_UNDEFINED;
-    int32           Status      = CS_ERROR;
+    CFE_Status_t    Status      = CS_ERROR;
     uint16          EntryID     = 0;
     uint16          State       = CS_STATE_EMPTY;
 

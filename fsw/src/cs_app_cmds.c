@@ -149,7 +149,7 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
     size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
 
     CFE_ES_TaskId_t           ChildTaskID;
-    int32                     Status;
+    CFE_Status_t              Status;
     CS_Res_App_Table_Entry_t *ResultsEntry;
     char                      Name[OS_MAX_API_NAME];
 
