@@ -136,15 +136,15 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_CANCEL_ONESHOT_CC,
- *      #CS_RECOMPUTE_BASELINE_CFECORE_CC,
+ *  \sa #CS_CANCEL_ONE_SHOT_CC,
+ *      #CS_RECOMPUTE_BASELINE_CFE_CORE_CC,
  *      #CS_RECOMPUTE_BASELINE_OS_CC,
  *      #CS_RECOMPUTE_BASELINE_EEPROM_CC,
  *      #CS_RECOMPUTE_BASELINE_MEMORY_CC,
  *      #CS_RECOMPUTE_BASELINE_TABLE_CC,
  *      #CS_RECOMPUTE_BASELINE_APP_CC
  */
-#define CS_ONESHOT_CC 2
+#define CS_ONE_SHOT_CC 2
 
 /**
  * \brief Cancel one shot
@@ -177,9 +177,9 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_ONESHOT_CC
+ *  \sa #CS_ONE_SHOT_CC
  */
-#define CS_CANCEL_ONESHOT_CC 3
+#define CS_CANCEL_ONE_SHOT_CC 3
 
 /**
  * \brief Enable Global Checksumming
@@ -273,9 +273,9 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_DISABLE_CFECORE_CC
+ *  \sa #CS_DISABLE_CFE_CORE_CC
  */
-#define CS_ENABLE_CFECORE_CC 6
+#define CS_ENABLE_CFE_CORE_CC 6
 
 /**
  * \brief Disable checksumming of cFE core
@@ -305,9 +305,9 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_ENABLE_CFECORE_CC
+ *  \sa #CS_ENABLE_CFE_CORE_CC
  */
-#define CS_DISABLE_CFECORE_CC 7
+#define CS_DISABLE_CFE_CORE_CC 7
 
 /**
  * \brief Report Baseline checksum of cFE core
@@ -340,7 +340,7 @@
  *       None
  *
  */
-#define CS_REPORT_BASELINE_CFECORE_CC 8
+#define CS_REPORT_BASELINE_CFE_CORE_CC 8
 
 /**
  * \brief Recompute Baseline checksum of cFE core
@@ -376,14 +376,14 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_ONESHOT_CC,
+ *  \sa #CS_ONE_SHOT_CC,
  *      #CS_RECOMPUTE_BASELINE_OS_CC,
  *      #CS_RECOMPUTE_BASELINE_EEPROM_CC,
  *      #CS_RECOMPUTE_BASELINE_MEMORY_CC,
  *      #CS_RECOMPUTE_BASELINE_TABLE_CC,
  *      #CS_RECOMPUTE_BASELINE_APP_CC
  */
-#define CS_RECOMPUTE_BASELINE_CFECORE_CC 9
+#define CS_RECOMPUTE_BASELINE_CFE_CORE_CC 9
 
 /**
  * \brief Enable checksumming of OS code segment
@@ -514,8 +514,8 @@
  *
  *  \par Criticality
  *       None
- *  \sa #CS_ONESHOT_CC,
- *      #CS_RECOMPUTE_BASELINE_CFECORE_CC,
+ *  \sa #CS_ONE_SHOT_CC,
+ *      #CS_RECOMPUTE_BASELINE_CFE_CORE_CC,
  *      #CS_RECOMPUTE_BASELINE_EEPROM_CC,
  *      #CS_RECOMPUTE_BASELINE_MEMORY_CC,
  *      #CS_RECOMPUTE_BASELINE_TABLE_CC,
@@ -661,8 +661,8 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_ONESHOT_CC,
- *      #CS_RECOMPUTE_BASELINE_CFECORE_CC,
+ *  \sa #CS_ONE_SHOT_CC,
+ *      #CS_RECOMPUTE_BASELINE_CFE_CORE_CC,
  *      #CS_RECOMPUTE_BASELINE_OS_CC,
  *      #CS_RECOMPUTE_BASELINE_MEMORY_CC,
  *      #CS_RECOMPUTE_BASELINE_TABLE_CC,
@@ -905,8 +905,8 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_ONESHOT_CC,
- *      #CS_RECOMPUTE_BASELINE_CFECORE_CC,
+ *  \sa #CS_ONE_SHOT_CC,
+ *      #CS_RECOMPUTE_BASELINE_CFE_CORE_CC,
  *      #CS_RECOMPUTE_BASELINE_OS_CC,
  *      #CS_RECOMPUTE_BASELINE_EEPROM_CC,
  *      #CS_RECOMPUTE_BASELINE_TABLE_CC,
@@ -1156,8 +1156,8 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_ONESHOT_CC,
- *      #CS_RECOMPUTE_BASELINE_CFECORE_CC,
+ *  \sa #CS_ONE_SHOT_CC,
+ *      #CS_RECOMPUTE_BASELINE_CFE_CORE_CC,
  *      #CS_RECOMPUTE_BASELINE_OS_CC,
  *      #CS_RECOMPUTE_BASELINE_EEPROM_CC,
  *      #CS_RECOMPUTE_BASELINE_MEMORY_CC,
@@ -1368,8 +1368,8 @@
  *  \par Criticality
  *       None
  *
- *  \sa #CS_ONESHOT_CC,
- *      #CS_RECOMPUTE_BASELINE_CFECORE_CC,
+ *  \sa #CS_ONE_SHOT_CC,
+ *      #CS_RECOMPUTE_BASELINE_CFE_CORE_CC,
  *      #CS_RECOMPUTE_BASELINE_OS_CC,
  *      #CS_RECOMPUTE_BASELINE_EEPROM_CC,
  *      #CS_RECOMPUTE_BASELINE_MEMORY_CC,
@@ -1467,5 +1467,14 @@
 #define CS_STATE_DISABLED  0x02 /**< \brief Entry or table disabled */
 #define CS_STATE_UNDEFINED 0x03 /**< \brief Entry not found state undefined */
 /**\}*/
+
+#ifndef CS_OMIT_DEPRECATED
+#define CS_ONESHOT_CC                    CS_ONE_SHOT_CC
+#define CS_CANCEL_ONESHOT_CC             CS_CANCEL_ONE_SHOT_CC
+#define CS_ENABLE_CFECORE_CC             CS_ENABLE_CFE_CORE_CC
+#define CS_DISABLE_CFECORE_CC            CS_DISABLE_CFE_CORE_CC
+#define CS_REPORT_BASELINE_CFECORE_CC    CS_REPORT_BASELINE_CFE_CORE_CC
+#define CS_RECOMPUTE_BASELINE_CFECORE_CC CS_RECOMPUTE_BASELINE_CFE_CORE_CC
+#endif
 
 #endif

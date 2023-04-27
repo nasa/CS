@@ -282,11 +282,11 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
             CS_ResetCmd((CS_NoArgsCmd_t *)BufPtr);
             break;
 
-        case CS_ONESHOT_CC:
+        case CS_ONE_SHOT_CC:
             CS_OneShotCmd((CS_OneShotCmd_t *)BufPtr);
             break;
 
-        case CS_CANCEL_ONESHOT_CC:
+        case CS_CANCEL_ONE_SHOT_CC:
             CS_CancelOneShotCmd((CS_NoArgsCmd_t *)BufPtr);
             break;
 
@@ -299,19 +299,19 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
             break;
 
         /* cFE core Commands */
-        case CS_ENABLE_CFECORE_CC:
+        case CS_ENABLE_CFE_CORE_CC:
             CS_EnableCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
             break;
 
-        case CS_DISABLE_CFECORE_CC:
+        case CS_DISABLE_CFE_CORE_CC:
             CS_DisableCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
             break;
 
-        case CS_REPORT_BASELINE_CFECORE_CC:
+        case CS_REPORT_BASELINE_CFE_CORE_CC:
             CS_ReportBaselineCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
             break;
 
-        case CS_RECOMPUTE_BASELINE_CFECORE_CC:
+        case CS_RECOMPUTE_BASELINE_CFE_CORE_CC:
             CS_RecomputeBaselineCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
             break;
 

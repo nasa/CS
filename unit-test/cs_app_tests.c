@@ -994,7 +994,7 @@ void CS_AppPipe_Test_OneShotCmd(void)
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    FcnCode   = CS_ONESHOT_CC;
+    FcnCode   = CS_ONE_SHOT_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -1023,7 +1023,7 @@ void CS_AppPipe_Test_CancelOneShotCmd(void)
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    FcnCode   = CS_CANCEL_ONESHOT_CC;
+    FcnCode   = CS_CANCEL_ONE_SHOT_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -1110,7 +1110,7 @@ void CS_AppPipe_Test_EnableCfeCoreCmd(void)
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    FcnCode   = CS_ENABLE_CFECORE_CC;
+    FcnCode   = CS_ENABLE_CFE_CORE_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -1139,7 +1139,7 @@ void CS_AppPipe_Test_DisableCfeCoreCmd(void)
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    FcnCode   = CS_DISABLE_CFECORE_CC;
+    FcnCode   = CS_DISABLE_CFE_CORE_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -1168,7 +1168,7 @@ void CS_AppPipe_Test_ReportBaselineCfeCoreCmd(void)
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    FcnCode   = CS_REPORT_BASELINE_CFECORE_CC;
+    FcnCode   = CS_REPORT_BASELINE_CFE_CORE_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
@@ -1197,7 +1197,7 @@ void CS_AppPipe_Test_RecomputeBaselineCfeCoreCmd(void)
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    FcnCode   = CS_RECOMPUTE_BASELINE_CFECORE_CC;
+    FcnCode   = CS_RECOMPUTE_BASELINE_CFE_CORE_CC;
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
