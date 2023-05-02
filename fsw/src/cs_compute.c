@@ -315,7 +315,7 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
     CFE_Status_t Result;
     CFE_Status_t ResultGetResourceID   = CS_ERROR;
     CFE_Status_t ResultGetResourceInfo = CS_ERROR;
-    int32        ResultAddressValid    = false;
+    bool         ResultAddressValid    = false;
 
     /* variables to get applications address */
     CFE_ResourceId_t ResourceID = CFE_RESOURCEID_UNDEFINED;
@@ -350,8 +350,7 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
         {
             CFE_EVS_SendEvent(CS_COMPUTE_APP_PLATFORM_DBG_EID, CFE_EVS_EventType_DEBUG,
                               "CS cannot get a valid address for %s, due to the platform", ResultsEntry->Name);
-            ResultAddressValid = false;
-            Result             = CS_ERROR;
+            Result = CS_ERROR;
         }
         else
         {
