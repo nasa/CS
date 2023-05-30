@@ -40,7 +40,6 @@
  *       function is used to compute checksums for EEPROM, Memory, the
  *       OS code segment and the cFE core code segment
  *
- *
  *  \par Assumptions, External Events, and Notes:
  *        None
  *

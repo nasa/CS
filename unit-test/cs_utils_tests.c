@@ -581,7 +581,7 @@ void CS_ResetTablesTblResultEntry_Test(void)
 void CS_HandleRoutineTableUpdates_Test(void)
 {
     uint16 ChildTaskTable[] = {CS_CFECORE, CS_EEPROM_TABLE, CS_MEMORY_TABLE, CS_APP_TABLE, CS_TABLES_TABLE};
-    uint16 TblMax           = sizeof(ChildTaskTable) / sizeof(ChildTaskTable[0]);
+    size_t TblMax           = sizeof(ChildTaskTable) / sizeof(ChildTaskTable[0]);
     uint16 i;
 
     /* Cycle through each all true case */
