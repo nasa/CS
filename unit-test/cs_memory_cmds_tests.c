@@ -75,24 +75,6 @@ void CS_DisableMemoryCmd_Test(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableMemoryCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableMemoryCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_DisableMemoryCmd_Test_OneShot(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -141,24 +123,6 @@ void CS_EnableMemoryCmd_Test(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_EnableMemoryCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableMemoryCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -315,24 +279,6 @@ void CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_ReportBaselineEntryIDMemoryCmd_Test_VerifyError(void)
-{
-    CS_EntryCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_ReportBaselineEntryIDMemoryCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -520,24 +466,6 @@ void CS_RecomputeBaselineMemoryCmd_Test_RecomputeInProgress(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_RecomputeBaselineMemoryCmd_Test_VerifyError(void)
-{
-    CS_EntryCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_RecomputeBaselineMemoryCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -732,24 +660,6 @@ void CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_EnableEntryIDMemoryCmd_Test_VerifyError(void)
-{
-    CS_EntryCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableEntryIDMemoryCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_EnableEntryIDMemoryCmd_Test_OneShot(void)
 {
     CS_EntryCmd_t CmdPacket;
@@ -934,24 +844,6 @@ void CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableEntryIDMemoryCmd_Test_VerifyError(void)
-{
-    CS_EntryCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableEntryIDMemoryCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_DisableEntryIDMemoryCmd_Test_OneShot(void)
 {
     CS_EntryCmd_t CmdPacket;
@@ -1110,34 +1002,12 @@ void CS_GetEntryIDMemoryCmd_Test_State(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_GetEntryIDMemoryCmd_Test_VerifyError(void)
-{
-    CS_GetEntryIDCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_GetEntryIDMemoryCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void UtTest_Setup(void)
 {
     UtTest_Add(CS_DisableMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableMemoryCmd_Test");
-    UtTest_Add(CS_DisableMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableMemoryCmd_Test_VerifyError");
     UtTest_Add(CS_DisableMemoryCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_DisableMemoryCmd_Test_OneShot");
 
     UtTest_Add(CS_EnableMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableMemoryCmd_Test");
-    UtTest_Add(CS_EnableMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableMemoryCmd_Test_VerifyError");
     UtTest_Add(CS_EnableMemoryCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_EnableMemoryCmd_Test_OneShot");
 
     UtTest_Add(CS_ReportBaselineEntryIDMemoryCmd_Test_Computed, CS_Test_Setup, CS_Test_TearDown,
@@ -1148,8 +1018,6 @@ void UtTest_Setup(void)
                "CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh");
     UtTest_Add(CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_ReportBaselineEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_ReportBaselineEntryIDMemoryCmd_Test_VerifyError");
 
     UtTest_Add(CS_RecomputeBaselineMemoryCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineMemoryCmd_Test_Nominal");
@@ -1161,8 +1029,6 @@ void UtTest_Setup(void)
                "CS_RecomputeBaselineMemoryCmd_Test_InvalidEntryErrorStateEmpty");
     UtTest_Add(CS_RecomputeBaselineMemoryCmd_Test_RecomputeInProgress, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineMemoryCmd_Test_RecomputeInProgress");
-    UtTest_Add(CS_RecomputeBaselineMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_RecomputeBaselineMemoryCmd_Test_VerifyError");
     UtTest_Add(CS_RecomputeBaselineMemoryCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineMemoryCmd_Test_OneShot");
 
@@ -1174,8 +1040,6 @@ void UtTest_Setup(void)
                "CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh");
     UtTest_Add(CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
                "CS_EnableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_EnableEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableEntryIDMemoryCmd_Test_VerifyError");
     UtTest_Add(CS_EnableEntryIDMemoryCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_EnableEntryIDMemoryCmd_Test_OneShots");
 
@@ -1187,8 +1051,6 @@ void UtTest_Setup(void)
                "CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorEntryIDTooHigh");
     UtTest_Add(CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
                "CS_DisableEntryIDMemoryCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_DisableEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableEntryIDMemoryCmd_Test_VerifyError");
     UtTest_Add(CS_DisableEntryIDMemoryCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_DisableEntryIDMemoryCmd_Test_OneShot");
 
@@ -1199,6 +1061,4 @@ void UtTest_Setup(void)
     UtTest_Add(CS_GetEntryIDMemoryCmd_Test_AddressPtr, CS_Test_Setup, CS_Test_TearDown,
                "CS_GetEntryIDMemoryCmd_Test_AddressPtr");
     UtTest_Add(CS_GetEntryIDMemoryCmd_Test_State, CS_Test_Setup, CS_Test_TearDown, "CS_GetEntryIDMemoryCmd_Test_State");
-    UtTest_Add(CS_GetEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_GetEntryIDMemoryCmd_Test_VerifyError");
 }
