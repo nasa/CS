@@ -88,8 +88,8 @@ void CS_DisableAppCmd_Test(void)
     CS_DisableAppCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.AppCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.AppCSState == CS_STATE_DISABLED");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_APP_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -98,7 +98,7 @@ void CS_DisableAppCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -118,7 +118,7 @@ void CS_DisableAppCmd_Test_OneShot(void)
     CS_DisableAppCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -140,8 +140,8 @@ void CS_EnableAppCmd_Test(void)
     CS_EnableAppCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.AppCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.AppCSState == CS_STATE_ENABLED");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_APP_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -150,9 +150,9 @@ void CS_EnableAppCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -172,7 +172,7 @@ void CS_EnableAppCmd_Test_OneShot(void)
     CS_EnableAppCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -188,7 +188,7 @@ void CS_ReportBaselineAppCmd_Test_Baseline(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Report baseline of app %%s is 0x%%08X");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
     /* Needed to make subfunction CS_GetAppResTblEntryByName behave properly */
@@ -212,7 +212,7 @@ void CS_ReportBaselineAppCmd_Test_Baseline(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -229,7 +229,7 @@ void CS_ReportBaselineAppCmd_Test_NoBaseline(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Report baseline of app %%s has not been computed yet");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
     /* Needed to make subfunction CS_GetAppResTblEntryByName behave properly */
@@ -252,9 +252,9 @@ void CS_ReportBaselineAppCmd_Test_NoBaseline(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -270,7 +270,7 @@ void CS_ReportBaselineAppCmd_Test_BaselineInvalidName(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App report baseline failed, app %%s not found");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App2", OS_MAX_API_NAME);
 
     /* Needed to make subfunction CS_GetAppResTblEntryByName behave properly */
@@ -290,7 +290,7 @@ void CS_ReportBaselineAppCmd_Test_BaselineInvalidName(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -307,11 +307,11 @@ void CS_ReportBaselineAppCmd_Test_OneShot(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App recompute baseline for app %%s failed: child task in use");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App2", OS_MAX_API_NAME);
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -329,7 +329,7 @@ void CS_ReportBaselineAppCmd_Test_OneShot(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -345,10 +345,10 @@ void CS_RecomputeBaselineAppCmd_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute baseline of app %%s started");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
     /* Needed to make subfunction CS_GetAppResTblEntryByName behave properly */
     CS_AppData.ResAppTblPtr->State = 1;
@@ -375,9 +375,9 @@ void CS_RecomputeBaselineAppCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -394,10 +394,10 @@ void CS_RecomputeBaselineAppCmd_Test_CreateChildTaskError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute baseline of app %%s failed, CFE_ES_CreateChildTask returned: 0x%%08X");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
     /* Needed to make subfunction CS_GetAppResTblEntryByName behave properly */
     CS_AppData.ResAppTblPtr->State = 1;
@@ -424,7 +424,7 @@ void CS_RecomputeBaselineAppCmd_Test_CreateChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -441,10 +441,10 @@ void CS_RecomputeBaselineAppCmd_Test_UnknownNameError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App recompute baseline failed, app %%s not found");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App2", OS_MAX_API_NAME);
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
     /* Needed to make subfunction CS_GetAppResTblEntryByName behave properly */
     CS_AppData.ResAppTblPtr->State = 1;
@@ -463,7 +463,7 @@ void CS_RecomputeBaselineAppCmd_Test_UnknownNameError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -480,10 +480,10 @@ void CS_RecomputeBaselineAppCmd_Test_RecomputeInProgress(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App recompute baseline for app %%s failed: child task in use");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App2", OS_MAX_API_NAME);
 
-    CS_AppData.HkPacket.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -501,7 +501,7 @@ void CS_RecomputeBaselineAppCmd_Test_RecomputeInProgress(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -517,7 +517,7 @@ void CS_DisableNameAppCmd_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of app %%s is Disabled");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.DefAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
@@ -547,9 +547,9 @@ void CS_DisableNameAppCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -568,7 +568,7 @@ void CS_DisableNameAppCmd_Test_UpdateAppsDefinitionTableError(void)
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS unable to update apps definition table for entry %%s");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.DefAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
@@ -603,9 +603,9 @@ void CS_DisableNameAppCmd_Test_UpdateAppsDefinitionTableError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -622,7 +622,7 @@ void CS_DisableNameAppCmd_Test_UnknownNameError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App disable app command failed, app %%s not found");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.DefAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
@@ -643,7 +643,7 @@ void CS_DisableNameAppCmd_Test_UnknownNameError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -663,7 +663,7 @@ void CS_DisableNameAppCmd_Test_OneShot(void)
     CS_DisableNameAppCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -679,7 +679,7 @@ void CS_EnableNameAppCmd_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of app %%s is Enabled");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.DefAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
@@ -709,9 +709,9 @@ void CS_EnableNameAppCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -730,7 +730,7 @@ void CS_EnableNameAppCmd_Test_UpdateAppsDefinitionTableError(void)
     snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS unable to update apps definition table for entry %%s");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.DefAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
@@ -765,9 +765,9 @@ void CS_EnableNameAppCmd_Test_UpdateAppsDefinitionTableError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -784,7 +784,7 @@ void CS_EnableNameAppCmd_Test_UnknownNameError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App enable app command failed, app %%s not found");
 
-    strncpy(CmdPacket.Name, "App1", OS_MAX_API_NAME);
+    strncpy(CmdPacket.Payload.Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.ResAppTblPtr->Name, "App1", OS_MAX_API_NAME);
     strncpy(CS_AppData.DefAppTblPtr->Name, "App1", OS_MAX_API_NAME);
 
@@ -799,7 +799,7 @@ void CS_EnableNameAppCmd_Test_UnknownNameError(void)
     CS_EnableNameAppCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_APP_UNKNOWN_NAME_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
@@ -826,7 +826,7 @@ void CS_EnableNameAppCmd_Test_OneShot(void)
     CS_EnableNameAppCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 

@@ -1052,7 +1052,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
     CS_RecomputeEepromMemoryChildTask();
 
     /* Verify results */
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->TempChecksumValue, 0);
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset, 0);
@@ -1106,7 +1106,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
     CS_RecomputeEepromMemoryChildTask();
 
     /* Verify results */
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->TempChecksumValue, 0);
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset, 0);
@@ -1160,7 +1160,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
     CS_RecomputeEepromMemoryChildTask();
 
     /* Verify results */
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->TempChecksumValue, 0);
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset, 0);
@@ -1174,7 +1174,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
     UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.CfeCoreBaseline, 1);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.CfeCoreBaseline, 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
@@ -1216,7 +1216,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
     CS_RecomputeEepromMemoryChildTask();
 
     /* Verify results */
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->TempChecksumValue, 0);
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset, 0);
@@ -1230,7 +1230,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
     UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.OSBaseline, 1);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.OSBaseline, 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
@@ -1272,7 +1272,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryId(void)
     CS_RecomputeEepromMemoryChildTask();
 
     /* Verify results */
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->TempChecksumValue, 0);
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset, 0);
@@ -1325,7 +1325,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
     CS_RecomputeEepromMemoryChildTask();
 
     /* Verify results */
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->TempChecksumValue, 0);
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset, 0);
@@ -1379,7 +1379,7 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
     CS_RecomputeEepromMemoryChildTask();
 
     /* Verify results */
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->TempChecksumValue, 0);
     UtAssert_UINT32_EQ(CS_AppData.RecomputeEepromMemoryEntryPtr->ByteOffset, 0);
@@ -1448,7 +1448,7 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
     UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
@@ -1494,7 +1494,7 @@ void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
     UtAssert_UINT32_EQ(CS_AppData.RecomputeAppEntryPtr->ByteOffset, 0);
 
     UtAssert_BOOL_FALSE(CS_AppData.RecomputeAppEntryPtr->ComputedYet);
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_APP_ERR_EID);
@@ -1554,7 +1554,7 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
     UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
@@ -1629,7 +1629,7 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
     UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
@@ -1672,7 +1672,7 @@ void CS_RecomputeTablesChildTask_Test_CouldNotGetAddress(void)
     UtAssert_UINT32_EQ(CS_AppData.RecomputeTablesEntryPtr->ByteOffset, 0);
 
     UtAssert_BOOL_FALSE(CS_AppData.RecomputeTablesEntryPtr->ComputedYet);
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_RECOMPUTE_ERROR_TABLES_ERR_EID);
@@ -1750,7 +1750,7 @@ void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
     UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
@@ -1765,16 +1765,16 @@ void CS_OneShotChildTask_Test_Nominal(void)
     /* NewChecksumValue will be set to value returned by this function */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, 1);
 
-    CS_AppData.HkPacket.LastOneShotAddress          = 0;
-    CS_AppData.HkPacket.LastOneShotSize             = 1;
-    CS_AppData.HkPacket.LastOneShotChecksum         = 1;
-    CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle = 1;
+    CS_AppData.HkPacket.Payload.LastOneShotAddress          = 0;
+    CS_AppData.HkPacket.Payload.LastOneShotSize             = 1;
+    CS_AppData.HkPacket.Payload.LastOneShotChecksum         = 1;
+    CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle = 1;
 
     /* Execute the function being tested */
     CS_OneShotChildTask();
 
     /* Verify results */
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.LastOneShotChecksum, 1);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.LastOneShotChecksum, 1);
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_FINISHED_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -1782,8 +1782,8 @@ void CS_OneShotChildTask_Test_Nominal(void)
     UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.RecomputeInProgress);
-    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.OneShotInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.OneShotInProgress);
     UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);

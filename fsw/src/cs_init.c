@@ -110,7 +110,7 @@ CFE_Status_t CS_InitAllTables(void)
 
     if (ResultInit != CFE_SUCCESS)
     {
-        CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
+        CS_AppData.HkPacket.Payload.EepromCSState = CS_STATE_DISABLED;
         CFE_EVS_SendEvent(CS_INIT_EEPROM_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Table initialization failed for EEPROM: 0x%08X", (unsigned int)ResultInit);
     }
@@ -125,7 +125,7 @@ CFE_Status_t CS_InitAllTables(void)
 
         if (ResultInit != CFE_SUCCESS)
         {
-            CS_AppData.HkPacket.MemoryCSState = CS_STATE_DISABLED;
+            CS_AppData.HkPacket.Payload.MemoryCSState = CS_STATE_DISABLED;
             CFE_EVS_SendEvent(CS_INIT_MEMORY_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Table initialization failed for Memory: 0x%08X", (unsigned int)ResultInit);
         }
@@ -141,7 +141,7 @@ CFE_Status_t CS_InitAllTables(void)
 
         if (ResultInit != CFE_SUCCESS)
         {
-            CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
+            CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_DISABLED;
             CFE_EVS_SendEvent(CS_INIT_APP_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Table initialization failed for Apps: 0x%08X", (unsigned int)ResultInit);
         }
@@ -158,7 +158,7 @@ CFE_Status_t CS_InitAllTables(void)
 
         if (ResultInit != CFE_SUCCESS)
         {
-            CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
+            CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_DISABLED;
             CFE_EVS_SendEvent(CS_INIT_TABLES_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Table initialization failed for Tables: 0x%08X", (unsigned int)ResultInit);
         }

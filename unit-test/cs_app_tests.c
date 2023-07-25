@@ -529,10 +529,10 @@ void CS_AppInit_Test_NominalPowerOnReset(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "CS Initialized. Version %%d.%%d.%%d.%%d");
 
-    CS_AppData.HkPacket.EepromCSState = 99;
-    CS_AppData.HkPacket.MemoryCSState = 99;
-    CS_AppData.HkPacket.AppCSState    = 99;
-    CS_AppData.HkPacket.TablesCSState = 99;
+    CS_AppData.HkPacket.Payload.EepromCSState = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState = 99;
+    CS_AppData.HkPacket.Payload.AppCSState    = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState = 99;
 
     /* Set to prevent segmentation fault */
     UT_SetDeferredRetcode(UT_KEY(CFE_MSG_GetMsgId), 1, 99);
@@ -554,19 +554,19 @@ void CS_AppInit_Test_NominalPowerOnReset(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_EEPROM_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.EepromCSState == CS_EEPROM_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_APPS_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.AppCSState    == CS_APPS_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_TABLES_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.TablesCSState == CS_TABLES_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_EEPROM_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_EEPROM_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == CS_APPS_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.AppCSState    == CS_APPS_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_TABLES_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.TablesCSState == CS_TABLES_TBL_POWERON_STATE");
 
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE,
-                  "CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE,
+                  "CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE,
+                  "CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -578,21 +578,21 @@ void CS_AppInit_Test_NominalPowerOnReset(void)
 
 void CS_AppInit_Test_NominalProcReset(void)
 {
-    CS_AppData.HkPacket.EepromCSState = 99;
-    CS_AppData.HkPacket.MemoryCSState = 99;
-    CS_AppData.HkPacket.AppCSState    = 99;
-    CS_AppData.HkPacket.TablesCSState = 99;
+    CS_AppData.HkPacket.Payload.EepromCSState = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState = 99;
+    CS_AppData.HkPacket.Payload.AppCSState    = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState = 99;
 
     /* Execute the function being tested */
     UtAssert_INT32_EQ(CS_AppInit(), CFE_SUCCESS);
 
     /* Verify results */
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.EepromCSState, CS_STATE_ENABLED);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.MemoryCSState, CS_STATE_ENABLED);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.AppCSState, CS_STATE_ENABLED);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.TablesCSState, CS_STATE_ENABLED);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.OSCSState, CS_STATE_ENABLED);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.CfeCoreCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.EepromCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.MemoryCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.AppCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.TablesCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.OSCSState, CS_STATE_ENABLED);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.CfeCoreCSState, CS_STATE_ENABLED);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_INIT_INF_EID);
@@ -603,12 +603,12 @@ void CS_CreateRestoreStatesFromCDS_Test_NoExistingCDS(void)
 {
     CFE_Status_t Result;
 
-    CS_AppData.HkPacket.EepromCSState  = 99;
-    CS_AppData.HkPacket.MemoryCSState  = 99;
-    CS_AppData.HkPacket.AppCSState     = 99;
-    CS_AppData.HkPacket.TablesCSState  = 99;
-    CS_AppData.HkPacket.OSCSState      = 99;
-    CS_AppData.HkPacket.CfeCoreCSState = 99;
+    CS_AppData.HkPacket.Payload.EepromCSState  = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState  = 99;
+    CS_AppData.HkPacket.Payload.AppCSState     = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState  = 99;
+    CS_AppData.HkPacket.Payload.OSCSState      = 99;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = 99;
 
     /* Execute the function being tested */
     Result = CS_CreateRestoreStatesFromCDS();
@@ -616,14 +616,14 @@ void CS_CreateRestoreStatesFromCDS_Test_NoExistingCDS(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == 99, "CS_AppData.HkPacket.EepromCSState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == 99, "CS_AppData.HkPacket.MemoryCSState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == 99, "CS_AppData.HkPacket.AppCSState  == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == 99, "CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == 99, "CS_AppData.HkPacket.Payload.MemoryCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == 99, "CS_AppData.HkPacket.Payload.AppCSState  == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_ENABLED");
 
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == 99, "CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == 99,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == 99, "CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == 99,
+                  "CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -635,12 +635,12 @@ void CS_CreateRestoreStatesFromCDS_Test_CDSSuccess(void)
 {
     CFE_Status_t Result;
 
-    CS_AppData.HkPacket.EepromCSState  = 99;
-    CS_AppData.HkPacket.MemoryCSState  = 99;
-    CS_AppData.HkPacket.AppCSState     = 99;
-    CS_AppData.HkPacket.TablesCSState  = 99;
-    CS_AppData.HkPacket.OSCSState      = 99;
-    CS_AppData.HkPacket.CfeCoreCSState = 99;
+    CS_AppData.HkPacket.Payload.EepromCSState  = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState  = 99;
+    CS_AppData.HkPacket.Payload.AppCSState     = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState  = 99;
+    CS_AppData.HkPacket.Payload.OSCSState      = 99;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = 99;
 
     /* Set CDS return calls */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
@@ -653,19 +653,19 @@ void CS_CreateRestoreStatesFromCDS_Test_CDSSuccess(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.EepromCSState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.MemoryCSState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.AppCSState    == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.TablesCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.MemoryCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.AppCSState    == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_ENABLED");
 
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.OSCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_STATE_ENABLED");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -682,12 +682,12 @@ void CS_CreateRestoreStatesFromCDS_Test_CDSFail(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Critical Data Store access error = 0x%%08X");
 
-    CS_AppData.HkPacket.EepromCSState  = 99;
-    CS_AppData.HkPacket.MemoryCSState  = 99;
-    CS_AppData.HkPacket.AppCSState     = 99;
-    CS_AppData.HkPacket.TablesCSState  = 99;
-    CS_AppData.HkPacket.OSCSState      = 99;
-    CS_AppData.HkPacket.CfeCoreCSState = 99;
+    CS_AppData.HkPacket.Payload.EepromCSState  = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState  = 99;
+    CS_AppData.HkPacket.Payload.AppCSState     = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState  = 99;
+    CS_AppData.HkPacket.Payload.OSCSState      = 99;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = 99;
 
     /* Set CDS return calls */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_ES_CDS_ALREADY_EXISTS);
@@ -701,19 +701,19 @@ void CS_CreateRestoreStatesFromCDS_Test_CDSFail(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_EEPROM_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.EepromCSState == CS_EEPROM_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_APPS_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.AppCSState    == CS_APPS_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_TABLES_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.TablesCSState == CS_TABLES_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_EEPROM_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_EEPROM_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == CS_APPS_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.AppCSState    == CS_APPS_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_TABLES_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.TablesCSState == CS_TABLES_TBL_POWERON_STATE");
 
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE,
-                  "CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE,
+                  "CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE,
+                  "CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CR_CDS_RES_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
@@ -737,12 +737,12 @@ void CS_CreateRestoreStatesFromCDS_Test_CopyToCDSFail(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Critical Data Store access error = 0x%%08X");
 
-    CS_AppData.HkPacket.EepromCSState  = 99;
-    CS_AppData.HkPacket.MemoryCSState  = 99;
-    CS_AppData.HkPacket.AppCSState     = 99;
-    CS_AppData.HkPacket.TablesCSState  = 99;
-    CS_AppData.HkPacket.OSCSState      = 99;
-    CS_AppData.HkPacket.CfeCoreCSState = 99;
+    CS_AppData.HkPacket.Payload.EepromCSState  = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState  = 99;
+    CS_AppData.HkPacket.Payload.AppCSState     = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState  = 99;
+    CS_AppData.HkPacket.Payload.OSCSState      = 99;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = 99;
 
     /* Set CDS return calls */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, CFE_SUCCESS);
@@ -758,19 +758,19 @@ void CS_CreateRestoreStatesFromCDS_Test_CopyToCDSFail(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_EEPROM_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.EepromCSState == CS_EEPROM_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_APPS_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.AppCSState    == CS_APPS_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_TABLES_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.TablesCSState == CS_TABLES_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_EEPROM_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_EEPROM_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == CS_APPS_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.AppCSState    == CS_APPS_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_TABLES_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.TablesCSState == CS_TABLES_TBL_POWERON_STATE");
 
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE,
-                  "CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE,
+                  "CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE,
+                  "CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CR_CDS_CPY_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
@@ -794,12 +794,12 @@ void CS_CreateRestoreStatesFromCDS_Test_RegisterCDSFail(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Critical Data Store access error = 0x%%08X");
 
-    CS_AppData.HkPacket.EepromCSState  = 99;
-    CS_AppData.HkPacket.MemoryCSState  = 99;
-    CS_AppData.HkPacket.AppCSState     = 99;
-    CS_AppData.HkPacket.TablesCSState  = 99;
-    CS_AppData.HkPacket.OSCSState      = 99;
-    CS_AppData.HkPacket.CfeCoreCSState = 99;
+    CS_AppData.HkPacket.Payload.EepromCSState  = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState  = 99;
+    CS_AppData.HkPacket.Payload.AppCSState     = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState  = 99;
+    CS_AppData.HkPacket.Payload.OSCSState      = 99;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = 99;
 
     /* Set CDS return calls */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_RegisterCDS), 1, -1);
@@ -815,19 +815,19 @@ void CS_CreateRestoreStatesFromCDS_Test_RegisterCDSFail(void)
     /* Verify results */
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_EEPROM_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.EepromCSState == CS_EEPROM_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_APPS_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.AppCSState    == CS_APPS_TBL_POWERON_STATE");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_TABLES_TBL_POWERON_STATE,
-                  "CS_AppData.HkPacket.TablesCSState == CS_TABLES_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_EEPROM_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_EEPROM_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.MemoryCSState == CS_MEMORY_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == CS_APPS_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.AppCSState    == CS_APPS_TBL_POWERON_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_TABLES_TBL_POWERON_STATE,
+                  "CS_AppData.HkPacket.Payload.TablesCSState == CS_TABLES_TBL_POWERON_STATE");
 
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE,
-                  "CS_AppData.HkPacket.OSCSState == CS_OSCS_CHECKSUM_STATE");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE,
+                  "CS_AppData.HkPacket.Payload.OSCSState == CS_OSCS_CHECKSUM_STATE");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE,
+                  "CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_CFECORE_CHECKSUM_STATE");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CR_CDS_REG_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
@@ -2184,63 +2184,63 @@ void CS_HousekeepingCmd_Test_Nominal(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.CmdCounter          = 1;
-    CS_AppData.HkPacket.CmdErrCounter       = 2;
-    CS_AppData.HkPacket.ChecksumState       = 3;
-    CS_AppData.HkPacket.EepromCSState       = 4;
-    CS_AppData.HkPacket.MemoryCSState       = 5;
-    CS_AppData.HkPacket.AppCSState          = 6;
-    CS_AppData.HkPacket.TablesCSState       = 7;
-    CS_AppData.HkPacket.OSCSState           = 8;
-    CS_AppData.HkPacket.CfeCoreCSState      = 9;
-    CS_AppData.HkPacket.RecomputeInProgress = 10;
-    CS_AppData.HkPacket.OneShotInProgress   = 11;
-    CS_AppData.HkPacket.EepromCSErrCounter  = 12;
-    CS_AppData.HkPacket.MemoryCSErrCounter  = 13;
-    CS_AppData.HkPacket.AppCSErrCounter     = 14;
-    CS_AppData.HkPacket.TablesCSErrCounter  = 15;
-    CS_AppData.HkPacket.CfeCoreCSErrCounter = 16;
-    CS_AppData.HkPacket.OSCSErrCounter      = 17;
-    CS_AppData.HkPacket.CurrentCSTable      = 18;
-    CS_AppData.HkPacket.CurrentEntryInTable = 19;
-    CS_AppData.HkPacket.EepromBaseline      = 20;
-    CS_AppData.HkPacket.OSBaseline          = 21;
-    CS_AppData.HkPacket.CfeCoreBaseline     = 22;
-    CS_AppData.HkPacket.LastOneShotAddress  = 23;
-    CS_AppData.HkPacket.LastOneShotSize     = 24;
-    CS_AppData.HkPacket.LastOneShotChecksum = 25;
-    CS_AppData.HkPacket.PassCounter         = 26;
+    CS_AppData.HkPacket.Payload.CmdCounter          = 1;
+    CS_AppData.HkPacket.Payload.CmdErrCounter       = 2;
+    CS_AppData.HkPacket.Payload.ChecksumState       = 3;
+    CS_AppData.HkPacket.Payload.EepromCSState       = 4;
+    CS_AppData.HkPacket.Payload.MemoryCSState       = 5;
+    CS_AppData.HkPacket.Payload.AppCSState          = 6;
+    CS_AppData.HkPacket.Payload.TablesCSState       = 7;
+    CS_AppData.HkPacket.Payload.OSCSState           = 8;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState      = 9;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = 10;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = 11;
+    CS_AppData.HkPacket.Payload.EepromCSErrCounter  = 12;
+    CS_AppData.HkPacket.Payload.MemoryCSErrCounter  = 13;
+    CS_AppData.HkPacket.Payload.AppCSErrCounter     = 14;
+    CS_AppData.HkPacket.Payload.TablesCSErrCounter  = 15;
+    CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter = 16;
+    CS_AppData.HkPacket.Payload.OSCSErrCounter      = 17;
+    CS_AppData.HkPacket.Payload.CurrentCSTable      = 18;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable = 19;
+    CS_AppData.HkPacket.Payload.EepromBaseline      = 20;
+    CS_AppData.HkPacket.Payload.OSBaseline          = 21;
+    CS_AppData.HkPacket.Payload.CfeCoreBaseline     = 22;
+    CS_AppData.HkPacket.Payload.LastOneShotAddress  = 23;
+    CS_AppData.HkPacket.Payload.LastOneShotSize     = 24;
+    CS_AppData.HkPacket.Payload.LastOneShotChecksum = 25;
+    CS_AppData.HkPacket.Payload.PassCounter         = 26;
 
     /* Execute the function being tested */
     CS_HousekeepingCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 2, "CS_AppData.HkPacket.CmdErrCounter == 2");
-    UtAssert_True(CS_AppData.HkPacket.ChecksumState == 3, "CS_AppData.HkPacket.ChecksumState == 3");
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == 4, "CS_AppData.HkPacket.EepromCSState == 4");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == 5, "CS_AppData.HkPacket.MemoryCSState == 5");
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == 6, "CS_AppData.HkPacket.AppCSState == 6");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 7, "CS_AppData.HkPacket.TablesCSState == 7");
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == 8, "CS_AppData.HkPacket.OSCSState == 8");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == 9, "CS_AppData.HkPacket.CfeCoreCSState == 9");
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == 10, "CS_AppData.HkPacket.ChildTaskInUse == 10");
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == 11, "CS_AppData.HkPacket.OneShotInProgress == 11");
-    UtAssert_True(CS_AppData.HkPacket.EepromCSErrCounter == 12, "CS_AppData.HkPacket.EepromCSErrCounter == 12");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSErrCounter == 13, "CS_AppData.HkPacket.MemoryCSErrCounter == 13");
-    UtAssert_True(CS_AppData.HkPacket.AppCSErrCounter == 14, "CS_AppData.HkPacket.AppCSErrCounter == 14");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSErrCounter == 15, "CS_AppData.HkPacket.TablesCSErrCounter == 15");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSErrCounter == 16, "CS_AppData.HkPacket.CfeCoreCSErrCounter == 16");
-    UtAssert_True(CS_AppData.HkPacket.OSCSErrCounter == 17, "CS_AppData.HkPacket.OSCSErrCounter == 17");
-    UtAssert_True(CS_AppData.HkPacket.CurrentCSTable == 18, "CS_AppData.HkPacket.CurrentCSTable == 18");
-    UtAssert_True(CS_AppData.HkPacket.CurrentEntryInTable == 19, "CS_AppData.HkPacket.CurrentEntryInTable == 19");
-    UtAssert_True(CS_AppData.HkPacket.EepromBaseline == 20, "CS_AppData.HkPacket.EepromBaseline == 20");
-    UtAssert_True(CS_AppData.HkPacket.OSBaseline == 21, "CS_AppData.HkPacket.OSBaseline == 21");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreBaseline == 22, "CS_AppData.HkPacket.CfeCoreBaseline == 22");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotAddress == 23, "CS_AppData.HkPacket.LastOneShotAddress == 23");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotSize == 24, "CS_AppData.HkPacket.LastOneShotSize == 24");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotChecksum == 25, "CS_AppData.HkPacket.LastOneShotChecksum == 25");
-    UtAssert_True(CS_AppData.HkPacket.PassCounter == 26, "CS_AppData.HkPacket.PassCounter == 26");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 2, "CS_AppData.HkPacket.Payload.CmdErrCounter == 2");
+    UtAssert_True(CS_AppData.HkPacket.Payload.ChecksumState == 3, "CS_AppData.HkPacket.Payload.ChecksumState == 3");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == 4, "CS_AppData.HkPacket.Payload.EepromCSState == 4");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == 5, "CS_AppData.HkPacket.Payload.MemoryCSState == 5");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == 6, "CS_AppData.HkPacket.Payload.AppCSState == 6");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 7, "CS_AppData.HkPacket.Payload.TablesCSState == 7");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == 8, "CS_AppData.HkPacket.Payload.OSCSState == 8");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == 9, "CS_AppData.HkPacket.Payload.CfeCoreCSState == 9");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == 10, "CS_AppData.HkPacket.Payload.ChildTaskInUse == 10");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == 11, "CS_AppData.HkPacket.Payload.OneShotInProgress == 11");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSErrCounter == 12, "CS_AppData.HkPacket.Payload.EepromCSErrCounter == 12");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSErrCounter == 13, "CS_AppData.HkPacket.Payload.MemoryCSErrCounter == 13");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSErrCounter == 14, "CS_AppData.HkPacket.Payload.AppCSErrCounter == 14");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSErrCounter == 15, "CS_AppData.HkPacket.Payload.TablesCSErrCounter == 15");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter == 16, "CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter == 16");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSErrCounter == 17, "CS_AppData.HkPacket.Payload.OSCSErrCounter == 17");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CurrentCSTable == 18, "CS_AppData.HkPacket.Payload.CurrentCSTable == 18");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CurrentEntryInTable == 19, "CS_AppData.HkPacket.Payload.CurrentEntryInTable == 19");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromBaseline == 20, "CS_AppData.HkPacket.Payload.EepromBaseline == 20");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSBaseline == 21, "CS_AppData.HkPacket.Payload.OSBaseline == 21");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreBaseline == 22, "CS_AppData.HkPacket.Payload.CfeCoreBaseline == 22");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotAddress == 23, "CS_AppData.HkPacket.Payload.LastOneShotAddress == 23");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotSize == 24, "CS_AppData.HkPacket.Payload.LastOneShotSize == 24");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotChecksum == 25, "CS_AppData.HkPacket.Payload.LastOneShotChecksum == 25");
+    UtAssert_True(CS_AppData.HkPacket.Payload.PassCounter == 26, "CS_AppData.HkPacket.Payload.PassCounter == 26");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 

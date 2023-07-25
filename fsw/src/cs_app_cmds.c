@@ -48,7 +48,7 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
         if (CS_CheckRecomputeOneshot() == false)
         {
-            CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
+            CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_DISABLED;
             CS_ZeroAppTempValues();
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
@@ -56,7 +56,7 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 #endif
 
             CFE_EVS_SendEvent(CS_DISABLE_APP_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of App is Disabled");
-            CS_AppData.HkPacket.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CmdCounter++;
         }
 }
 
@@ -69,14 +69,14 @@ void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
         if (CS_CheckRecomputeOneshot() == false)
         {
-            CS_AppData.HkPacket.AppCSState = CS_STATE_ENABLED;
+            CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_ENABLED;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
             CS_UpdateCDS();
 #endif
 
             CFE_EVS_SendEvent(CS_ENABLE_APP_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of App is Enabled");
-            CS_AppData.HkPacket.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CmdCounter++;
         }
 }
 
@@ -92,7 +92,7 @@ void CS_ReportBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
     uint32                    Baseline;
     char                      Name[OS_MAX_API_NAME];
 
-        strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
+        strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
         Name[sizeof(Name) - 1] = '\0';
 
         if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
@@ -108,13 +108,13 @@ void CS_ReportBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
                 CFE_EVS_SendEvent(CS_NO_BASELINE_APP_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "Report baseline of app %s has not been computed yet", Name);
             }
-            CS_AppData.HkPacket.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CmdCounter++;
         }
         else
         {
             CFE_EVS_SendEvent(CS_BASELINE_INVALID_NAME_APP_ERR_EID, CFE_EVS_EventType_ERROR,
                               "App report baseline failed, app %s not found", Name);
-            CS_AppData.HkPacket.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
         }
 }
 
@@ -131,16 +131,16 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
     CS_Res_App_Table_Entry_t *ResultsEntry;
     char                      Name[OS_MAX_API_NAME];
 
-        if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == false)
+        if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false && CS_AppData.HkPacket.Payload.OneShotInProgress == false)
         {
-            strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
+            strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
             Name[sizeof(Name) - 1] = '\0';
 
             /* make sure the entry is a valid number and is defined in the table */
             if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
             {
                 /* There is no child task running right now, we can use it*/
-                CS_AppData.HkPacket.RecomputeInProgress = true;
+                CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
 
                 /* fill in child task variables */
                 CS_AppData.ChildTaskTable = CS_APP_TABLE;
@@ -153,22 +153,22 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
                 {
                     CFE_EVS_SendEvent(CS_RECOMPUTE_APP_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
                                       "Recompute baseline of app %s started", Name);
-                    CS_AppData.HkPacket.CmdCounter++;
+                    CS_AppData.HkPacket.Payload.CmdCounter++;
                 }
                 else /* child task creation failed */
                 {
                     CFE_EVS_SendEvent(CS_RECOMPUTE_APP_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "Recompute baseline of app %s failed, CFE_ES_CreateChildTask returned: 0x%08X",
                                       Name, (unsigned int)Status);
-                    CS_AppData.HkPacket.CmdErrCounter++;
-                    CS_AppData.HkPacket.RecomputeInProgress = false;
+                    CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
                 }
             }
             else
             {
                 CFE_EVS_SendEvent(CS_RECOMPUTE_UNKNOWN_NAME_APP_ERR_EID, CFE_EVS_EventType_ERROR,
                                   "App recompute baseline failed, app %s not found", Name);
-                CS_AppData.HkPacket.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CmdErrCounter++;
             }
         }
         else
@@ -176,7 +176,7 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
             /*send event that we can't start another task right now */
             CFE_EVS_SendEvent(CS_RECOMPUTE_APP_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
                               "App recompute baseline for app %s failed: child task in use", Name);
-            CS_AppData.HkPacket.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
         }
 }
 
@@ -194,7 +194,7 @@ void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 
         if (CS_CheckRecomputeOneshot() == false)
         {
-            strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
+            strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
             Name[sizeof(Name) - 1] = '\0';
 
             if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
@@ -218,14 +218,14 @@ void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
                                       "CS unable to update apps definition table for entry %s", Name);
                 }
 
-                CS_AppData.HkPacket.CmdCounter++;
+                CS_AppData.HkPacket.Payload.CmdCounter++;
             }
 
             else
             {
                 CFE_EVS_SendEvent(CS_DISABLE_APP_UNKNOWN_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
                                   "App disable app command failed, app %s not found", Name);
-                CS_AppData.HkPacket.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CmdErrCounter++;
             }
         } /* end InProgress if */
 }
@@ -244,7 +244,7 @@ void CS_EnableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 
         if (CS_CheckRecomputeOneshot() == false)
         {
-            strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
+            strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
             Name[sizeof(Name) - 1] = '\0';
 
             if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
@@ -266,13 +266,13 @@ void CS_EnableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
                                       "CS unable to update apps definition table for entry %s", Name);
                 }
 
-                CS_AppData.HkPacket.CmdCounter++;
+                CS_AppData.HkPacket.Payload.CmdCounter++;
             }
             else
             {
                 CFE_EVS_SendEvent(CS_ENABLE_APP_UNKNOWN_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
                                   "App enable app command failed, app %s not found", Name);
-                CS_AppData.HkPacket.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CmdErrCounter++;
             }
         } /* end InProgress if */
 }

@@ -471,13 +471,13 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
     /* We don't want to be doing chekcksums while changing the table out */
     if (Table == CS_EEPROM_TABLE)
     {
-        PreviousState                     = CS_AppData.HkPacket.EepromCSState;
-        CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
+        PreviousState                     = CS_AppData.HkPacket.Payload.EepromCSState;
+        CS_AppData.HkPacket.Payload.EepromCSState = CS_STATE_DISABLED;
     }
     if (Table == CS_MEMORY_TABLE)
     {
-        PreviousState                     = CS_AppData.HkPacket.MemoryCSState;
-        CS_AppData.HkPacket.MemoryCSState = CS_STATE_DISABLED;
+        PreviousState                     = CS_AppData.HkPacket.Payload.MemoryCSState;
+        CS_AppData.HkPacket.Payload.MemoryCSState = CS_STATE_DISABLED;
     }
 
     for (Loop = 0; Loop < NumEntries; Loop++)
@@ -514,13 +514,13 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
     /* Reset the table back to the original checksumming state */
     if (Table == CS_EEPROM_TABLE)
     {
-        CS_AppData.HkPacket.EepromCSState = PreviousState;
+        CS_AppData.HkPacket.Payload.EepromCSState = PreviousState;
         CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);
     }
 
     if (Table == CS_MEMORY_TABLE)
     {
-        CS_AppData.HkPacket.MemoryCSState = PreviousState;
+        CS_AppData.HkPacket.Payload.MemoryCSState = PreviousState;
         CS_ResetTablesTblResultEntry(CS_AppData.MemResTablesTblPtr);
     }
 
@@ -572,8 +572,8 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
     CFE_ES_GetAppName(AppName, AppID, OS_MAX_API_NAME);
 
     /* We don't want to be doing chekcksums while changing the table out */
-    PreviousState                     = CS_AppData.HkPacket.TablesCSState;
-    CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
+    PreviousState                     = CS_AppData.HkPacket.Payload.TablesCSState;
+    CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_DISABLED;
 
     /* Assume none of the CS tables are listed in the new Tables table */
     CS_AppData.EepResTablesTblPtr = NULL;
@@ -724,7 +724,7 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
 
     /* Reset the table back to the original checksumming state */
 
-    CS_AppData.HkPacket.TablesCSState = PreviousState;
+    CS_AppData.HkPacket.Payload.TablesCSState = PreviousState;
 
     if (NumRegionsInTable == 0)
     {
@@ -754,8 +754,8 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
 
     /* We don't want to be doing chekcksums while changing the table out */
 
-    PreviousState                  = CS_AppData.HkPacket.AppCSState;
-    CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
+    PreviousState                  = CS_AppData.HkPacket.Payload.AppCSState;
+    CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_DISABLED;
 
     for (Loop = 0; Loop < CS_MAX_NUM_APP_TABLE_ENTRIES; Loop++)
     {
@@ -795,7 +795,7 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
 
     /* Reset the table back to the original checksumming state */
 
-    CS_AppData.HkPacket.AppCSState = PreviousState;
+    CS_AppData.HkPacket.Payload.AppCSState = PreviousState;
     CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);
 
     if (NumRegionsInTable == 0)
@@ -931,16 +931,16 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
         switch (Table)
         {
             case CS_EEPROM_TABLE:
-                CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
+                CS_AppData.HkPacket.Payload.EepromCSState = CS_STATE_DISABLED;
                 break;
             case CS_MEMORY_TABLE:
-                CS_AppData.HkPacket.MemoryCSState = CS_STATE_DISABLED;
+                CS_AppData.HkPacket.Payload.MemoryCSState = CS_STATE_DISABLED;
                 break;
             case CS_APP_TABLE:
-                CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
+                CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_DISABLED;
                 break;
             case CS_TABLES_TABLE:
-                CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
+                CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_DISABLED;
                 break;
             default:
                 break;

@@ -84,23 +84,23 @@ void CS_InitializeDefaultTables_Test(void)
 
 void CS_GoToNextTable_Test(void)
 {
-    CS_AppData.HkPacket.CurrentCSTable = CS_NUM_TABLES - 2;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_NUM_TABLES - 2;
 
     /* increment once */
     CS_GoToNextTable();
 
     /* Verify results */
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, CS_NUM_TABLES - 1);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.PassCounter, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, CS_NUM_TABLES - 1);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.PassCounter, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
 
     /* Cause loop */
     CS_GoToNextTable();
 
     /* Verify results */
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 0);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.PassCounter, 1);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 0);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.PassCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 }
@@ -227,16 +227,16 @@ void CS_FindEnabledEepromEntry_Test(void)
 
     /* Call with zeros */
     UtAssert_BOOL_FALSE(CS_FindEnabledEepromEntry(&EnabledEntry));
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, CS_MAX_NUM_EEPROM_TABLE_ENTRIES);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, CS_MAX_NUM_EEPROM_TABLE_ENTRIES);
     UtAssert_UINT16_EQ(EnabledEntry, CS_MAX_NUM_EEPROM_TABLE_ENTRIES);
 
     /* Set up to find last entry (skip first) */
     CS_AppData.ResEepromTblPtr[0].State                                   = CS_STATE_ENABLED;
     CS_AppData.ResEepromTblPtr[CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1].State = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentEntryInTable                               = 1;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable                               = 1;
 
     UtAssert_BOOL_TRUE(CS_FindEnabledEepromEntry(&EnabledEntry));
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1);
     UtAssert_UINT16_EQ(EnabledEntry, CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
@@ -248,16 +248,16 @@ void CS_FindEnabledMemoryEntry_Test(void)
 
     /* Call with zeros */
     UtAssert_BOOL_FALSE(CS_FindEnabledMemoryEntry(&EnabledEntry));
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, CS_MAX_NUM_MEMORY_TABLE_ENTRIES);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, CS_MAX_NUM_MEMORY_TABLE_ENTRIES);
     UtAssert_UINT16_EQ(EnabledEntry, CS_MAX_NUM_MEMORY_TABLE_ENTRIES);
 
     /* Set up to find last entry (skip first) */
     CS_AppData.ResMemoryTblPtr[0].State                                   = CS_STATE_ENABLED;
     CS_AppData.ResMemoryTblPtr[CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1].State = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentEntryInTable                               = 1;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable                               = 1;
 
     UtAssert_BOOL_TRUE(CS_FindEnabledMemoryEntry(&EnabledEntry));
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1);
     UtAssert_UINT16_EQ(EnabledEntry, CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
@@ -269,16 +269,16 @@ void CS_FindEnabledTablesEntry_Test(void)
 
     /* Call with zeros */
     UtAssert_BOOL_FALSE(CS_FindEnabledTablesEntry(&EnabledEntry));
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, CS_MAX_NUM_TABLES_TABLE_ENTRIES);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, CS_MAX_NUM_TABLES_TABLE_ENTRIES);
     UtAssert_UINT16_EQ(EnabledEntry, CS_MAX_NUM_TABLES_TABLE_ENTRIES);
 
     /* Set up to find last entry (skip first) */
     CS_AppData.ResTablesTblPtr[0].State                                   = CS_STATE_ENABLED;
     CS_AppData.ResTablesTblPtr[CS_MAX_NUM_TABLES_TABLE_ENTRIES - 1].State = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentEntryInTable                               = 1;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable                               = 1;
 
     UtAssert_BOOL_TRUE(CS_FindEnabledTablesEntry(&EnabledEntry));
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, CS_MAX_NUM_TABLES_TABLE_ENTRIES - 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, CS_MAX_NUM_TABLES_TABLE_ENTRIES - 1);
     UtAssert_UINT16_EQ(EnabledEntry, CS_MAX_NUM_TABLES_TABLE_ENTRIES - 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
@@ -290,16 +290,16 @@ void CS_FindEnabledAppEntry_Test(void)
 
     /* Call with zeros */
     UtAssert_BOOL_FALSE(CS_FindEnabledAppEntry(&EnabledEntry));
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, CS_MAX_NUM_APP_TABLE_ENTRIES);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, CS_MAX_NUM_APP_TABLE_ENTRIES);
     UtAssert_UINT16_EQ(EnabledEntry, CS_MAX_NUM_APP_TABLE_ENTRIES);
 
     /* Set up to find last entry (skip first) */
     CS_AppData.ResAppTblPtr[0].State                                = CS_STATE_ENABLED;
     CS_AppData.ResAppTblPtr[CS_MAX_NUM_APP_TABLE_ENTRIES - 1].State = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentEntryInTable                         = 1;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable                         = 1;
 
     UtAssert_BOOL_TRUE(CS_FindEnabledAppEntry(&EnabledEntry));
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, CS_MAX_NUM_APP_TABLE_ENTRIES - 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, CS_MAX_NUM_APP_TABLE_ENTRIES - 1);
     UtAssert_UINT16_EQ(EnabledEntry, CS_MAX_NUM_APP_TABLE_ENTRIES - 1);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
@@ -333,232 +333,232 @@ void CS_VerifyCmdLength_Test(void)
 void CS_BackgroundCfeCore_Test(void)
 {
     /* Entirely disabled */
-    CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_DISABLED;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundCfeCore());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 1);
 
     /* Segment disabled */
-    CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_ENABLED;
     CS_AppData.CfeCoreCodeSeg.State    = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundCfeCore());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, miscompare, not done with entry */
     CS_AppData.CfeCoreCodeSeg.State = CS_STATE_ENABLED;
     UT_SetDeferredRetcode(UT_KEY(CS_ComputeEepromMemory), 1, CS_ERROR);
     UtAssert_BOOL_TRUE(CS_BackgroundCfeCore());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CfeCoreCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CFECORE_MISCOMPARE_ERR_EID);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, compares, done with entry */
     UT_SetHandlerFunction(UT_KEY(CS_ComputeEepromMemory), CS_UTILS_TEST_CS_ComputeHandler, NULL);
     UtAssert_BOOL_TRUE(CS_BackgroundCfeCore());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CfeCoreCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 3);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 3);
 }
 
 void CS_BackgroundOS_Test(void)
 {
     /* Entirely disabled */
-    CS_AppData.HkPacket.OSCSState = CS_STATE_DISABLED;
+    CS_AppData.HkPacket.Payload.OSCSState = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundOS());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 1);
 
     /* Segment disabled */
-    CS_AppData.HkPacket.OSCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.OSCSState = CS_STATE_ENABLED;
     CS_AppData.OSCodeSeg.State    = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundOS());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, miscompare, not done with entry */
     CS_AppData.OSCodeSeg.State = CS_STATE_ENABLED;
     UT_SetDeferredRetcode(UT_KEY(CS_ComputeEepromMemory), 1, CS_ERROR);
     UtAssert_BOOL_TRUE(CS_BackgroundOS());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.OSCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.OSCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_OS_MISCOMPARE_ERR_EID);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, compares, done with entry */
     UT_SetHandlerFunction(UT_KEY(CS_ComputeEepromMemory), CS_UTILS_TEST_CS_ComputeHandler, NULL);
     UtAssert_BOOL_TRUE(CS_BackgroundOS());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.OSCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.OSCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 3);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 3);
 }
 
 void CS_BackgroundEeprom_Test(void)
 {
     /* Entirely disabled */
-    CS_AppData.HkPacket.EepromCSState = CS_STATE_DISABLED;
+    CS_AppData.HkPacket.Payload.EepromCSState = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundEeprom());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 1);
 
     /* All entries disabled */
-    CS_AppData.HkPacket.EepromCSState             = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.EepromCSState             = CS_STATE_ENABLED;
     CS_AppData.ResEepromTblPtr[0].ComparisonValue = 1;
     CS_AppData.ResEepromTblPtr[1].ComparisonValue = 2;
     UtAssert_BOOL_FALSE(CS_BackgroundEeprom());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.EepromBaseline, 3);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.EepromBaseline, 3);
 
     /* Enabled, miscompare, not done with entry */
     CS_AppData.ResEepromTblPtr[0].State = CS_STATE_ENABLED;
     UT_SetDeferredRetcode(UT_KEY(CS_ComputeEepromMemory), 1, CS_ERROR);
     UtAssert_BOOL_TRUE(CS_BackgroundEeprom());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.EepromCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.EepromCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_EEPROM_MISCOMPARE_ERR_EID);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Last entry, Enabled, compares, done with entry */
-    CS_AppData.HkPacket.CurrentEntryInTable                                   = CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1;
-    CS_AppData.ResEepromTblPtr[CS_AppData.HkPacket.CurrentEntryInTable].State = CS_STATE_ENABLED;
-    CS_AppData.ResEepromTblPtr[CS_AppData.HkPacket.CurrentEntryInTable].ComparisonValue = 3;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable                                   = CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1;
+    CS_AppData.ResEepromTblPtr[CS_AppData.HkPacket.Payload.CurrentEntryInTable].State = CS_STATE_ENABLED;
+    CS_AppData.ResEepromTblPtr[CS_AppData.HkPacket.Payload.CurrentEntryInTable].ComparisonValue = 3;
     UT_SetHandlerFunction(UT_KEY(CS_ComputeEepromMemory), CS_UTILS_TEST_CS_ComputeHandler, NULL);
     UtAssert_BOOL_TRUE(CS_BackgroundEeprom());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.EepromCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.EepromCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 3);
-    UtAssert_UINT32_EQ(CS_AppData.HkPacket.EepromBaseline, 6);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 3);
+    UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.EepromBaseline, 6);
 }
 
 void CS_BackgroundMemory_Test(void)
 {
     /* Entirely disabled */
-    CS_AppData.HkPacket.MemoryCSState = CS_STATE_DISABLED;
+    CS_AppData.HkPacket.Payload.MemoryCSState = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundMemory());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 1);
 
     /* All entries disabled */
-    CS_AppData.HkPacket.MemoryCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.MemoryCSState = CS_STATE_ENABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundMemory());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, miscompare, not done with entry */
     CS_AppData.ResMemoryTblPtr[0].State = CS_STATE_ENABLED;
     UT_SetDeferredRetcode(UT_KEY(CS_ComputeEepromMemory), 1, CS_ERROR);
     UtAssert_BOOL_TRUE(CS_BackgroundMemory());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.MemoryCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.MemoryCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_MEMORY_MISCOMPARE_ERR_EID);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Last entry, Enabled, compares, done with entry */
-    CS_AppData.HkPacket.CurrentEntryInTable                                   = CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1;
-    CS_AppData.ResMemoryTblPtr[CS_AppData.HkPacket.CurrentEntryInTable].State = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable                                   = CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1;
+    CS_AppData.ResMemoryTblPtr[CS_AppData.HkPacket.Payload.CurrentEntryInTable].State = CS_STATE_ENABLED;
     UT_SetHandlerFunction(UT_KEY(CS_ComputeEepromMemory), CS_UTILS_TEST_CS_ComputeHandler, NULL);
     UtAssert_BOOL_TRUE(CS_BackgroundMemory());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.MemoryCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.MemoryCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 3);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 3);
 }
 
 void CS_BackgroundTables_Test(void)
 {
     /* Entirely disabled */
-    CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
+    CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundTables());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 1);
 
     /* All entries disabled */
-    CS_AppData.HkPacket.TablesCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_ENABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundTables());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, miscompare, not done with entry */
     CS_AppData.ResTablesTblPtr[0].State = CS_STATE_ENABLED;
     UT_SetDeferredRetcode(UT_KEY(CS_ComputeTables), 1, CS_ERROR);
     UtAssert_BOOL_TRUE(CS_BackgroundTables());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.TablesCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.TablesCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_TABLES_MISCOMPARE_ERR_EID);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, not found, not done with entry */
     UT_SetDeferredRetcode(UT_KEY(CS_ComputeTables), 1, CS_ERR_NOT_FOUND);
     UtAssert_BOOL_TRUE(CS_BackgroundTables());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.TablesCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.TablesCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_COMPUTE_TABLES_NOT_FOUND_ERR_EID);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 1);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Last entry, Enabled, compares, done with entry */
-    CS_AppData.HkPacket.CurrentEntryInTable                                   = CS_MAX_NUM_TABLES_TABLE_ENTRIES - 1;
-    CS_AppData.ResTablesTblPtr[CS_AppData.HkPacket.CurrentEntryInTable].State = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable                                   = CS_MAX_NUM_TABLES_TABLE_ENTRIES - 1;
+    CS_AppData.ResTablesTblPtr[CS_AppData.HkPacket.Payload.CurrentEntryInTable].State = CS_STATE_ENABLED;
     UT_SetHandlerFunction(UT_KEY(CS_ComputeTables), CS_UTILS_TEST_CS_ComputeHandler, NULL);
     UtAssert_BOOL_TRUE(CS_BackgroundTables());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.TablesCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.TablesCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 3);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 3);
 }
 
 void CS_BackgroundApp_Test(void)
 {
     /* Entirely disabled */
-    CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
+    CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_DISABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundApp());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 1);
 
     /* All entries disabled */
-    CS_AppData.HkPacket.AppCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_ENABLED;
     UtAssert_BOOL_FALSE(CS_BackgroundApp());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, miscompare, not done with entry */
     CS_AppData.ResAppTblPtr[0].State = CS_STATE_ENABLED;
     UT_SetDeferredRetcode(UT_KEY(CS_ComputeApp), 1, CS_ERROR);
     UtAssert_BOOL_TRUE(CS_BackgroundApp());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.AppCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.AppCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_APP_MISCOMPARE_ERR_EID);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Enabled, not found, not done with entry */
     UT_SetDeferredRetcode(UT_KEY(CS_ComputeApp), 1, CS_ERR_NOT_FOUND);
     UtAssert_BOOL_TRUE(CS_BackgroundApp());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.AppCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.AppCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_COMPUTE_APP_NOT_FOUND_ERR_EID);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 1);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 2);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 2);
 
     /* Last entry, Enabled, compares, done with entry */
-    CS_AppData.HkPacket.CurrentEntryInTable                                = CS_MAX_NUM_APP_TABLE_ENTRIES - 1;
-    CS_AppData.ResAppTblPtr[CS_AppData.HkPacket.CurrentEntryInTable].State = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentEntryInTable                                = CS_MAX_NUM_APP_TABLE_ENTRIES - 1;
+    CS_AppData.ResAppTblPtr[CS_AppData.HkPacket.Payload.CurrentEntryInTable].State = CS_STATE_ENABLED;
     UT_SetHandlerFunction(UT_KEY(CS_ComputeApp), CS_UTILS_TEST_CS_ComputeHandler, NULL);
     UtAssert_BOOL_TRUE(CS_BackgroundApp());
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.AppCSErrCounter, 1);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.AppCSErrCounter, 1);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentEntryInTable, 0);
-    UtAssert_UINT16_EQ(CS_AppData.HkPacket.CurrentCSTable, 3);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentEntryInTable, 0);
+    UtAssert_UINT16_EQ(CS_AppData.HkPacket.Payload.CurrentCSTable, 3);
 }
 
 void CS_ResetTablesTblResultEntry_Test(void)
@@ -585,8 +585,8 @@ void CS_HandleRoutineTableUpdates_Test(void)
     uint16 i;
 
     /* Cycle through each all true case */
-    CS_AppData.HkPacket.RecomputeInProgress = true;
-    CS_AppData.HkPacket.OneShotInProgress   = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
     for (i = 0; i < TblMax; i++)
     {
         CS_AppData.ChildTaskTable = ChildTaskTable[i];
@@ -607,7 +607,7 @@ void CS_HandleRoutineTableUpdates_Test(void)
     }
 
     /* OneShotInProgress true case will update all */
-    CS_AppData.HkPacket.OneShotInProgress = true;
+    CS_AppData.HkPacket.Payload.OneShotInProgress = true;
     for (i = 0; i < TblMax; i++)
     {
         CS_AppData.ChildTaskTable = ChildTaskTable[i];
@@ -619,8 +619,8 @@ void CS_HandleRoutineTableUpdates_Test(void)
     }
 
     /* Recompute false will update all */
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
     for (i = 0; i < TblMax; i++)
     {
         CS_AppData.ChildTaskTable = ChildTaskTable[i];
@@ -682,27 +682,27 @@ void CS_AttemptTableReshare_Test(void)
 void CS_CheckRecomputeOneShot_Test(void)
 {
     /* Set up for false return */
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
 
     UtAssert_BOOL_FALSE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.CmdErrCounter, 0);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 0);
 
     /* One shot in progress */
-    CS_AppData.HkPacket.OneShotInProgress = true;
+    CS_AppData.HkPacket.Payload.OneShotInProgress = true;
     UtAssert_BOOL_TRUE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CMD_COMPUTE_PROG_ERR_EID);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.CmdErrCounter, 1);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 1);
 
     /* Recompute in progress */
-    CS_AppData.HkPacket.RecomputeInProgress = true;
-    CS_AppData.HkPacket.OneShotInProgress   = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
     UtAssert_BOOL_TRUE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_CMD_COMPUTE_PROG_ERR_EID);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.CmdErrCounter, 2);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 2);
 }
 
 void UtTest_Setup(void)
