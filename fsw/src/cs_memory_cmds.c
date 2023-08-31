@@ -48,12 +48,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             CS_AppData.HkPacket.MemoryCSState = CS_STATE_DISABLED;
@@ -68,7 +62,6 @@ void CS_DisableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
 
             CS_AppData.HkPacket.CmdCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -78,12 +71,6 @@ void CS_DisableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             CS_AppData.HkPacket.MemoryCSState = CS_STATE_ENABLED;
@@ -97,7 +84,6 @@ void CS_EnableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
 
             CS_AppData.HkPacket.CmdCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -108,15 +94,11 @@ void CS_EnableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
 void CS_ReportBaselineEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t                             ExpectedLength = sizeof(CS_EntryCmd_t);
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry   = NULL;
     uint32                             Baseline       = 0;
     uint16                             EntryID        = 0;
     uint16                             State          = CS_STATE_EMPTY;
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         EntryID = CmdPtr->EntryID;
 
         if ((EntryID < CS_MAX_NUM_MEMORY_TABLE_ENTRIES) &&
@@ -154,7 +136,6 @@ void CS_ReportBaselineEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                               State, (CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1));
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -165,15 +146,11 @@ void CS_ReportBaselineEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t          ExpectedLength = sizeof(CS_EntryCmd_t);
     CFE_ES_TaskId_t ChildTaskID    = CFE_ES_TASKID_UNDEFINED;
     CFE_Status_t    Status         = CS_ERROR;
     uint16          EntryID        = 0;
     uint16          State          = CS_STATE_EMPTY;
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         EntryID = CmdPtr->EntryID;
 
         if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == false)
@@ -236,7 +213,6 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                               "Recompute baseline of Memory Entry ID %d failed: child task in use", EntryID);
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -247,14 +223,10 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t                             ExpectedLength = sizeof(CS_EntryCmd_t);
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry   = NULL;
     uint16                             EntryID        = 0;
     uint16                             State          = CS_STATE_EMPTY;
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             EntryID = CmdPtr->EntryID;
@@ -301,7 +273,6 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                 CS_AppData.HkPacket.CmdErrCounter++;
             }
         } /* end InProgress if */
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -312,14 +283,10 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t                             ExpectedLength = sizeof(CS_EntryCmd_t);
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry   = NULL;
     uint16                             EntryID        = 0;
     uint16                             State          = CS_STATE_EMPTY;
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             EntryID = CmdPtr->EntryID;
@@ -369,7 +336,6 @@ void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                 CS_AppData.HkPacket.CmdErrCounter++;
             }
         } /* end InProgress if */
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -380,15 +346,11 @@ void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 void CS_GetEntryIDMemoryCmd(const CS_GetEntryIDCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t                             ExpectedLength      = sizeof(CS_GetEntryIDCmd_t);
     CS_Res_EepromMemory_Table_Entry_t *StartOfResultsTable = NULL;
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry        = NULL;
     uint16                             Loop                = 0;
     bool                               EntryFound          = false;
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         StartOfResultsTable = CS_AppData.ResMemoryTblPtr;
 
         for (Loop = 0; Loop < CS_MAX_NUM_MEMORY_TABLE_ENTRIES; Loop++)
@@ -411,5 +373,4 @@ void CS_GetEntryIDMemoryCmd(const CS_GetEntryIDCmd_t *CmdPtr)
                               "Address 0x%08X was not found in Memory table", (unsigned int)(CmdPtr->Address));
         }
         CS_AppData.HkPacket.CmdCounter++;
-    }
 }

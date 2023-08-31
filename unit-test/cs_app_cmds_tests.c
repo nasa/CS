@@ -106,24 +106,6 @@ void CS_DisableAppCmd_Test(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableAppCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableAppCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_DisableAppCmd_Test_OneShot(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -175,24 +157,6 @@ void CS_EnableAppCmd_Test(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_EnableAppCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableAppCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -331,24 +295,6 @@ void CS_ReportBaselineAppCmd_Test_BaselineInvalidName(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_ReportBaselineAppCmd_Test_VerifyError(void)
-{
-    CS_AppNameCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_ReportBaselineAppCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -563,24 +509,6 @@ void CS_RecomputeBaselineAppCmd_Test_RecomputeInProgress(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_RecomputeBaselineAppCmd_Test_VerifyError(void)
-{
-    CS_AppNameCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_RecomputeBaselineAppCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_DisableNameAppCmd_Test_Nominal(void)
 {
     CS_AppNameCmd_t CmdPacket;
@@ -720,24 +648,6 @@ void CS_DisableNameAppCmd_Test_UnknownNameError(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_DisableNameAppCmd_Test_VerifyError(void)
-{
-    CS_AppNameCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableNameAppCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -904,24 +814,6 @@ void CS_EnableNameAppCmd_Test_UnknownNameError(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_EnableNameAppCmd_Test_VerifyError(void)
-{
-    CS_AppNameCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableNameAppCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_EnableNameAppCmd_Test_OneShot(void)
 {
     CS_AppNameCmd_t CmdPacket;
@@ -945,11 +837,9 @@ void CS_EnableNameAppCmd_Test_OneShot(void)
 void UtTest_Setup(void)
 {
     UtTest_Add(CS_DisableAppCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableAppCmd_Test");
-    UtTest_Add(CS_DisableAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown, "CS_DisableAppCmd_Test_VerifyError");
     UtTest_Add(CS_DisableAppCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_DisableAppCmd_Test_OneShot");
 
     UtTest_Add(CS_EnableAppCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableAppCmd_Test");
-    UtTest_Add(CS_EnableAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown, "CS_EnableAppCmd_Test_VerifyError");
     UtTest_Add(CS_EnableAppCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_EnableAppCmd_Test_OneShot");
 
     UtTest_Add(CS_ReportBaselineAppCmd_Test_Baseline, CS_Test_Setup, CS_Test_TearDown,
@@ -958,8 +848,6 @@ void UtTest_Setup(void)
                "CS_ReportBaselineAppCmd_Test_NoBaseline");
     UtTest_Add(CS_ReportBaselineAppCmd_Test_BaselineInvalidName, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineAppCmd_Test_BaselineInvalidName");
-    UtTest_Add(CS_ReportBaselineAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_ReportBaselineAppCmd_Test_VerifyError");
     UtTest_Add(CS_ReportBaselineAppCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineAppCmd_Test_OneShot");
 
@@ -971,16 +859,12 @@ void UtTest_Setup(void)
                "CS_RecomputeBaselineAppCmd_Test_UnknownNameError");
     UtTest_Add(CS_RecomputeBaselineAppCmd_Test_RecomputeInProgress, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineAppCmd_Test_RecomputeInProgress");
-    UtTest_Add(CS_RecomputeBaselineAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_RecomputeBaselineAppCmd_Test_VerifyError");
 
     UtTest_Add(CS_DisableNameAppCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_DisableNameAppCmd_Test_Nominal");
     UtTest_Add(CS_DisableNameAppCmd_Test_UpdateAppsDefinitionTableError, CS_Test_Setup, CS_Test_TearDown,
                "CS_DisableNameAppCmd_Test_UpdateAppsDefinitionTableError");
     UtTest_Add(CS_DisableNameAppCmd_Test_UnknownNameError, CS_Test_Setup, CS_Test_TearDown,
                "CS_DisableNameAppCmd_Test_UnknownNameError");
-    UtTest_Add(CS_DisableNameAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableNameAppCmd_Test_VerifyError");
     UtTest_Add(CS_DisableNameAppCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_DisableNameAppCmd_Test_OneShot");
 
     UtTest_Add(CS_EnableNameAppCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_EnableNameAppCmd_Test_Nominal");
@@ -988,7 +872,5 @@ void UtTest_Setup(void)
                "CS_EnableNameAppCmd_Test_UpdateAppsDefinitionTableError");
     UtTest_Add(CS_EnableNameAppCmd_Test_UnknownNameError, CS_Test_Setup, CS_Test_TearDown,
                "CS_EnableNameAppCmd_Test_UnknownNameError");
-    UtTest_Add(CS_EnableNameAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableNameAppCmd_Test_VerifyError");
     UtTest_Add(CS_EnableNameAppCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_EnableNameAppCmd_Test_OneShot");
 }

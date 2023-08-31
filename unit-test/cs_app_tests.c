@@ -22,6 +22,11 @@
  */
 
 #include "cs_app.h"
+#include "cs_app_cmds.h"
+#include "cs_cmds.h"
+#include "cs_eeprom_cmds.h"
+#include "cs_memory_cmds.h"
+#include "cs_table_cmds.h"
 #include "cs_msg.h"
 #include "cs_msgdefs.h"
 #include "cs_events.h"
@@ -2283,6 +2288,1366 @@ void CS_HousekeepingCmd_Test_InvalidMsgLength(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
+void CS_ProcessCmd_NoopCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_NOOP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_NoopCmd, 1);
+}
+
+void CS_ProcessCmd_ResetCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RESET_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ResetCmd, 1);
+}
+
+void CS_ProcessCmd_DisableAllCSCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_ALL_CS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableAllCSCmd, 1);
+}
+
+void CS_ProcessCmd_EnableAllCSCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_ALL_CS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableAllCSCmd, 1);
+}
+
+void CS_ProcessCmd_DisableCfeCoreCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_CFE_CORE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableCfeCoreCmd, 1);
+}
+
+void CS_ProcessCMD_EnableCfeCoreCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_CFE_CORE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableCfeCoreCmd, 1);
+}
+
+void CS_ProcessCmd_DisableOSCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_OS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableOSCmd, 1);
+}
+
+void CS_ProcessCmd_EnableOSCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_OS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableOSCmd, 1);
+}
+
+void CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_CFE_CORE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineCfeCoreCmd, 1);
+}
+
+void CS_ProcessCmd_ReportBaselineOSCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_OS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineOSCmd, 1);
+}
+
+void CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_CFE_CORE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineCfeCoreCmd, 1);
+}
+
+void CS_ProcessCmd_RecomputeBaselineOSCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_OS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineOSCmd, 1);
+}
+
+void CS_ProcessCmd_OneShotCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ONE_SHOT_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_OneShotCmd, 1);
+}
+
+void CS_ProcessCmd_CancelOneShotCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_CANCEL_ONE_SHOT_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_CancelOneShotCmd, 1);
+}
+
+void CS_ProcessCmd_DisableTablesCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_TABLES_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableTablesCmd, 1);
+}
+
+void CS_ProcessCmd_EnableTablesCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_TABLES_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableTablesCmd, 1);
+}
+
+void CS_ProcessCmd_ReportBaselineTablesCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_TABLE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineTablesCmd, 1);
+}
+
+void CS_ProcessCmd_RecomputeBaselineTablesCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_TABLE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineTablesCmd, 1);
+}
+
+void CS_ProcessCmd_DisableNameTablesCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_NAME_TABLE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableNameTablesCmd, 1);
+}
+
+void CS_ProcessCmd_EnableNameTablesCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_NAME_TABLE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableNameTablesCmd, 1);
+}
+
+void CS_ProcessCmd_DisableAppCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_APPS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableAppCmd, 1);
+}
+
+void CS_ProcessCmd_EnableAppCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_APPS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableAppCmd, 1);
+}
+
+void CS_ProcessCmd_ReportBaselineAppCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_APP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineAppCmd, 1);
+}
+
+void CS_ProcessCmd_RecomputeBaselineAppCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_APP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineAppCmd, 1);
+}
+
+void CS_ProcessCmd_DisableNameAppCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_NAME_APP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableNameAppCmd, 1);
+}
+
+void CS_ProcessCmd_EnableNameAppCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_NAME_APP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableNameAppCmd, 1);
+}
+
+void CS_ProcessCmd_DisableMemoryCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableMemoryCmd, 1);
+}
+
+void CS_ProcessCmd_EnableMemoryCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableMemoryCmd, 1);
+}
+
+void CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineEntryIDMemoryCmd, 1);
+}
+
+void CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineMemoryCmd, 1);
+}
+
+void CS_ProcessCmd_EnableEntryIDMemoryCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_ENTRY_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableEntryIDMemoryCmd, 1);
+}
+
+void CS_ProcessCmd_DisableEntryIDMemoryCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_ENTRY_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableEntryIDMemoryCmd, 1);
+}
+
+void CS_ProcessCmd_GetEntryIDMemoryCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_GET_ENTRY_ID_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_GetEntryIDMemoryCmd, 1);
+}
+
+void CS_ProcessCmd_DisableEepromCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableEepromCmd, 1);
+}
+
+void CS_ProcessCmd_EnableEepromCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableEepromCmd, 1);
+}
+
+void CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineEntryIDEepromCmd, 1);
+}
+
+void CS_ProcessCmd_RecomputeBaselineEepromCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineEepromCmd, 1);
+}
+
+void CS_ProcessCmd_EnableEntryIDEepromCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_ENTRY_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableEntryIDEepromCmd, 1);
+}
+
+void CS_ProcessCmd_DisableEntryIDEepromCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_ENTRY_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableEntryIDEepromCmd, 1);
+}
+
+void CS_ProcessCmd_GetEntryIDEepromCmd_Test(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_GET_ENTRY_ID_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_GetEntryIDEepromCmd, 1);
+}
+
+void CS_ProcessCmd_NoopCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_NOOP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_NoopCmd, 0);
+}
+
+void CS_ProcessCmd_ResetCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RESET_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ResetCmd, 0);
+}
+
+void CS_ProcessCmd_DisableAllCSCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_ALL_CS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableAllCSCmd, 0);
+}
+
+void CS_ProcessCmd_EnableAllCSCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_ALL_CS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableAllCSCmd, 0);
+}
+
+void CS_ProcessCmd_DisableCfeCoreCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_CFE_CORE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableCfeCoreCmd, 0);
+}
+
+void CS_ProcessCMD_EnableCfeCoreCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_CFE_CORE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableCfeCoreCmd, 0);
+}
+
+void CS_ProcessCmd_DisableOSCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_OS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableOSCmd, 0);
+}
+
+void CS_ProcessCmd_EnableOSCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_OS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableOSCmd, 0);
+}
+
+void CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_CFE_CORE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineCfeCoreCmd, 0);
+}
+
+void CS_ProcessCmd_ReportBaselineOSCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_OS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineOSCmd, 0);
+}
+
+void CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_CFE_CORE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineCfeCoreCmd, 0);
+}
+
+void CS_ProcessCmd_RecomputeBaselineOSCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_OS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineOSCmd, 0);
+}
+
+void CS_ProcessCmd_OneShotCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ONE_SHOT_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_OneShotCmd, 0);
+}
+
+void CS_ProcessCmd_CancelOneShotCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_CANCEL_ONE_SHOT_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_CancelOneShotCmd, 0);
+}
+
+void CS_ProcessCmd_DisableTablesCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_TABLES_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableTablesCmd, 0);
+}
+
+void CS_ProcessCmd_EnableTablesCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_TABLES_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableTablesCmd, 0);
+}
+
+void CS_ProcessCmd_ReportBaselineTablesCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_TABLE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineTablesCmd, 0);
+}
+
+void CS_ProcessCmd_RecomputeBaselineTablesCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_TABLE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineTablesCmd, 0);
+}
+
+void CS_ProcessCmd_DisableNameTablesCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_NAME_TABLE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableNameTablesCmd, 0);
+}
+
+void CS_ProcessCmd_EnableNameTablesCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_NAME_TABLE_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableNameTablesCmd, 0);
+}
+
+void CS_ProcessCmd_DisableAppCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_APPS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableAppCmd, 0);
+}
+
+void CS_ProcessCmd_EnableAppCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_APPS_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableAppCmd, 0);
+}
+
+void CS_ProcessCmd_ReportBaselineAppCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_APP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineAppCmd, 0);
+}
+
+void CS_ProcessCmd_RecomputeBaselineAppCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_APP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineAppCmd, 0);
+}
+
+void CS_ProcessCmd_DisableNameAppCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_NAME_APP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableNameAppCmd, 0);
+}
+
+void CS_ProcessCmd_EnableNameAppCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_NAME_APP_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableNameAppCmd, 0);
+}
+
+void CS_ProcessCmd_DisableMemoryCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableMemoryCmd, 0);
+}
+
+void CS_ProcessCmd_EnableMemoryCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableMemoryCmd, 0);
+}
+
+void CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineEntryIDMemoryCmd, 0);
+}
+
+void CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineMemoryCmd, 0);
+}
+
+void CS_ProcessCmd_EnableEntryIDMemoryCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_ENTRY_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableEntryIDMemoryCmd, 0);
+}
+
+void CS_ProcessCmd_DisableEntryIDMemoryCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_ENTRY_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableEntryIDMemoryCmd, 0);
+}
+
+void CS_ProcessCmd_GetEntryIDMemoryCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_GET_ENTRY_ID_MEMORY_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_GetEntryIDMemoryCmd, 0);
+}
+
+void CS_ProcessCmd_DisableEepromCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableEepromCmd, 0);
+}
+
+void CS_ProcessCmd_EnableEepromCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableEepromCmd, 0);
+}
+
+void CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_REPORT_BASELINE_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_ReportBaselineEntryIDEepromCmd, 0);
+}
+
+void CS_ProcessCmd_RecomputeBaselineEepromCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_RECOMPUTE_BASELINE_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_RecomputeBaselineEepromCmd, 0);
+}
+
+void CS_ProcessCmd_EnableEntryIDEepromCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_ENABLE_ENTRY_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_EnableEntryIDEepromCmd, 0);
+}
+
+void CS_ProcessCmd_DisableEntryIDEepromCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_DISABLE_ENTRY_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_DisableEntryIDEepromCmd, 0);
+}
+
+void CS_ProcessCmd_GetEntryIDEepromCmd_Test_VerifyError(void)
+{
+    UT_CmdBuf_t       CmdBuf;
+    CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
+    CFE_MSG_FcnCode_t FcnCode = CS_GET_ENTRY_ID_EEPROM_CC;
+
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
+    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
+    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
+
+    /* Execute the function being tested */
+    CS_ProcessCmd(&CmdBuf.Buf);
+
+    /* Verify results */
+    UtAssert_STUB_COUNT(CS_GetEntryIDEepromCmd, 0);
+}
+
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
 
 void CS_UpdateCDS_Test_Nominal(void)
@@ -2434,6 +3799,170 @@ void UtTest_Setup(void)
 
     UtTest_Add(CS_AppInit_Test_NominalPowerOnReset, CS_Test_Setup, CS_Test_TearDown,
                "CS_AppInit_Test_NominalPowerOnReset");
+
+    UtTest_Add(CS_ProcessCmd_NoopCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_NoopCmd_Test");
+    UtTest_Add(CS_ProcessCmd_ResetCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ResetCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableAllCSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableAllCSCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableAllCSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableAllCSCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableCfeCoreCmd_Test");
+    UtTest_Add(CS_ProcessCMD_EnableCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCMD_EnableCfeCoreCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableOSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableOSCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableOSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableOSCmd_Test");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineOSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineOSCmd_Test");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineOSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineOSCmd_Test");
+    UtTest_Add(CS_ProcessCmd_OneShotCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_OneShotCmd_Test");
+    UtTest_Add(CS_ProcessCmd_CancelOneShotCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_CancelOneShotCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableTablesCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableTablesCmd_Test");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineTablesCmd_Test");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineTablesCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableNameTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableNameTablesCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableNameTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableNameTablesCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableAppCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableAppCmd_Test");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineAppCmd_Test");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineAppCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableNameAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableNameAppCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableNameAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableNameAppCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableMemoryCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableMemoryCmd_Test");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableEntryIDMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableEntryIDMemoryCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableEntryIDMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableEntryIDMemoryCmd_Test");
+    UtTest_Add(CS_ProcessCmd_GetEntryIDMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_GetEntryIDMemoryCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableEepromCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableEepromCmd_Test");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineEepromCmd_Test");
+    UtTest_Add(CS_ProcessCmd_EnableEntryIDEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableEntryIDEepromCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableEntryIDEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableEntryIDEepromCmd_Test");
+    UtTest_Add(CS_ProcessCmd_GetEntryIDEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_GetEntryIDEepromCmd_Test");
+
+    UtTest_Add(CS_ProcessCmd_NoopCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_NoopCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_ResetCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ResetCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableAllCSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableAllCSCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableAllCSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableAllCSCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableCfeCoreCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCMD_EnableCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCMD_EnableCfeCoreCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableOSCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableOSCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineOSCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineOSCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_OneShotCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_OneShotCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_CancelOneShotCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_CancelOneShotCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableTablesCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableTablesCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineTablesCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineTablesCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableNameTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableNameTablesCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableNameTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableNameTablesCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableAppCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableAppCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineAppCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineAppCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableNameAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableNameAppCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableNameAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableNameAppCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableMemoryCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableMemoryCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableEntryIDMemoryCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableEntryIDMemoryCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_GetEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_GetEntryIDMemoryCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableEepromCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableEepromCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_RecomputeBaselineEepromCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_EnableEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_EnableEntryIDEepromCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_DisableEntryIDEepromCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_GetEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+               "CS_ProcessCmd_GetEntryIDEepromCmd_Test_VerifyError");
+
+
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
     UtTest_Add(CS_AppInit_Test_NominalProcReset, CS_Test_Setup, CS_Test_TearDown, "CS_AppInit_Test_NominalProcReset");
 

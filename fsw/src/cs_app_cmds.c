@@ -46,12 +46,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             CS_AppData.HkPacket.AppCSState = CS_STATE_DISABLED;
@@ -64,7 +58,6 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_DISABLE_APP_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of App is Disabled");
             CS_AppData.HkPacket.CmdCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -74,12 +67,6 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             CS_AppData.HkPacket.AppCSState = CS_STATE_ENABLED;
@@ -91,7 +78,6 @@ void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_ENABLE_APP_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of App is Enabled");
             CS_AppData.HkPacket.CmdCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -102,15 +88,10 @@ void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 void CS_ReportBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
-
     CS_Res_App_Table_Entry_t *ResultsEntry;
     uint32                    Baseline;
     char                      Name[OS_MAX_API_NAME];
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
         Name[sizeof(Name) - 1] = '\0';
 
@@ -135,7 +116,6 @@ void CS_ReportBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
                               "App report baseline failed, app %s not found", Name);
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -146,17 +126,11 @@ void CS_ReportBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
 void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
-
     CFE_ES_TaskId_t           ChildTaskID;
     CFE_Status_t              Status;
     CS_Res_App_Table_Entry_t *ResultsEntry;
     char                      Name[OS_MAX_API_NAME];
 
-    /* Verify command packet length */
-
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == false)
         {
             strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
@@ -204,7 +178,6 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
                               "App recompute baseline for app %s failed: child task in use", Name);
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -215,15 +188,10 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
 void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
-
     CS_Res_App_Table_Entry_t *ResultsEntry;
     CS_Def_App_Table_Entry_t *DefinitionEntry;
     char                      Name[OS_MAX_API_NAME];
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
@@ -260,7 +228,6 @@ void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
                 CS_AppData.HkPacket.CmdErrCounter++;
             }
         } /* end InProgress if */
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -271,15 +238,10 @@ void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 void CS_EnableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_AppNameCmd_t);
-
     CS_Res_App_Table_Entry_t *ResultsEntry;
     CS_Def_App_Table_Entry_t *DefinitionEntry;
     char                      Name[OS_MAX_API_NAME];
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
@@ -313,5 +275,4 @@ void CS_EnableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
                 CS_AppData.HkPacket.CmdErrCounter++;
             }
         } /* end InProgress if */
-    }
 }

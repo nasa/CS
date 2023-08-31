@@ -275,169 +275,289 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
     {
         /*  All CS Commands */
         case CS_NOOP_CC:
-            CS_NoopCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_NoopCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_RESET_CC:
-            CS_ResetCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_ResetCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_ONE_SHOT_CC:
-            CS_OneShotCmd((CS_OneShotCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_OneShotCmd_t)))
+            {
+                CS_OneShotCmd((CS_OneShotCmd_t *)BufPtr);
+            }
             break;
 
         case CS_CANCEL_ONE_SHOT_CC:
-            CS_CancelOneShotCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_CancelOneShotCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_ENABLE_ALL_CS_CC:
-            CS_EnableAllCSCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_EnableAllCSCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_ALL_CS_CC:
-            CS_DisableAllCSCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_DisableAllCSCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         /* cFE core Commands */
         case CS_ENABLE_CFE_CORE_CC:
-            CS_EnableCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_EnableCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_CFE_CORE_CC:
-            CS_DisableCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_DisableCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_REPORT_BASELINE_CFE_CORE_CC:
-            CS_ReportBaselineCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_ReportBaselineCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_RECOMPUTE_BASELINE_CFE_CORE_CC:
-            CS_RecomputeBaselineCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_RecomputeBaselineCfeCoreCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         /* OS Commands*/
         case CS_ENABLE_OS_CC:
-            CS_EnableOSCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_EnableOSCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_OS_CC:
-            CS_DisableOSCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_DisableOSCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_REPORT_BASELINE_OS_CC:
-            CS_ReportBaselineOSCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_ReportBaselineOSCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_RECOMPUTE_BASELINE_OS_CC:
-            CS_RecomputeBaselineOSCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_RecomputeBaselineOSCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         /* EEPROM Commands */
         case CS_ENABLE_EEPROM_CC:
-            CS_EnableEepromCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_EnableEepromCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_EEPROM_CC:
-            CS_DisableEepromCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_DisableEepromCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_REPORT_BASELINE_EEPROM_CC:
-            CS_ReportBaselineEntryIDEepromCmd((CS_EntryCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_EntryCmd_t)))
+            {
+                CS_ReportBaselineEntryIDEepromCmd((CS_EntryCmd_t *)BufPtr);
+            }
             break;
 
         case CS_RECOMPUTE_BASELINE_EEPROM_CC:
-            CS_RecomputeBaselineEepromCmd((CS_EntryCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_EntryCmd_t)))
+            {
+                CS_RecomputeBaselineEepromCmd((CS_EntryCmd_t *)BufPtr);
+            }
             break;
 
         case CS_ENABLE_ENTRY_EEPROM_CC:
-            CS_EnableEntryIDEepromCmd((CS_EntryCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_EntryCmd_t)))
+            {
+                CS_EnableEntryIDEepromCmd((CS_EntryCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_ENTRY_EEPROM_CC:
-            CS_DisableEntryIDEepromCmd((CS_EntryCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_EntryCmd_t)))
+            {
+                CS_DisableEntryIDEepromCmd((CS_EntryCmd_t *)BufPtr);
+            }
             break;
 
         case CS_GET_ENTRY_ID_EEPROM_CC:
-            CS_GetEntryIDEepromCmd((CS_GetEntryIDCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_GetEntryIDCmd_t)))
+            {
+                CS_GetEntryIDEepromCmd((CS_GetEntryIDCmd_t *)BufPtr);
+            }
             break;
 
         /*  Memory Commands */
         case CS_ENABLE_MEMORY_CC:
-            CS_EnableMemoryCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_EnableMemoryCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_MEMORY_CC:
-            CS_DisableMemoryCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_DisableMemoryCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_REPORT_BASELINE_MEMORY_CC:
-            CS_ReportBaselineEntryIDMemoryCmd((CS_EntryCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_EntryCmd_t)))
+            {
+                CS_ReportBaselineEntryIDMemoryCmd((CS_EntryCmd_t *)BufPtr);
+            }
             break;
 
         case CS_RECOMPUTE_BASELINE_MEMORY_CC:
-            CS_RecomputeBaselineMemoryCmd((CS_EntryCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_EntryCmd_t)))
+            {
+                CS_RecomputeBaselineMemoryCmd((CS_EntryCmd_t *)BufPtr);
+            }
             break;
 
         case CS_ENABLE_ENTRY_MEMORY_CC:
-            CS_EnableEntryIDMemoryCmd((CS_EntryCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_EntryCmd_t)))
+            {
+                CS_EnableEntryIDMemoryCmd((CS_EntryCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_ENTRY_MEMORY_CC:
-            CS_DisableEntryIDMemoryCmd((CS_EntryCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_EntryCmd_t)))
+            {
+                CS_DisableEntryIDMemoryCmd((CS_EntryCmd_t *)BufPtr);
+            }
             break;
 
         case CS_GET_ENTRY_ID_MEMORY_CC:
-            CS_GetEntryIDMemoryCmd((CS_GetEntryIDCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_GetEntryIDCmd_t)))
+            {
+                CS_GetEntryIDMemoryCmd((CS_GetEntryIDCmd_t *)BufPtr);
+            }
             break;
 
         /* Tables Commands */
         case CS_ENABLE_TABLES_CC:
-            CS_EnableTablesCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_EnableTablesCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_TABLES_CC:
-            CS_DisableTablesCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_DisableTablesCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_REPORT_BASELINE_TABLE_CC:
-            CS_ReportBaselineTablesCmd((CS_TableNameCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_TableNameCmd_t)))
+            {
+                CS_ReportBaselineTablesCmd((CS_TableNameCmd_t *)BufPtr);
+            }
             break;
 
         case CS_RECOMPUTE_BASELINE_TABLE_CC:
-            CS_RecomputeBaselineTablesCmd((CS_TableNameCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_TableNameCmd_t)))
+            {
+                CS_RecomputeBaselineTablesCmd((CS_TableNameCmd_t *)BufPtr);
+            }
             break;
 
         case CS_ENABLE_NAME_TABLE_CC:
-            CS_EnableNameTablesCmd((CS_TableNameCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_TableNameCmd_t)))
+            {
+                CS_EnableNameTablesCmd((CS_TableNameCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_NAME_TABLE_CC:
-            CS_DisableNameTablesCmd((CS_TableNameCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_TableNameCmd_t)))
+            {
+                CS_DisableNameTablesCmd((CS_TableNameCmd_t *)BufPtr);
+            }
             break;
 
         /* App Commands */
         case CS_ENABLE_APPS_CC:
-            CS_EnableAppCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_EnableAppCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_APPS_CC:
-            CS_DisableAppCmd((CS_NoArgsCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
+            {
+                CS_DisableAppCmd((CS_NoArgsCmd_t *)BufPtr);
+            }
             break;
 
         case CS_REPORT_BASELINE_APP_CC:
-            CS_ReportBaselineAppCmd((CS_AppNameCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_AppNameCmd_t)))
+            {
+                CS_ReportBaselineAppCmd((CS_AppNameCmd_t *)BufPtr);
+            }
             break;
 
         case CS_RECOMPUTE_BASELINE_APP_CC:
-            CS_RecomputeBaselineAppCmd((CS_AppNameCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_AppNameCmd_t)))
+            {
+                CS_RecomputeBaselineAppCmd((CS_AppNameCmd_t *)BufPtr);
+            }
             break;
 
         case CS_ENABLE_NAME_APP_CC:
-            CS_EnableNameAppCmd((CS_AppNameCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_AppNameCmd_t)))
+            {
+                CS_EnableNameAppCmd((CS_AppNameCmd_t *)BufPtr);
+            }
             break;
 
         case CS_DISABLE_NAME_APP_CC:
-            CS_DisableNameAppCmd((CS_AppNameCmd_t *)BufPtr);
+            if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_AppNameCmd_t)))
+            {
+                CS_DisableNameAppCmd((CS_AppNameCmd_t *)BufPtr);
+            }
             break;
 
         default:

@@ -79,22 +79,6 @@ void CS_NoopCmd_Test(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_NoopCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_NoopCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_ResetCmd_Test(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -139,22 +123,6 @@ void CS_ResetCmd_Test(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_ResetCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_ResetCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -624,22 +592,6 @@ void CS_DisableAllCSCmd_Test(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableAllCSCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableAllCSCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_EnableAllCSCmd_Test(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -668,22 +620,6 @@ void CS_EnableAllCSCmd_Test(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_EnableAllCSCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableAllCSCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -719,22 +655,6 @@ void CS_DisableCfeCoreCmd_Test(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableCfeCoreCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableCfeCoreCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_EnableCfeCoreCmd_Test(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -764,22 +684,6 @@ void CS_EnableCfeCoreCmd_Test(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_EnableCfeCoreCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableCfeCoreCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -815,22 +719,6 @@ void CS_DisableOSCmd_Test(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableOSCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableOSCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_EnableOSCmd_Test(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -860,22 +748,6 @@ void CS_EnableOSCmd_Test(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_EnableOSCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableOSCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -942,22 +814,6 @@ void CS_ReportBaselineCfeCoreCmd_Test_NotComputedYet(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_ReportBaselineCfeCoreCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_ReportBaselineCfeCoreCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_ReportBaselineOSCmd_Test_Nominal(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -1019,22 +875,6 @@ void CS_ReportBaselineOSCmd_Test_NotComputedYet(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_ReportBaselineOSCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_ReportBaselineOSCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1146,22 +986,6 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_ChildTaskError(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_RecomputeBaselineCfeCoreCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_RecomputeBaselineCfeCoreCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1307,22 +1131,6 @@ void CS_RecomputeBaselineOSCmd_Test_ChildTaskError(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_RecomputeBaselineOSCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_RecomputeBaselineOSCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1569,22 +1377,6 @@ void CS_OneShotCmd_Test_MemValidateRangeError(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_OneShotCmd_Test_VerifyError(void)
-{
-    CS_OneShotCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_OneShotCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_OneShotCmd_Test_OneShot(void)
 {
     CS_OneShotCmd_t CmdPacket;
@@ -1726,22 +1518,6 @@ void CS_CancelOneShotCmd_Test_NoChildTaskError(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_CancelOneShotCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_CancelOneShotCmd(&CmdPacket);
-
-    /* Verify results */
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_CancelOneShotCmd_Test_OneShot(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -1781,10 +1557,8 @@ void CS_CancelOneShotCmd_Test_OneShot(void)
 void UtTest_Setup(void)
 {
     UtTest_Add(CS_NoopCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_NoopCmd_Test");
-    UtTest_Add(CS_NoopCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown, "CS_NoopCmd_Test_VerifyError");
 
     UtTest_Add(CS_ResetCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ResetCmd_Test");
-    UtTest_Add(CS_ResetCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown, "CS_ResetCmd_Test_VerifyError");
 
     UtTest_Add(CS_BackgroundCheckCycle_Test_InvalidMsgLength, CS_Test_Setup, CS_Test_TearDown,
                "CS_BackgroundCheckCycle_Test_InvalidMsgLength");
@@ -1812,40 +1586,26 @@ void UtTest_Setup(void)
                "CS_BackgroundCheckCycle_Test_EndOfList");
 
     UtTest_Add(CS_DisableAllCSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableAllCSCmd_Test");
-    UtTest_Add(CS_DisableAllCSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableAllCSCmd_Test_VerifyError");
 
     UtTest_Add(CS_EnableAllCSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableAllCSCmd_Test");
-    UtTest_Add(CS_EnableAllCSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableAllCSCmd_Test_VerifyError");
 
     UtTest_Add(CS_DisableCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableCfeCoreCmd_Test");
-    UtTest_Add(CS_DisableCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableCfeCoreCmd_Test_VerifyError");
 
-    UtTest_Add(CS_EnableCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableCfeCoreCmd_Test_VerifyError");
     UtTest_Add(CS_EnableCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableCfeCoreCmd_Test");
 
     UtTest_Add(CS_DisableOSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableOSCmd_Test");
-    UtTest_Add(CS_DisableOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown, "CS_DisableOSCmd_Test_VerifyError");
 
     UtTest_Add(CS_EnableOSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableOSCmd_Test");
-    UtTest_Add(CS_EnableOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown, "CS_EnableOSCmd_Test_VerifyError");
 
     UtTest_Add(CS_ReportBaselineCfeCoreCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineCfeCoreCmd_Test_Nominal");
     UtTest_Add(CS_ReportBaselineCfeCoreCmd_Test_NotComputedYet, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineCfeCoreCmd_Test_NotComputedYet");
-    UtTest_Add(CS_ReportBaselineCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_ReportBaselineCfeCoreCmd_Test_VerifyError");
 
     UtTest_Add(CS_ReportBaselineOSCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineOSCmd_Test_Nominal");
     UtTest_Add(CS_ReportBaselineOSCmd_Test_NotComputedYet, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineOSCmd_Test_NotComputedYet");
-    UtTest_Add(CS_ReportBaselineOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_ReportBaselineOSCmd_Test_VerifyError");
 
     UtTest_Add(CS_RecomputeBaselineCfeCoreCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineCfeCoreCmd_Test_Nominal");
@@ -1853,8 +1613,6 @@ void UtTest_Setup(void)
                "CS_RecomputeBaselineCfeCoreCmd_Test_CreateChildTaskError");
     UtTest_Add(CS_RecomputeBaselineCfeCoreCmd_Test_ChildTaskError, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineCfeCoreCmd_Test_ChildTaskError");
-    UtTest_Add(CS_RecomputeBaselineCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_RecomputeBaselineCfeCoreCmd_Test_VerifyError");
     UtTest_Add(CS_RecomputeBaselineCfeCoreCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineCfeCoreCmd_Test_OneShot");
 
@@ -1864,8 +1622,6 @@ void UtTest_Setup(void)
                "CS_RecomputeBaselineOSCmd_Test_CreateChildTaskError");
     UtTest_Add(CS_RecomputeBaselineOSCmd_Test_ChildTaskError, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineOSCmd_Test_ChildTaskError");
-    UtTest_Add(CS_RecomputeBaselineOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_RecomputeBaselineOSCmd_Test_VerifyError");
     UtTest_Add(CS_RecomputeBaselineOSCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineOSCmd_Test_OneShot");
 
@@ -1877,7 +1633,6 @@ void UtTest_Setup(void)
     UtTest_Add(CS_OneShotCmd_Test_ChildTaskError, CS_Test_Setup, CS_Test_TearDown, "CS_OneShotCmd_Test_ChildTaskError");
     UtTest_Add(CS_OneShotCmd_Test_MemValidateRangeError, CS_Test_Setup, CS_Test_TearDown,
                "CS_OneShotCmd_Test_MemValidateRangeError");
-    UtTest_Add(CS_OneShotCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown, "CS_OneShotCmd_Test_VerifyError");
     UtTest_Add(CS_OneShotCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_OneShotCmd_Test_OneShot");
 
     UtTest_Add(CS_CancelOneShotCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_CancelOneShotCmd_Test_Nominal");
@@ -1885,7 +1640,5 @@ void UtTest_Setup(void)
                "CS_CancelOneShotCmd_Test_DeleteChildTaskError");
     UtTest_Add(CS_CancelOneShotCmd_Test_NoChildTaskError, CS_Test_Setup, CS_Test_TearDown,
                "CS_CancelOneShotCmd_Test_NoChildTaskError");
-    UtTest_Add(CS_CancelOneShotCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_CancelOneShotCmd_Test_VerifyError");
     UtTest_Add(CS_CancelOneShotCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_CancelOneShotCmd_Test_OneShot");
 }

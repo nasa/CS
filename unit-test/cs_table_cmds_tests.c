@@ -109,25 +109,6 @@ void CS_DisableTablesCmd_Test(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableTablesCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-    UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableTablesCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_DisableTablesCmd_Test_OneShot(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -177,25 +158,6 @@ void CS_EnableTablesCmd_Test(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_EnableTablesCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-    UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableTablesCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -332,24 +294,6 @@ void CS_ReportBaselineTablesCmd_Test_TableNotFound(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_ReportBaselineTablesCmd_Test_VerifyError(void)
-{
-    CS_TableNameCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_ReportBaselineTablesCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -511,24 +455,6 @@ void CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_RecomputeBaselineTablesCmd_Test_VerifyError(void)
-{
-    CS_TableNameCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_RecomputeBaselineTablesCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -707,25 +633,6 @@ void CS_DisableNameTablesCmd_Test_TableNotFound(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableNameTablesCmd_Test_VerifyError(void)
-{
-    CS_TableNameCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-    UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableNameTablesCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_DisableNameTablesCmd_Test_OneShot(void)
 {
     CS_TableNameCmd_t CmdPacket;
@@ -878,25 +785,6 @@ void CS_EnableNameTablesCmd_Test_TableNotFound(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_EnableNameTablesCmd_Test_VerifyError(void)
-{
-    CS_TableNameCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-    UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableNameTablesCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_EnableNameTablesCmd_Test_OneShot(void)
 {
     CS_TableNameCmd_t CmdPacket;
@@ -919,13 +807,9 @@ void CS_EnableNameTablesCmd_Test_OneShot(void)
 void UtTest_Setup(void)
 {
     UtTest_Add(CS_DisableTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableTablesCmd_Test");
-    UtTest_Add(CS_DisableTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableTablesCmd_Test_VerifyError");
     UtTest_Add(CS_DisableTablesCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_DisableTablesCmd_Test_OneShot");
 
     UtTest_Add(CS_EnableTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableTablesCmd_Test");
-    UtTest_Add(CS_EnableTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableTablesCmd_Test_VerifyError");
     UtTest_Add(CS_EnableTablesCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_EnableTablesCmd_Test_OneShot");
 
     UtTest_Add(CS_ReportBaselineTablesCmd_Test_Computed, CS_Test_Setup, CS_Test_TearDown,
@@ -934,8 +818,6 @@ void UtTest_Setup(void)
                "CS_ReportBaselineTablesCmd_Test_NotYetComputed");
     UtTest_Add(CS_ReportBaselineTablesCmd_Test_TableNotFound, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineTablesCmd_Test_TableNotFound");
-    UtTest_Add(CS_ReportBaselineTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_ReportBaselineTablesCmd_Test_VerifyError");
 
     UtTest_Add(CS_RecomputeBaselineTablesCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineTablesCmd_Test_Nominal");
@@ -945,8 +827,6 @@ void UtTest_Setup(void)
                "CS_RecomputeBaselineTablesCmd_Test_TableNotFound");
     UtTest_Add(CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress");
-    UtTest_Add(CS_RecomputeBaselineTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_RecomputeBaselineTablesCmd_Test_VerifyError");
     UtTest_Add(CS_RecomputeBaselineTablesCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineTablesCmd_Test_OneShot");
 
@@ -956,8 +836,6 @@ void UtTest_Setup(void)
                "CS_DisableNameTablesCmd_Test_TableDefNotFound");
     UtTest_Add(CS_DisableNameTablesCmd_Test_TableNotFound, CS_Test_Setup, CS_Test_TearDown,
                "CS_DisableNameTablesCmd_Test_TableNotFound");
-    UtTest_Add(CS_DisableNameTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableNameTablesCmd_Test_VerifyError");
     UtTest_Add(CS_DisableNameTablesCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_DisableNameTablesCmd_Test_OneShot");
 
@@ -967,8 +845,6 @@ void UtTest_Setup(void)
                "CS_EnableNameTablesCmd_Test_TableDefNotFound");
     UtTest_Add(CS_EnableNameTablesCmd_Test_TableNotFound, CS_Test_Setup, CS_Test_TearDown,
                "CS_EnableNameTablesCmd_Test_TableNotFound");
-    UtTest_Add(CS_EnableNameTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableNameTablesCmd_Test_VerifyError");
     UtTest_Add(CS_EnableNameTablesCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_EnableNameTablesCmd_Test_OneShot");
 }

@@ -46,12 +46,6 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED;
@@ -65,7 +59,6 @@ void CS_DisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
                               "Checksumming of Tables is Disabled");
             CS_AppData.HkPacket.CmdCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -75,12 +68,6 @@ void CS_DisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             CS_AppData.HkPacket.TablesCSState = CS_STATE_ENABLED;
@@ -93,7 +80,6 @@ void CS_EnableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
                               "Checksumming of Tables is Enabled");
             CS_AppData.HkPacket.CmdCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -103,16 +89,10 @@ void CS_EnableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ReportBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_TableNameCmd_t);
-
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     uint32                       Baseline;
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
         Name[sizeof(Name) - 1] = '\0';
 
@@ -137,7 +117,6 @@ void CS_ReportBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
                               "Tables report baseline failed, table %s not found", Name);
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -147,18 +126,11 @@ void CS_ReportBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_TableNameCmd_t);
-
     CFE_ES_TaskId_t              ChildTaskID;
     CFE_Status_t                 Status;
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 
-    /* Verify command packet length */
-
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == false)
         {
             strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
@@ -206,7 +178,6 @@ void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
                               "Tables recompute baseline for table %s failed: child task in use", Name);
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -216,16 +187,10 @@ void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_TableNameCmd_t);
-
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     CS_Def_Tables_Table_Entry_t *DefinitionEntry;
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
@@ -261,7 +226,6 @@ void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
                 CS_AppData.HkPacket.CmdErrCounter++;
             }
         } /* end InProgress if */
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -271,16 +235,10 @@ void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_TableNameCmd_t);
-
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     CS_Def_Tables_Table_Entry_t *DefinitionEntry;
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_CheckRecomputeOneshot() == false)
         {
             strncpy(Name, CmdPtr->Name, sizeof(Name) - 1);
@@ -314,5 +272,4 @@ void CS_EnableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
                 CS_AppData.HkPacket.CmdErrCounter++;
             }
         } /* end InProgress if */
-    }
 }

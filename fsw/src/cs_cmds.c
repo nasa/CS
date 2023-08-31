@@ -48,17 +48,10 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_NoopCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         CS_AppData.HkPacket.CmdCounter++;
 
         CFE_EVS_SendEvent(CS_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION, "No-op command. Version %d.%d.%d.%d",
                           CS_MAJOR_VERSION, CS_MINOR_VERSION, CS_REVISION, CS_MISSION_REV);
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -68,12 +61,6 @@ void CS_NoopCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         CS_AppData.HkPacket.CmdCounter    = 0;
         CS_AppData.HkPacket.CmdErrCounter = 0;
 
@@ -86,7 +73,6 @@ void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
         CS_AppData.HkPacket.PassCounter         = 0;
 
         CFE_EVS_SendEvent(CS_RESET_DBG_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command recieved");
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -204,12 +190,6 @@ void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         CS_AppData.HkPacket.ChecksumState = CS_STATE_DISABLED;
 
         /* zero out the temp values in all the tables
@@ -225,7 +205,6 @@ void CS_DisableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
         CS_AppData.HkPacket.CmdCounter++;
 
         CFE_EVS_SendEvent(CS_DISABLE_ALL_INF_EID, CFE_EVS_EventType_INFORMATION, "Background Checksumming Disabled");
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -235,18 +214,11 @@ void CS_DisableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         CS_AppData.HkPacket.ChecksumState = CS_STATE_ENABLED;
 
         CS_AppData.HkPacket.CmdCounter++;
 
         CFE_EVS_SendEvent(CS_ENABLE_ALL_INF_EID, CFE_EVS_EventType_INFORMATION, "Background Checksumming Enabled");
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -256,12 +228,6 @@ void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_DISABLED;
         CS_ZeroCfeCoreTempValues();
 
@@ -273,7 +239,6 @@ void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
                           "Checksumming of cFE Core is Disabled");
 
         CS_AppData.HkPacket.CmdCounter++;
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -283,12 +248,6 @@ void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_ENABLED;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
@@ -299,7 +258,6 @@ void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
                           "Checksumming of cFE Core is Enabled");
 
         CS_AppData.HkPacket.CmdCounter++;
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -309,12 +267,6 @@ void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         CS_AppData.HkPacket.OSCSState = CS_STATE_DISABLED;
         CS_ZeroOSTempValues();
 
@@ -326,7 +278,6 @@ void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
                           "Checksumming of OS code segment is Disabled");
 
         CS_AppData.HkPacket.CmdCounter++;
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -336,12 +287,6 @@ void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         CS_AppData.HkPacket.OSCSState = CS_STATE_ENABLED;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
@@ -352,7 +297,6 @@ void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
                           "Checksumming of OS code segment is Enabled");
 
         CS_AppData.HkPacket.CmdCounter++;
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -362,12 +306,6 @@ void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ReportBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_AppData.CfeCoreCodeSeg.ComputedYet == true)
         {
             CFE_EVS_SendEvent(CS_BASELINE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION,
@@ -380,7 +318,6 @@ void CS_ReportBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
                               "Baseline of cFE Core has not been computed yet");
         }
         CS_AppData.HkPacket.CmdCounter++;
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -390,12 +327,6 @@ void CS_ReportBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ReportBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    size_t ExpectedLength = sizeof(CS_NoArgsCmd_t);
-
-    /* Verify command packet length */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_AppData.OSCodeSeg.ComputedYet == true)
         {
             CFE_EVS_SendEvent(CS_BASELINE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
@@ -408,7 +339,6 @@ void CS_ReportBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
                               "Baseline of OS code segment has not been computed yet");
         }
         CS_AppData.HkPacket.CmdCounter++;
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -419,13 +349,9 @@ void CS_ReportBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 void CS_RecomputeBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t          ExpectedLength = sizeof(CS_NoArgsCmd_t);
     CFE_ES_TaskId_t ChildTaskID;
     CFE_Status_t    Status;
 
-    /* Verify command packet length... */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == false)
         {
             /* There is no child task running right now, we can use it*/
@@ -462,7 +388,6 @@ void CS_RecomputeBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
                               "Recompute cFE core failed: child task in use");
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -473,13 +398,9 @@ void CS_RecomputeBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 void CS_RecomputeBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t          ExpectedLength = sizeof(CS_NoArgsCmd_t);
     CFE_ES_TaskId_t ChildTaskID;
     CFE_Status_t    Status;
 
-    /* Verify command packet length... */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == false)
         {
             /* There is no child task running right now, we can use it*/
@@ -514,7 +435,6 @@ void CS_RecomputeBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
                               "Recompute OS code segment failed: child task in use");
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -525,13 +445,9 @@ void CS_RecomputeBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t          ExpectedLength = sizeof(CS_OneShotCmd_t);
     CFE_ES_TaskId_t ChildTaskID;
     CFE_Status_t    Status;
 
-    /* Verify command packet length... */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         /* validate size and address */
         Status = CFE_PSP_MemValidateRange(CmdPtr->Address, CmdPtr->Size, CFE_PSP_MEM_ANY);
 
@@ -595,7 +511,6 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
 
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -606,12 +521,8 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
 void CS_CancelOneShotCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
     /* command verification variables */
-    size_t       ExpectedLength = sizeof(CS_NoArgsCmd_t);
     CFE_Status_t Status;
 
-    /* Verify command packet length... */
-    if (CS_VerifyCmdLength(&CmdPtr->CmdHeader.Msg, ExpectedLength))
-    {
         /* Make sure there is a OneShot command in use */
         if (CS_AppData.HkPacket.RecomputeInProgress == false && CS_AppData.HkPacket.OneShotInProgress == true)
         {
@@ -640,5 +551,4 @@ void CS_CancelOneShotCmd(const CS_NoArgsCmd_t *CmdPtr)
                               "Cancel OneShot checksum failed. No OneShot active");
             CS_AppData.HkPacket.CmdErrCounter++;
         }
-    }
 }

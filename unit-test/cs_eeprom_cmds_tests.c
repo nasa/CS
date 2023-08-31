@@ -75,24 +75,6 @@ void CS_DisableEepromCmd_Test(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableEepromCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableEepromCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_DisableEepromCmd_Test_OneShot(void)
 {
     CS_NoArgsCmd_t CmdPacket;
@@ -141,24 +123,6 @@ void CS_EnableEepromCmd_Test(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_EnableEepromCmd_Test_VerifyError(void)
-{
-    CS_NoArgsCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableEepromCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -315,24 +279,6 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_ReportBaselineEntryIDEepromCmd_Test_VerifyError(void)
-{
-    CS_EntryCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_ReportBaselineEntryIDEepromCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -520,24 +466,6 @@ void CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
-                  call_count_CFE_EVS_SendEvent);
-}
-
-void CS_RecomputeBaselineEepromCmd_Test_VerifyError(void)
-{
-    CS_EntryCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_RecomputeBaselineEepromCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -732,24 +660,6 @@ void CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_EnableEntryIDEepromCmd_Test_VerifyError(void)
-{
-    CS_EntryCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_EnableEntryIDEepromCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_EnableEntryIDEepromCmd_Test_OneShot(void)
 {
     CS_EntryCmd_t CmdPacket;
@@ -934,24 +844,6 @@ void CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_DisableEntryIDEepromCmd_Test_VerifyError(void)
-{
-    CS_EntryCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_DisableEntryIDEepromCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void CS_DisableEntryIDEepromCmd_Test_OneShot(void)
 {
     CS_EntryCmd_t CmdPacket;
@@ -1110,34 +1002,12 @@ void CS_GetEntryIDEepromCmd_Test_State(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_GetEntryIDEepromCmd_Test_VerifyError(void)
-{
-    CS_GetEntryIDCmd_t CmdPacket;
-
-    UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, false);
-
-    /* Execute the function being tested */
-    CS_GetEntryIDEepromCmd(&CmdPacket);
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
-                  call_count_CFE_EVS_SendEvent);
-}
-
 void UtTest_Setup(void)
 {
     UtTest_Add(CS_DisableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableEepromCmd_Test");
-    UtTest_Add(CS_DisableEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableEepromCmd_Test_VerifyError");
     UtTest_Add(CS_DisableEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_DisableEepromCmd_Test_OneShot");
 
     UtTest_Add(CS_EnableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableEepromCmd_Test");
-    UtTest_Add(CS_EnableEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableEepromCmd_Test_VerifyError");
     UtTest_Add(CS_EnableEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_EnableEepromCmd_Test_OneShot");
 
     UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_Computed, CS_Test_Setup, CS_Test_TearDown,
@@ -1148,8 +1018,6 @@ void UtTest_Setup(void)
                "CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh");
     UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
                "CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_ReportBaselineEntryIDEepromCmd_Test_VerifyError");
 
     UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_Nominal");
@@ -1161,8 +1029,6 @@ void UtTest_Setup(void)
                "CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorStateEmpty");
     UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress");
-    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_RecomputeBaselineEepromCmd_Test_VerifyError");
     UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_OneShot");
 
@@ -1174,8 +1040,6 @@ void UtTest_Setup(void)
                "CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh");
     UtTest_Add(CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
                "CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_EnableEntryIDEepromCmd_Test_VerifyError");
     UtTest_Add(CS_EnableEntryIDEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_EnableEntryIDEepromCmd_Test_OneShot");
 
@@ -1187,8 +1051,6 @@ void UtTest_Setup(void)
                "CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh");
     UtTest_Add(CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
                "CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_DisableEntryIDEepromCmd_Test_VerifyError");
     UtTest_Add(CS_DisableEntryIDEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
                "CS_DisableEntryIDEepromCmd_Test_OneShot");
 
@@ -1199,6 +1061,4 @@ void UtTest_Setup(void)
     UtTest_Add(CS_GetEntryIDEepromCmd_Test_AddressPtr, CS_Test_Setup, CS_Test_TearDown,
                "CS_GetEntryIDEepromCmd_Test_AddressPtr");
     UtTest_Add(CS_GetEntryIDEepromCmd_Test_State, CS_Test_Setup, CS_Test_TearDown, "CS_GetEntryIDEepromCmd_Test_State");
-    UtTest_Add(CS_GetEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_GetEntryIDEepromCmd_Test_VerifyError");
 }
