@@ -91,8 +91,8 @@ void CS_DisableTablesCmd_Test(void)
     CS_DisableTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.TablesCSState = CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_DISABLED");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_TABLES_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -101,7 +101,7 @@ void CS_DisableTablesCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -120,7 +120,7 @@ void CS_DisableTablesCmd_Test_OneShot(void)
     CS_DisableTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -143,8 +143,8 @@ void CS_EnableTablesCmd_Test(void)
     CS_EnableTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.TablesCSState = CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_ENABLED");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_TABLES_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -153,7 +153,7 @@ void CS_EnableTablesCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -172,7 +172,7 @@ void CS_EnableTablesCmd_Test_OneShot(void)
     CS_EnableTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -192,7 +192,7 @@ void CS_ReportBaselineTablesCmd_Test_Computed(void)
     CS_AppData.ResTablesTblPtr[0].ComparisonValue = 1;
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     CS_AppData.ResTablesTblPtr[0].State = 99; /* Needed to make CS_GetTableResTblEntryByName return correct results */
 
@@ -213,7 +213,7 @@ void CS_ReportBaselineTablesCmd_Test_Computed(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -233,7 +233,7 @@ void CS_ReportBaselineTablesCmd_Test_NotYetComputed(void)
     CS_AppData.ResTablesTblPtr[0].ComputedYet = false;
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     CS_AppData.ResTablesTblPtr[0].State = 99; /* Needed to make CS_GetTableResTblEntryByName return correct results */
 
@@ -254,7 +254,7 @@ void CS_ReportBaselineTablesCmd_Test_NotYetComputed(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -272,7 +272,7 @@ void CS_ReportBaselineTablesCmd_Test_TableNotFound(void)
              "Tables report baseline failed, table %%s not found");
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name1", 10);
-    strncpy(CmdPacket.Name, "name2", 10);
+    strncpy(CmdPacket.Payload.Name, "name2", 10);
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_GetTableResTblEntryByName), 1, false);
@@ -289,7 +289,7 @@ void CS_ReportBaselineTablesCmd_Test_TableNotFound(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -306,7 +306,7 @@ void CS_RecomputeBaselineTablesCmd_Test_Nominal(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute baseline of table %%s started");
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     CS_AppData.ResTablesTblPtr[0].State = 99; /* Needed to make CS_GetTableResTblEntryByName return correct results */
 
@@ -320,8 +320,8 @@ void CS_RecomputeBaselineTablesCmd_Test_Nominal(void)
     CS_RecomputeBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == true, "CS_AppData.HkPacket.RecomputeInProgress == true");
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == true, "CS_AppData.HkPacket.Payload.RecomputeInProgress == true");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == false, "CS_AppData.HkPacket.Payload.OneShotInProgress == false");
 
     UtAssert_True(CS_AppData.ChildTaskTable == CS_TABLES_TABLE, "CS_AppData.ChildTaskTable == CS_TABLES_TABLE");
 
@@ -332,7 +332,7 @@ void CS_RecomputeBaselineTablesCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -350,7 +350,7 @@ void CS_RecomputeBaselineTablesCmd_Test_CreateChildTaskError(void)
              "Recompute baseline of table %%s failed, CFE_ES_CreateChildTask returned: 0x%%08X");
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     CS_AppData.ResTablesTblPtr[0].State = 99; /* Needed to make CS_GetTableResTblEntryByName return correct results */
 
@@ -367,7 +367,7 @@ void CS_RecomputeBaselineTablesCmd_Test_CreateChildTaskError(void)
     CS_RecomputeBaselineTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == false, "CS_AppData.HkPacket.Payload.OneShotInProgress == false");
 
     UtAssert_True(CS_AppData.ChildTaskTable == CS_TABLES_TABLE, "CS_AppData.ChildTaskTable == CS_TABLES_TABLE");
 
@@ -378,9 +378,9 @@ void CS_RecomputeBaselineTablesCmd_Test_CreateChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == false, "CS_AppData.HkPacket.Payload.RecomputeInProgress == false");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -397,7 +397,7 @@ void CS_RecomputeBaselineTablesCmd_Test_TableNotFound(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables recompute baseline failed, table %%s not found");
 
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
@@ -414,7 +414,7 @@ void CS_RecomputeBaselineTablesCmd_Test_TableNotFound(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -431,9 +431,9 @@ void CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables recompute baseline for table %%s failed: child task in use");
 
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
-    CS_AppData.HkPacket.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
@@ -450,7 +450,7 @@ void CS_RecomputeBaselineTablesCmd_Test_RecomputeInProgress(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -467,10 +467,10 @@ void CS_RecomputeBaselineTablesCmd_Test_OneShot(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables recompute baseline for table %%s failed: child task in use");
 
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
@@ -486,7 +486,7 @@ void CS_RecomputeBaselineTablesCmd_Test_OneShot(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -503,7 +503,7 @@ void CS_DisableNameTablesCmd_Test_Nominal(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of table %%s is Disabled");
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     CS_AppData.ResTablesTblPtr[0].State = 99; /* Needed to make CS_GetTableResTblEntryByName return correct results */
 
@@ -535,7 +535,7 @@ void CS_DisableNameTablesCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -555,7 +555,7 @@ void CS_DisableNameTablesCmd_Test_TableDefNotFound(void)
              "CS unable to update tables definition table for entry %%s");
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     CS_AppData.ResTablesTblPtr[0].State = 99; /* Needed to make CS_GetTableResTblEntryByName return correct results */
 
@@ -590,7 +590,7 @@ void CS_DisableNameTablesCmd_Test_TableDefNotFound(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -607,7 +607,7 @@ void CS_DisableNameTablesCmd_Test_TableNotFound(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables disable table command failed, table %%s not found");
 
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
@@ -625,7 +625,7 @@ void CS_DisableNameTablesCmd_Test_TableNotFound(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -644,7 +644,7 @@ void CS_DisableNameTablesCmd_Test_OneShot(void)
     CS_DisableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -661,7 +661,7 @@ void CS_EnableNameTablesCmd_Test_Nominal(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Checksumming of table %%s is Enabled");
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     CS_AppData.ResTablesTblPtr[0].State = 99; /* Needed to make CS_GetTableResTblEntryByName return correct results */
 
@@ -690,7 +690,7 @@ void CS_EnableNameTablesCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -710,7 +710,7 @@ void CS_EnableNameTablesCmd_Test_TableDefNotFound(void)
              "CS unable to update tables definition table for entry %%s");
 
     strncpy(CS_AppData.ResTablesTblPtr[0].Name, "name", 10);
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     CS_AppData.ResTablesTblPtr[0].State = 99; /* Needed to make CS_GetTableResTblEntryByName return correct results */
 
@@ -742,7 +742,7 @@ void CS_EnableNameTablesCmd_Test_TableDefNotFound(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -759,7 +759,7 @@ void CS_EnableNameTablesCmd_Test_TableNotFound(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Tables enable table command failed, table %%s not found");
 
-    strncpy(CmdPacket.Name, "name", 10);
+    strncpy(CmdPacket.Payload.Name, "name", 10);
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_CheckRecomputeOneshot), 1, false);
@@ -777,7 +777,7 @@ void CS_EnableNameTablesCmd_Test_TableNotFound(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -796,7 +796,7 @@ void CS_EnableNameTablesCmd_Test_OneShot(void)
     CS_EnableNameTablesCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 

@@ -33,12 +33,10 @@
  */
 
 /**
- *  \brief Housekeeping Packet Structure
+ *  \brief Housekeeping Payload Structure
  */
 typedef struct
 {
-    CFE_MSG_TelemetryHeader_t TlmHeader; /**< \brief cFE SB Tlm Msg Hdr */
-
     uint8   CmdCounter;                  /**< \brief CS Application Command Counter */
     uint8   CmdErrCounter;               /**< \brief CS Application Command Error Counter */
     uint8   ChecksumState;               /**< \brief CS Application global checksum state */
@@ -67,6 +65,15 @@ typedef struct
     uint32  LastOneShotMaxBytesPerCycle; /**< \brief Max bytes per cycle for last one shot checksum command */
     uint32  LastOneShotChecksum;         /**< \brief Checksum of the last one shot checksum command */
     uint32  PassCounter;                 /**< \brief Number of times CS has passed through all of its tables */
+} CS_HkPacket_Payload_t;
+
+/**
+ *  \brief Housekeeping Packet Structure
+ */
+typedef struct
+{
+    CFE_MSG_TelemetryHeader_t TlmHeader; /**< \brief cFE SB Tlm Msg Hdr */
+    CS_HkPacket_Payload_t Payload; /**< \brief CS HK Payload */
 } CS_HkPacket_t;
 
 /**\}*/
@@ -75,6 +82,49 @@ typedef struct
  * \defgroup cfscscmdstructs CFS Checksum Command Structures
  * \{
  */
+
+/**
+ * \brief Get entry ID command payload
+ */
+typedef struct
+{
+    cpuaddr Address; /**< \brief Address to get the ID for */
+} CS_GetEntryIDCmd_Payload_t;
+
+/**
+ * \brief Payload for commands using Memory or EEPROM tables
+ */
+typedef struct
+{
+    uint32 EntryID; /**< \brief EntryID to perform a command on */
+} CS_EntryCmd_Payload_t;
+
+/**
+ * \brief Payload for commanding by table name
+ */
+typedef struct
+{
+    char Name[CFE_TBL_MAX_FULL_NAME_LEN]; /**< \brief Table name to perform a command on */
+} CS_TableNameCmd_Payload_t;
+
+/**
+ * \brief Payload for commanding by app name
+ */
+typedef struct
+{
+    char Name[OS_MAX_API_NAME]; /**< \brief App name to perform a command on */
+} CS_AppNameCmd_Payload_t;
+
+/**
+ * \brief Payload for sending one shot calculation
+ */
+typedef struct
+{
+    cpuaddr Address; /**< \brief Address to start checksum */
+    uint32  Size;    /**< \brief Number of bytes to checksum */
+    uint32  MaxBytesPerCycle; /**< \brief Max Number of bytes to compute per cycle. Value of Zero to use platform config
+                                value */
+} CS_OneShotCmd_Payload_t;
 
 /**
  * \brief No arguments command data type
@@ -98,7 +148,7 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CmdHeader;
-    cpuaddr                 Address; /**< \brief Address to get the ID for */
+    CS_GetEntryIDCmd_Payload_t Payload;
 } CS_GetEntryIDCmd_t;
 
 /**
@@ -110,7 +160,7 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CmdHeader;
-    uint32                  EntryID; /**< \brief EntryID to perform a command on */
+    CS_EntryCmd_Payload_t Payload;
 } CS_EntryCmd_t;
 
 /**
@@ -122,7 +172,7 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CmdHeader;
-    char                    Name[CFE_TBL_MAX_FULL_NAME_LEN]; /**< \brief Table name to perform a command on */
+    CS_TableNameCmd_Payload_t Payload;
 } CS_TableNameCmd_t;
 
 /**
@@ -134,7 +184,7 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CmdHeader;
-    char                    Name[OS_MAX_API_NAME]; /**< \brief App name to perform a command on */
+    CS_AppNameCmd_Payload_t Payload;
 } CS_AppNameCmd_t;
 
 /**
@@ -145,10 +195,7 @@ typedef struct
 typedef struct
 {
     CFE_MSG_CommandHeader_t CmdHeader;
-    cpuaddr                 Address; /**< \brief Address to start checksum */
-    uint32                  Size;    /**< \brief Number of bytes to checksum */
-    uint32 MaxBytesPerCycle; /**< \brief Max Number of bytes to compute per cycle. Value of Zero to use platform config
-                                value */
+    CS_OneShotCmd_Payload_t Payload;
 } CS_OneShotCmd_t;
 
 /**\}*/

@@ -546,19 +546,19 @@ void CS_RecomputeEepromMemoryChildTask(void)
     if (Table == CS_CFECORE)
     {
         strncpy(TableType, "cFE Core", CS_TABLETYPE_NAME_SIZE);
-        CS_AppData.HkPacket.CfeCoreBaseline = NewChecksumValue;
+        CS_AppData.HkPacket.Payload.CfeCoreBaseline = NewChecksumValue;
     }
     if (Table == CS_OSCORE)
     {
         strncpy(TableType, "OS", CS_TABLETYPE_NAME_SIZE);
-        CS_AppData.HkPacket.OSBaseline = NewChecksumValue;
+        CS_AppData.HkPacket.Payload.OSBaseline = NewChecksumValue;
     }
 
     CFE_EVS_SendEvent(CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID, CFE_EVS_EventType_INFORMATION,
                       "%s entry %d recompute finished. New baseline is 0X%08X", TableType, EntryID,
                       (unsigned int)NewChecksumValue);
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
 }
 
@@ -664,7 +664,7 @@ void CS_RecomputeAppChildTask(void)
                           (unsigned int)NewChecksumValue);
     }
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
 }
 
@@ -770,7 +770,7 @@ void CS_RecomputeTablesChildTask(void)
         CFE_TBL_Modified(DefTblHandle);
     }
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
     CFE_ES_ExitChildTask();
 }
 
@@ -788,9 +788,9 @@ void CS_OneShotChildTask(void)
     uint32  MaxBytesPerCycle        = 0;
 
     NewChecksumValue        = 0;
-    NumBytesRemainingCycles = CS_AppData.HkPacket.LastOneShotSize;
-    FirstAddrThisCycle      = CS_AppData.HkPacket.LastOneShotAddress;
-    MaxBytesPerCycle        = CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle;
+    NumBytesRemainingCycles = CS_AppData.HkPacket.Payload.LastOneShotSize;
+    FirstAddrThisCycle      = CS_AppData.HkPacket.Payload.LastOneShotAddress;
+    MaxBytesPerCycle        = CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle;
 
     while (NumBytesRemainingCycles > 0)
     {
@@ -809,16 +809,16 @@ void CS_OneShotChildTask(void)
     /*Checksum Calculation is done! */
 
     /* put the new checksum value in the baseline */
-    CS_AppData.HkPacket.LastOneShotChecksum = NewChecksumValue;
+    CS_AppData.HkPacket.Payload.LastOneShotChecksum = NewChecksumValue;
 
     /* send event message */
     CFE_EVS_SendEvent(CS_ONESHOT_FINISHED_INF_EID, CFE_EVS_EventType_INFORMATION,
                       "OneShot checksum on Address: 0x%08X, size %d completed. Checksum =  0x%08X",
-                      (unsigned int)(CS_AppData.HkPacket.LastOneShotAddress),
-                      (unsigned int)(CS_AppData.HkPacket.LastOneShotSize),
-                      (unsigned int)(CS_AppData.HkPacket.LastOneShotChecksum));
+                      (unsigned int)(CS_AppData.HkPacket.Payload.LastOneShotAddress),
+                      (unsigned int)(CS_AppData.HkPacket.Payload.LastOneShotSize),
+                      (unsigned int)(CS_AppData.HkPacket.Payload.LastOneShotChecksum));
 
-    CS_AppData.HkPacket.OneShotInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress = false;
     CS_AppData.ChildTaskID                = CFE_ES_TASKID_UNDEFINED;
 
     CFE_ES_ExitChildTask();

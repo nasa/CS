@@ -44,7 +44,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_NOOP_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -53,7 +53,7 @@
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -75,8 +75,8 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will be cleared
- *       - #CS_HkPacket_t.CmdErrCounter will be cleared
+ *       - #CS_HkPacket_Payload_t.CmdCounter will be cleared
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will be cleared
  *       - The #CS_RESET_DBG_EID informational event message will be
  *         generated when the command is executed
  *
@@ -85,7 +85,7 @@
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -110,12 +110,12 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ONESHOT_STARTED_DBG_EID debug event message will be
  *         generated when the command is received
  *       - The CS_ONESHOT_FINISHED_INF_EID informational message will
  *         be generated when the compuation finishes.
- *       - #CS_HkPacket_t.LastOneShotChecksum will be updated to the new value
+ *       - #CS_HkPacket_Payload_t.LastOneShotChecksum will be updated to the new value
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
@@ -127,7 +127,7 @@
  *       - The child task failed to be created
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_ONESHOT_MEMVALIDATE_ERR_EID
  *       - Error specific event message #CS_ONESHOT_CHDTASK_ERR_EID
@@ -158,7 +158,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ONESHOT_CANCELLED_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -169,7 +169,7 @@
  *       - The child task could not be deleted
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID
  *       - Error specific event message #CS_ONESHOT_CANCEL_DELETE_CHDTASK_ERR_EID
@@ -193,17 +193,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_ALL_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.ChecksumState set to #CS_STATE_ENABLED
+ *       - #CS_HkPacket_Payload_t.ChecksumState set to #CS_STATE_ENABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -225,17 +225,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_ALL_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.ChecksumState set to #CS_STATE_DISABLED
+ *       - #CS_HkPacket_Payload_t.ChecksumState set to #CS_STATE_DISABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -257,17 +257,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_CFECORE_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.CfeCoreCSState set to #CS_STATE_ENABLED
+ *       - #CS_HkPacket_Payload_t.CfeCoreCSState set to #CS_STATE_ENABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -289,17 +289,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_CFECORE_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.CfeCoreCSState set to #CS_STATE_DISABLED
+ *       - #CS_HkPacket_Payload_t.CfeCoreCSState set to #CS_STATE_DISABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -322,7 +322,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_BASELINE_CFECORE_INF_EID informational event message will be
  *         generated when the command is received, or
  *       - The #CS_NO_BASELINE_CFECORE_INF_EID informational event message will be
@@ -333,7 +333,7 @@
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -355,7 +355,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_RECOMPUTE_CFECORE_STARTED_DBG_EID debug event message will be
  *         generated when the command is received
  *
@@ -368,7 +368,7 @@
  *       - The child task failed to be created by Executive Services (ES)
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_CFECORE_CREATE_CHDTASK_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID
@@ -397,7 +397,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_OS_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -406,9 +406,9 @@
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
- *       - #CS_HkPacket_t.OSCSState set to #CS_STATE_ENABLED
+ *       - #CS_HkPacket_Payload_t.OSCSState set to #CS_STATE_ENABLED
  *
  *  \par Criticality
  *       None
@@ -429,17 +429,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_OS_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.OSCSState set to #CS_STATE_DISABLED
+ *       - #CS_HkPacket_Payload_t.OSCSState set to #CS_STATE_DISABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -462,7 +462,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_BASELINE_OS_INF_EID informational event message will be
  *         generated when the command is received, or
  *       - The #CS_NO_BASELINE_OS_INF_EID informational event message will be
@@ -473,7 +473,7 @@
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -494,7 +494,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_RECOMPUTE_OS_STARTED_DBG_EID debug event message will be
  *         generated when the command is received
  *
@@ -507,7 +507,7 @@
  *       - The child task failed to be created by Executive Services (ES)
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_OS_CREATE_CHDTASK_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_OS_CHDTASK_ERR_EID
@@ -535,17 +535,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_EEPROM_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.EepromCSState set to #CS_STATE_ENABLED
+ *       - #CS_HkPacket_Payload_t.EepromCSState set to #CS_STATE_ENABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -567,17 +567,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_EEPROM_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.EepromCSState set to #CS_STATE_DISABLED
+ *       - #CS_HkPacket_Payload_t.EepromCSState set to #CS_STATE_DISABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -600,7 +600,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_BASELINE_EEPROM_INF_EID informational event message will be
  *         generated when the command is received, or
  *       - The #CS_NO_BASELINE_EEPROM_INF_EID informational event message will be
@@ -612,7 +612,7 @@
  *       - The command specified Entry ID is invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_BASELINE_INVALID_ENTRY_EEPROM_ERR_EID
  *
@@ -636,7 +636,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_RECOMPUTE_EEPROM_STARTED_DBG_EID debug event
  *         message will be generated when the command is received
  *       - The #CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID informational event
@@ -652,7 +652,7 @@
  *       - The child task failed to be created by Executive Services (ES)
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_INVALID_ENTRY_EEPROM_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_EEPROM_CREATE_CHDTASK_ERR_EID
@@ -682,7 +682,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_EEPROM_ENTRY_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -692,7 +692,7 @@
  *       - Command specified entry was invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_ENABLE_EEPROM_INVALID_ENTRY_ERR_EID
  *
@@ -715,7 +715,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_EEPROM_ENTRY_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -725,7 +725,7 @@
  *       - Command specified entry was invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_DISABLE_EEPROM_INVALID_ENTRY_ERR_EID
  *
@@ -749,7 +749,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_GET_ENTRY_ID_EEPROM_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -759,7 +759,7 @@
  *       - Command specified address was not found in the table
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_GET_ENTRY_ID_EEPROM_NOT_FOUND_INF_EID
  *
@@ -780,17 +780,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_MEMORY_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.MemoryCSState set to #CS_STATE_ENABLED
+ *       - #CS_HkPacket_Payload_t.MemoryCSState set to #CS_STATE_ENABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -812,17 +812,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_MEMORY_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.MemoryCSState set to #CS_STATE_DISABLED
+ *       - #CS_HkPacket_Payload_t.MemoryCSState set to #CS_STATE_DISABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -845,7 +845,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_BASELINE_MEMORY_INF_EID informational event message will be
  *         generated when the command is received, or
  *       - The #CS_NO_BASELINE_MEMORY_INF_EID informational event message will be
@@ -857,7 +857,7 @@
  *       - The command specified Entry ID is invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_BASELINE_INVALID_ENTRY_MEMORY_ERR_EID
  *
@@ -880,7 +880,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_RECOMPUTE_MEMORY_STARTED_DBG_EID debug event
  *         message will be generated when the command is received
  *       - The #CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID informational event
@@ -896,7 +896,7 @@
  *       - The child task failed to be created by Executive Services (ES)
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_INVALID_ENTRY_MEMORY_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_MEMORY_CREATE_CHDTASK_ERR_EID
@@ -926,7 +926,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_MEMORY_ENTRY_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -936,7 +936,7 @@
  *       - Command specified entry was invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_ENABLE_MEMORY_INVALID_ENTRY_ERR_EID
  *
@@ -959,7 +959,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_MEMORY_ENTRY_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -969,7 +969,7 @@
  *       - Command specified entry was invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_DISABLE_MEMORY_INVALID_ENTRY_ERR_EID
  *
@@ -993,7 +993,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_GET_ENTRY_ID_MEMORY_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -1003,7 +1003,7 @@
  *       - Command specified address was not found in the table
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_GET_ENTRY_ID_MEMORY_NOT_FOUND_INF_EID
  *
@@ -1025,17 +1025,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_TABLES_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.TablesCSState set to #CS_STATE_ENABLED
+ *       - #CS_HkPacket_Payload_t.TablesCSState set to #CS_STATE_ENABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -1057,17 +1057,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_TABLES_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.TablesCSState set to #CS_STATE_DISABLED
+ *       - #CS_HkPacket_Payload_t.TablesCSState set to #CS_STATE_DISABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -1090,7 +1090,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_BASELINE_TABLES_INF_EID informational event message will be
  *         generated when the command is received, or
  *       - The #CS_NO_BASELINE_TABLES_INF_EID informational event message will be
@@ -1102,7 +1102,7 @@
  *       - The command specified able name is invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_BASELINE_INVALID_NAME_TABLES_ERR_EID
  *
@@ -1125,7 +1125,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_RECOMPUTE_TABLES_STARTED_DBG_EID debug event
  *         message will be generated when the command is received
  *       - The #CS_RECOMPUTE_FINISH_TABLES_INF_EID informational event
@@ -1147,7 +1147,7 @@
  *       - The child task failed to be created by Executive Services (ES)
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_UNKNOWN_NAME_TABLES_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_TABLES_CREATE_CHDTASK_ERR_EID
@@ -1177,7 +1177,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_TABLES_NAME_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -1187,7 +1187,7 @@
  *       - Command specified table name was invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID
  *
@@ -1210,7 +1210,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_TABLES_NAME_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -1220,7 +1220,7 @@
  *       - Command specified table name was invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_DISABLE_TABLES_NAME_INF_EID
  *       - Error specific event message #CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID
  *
@@ -1243,17 +1243,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_APP_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.AppCSState set to #CS_STATE_ENABLED
+ *       - #CS_HkPacket_Payload_t.AppCSState set to #CS_STATE_ENABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -1275,17 +1275,17 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_APP_INF_EID informational event message will be
  *         generated when the command is received
- *       - #CS_HkPacket_t.AppCSState set to #CS_STATE_DISABLED
+ *       - #CS_HkPacket_Payload_t.AppCSState set to #CS_STATE_DISABLED
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *
  *  \par Criticality
@@ -1308,7 +1308,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_BASELINE_APP_INF_EID informational event message will be
  *         generated when the command is received, or
  *       - The #CS_NO_BASELINE_APP_INF_EID informational event message will be
@@ -1320,7 +1320,7 @@
  *       - The command specified able name is invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_BASELINE_INVALID_NAME_APP_ERR_EID
  *
@@ -1343,7 +1343,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_RECOMPUTE_APP_STARTED_DBG_EID debug event
  *         message will be generated when the command is received
  *       - The #CS_RECOMPUTE_FINISH_APP_INF_EID informational event
@@ -1359,7 +1359,7 @@
  *       - The child task failed to be created by Executive Services (ES)
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_UNKNOWN_NAME_APP_ERR_EID
  *       - Error specific event message #CS_RECOMPUTE_APP_CREATE_CHDTASK_ERR_EID
@@ -1389,7 +1389,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_ENABLE_APP_NAME_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -1399,7 +1399,7 @@
  *       - Command specified app name was invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_LEN_ERR_EID
  *       - Error specific event message #CS_ENABLE_APP_UNKNOWN_NAME_ERR_EID
  *
@@ -1422,7 +1422,7 @@
  *  \par Command Verification
  *       Successful execution of this command may be verified with
  *       the following telemetry:
- *       - #CS_HkPacket_t.CmdCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdCounter will increment
  *       - The #CS_DISABLE_APP_NAME_INF_EID informational event message will be
  *         generated when the command is received
  *
@@ -1432,7 +1432,7 @@
  *       - Command specified app name was invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
- *       - #CS_HkPacket_t.CmdErrCounter will increment
+ *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
  *       - Error specific event message #CS_DISABLE_APP_NAME_INF_EID
  *       - Error specific event message #CS_DISABLE_APP_UNKNOWN_NAME_ERR_EID
  *

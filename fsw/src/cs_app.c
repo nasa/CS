@@ -171,13 +171,13 @@ CFE_Status_t CS_AppInit(void)
         /* Set up default tables in memory */
         CS_InitializeDefaultTables();
 
-        CS_AppData.HkPacket.EepromCSState = CS_EEPROM_TBL_POWERON_STATE;
-        CS_AppData.HkPacket.MemoryCSState = CS_MEMORY_TBL_POWERON_STATE;
-        CS_AppData.HkPacket.AppCSState    = CS_APPS_TBL_POWERON_STATE;
-        CS_AppData.HkPacket.TablesCSState = CS_TABLES_TBL_POWERON_STATE;
+        CS_AppData.HkPacket.Payload.EepromCSState = CS_EEPROM_TBL_POWERON_STATE;
+        CS_AppData.HkPacket.Payload.MemoryCSState = CS_MEMORY_TBL_POWERON_STATE;
+        CS_AppData.HkPacket.Payload.AppCSState    = CS_APPS_TBL_POWERON_STATE;
+        CS_AppData.HkPacket.Payload.TablesCSState = CS_TABLES_TBL_POWERON_STATE;
 
-        CS_AppData.HkPacket.OSCSState      = CS_OSCS_CHECKSUM_STATE;
-        CS_AppData.HkPacket.CfeCoreCSState = CS_CFECORE_CHECKSUM_STATE;
+        CS_AppData.HkPacket.Payload.OSCSState      = CS_OSCS_CHECKSUM_STATE;
+        CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_CFECORE_CHECKSUM_STATE;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
         Result = CS_CreateRestoreStatesFromCDS();
@@ -194,15 +194,15 @@ CFE_Status_t CS_AppInit(void)
         CS_InitSegments();
 
         /* initialize the place to ostart background checksumming */
-        CS_AppData.HkPacket.CurrentCSTable      = 0;
-        CS_AppData.HkPacket.CurrentEntryInTable = 0;
+        CS_AppData.HkPacket.Payload.CurrentCSTable      = 0;
+        CS_AppData.HkPacket.Payload.CurrentEntryInTable = 0;
 
         /* Initial settings for the CS Application */
         /* the rest of the tables are initialized in CS_TableInit */
-        CS_AppData.HkPacket.ChecksumState = CS_STATE_ENABLED;
+        CS_AppData.HkPacket.Payload.ChecksumState = CS_STATE_ENABLED;
 
-        CS_AppData.HkPacket.RecomputeInProgress = false;
-        CS_AppData.HkPacket.OneShotInProgress   = false;
+        CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+        CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
 
         CS_AppData.MaxBytesPerCycle = CS_DEFAULT_BYTES_PER_CYCLE;
 
@@ -249,7 +249,7 @@ CFE_Status_t CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
             CFE_EVS_SendEvent(CS_MID_ERR_EID, CFE_EVS_EventType_ERROR, "Invalid command pipe message ID: 0x%08lX",
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID));
 
-            CS_AppData.HkPacket.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
             break;
     }
 
@@ -565,7 +565,7 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
                               "Invalid ground command code: ID = 0x%08lX, CC = %d",
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode);
 
-            CS_AppData.HkPacket.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
             break;
     } /* end switch */
 }
@@ -631,13 +631,13 @@ CFE_Status_t CS_CreateRestoreStatesFromCDS(void)
         /*
         ** New CDS area - write to Critical Data Store...
         */
-        DataStoreBuffer[0] = CS_AppData.HkPacket.EepromCSState;
-        DataStoreBuffer[1] = CS_AppData.HkPacket.MemoryCSState;
-        DataStoreBuffer[2] = CS_AppData.HkPacket.AppCSState;
-        DataStoreBuffer[3] = CS_AppData.HkPacket.TablesCSState;
+        DataStoreBuffer[0] = CS_AppData.HkPacket.Payload.EepromCSState;
+        DataStoreBuffer[1] = CS_AppData.HkPacket.Payload.MemoryCSState;
+        DataStoreBuffer[2] = CS_AppData.HkPacket.Payload.AppCSState;
+        DataStoreBuffer[3] = CS_AppData.HkPacket.Payload.TablesCSState;
 
-        DataStoreBuffer[4] = CS_AppData.HkPacket.OSCSState;
-        DataStoreBuffer[5] = CS_AppData.HkPacket.CfeCoreCSState;
+        DataStoreBuffer[4] = CS_AppData.HkPacket.Payload.OSCSState;
+        DataStoreBuffer[5] = CS_AppData.HkPacket.Payload.CfeCoreCSState;
 
         Result = CFE_ES_CopyToCDS(CS_AppData.DataStoreHandle, DataStoreBuffer);
 
@@ -655,13 +655,13 @@ CFE_Status_t CS_CreateRestoreStatesFromCDS(void)
 
         if (Result == CFE_SUCCESS)
         {
-            CS_AppData.HkPacket.EepromCSState = DataStoreBuffer[0];
-            CS_AppData.HkPacket.MemoryCSState = DataStoreBuffer[1];
-            CS_AppData.HkPacket.AppCSState    = DataStoreBuffer[2];
-            CS_AppData.HkPacket.TablesCSState = DataStoreBuffer[3];
+            CS_AppData.HkPacket.Payload.EepromCSState = DataStoreBuffer[0];
+            CS_AppData.HkPacket.Payload.MemoryCSState = DataStoreBuffer[1];
+            CS_AppData.HkPacket.Payload.AppCSState    = DataStoreBuffer[2];
+            CS_AppData.HkPacket.Payload.TablesCSState = DataStoreBuffer[3];
 
-            CS_AppData.HkPacket.OSCSState      = DataStoreBuffer[4];
-            CS_AppData.HkPacket.CfeCoreCSState = DataStoreBuffer[5];
+            CS_AppData.HkPacket.Payload.OSCSState      = DataStoreBuffer[4];
+            CS_AppData.HkPacket.Payload.CfeCoreCSState = DataStoreBuffer[5];
         }
         else
         {
@@ -681,13 +681,13 @@ CFE_Status_t CS_CreateRestoreStatesFromCDS(void)
         CS_AppData.DataStoreHandle = CFE_ES_CDS_BAD_HANDLE;
 
         /* Use states from platform configuration */
-        CS_AppData.HkPacket.EepromCSState = CS_EEPROM_TBL_POWERON_STATE;
-        CS_AppData.HkPacket.MemoryCSState = CS_MEMORY_TBL_POWERON_STATE;
-        CS_AppData.HkPacket.AppCSState    = CS_APPS_TBL_POWERON_STATE;
-        CS_AppData.HkPacket.TablesCSState = CS_TABLES_TBL_POWERON_STATE;
+        CS_AppData.HkPacket.Payload.EepromCSState = CS_EEPROM_TBL_POWERON_STATE;
+        CS_AppData.HkPacket.Payload.MemoryCSState = CS_MEMORY_TBL_POWERON_STATE;
+        CS_AppData.HkPacket.Payload.AppCSState    = CS_APPS_TBL_POWERON_STATE;
+        CS_AppData.HkPacket.Payload.TablesCSState = CS_TABLES_TBL_POWERON_STATE;
 
-        CS_AppData.HkPacket.OSCSState      = CS_OSCS_CHECKSUM_STATE;
-        CS_AppData.HkPacket.CfeCoreCSState = CS_CFECORE_CHECKSUM_STATE;
+        CS_AppData.HkPacket.Payload.OSCSState      = CS_OSCS_CHECKSUM_STATE;
+        CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_CFECORE_CHECKSUM_STATE;
 
         CFE_EVS_SendEvent(EventId, CFE_EVS_EventType_ERROR, "Critical Data Store access error = 0x%08X",
                           (unsigned int)Result);
@@ -720,13 +720,13 @@ void CS_UpdateCDS(void)
         /*
         ** Copy ena/dis states of tables to the data array...
         */
-        DataStoreBuffer[0] = CS_AppData.HkPacket.EepromCSState;
-        DataStoreBuffer[1] = CS_AppData.HkPacket.MemoryCSState;
-        DataStoreBuffer[2] = CS_AppData.HkPacket.AppCSState;
-        DataStoreBuffer[3] = CS_AppData.HkPacket.TablesCSState;
+        DataStoreBuffer[0] = CS_AppData.HkPacket.Payload.EepromCSState;
+        DataStoreBuffer[1] = CS_AppData.HkPacket.Payload.MemoryCSState;
+        DataStoreBuffer[2] = CS_AppData.HkPacket.Payload.AppCSState;
+        DataStoreBuffer[3] = CS_AppData.HkPacket.Payload.TablesCSState;
 
-        DataStoreBuffer[4] = CS_AppData.HkPacket.OSCSState;
-        DataStoreBuffer[5] = CS_AppData.HkPacket.CfeCoreCSState;
+        DataStoreBuffer[4] = CS_AppData.HkPacket.Payload.OSCSState;
+        DataStoreBuffer[5] = CS_AppData.HkPacket.Payload.CfeCoreCSState;
 
         /*
         ** Update CS portion of Critical Data Store...

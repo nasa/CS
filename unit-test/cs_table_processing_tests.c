@@ -1408,7 +1408,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNominal(void)
     uint16 NumEntries = 1;
     uint16 Table      = CS_EEPROM_TABLE;
 
-    CS_AppData.HkPacket.EepromCSState                = 99;
+    CS_AppData.HkPacket.Payload.EepromCSState                = 99;
     CS_AppData.DefEepromTblPtr[0].State              = 1;
     CS_AppData.DefEepromTblPtr[0].NumBytesToChecksum = 2;
     CS_AppData.DefEepromTblPtr[0].StartAddress       = 3;
@@ -1422,7 +1422,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNominal(void)
                                              NumEntries, Table);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == 99, "CS_AppData.HkPacket.EepromCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == 99, "CS_AppData.HkPacket.Payload.EepromCSState == 99");
 
     UtAssert_True(CS_AppData.ResEepromTblPtr[0].State == 1, "CS_AppData.ResEepromTblPtr[0].State == 1");
     UtAssert_True(CS_AppData.ResEepromTblPtr[0].ComputedYet == false,
@@ -1462,7 +1462,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNominal(void)
     uint16 NumEntries = 1;
     uint16 Table      = CS_MEMORY_TABLE;
 
-    CS_AppData.HkPacket.MemoryCSState                = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState                = 99;
     CS_AppData.DefMemoryTblPtr[0].State              = 1;
     CS_AppData.DefMemoryTblPtr[0].NumBytesToChecksum = 2;
     CS_AppData.DefMemoryTblPtr[0].StartAddress       = 3;
@@ -1476,7 +1476,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNominal(void)
                                              NumEntries, Table);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == 99, "CS_AppData.HkPacket.MemoryCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == 99, "CS_AppData.HkPacket.Payload.MemoryCSState == 99");
 
     UtAssert_True(CS_AppData.ResMemoryTblPtr[0].State == 1, "CS_AppData.ResMemoryTblPtr[0].State == 1");
     UtAssert_True(CS_AppData.ResMemoryTblPtr[0].ComputedYet == false,
@@ -1521,7 +1521,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNoValidEntries(voi
     uint16 NumEntries = 1;
     uint16 Table      = CS_EEPROM_TABLE;
 
-    CS_AppData.HkPacket.MemoryCSState = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState = 99;
 
     /* Execute the function being tested */
     /* Note: first 2 arguments are passed in as addresses of pointers in the source code, even though the variable
@@ -1532,7 +1532,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_EEPROMTableNoValidEntries(voi
                                              NumEntries, Table);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == 99, "CS_AppData.HkPacket.MemoryCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == 99, "CS_AppData.HkPacket.Payload.MemoryCSState == 99");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_PROCESS_EEPROM_MEMORY_NO_ENTRIES_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -1559,7 +1559,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNoValidEntries(voi
     uint16 NumEntries = 1;
     uint16 Table      = CS_MEMORY_TABLE;
 
-    CS_AppData.HkPacket.MemoryCSState = 99;
+    CS_AppData.HkPacket.Payload.MemoryCSState = 99;
 
     /* Execute the function being tested */
     /* Note: first 2 arguments are passed in as addresses of pointers in the source code, even though the variable
@@ -1570,7 +1570,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNoValidEntries(voi
                                              NumEntries, Table);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == 99, "CS_AppData.HkPacket.MemoryCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == 99, "CS_AppData.HkPacket.Payload.MemoryCSState == 99");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_PROCESS_EEPROM_MEMORY_NO_ENTRIES_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -1587,7 +1587,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable_Test_MemoryTableNoValidEntries(voi
 
 void CS_ProcessNewTablesDefinitionTable_Test_DefEepromTableHandle(void)
 {
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefTablesTblPtr[0].Name, "CS.DefEepromTbl", 20);
@@ -1629,7 +1629,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefEepromTableHandle(void)
     UtAssert_True(strncmp(CS_AppData.ResTablesTblPtr[0].Name, "CS.DefEepromTbl", 20) == 0,
                   "strncmp(CS_AppData.ResTablesTblPtr[0].Name, 'CS.DefEepromTbl', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1639,7 +1639,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefEepromTableHandle(void)
 
 void CS_ProcessNewTablesDefinitionTable_Test_DefMemoryTableHandle(void)
 {
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefTablesTblPtr[0].Name, "CS.DefMemoryTbl", 20);
@@ -1681,7 +1681,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefMemoryTableHandle(void)
     UtAssert_True(strncmp(CS_AppData.ResTablesTblPtr[0].Name, "CS.DefMemoryTbl", 20) == 0,
                   "strncmp(CS_AppData.ResTablesTblPtr[0].Name, 'CS.DefMemoryTbl', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1691,7 +1691,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefMemoryTableHandle(void)
 
 void CS_ProcessNewTablesDefinitionTable_Test_DefTablesTableHandle(void)
 {
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefTablesTblPtr[0].Name, "CS.DefTablesTbl", 20);
@@ -1733,7 +1733,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefTablesTableHandle(void)
     UtAssert_True(strncmp(CS_AppData.ResTablesTblPtr[0].Name, "CS.DefTablesTbl", 20) == 0,
                   "strncmp(CS_AppData.ResTablesTblPtr[0].Name, 'CS.DefTablesTbl', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1743,7 +1743,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefTablesTableHandle(void)
 
 void CS_ProcessNewTablesDefinitionTable_Test_DefAppTableHandle(void)
 {
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefTablesTblPtr[0].Name, "CS.DefAppTbl", 20);
@@ -1785,7 +1785,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefAppTableHandle(void)
     UtAssert_True(strncmp(CS_AppData.ResTablesTblPtr[0].Name, "CS.DefAppTbl", 20) == 0,
                   "strncmp(CS_AppData.ResTablesTblPtr[0].Name, 'CS.DefAppTbl', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1795,7 +1795,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_DefAppTableHandle(void)
 
 void CS_ProcessNewTablesDefinitionTable_Test_ResEepromTableHandle(void)
 {
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefTablesTblPtr[0].Name, "CS.ResEepromTbl", 20);
@@ -1835,7 +1835,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResEepromTableHandle(void)
     UtAssert_True(strncmp(CS_AppData.ResTablesTblPtr[0].Name, "CS.ResEepromTbl", 20) == 0,
                   "strncmp(CS_AppData.ResTablesTblPtr[0].Name, 'CS.ResEepromTbl', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1845,7 +1845,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResEepromTableHandle(void)
 
 void CS_ProcessNewTablesDefinitionTable_Test_ResMemoryTableHandle(void)
 {
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefTablesTblPtr[0].Name, "CS.ResMemoryTbl", 20);
@@ -1885,7 +1885,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResMemoryTableHandle(void)
     UtAssert_True(strncmp(CS_AppData.ResTablesTblPtr[0].Name, "CS.ResMemoryTbl", 20) == 0,
                   "strncmp(CS_AppData.ResTablesTblPtr[0].Name, 'CS.ResMemoryTbl', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1895,7 +1895,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResMemoryTableHandle(void)
 
 void CS_ProcessNewTablesDefinitionTable_Test_ResTablesTableHandle(void)
 {
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefTablesTblPtr[0].Name, "CS.ResTablesTbl", 20);
@@ -1935,7 +1935,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResTablesTableHandle(void)
     UtAssert_True(strncmp(CS_AppData.ResTablesTblPtr[0].Name, "CS.ResTablesTbl", 20) == 0,
                   "strncmp(CS_AppData.ResTablesTblPtr[0].Name, 'CS.ResTablesTbl', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1945,7 +1945,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResTablesTableHandle(void)
 
 void CS_ProcessNewTablesDefinitionTable_Test_ResAppTableHandle(void)
 {
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefTablesTblPtr[0].Name, "CS.ResAppTbl", 20);
@@ -1985,7 +1985,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_ResAppTableHandle(void)
     UtAssert_True(strncmp(CS_AppData.ResTablesTblPtr[0].Name, "CS.ResAppTbl", 20) == 0,
                   "strncmp(CS_AppData.ResTablesTblPtr[0].Name, 'CS.ResAppTbl', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -2000,7 +2000,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_StateEmptyNoValidEntries(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "CS Tables Table: No valid entries in the table");
 
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = CS_STATE_EMPTY;
 
     /* Sets AppName to "CS" */
@@ -2037,7 +2037,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_StateEmptyNoValidEntries(void)
     UtAssert_True(CS_AppData.ResTablesTblPtr[0].IsCSOwner == false, "CS_AppData.ResTablesTblPtr[0].IsCSOwner == false");
     UtAssert_True(CS_AppData.ResTablesTblPtr[0].Name[0] == 0, "CS_AppData.ResTablesTblPtr[0].Name[0] == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == 99, "CS_AppData.HkPacket.TablesCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == 99, "CS_AppData.HkPacket.Payload.TablesCSState == 99");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_PROCESS_TABLES_NO_ENTRIES_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -2057,7 +2057,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_LimitApplicationNameLength(void)
     uint16     i;
     const char AppNameX[] = "X";
 
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     /* String name chosen to be of length OS_MAX_API_NAME in order to satisfy condition "AppNameIndex ==
@@ -2100,7 +2100,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_LimitTableNameLength(void)
 {
     uint16 i;
 
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncat(CS_AppData.DefTablesTblPtr[0].Name, "CS.", CFE_TBL_MAX_FULL_NAME_LEN);
@@ -2143,7 +2143,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_MaxTableNameLength(void)
 {
     uint16 i;
 
-    CS_AppData.HkPacket.TablesCSState   = 99;
+    CS_AppData.HkPacket.Payload.TablesCSState   = 99;
     CS_AppData.DefTablesTblPtr[0].State = 88;
 
     strncat(CS_AppData.DefTablesTblPtr[0].Name, "CS", CFE_TBL_MAX_FULL_NAME_LEN);
@@ -2184,7 +2184,7 @@ void CS_ProcessNewTablesDefinitionTable_Test_MaxTableNameLength(void)
 
 void CS_ProcessNewAppDefinitionTable_Test_Nominal(void)
 {
-    CS_AppData.HkPacket.AppCSState   = 99;
+    CS_AppData.HkPacket.Payload.AppCSState   = 99;
     CS_AppData.DefAppTblPtr[0].State = 88;
 
     strncpy(CS_AppData.DefAppTblPtr[0].Name, "name", 20);
@@ -2209,7 +2209,7 @@ void CS_ProcessNewAppDefinitionTable_Test_Nominal(void)
     UtAssert_True(strncmp(CS_AppData.ResAppTblPtr[0].Name, "name", 20) == 0,
                   "strncmp(CS_AppData.ResAppTblPtr[0].Name, 'name', 20) == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == 99, "CS_AppData.HkPacket.AppCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == 99, "CS_AppData.HkPacket.Payload.AppCSState == 99");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -2224,7 +2224,7 @@ void CS_ProcessNewAppDefinitionTable_Test_StateEmptyNoValidEntries(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "CS Apps Table: No valid entries in the table");
 
-    CS_AppData.HkPacket.AppCSState   = 99;
+    CS_AppData.HkPacket.Payload.AppCSState   = 99;
     CS_AppData.DefAppTblPtr[0].State = CS_STATE_EMPTY;
 
     /* Execute the function being tested */
@@ -2247,7 +2247,7 @@ void CS_ProcessNewAppDefinitionTable_Test_StateEmptyNoValidEntries(void)
     UtAssert_True(CS_AppData.ResAppTblPtr[0].StartAddress == 0, "CS_AppData.ResAppTblPtr[0].StartAddress == 0");
     UtAssert_True(CS_AppData.ResAppTblPtr[0].Name[0] == 0, "CS_AppData.ResAppTblPtr[0].Name[0] == 0");
 
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == 99, "CS_AppData.HkPacket.AppCSState == 99");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == 99, "CS_AppData.HkPacket.Payload.AppCSState == 99");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_PROCESS_APP_NO_ENTRIES_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -2531,8 +2531,8 @@ void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterResultsTableRegisterEr
                           sizeof(CS_Res_EepromMemory_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.EepromCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_DISABLED");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -2565,8 +2565,8 @@ void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterResultsTableGetAddress
                           sizeof(CS_Res_EepromMemory_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.EepromCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_DISABLED");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -2602,8 +2602,8 @@ void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterDefinitionTableRegiste
                           sizeof(CS_Res_EepromMemory_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.EepromCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_DISABLED");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -2637,8 +2637,8 @@ void CS_TableInit_Test_EepromTableAndLoadedFromMemoryAfterDefinitionTableFileLoa
                           sizeof(CS_Res_EepromMemory_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.EepromCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.EepromCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.EepromCSState == CS_STATE_DISABLED");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -2706,8 +2706,8 @@ void CS_TableInit_Test_MemoryTableAndLoadedFromMemory(void)
                           sizeof(CS_Res_EepromMemory_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.MemoryCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.MemoryCSState == CS_STATE_DISABLED");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -2773,8 +2773,8 @@ void CS_TableInit_Test_AppTableAndLoadedFromMemory(void)
                           sizeof(CS_Def_App_Table_Entry_t), sizeof(CS_Res_App_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.AppCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.AppCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.AppCSState == CS_STATE_DISABLED");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -2842,8 +2842,8 @@ void CS_TableInit_Test_TablesTableAndLoadedFromMemory(void)
                           sizeof(CS_Res_Tables_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.TablesCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_DISABLED");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -2879,8 +2879,8 @@ void CS_TableInit_Test_DefaultAndLoadedFromMemory(void)
                      sizeof(CS_Def_Tables_Table_Entry_t), sizeof(CS_Res_Tables_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_EMPTY,
-                  "CS_AppData.HkPacket.TablesCSState == CS_STATE_EMPTY");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_EMPTY,
+                  "CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_EMPTY");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -2918,8 +2918,8 @@ void CS_TableInit_Test_OpenCreateError(void)
                      sizeof(CS_Def_Tables_Table_Entry_t), sizeof(CS_Res_Tables_Table_Entry_t), NULL);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.TablesCSState == CS_STATE_EMPTY,
-                  "CS_AppData.HkPacket.TablesCSState == CS_STATE_EMPTY");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_EMPTY,
+                  "CS_AppData.HkPacket.Payload.TablesCSState == CS_STATE_EMPTY");
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 

@@ -87,15 +87,15 @@ void CS_ResetCmd_Test(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset Counters command recieved");
 
-    CS_AppData.HkPacket.CmdCounter          = 1;
-    CS_AppData.HkPacket.CmdErrCounter       = 2;
-    CS_AppData.HkPacket.EepromCSErrCounter  = 3;
-    CS_AppData.HkPacket.MemoryCSErrCounter  = 4;
-    CS_AppData.HkPacket.TablesCSErrCounter  = 5;
-    CS_AppData.HkPacket.AppCSErrCounter     = 6;
-    CS_AppData.HkPacket.CfeCoreCSErrCounter = 7;
-    CS_AppData.HkPacket.OSCSErrCounter      = 8;
-    CS_AppData.HkPacket.PassCounter         = 9;
+    CS_AppData.HkPacket.Payload.CmdCounter          = 1;
+    CS_AppData.HkPacket.Payload.CmdErrCounter       = 2;
+    CS_AppData.HkPacket.Payload.EepromCSErrCounter  = 3;
+    CS_AppData.HkPacket.Payload.MemoryCSErrCounter  = 4;
+    CS_AppData.HkPacket.Payload.TablesCSErrCounter  = 5;
+    CS_AppData.HkPacket.Payload.AppCSErrCounter     = 6;
+    CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter = 7;
+    CS_AppData.HkPacket.Payload.OSCSErrCounter      = 8;
+    CS_AppData.HkPacket.Payload.PassCounter         = 9;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -103,15 +103,15 @@ void CS_ResetCmd_Test(void)
     CS_ResetCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 0, "CS_AppData.HkPacket.CmdCounter == 0");
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 0, "CS_AppData.HkPacket.CmdErrCounter == 0");
-    UtAssert_True(CS_AppData.HkPacket.EepromCSErrCounter == 0, "CS_AppData.HkPacket.EepromCSErrCounter == 0");
-    UtAssert_True(CS_AppData.HkPacket.MemoryCSErrCounter == 0, "CS_AppData.HkPacket.MemoryCSErrCounter == 0");
-    UtAssert_True(CS_AppData.HkPacket.TablesCSErrCounter == 0, "CS_AppData.HkPacket.TablesCSErrCounter == 0");
-    UtAssert_True(CS_AppData.HkPacket.AppCSErrCounter == 0, "CS_AppData.HkPacket.AppCSErrCounter == 0");
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSErrCounter == 0, "CS_AppData.HkPacket.CfeCoreCSErrCounter == 0");
-    UtAssert_True(CS_AppData.HkPacket.OSCSErrCounter == 0, "CS_AppData.HkPacket.OSCSErrCounter == 0");
-    UtAssert_True(CS_AppData.HkPacket.PassCounter == 0, "CS_AppData.HkPacket.PassCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 0, "CS_AppData.HkPacket.Payload.CmdErrCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSErrCounter == 0, "CS_AppData.HkPacket.Payload.EepromCSErrCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSErrCounter == 0, "CS_AppData.HkPacket.Payload.MemoryCSErrCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.TablesCSErrCounter == 0, "CS_AppData.HkPacket.Payload.TablesCSErrCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.AppCSErrCounter == 0, "CS_AppData.HkPacket.Payload.AppCSErrCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter == 0, "CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSErrCounter == 0, "CS_AppData.HkPacket.Payload.OSCSErrCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.PassCounter == 0, "CS_AppData.HkPacket.Payload.PassCounter == 0");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RESET_DBG_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
@@ -191,12 +191,12 @@ void CS_BackgroundCheckCycle_Test_BackgroundInProgress(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_CFECORE;
-    CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_CFECORE;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_ENABLED;
     CS_AppData.CfeCoreCodeSeg.State    = CS_STATE_ENABLED;
 
-    CS_AppData.HkPacket.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundCfeCore), 1, true);
@@ -233,9 +233,9 @@ void CS_BackgroundCheckCycle_Test_BackgroundCfeCore(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_CFECORE;
-    CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_CFECORE;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_ENABLED;
     CS_AppData.CfeCoreCodeSeg.State    = CS_STATE_ENABLED;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
@@ -266,9 +266,9 @@ void CS_BackgroundCheckCycle_Test_BackgroundOS(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_OSCORE;
-    CS_AppData.HkPacket.OSCSState      = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_OSCORE;
+    CS_AppData.HkPacket.Payload.OSCSState      = CS_STATE_ENABLED;
     CS_AppData.OSCodeSeg.State         = CS_STATE_ENABLED;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
@@ -299,9 +299,9 @@ void CS_BackgroundCheckCycle_Test_BackgroundEeprom(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_EEPROM_TABLE;
-    CS_AppData.HkPacket.EepromCSState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_EEPROM_TABLE;
+    CS_AppData.HkPacket.Payload.EepromCSState  = CS_STATE_ENABLED;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundEeprom), 1, true);
@@ -331,9 +331,9 @@ void CS_BackgroundCheckCycle_Test_BackgroundMemory(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_MEMORY_TABLE;
-    CS_AppData.HkPacket.MemoryCSState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_MEMORY_TABLE;
+    CS_AppData.HkPacket.Payload.MemoryCSState  = CS_STATE_ENABLED;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundMemory), 1, true);
@@ -363,9 +363,9 @@ void CS_BackgroundCheckCycle_Test_BackgroundTables(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_TABLES_TABLE;
-    CS_AppData.HkPacket.TablesCSState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_TABLES_TABLE;
+    CS_AppData.HkPacket.Payload.TablesCSState  = CS_STATE_ENABLED;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundTables), 1, true);
@@ -395,9 +395,9 @@ void CS_BackgroundCheckCycle_Test_BackgroundApp(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_APP_TABLE;
-    CS_AppData.HkPacket.AppCSState     = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_APP_TABLE;
+    CS_AppData.HkPacket.Payload.AppCSState     = CS_STATE_ENABLED;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundApp), 1, true);
@@ -427,8 +427,8 @@ void CS_BackgroundCheckCycle_Test_Default(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = 99;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = 99;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -436,9 +436,9 @@ void CS_BackgroundCheckCycle_Test_Default(void)
     CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CurrentCSTable == 0, "CS_AppData.HkPacket.CurrentCSTable == 0");
-    UtAssert_True(CS_AppData.HkPacket.CurrentEntryInTable == 0, "CS_AppData.HkPacket.CurrentEntryInTable == 0");
-    UtAssert_True(CS_AppData.HkPacket.PassCounter == 1, "CS_AppData.HkPacket.PassCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CurrentCSTable == 0, "CS_AppData.HkPacket.Payload.CurrentCSTable == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CurrentEntryInTable == 0, "CS_AppData.HkPacket.Payload.CurrentEntryInTable == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.PassCounter == 1, "CS_AppData.HkPacket.Payload.PassCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -461,7 +461,7 @@ void CS_BackgroundCheckCycle_Test_Disabled(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState = CS_STATE_DISABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState = CS_STATE_DISABLED;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -469,7 +469,7 @@ void CS_BackgroundCheckCycle_Test_Disabled(void)
     CS_BackgroundCheckCycle(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.PassCounter == 0, "CS_AppData.HkPacket.PassCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.PassCounter == 0, "CS_AppData.HkPacket.Payload.PassCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -497,13 +497,13 @@ void CS_BackgroundCheckCycle_Test_OneShot(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_CFECORE;
-    CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_CFECORE;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_ENABLED;
     CS_AppData.CfeCoreCodeSeg.State    = CS_STATE_ENABLED;
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundCfeCore), 1, true);
@@ -540,13 +540,13 @@ void CS_BackgroundCheckCycle_Test_EndOfList(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.ChecksumState  = CS_STATE_ENABLED;
-    CS_AppData.HkPacket.CurrentCSTable = CS_NUM_TABLES - 1;
-    CS_AppData.HkPacket.CfeCoreCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState  = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CurrentCSTable = CS_NUM_TABLES - 1;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_ENABLED;
     CS_AppData.CfeCoreCodeSeg.State    = CS_STATE_ENABLED;
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
     UT_SetDeferredRetcode(UT_KEY(CS_BackgroundCfeCore), 1, true);
@@ -575,9 +575,9 @@ void CS_DisableAllCSCmd_Test(void)
     CS_DisableAllCSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.ChecksumState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.ChecksumState == CS_STATE_DISABLED");
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.ChecksumState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.ChecksumState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_ALL_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -606,9 +606,9 @@ void CS_EnableAllCSCmd_Test(void)
     CS_EnableAllCSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.ChecksumState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.ChecksumState == CS_STATE_ENABLED");
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.ChecksumState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.ChecksumState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_ALL_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -637,8 +637,8 @@ void CS_DisableCfeCoreCmd_Test(void)
     CS_DisableCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_STATE_DISABLED");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_CFECORE_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -647,7 +647,7 @@ void CS_DisableCfeCoreCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -669,8 +669,8 @@ void CS_EnableCfeCoreCmd_Test(void)
     CS_EnableCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.CfeCoreCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.CfeCoreCSState == CS_STATE_ENABLED");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_CFECORE_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -679,7 +679,7 @@ void CS_EnableCfeCoreCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -701,8 +701,8 @@ void CS_DisableOSCmd_Test(void)
     CS_DisableOSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_STATE_DISABLED,
-                  "CS_AppData.HkPacket.OSCSState == CS_STATE_DISABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == CS_STATE_DISABLED,
+                  "CS_AppData.HkPacket.Payload.OSCSState == CS_STATE_DISABLED");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_DISABLE_OS_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -711,7 +711,7 @@ void CS_DisableOSCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -733,8 +733,8 @@ void CS_EnableOSCmd_Test(void)
     CS_EnableOSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED,
-                  "CS_AppData.HkPacket.OSCSState == CS_STATE_ENABLED");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OSCSState == CS_STATE_ENABLED,
+                  "CS_AppData.HkPacket.Payload.OSCSState == CS_STATE_ENABLED");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ENABLE_OS_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -743,7 +743,7 @@ void CS_EnableOSCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -775,7 +775,7 @@ void CS_ReportBaselineCfeCoreCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -806,7 +806,7 @@ void CS_ReportBaselineCfeCoreCmd_Test_NotComputedYet(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -838,7 +838,7 @@ void CS_ReportBaselineOSCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -870,7 +870,7 @@ void CS_ReportBaselineOSCmd_Test_NotComputedYet(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -886,7 +886,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute of cFE core started");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -894,8 +894,8 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_Nominal(void)
     CS_RecomputeBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == true, "CS_AppData.HkPacket.RecomputeInProgress == true");
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == true, "CS_AppData.HkPacket.Payload.RecomputeInProgress == true");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == false, "CS_AppData.HkPacket.Payload.OneShotInProgress == false");
     UtAssert_True(CS_AppData.ChildTaskTable == CS_CFECORE, "CS_AppData.ChildTaskTable == CS_CFECORE");
     UtAssert_True(CS_AppData.ChildTaskEntryID == 0, "CS_AppData.ChildTaskEntryID == 0");
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.CfeCoreCodeSeg,
@@ -908,7 +908,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -925,7 +925,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_CreateChildTaskError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute cFE core failed, CFE_ES_CreateChildTask returned: 0x%%08X");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
     /* Set to generate error message CS_RECOMPUTE_CFECORE_CREATE_CHDTASK_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CreateChildTask), 1, -1);
@@ -936,7 +936,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_CreateChildTaskError(void)
     CS_RecomputeBaselineCfeCoreCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == false, "CS_AppData.HkPacket.Payload.OneShotInProgress == false");
     UtAssert_True(CS_AppData.ChildTaskTable == CS_CFECORE, "CS_AppData.ChildTaskTable == CS_CFECORE");
     UtAssert_True(CS_AppData.ChildTaskEntryID == 0, "CS_AppData.ChildTaskEntryID == 0");
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.CfeCoreCodeSeg,
@@ -949,8 +949,8 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_CreateChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == false, "CS_AppData.HkPacket.Payload.RecomputeInProgress == false");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -966,7 +966,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_ChildTaskError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute cFE core failed: child task in use");
 
-    CS_AppData.HkPacket.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -981,7 +981,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_ChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -997,9 +997,9 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_OneShot(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute cFE core failed: child task in use");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
-    CS_AppData.HkPacket.OneShotInProgress = true;
+    CS_AppData.HkPacket.Payload.OneShotInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -1014,7 +1014,7 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_OneShot(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1030,7 +1030,7 @@ void CS_RecomputeBaselineOSCmd_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Recompute of OS code segment started");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -1038,8 +1038,8 @@ void CS_RecomputeBaselineOSCmd_Test_Nominal(void)
     CS_RecomputeBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == true, "CS_AppData.HkPacket.RecomputeInProgress == true");
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == true, "CS_AppData.HkPacket.Payload.RecomputeInProgress == true");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == false, "CS_AppData.HkPacket.Payload.OneShotInProgress == false");
     UtAssert_True(CS_AppData.ChildTaskTable == CS_OSCORE, "CS_AppData.ChildTaskTable == CS_OSCORE");
     UtAssert_True(CS_AppData.ChildTaskEntryID == 0, "CS_AppData.OSCodeSeg == 0");
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.OSCodeSeg,
@@ -1052,7 +1052,7 @@ void CS_RecomputeBaselineOSCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1069,7 +1069,7 @@ void CS_RecomputeBaselineOSCmd_Test_CreateChildTaskError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute OS code segment failed, CFE_ES_CreateChildTask returned: 0x%%08X");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
     /* Set to generate error message CS_RECOMPUTE_OS_CREATE_CHDTASK_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CreateChildTask), 1, -1);
@@ -1080,7 +1080,7 @@ void CS_RecomputeBaselineOSCmd_Test_CreateChildTaskError(void)
     CS_RecomputeBaselineOSCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == false, "CS_AppData.HkPacket.Payload.OneShotInProgress == false");
     UtAssert_True(CS_AppData.ChildTaskTable == CS_OSCORE, "CS_AppData.ChildTaskTable == CS_OSCORE");
     UtAssert_True(CS_AppData.ChildTaskEntryID == 0, "CS_AppData.OSCodeSeg == 0");
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.OSCodeSeg,
@@ -1093,8 +1093,8 @@ void CS_RecomputeBaselineOSCmd_Test_CreateChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == false, "CS_AppData.HkPacket.Payload.RecomputeInProgress == false");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1111,7 +1111,7 @@ void CS_RecomputeBaselineOSCmd_Test_ChildTaskError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute OS code segment failed: child task in use");
 
-    CS_AppData.HkPacket.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -1126,7 +1126,7 @@ void CS_RecomputeBaselineOSCmd_Test_ChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1143,9 +1143,9 @@ void CS_RecomputeBaselineOSCmd_Test_OneShot(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute OS code segment failed: child task in use");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
-    CS_AppData.HkPacket.OneShotInProgress = true;
+    CS_AppData.HkPacket.Payload.OneShotInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -1160,7 +1160,7 @@ void CS_RecomputeBaselineOSCmd_Test_OneShot(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1177,11 +1177,11 @@ void CS_OneShotCmd_Test_Nominal(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum started on address: 0x%%08X, size: %%d");
 
-    CmdPacket.Address          = 0x00000001;
-    CmdPacket.Size             = 2;
-    CmdPacket.MaxBytesPerCycle = 0;
+    CmdPacket.Payload.Address          = 0x00000001;
+    CmdPacket.Payload.Size             = 2;
+    CmdPacket.Payload.MaxBytesPerCycle = 0;
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
     CS_AppData.MaxBytesPerCycle             = 8;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
@@ -1190,16 +1190,16 @@ void CS_OneShotCmd_Test_Nominal(void)
     CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == true, "CS_AppData.HkPacket.OneShotInProgress == true");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == false, "CS_AppData.HkPacket.Payload.RecomputeInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == true, "CS_AppData.HkPacket.Payload.OneShotInProgress == true");
 
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotAddress == CmdPacket.Address,
-                  "CS_AppData.HkPacket.LastOneShotAddress == CmdPacket.Address");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotSize == CmdPacket.Size,
-                  "CS_AppData.HkPacket.LastOneShotSize == CmdPacket.Size");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotChecksum == 0, "CS_AppData.HkPacket.LastOneShotChecksum == 0");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle == CS_AppData.MaxBytesPerCycle,
-                  "CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle == CS_AppData.MaxBytesPerCycle");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotAddress == CmdPacket.Payload.Address,
+                  "CS_AppData.HkPacket.Payload.LastOneShotAddress == CmdPacket.Payload.Address");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotSize == CmdPacket.Payload.Size,
+                  "CS_AppData.HkPacket.Payload.LastOneShotSize == CmdPacket.Payload.Size");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotChecksum == 0, "CS_AppData.HkPacket.Payload.LastOneShotChecksum == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle == CS_AppData.MaxBytesPerCycle,
+                  "CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle == CS_AppData.MaxBytesPerCycle");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_STARTED_DBG_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
@@ -1209,7 +1209,7 @@ void CS_OneShotCmd_Test_Nominal(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_BOOL_TRUE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1226,11 +1226,11 @@ void CS_OneShotCmd_Test_MaxBytesPerCycleNonZero(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum started on address: 0x%%08X, size: %%d");
 
-    CmdPacket.Address          = 0x00000001;
-    CmdPacket.Size             = 2;
-    CmdPacket.MaxBytesPerCycle = 1;
+    CmdPacket.Payload.Address          = 0x00000001;
+    CmdPacket.Payload.Size             = 2;
+    CmdPacket.Payload.MaxBytesPerCycle = 1;
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
     CS_AppData.MaxBytesPerCycle             = 8;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
@@ -1239,16 +1239,16 @@ void CS_OneShotCmd_Test_MaxBytesPerCycleNonZero(void)
     CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == true, "CS_AppData.HkPacket.OneShotInProgress == true");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == false, "CS_AppData.HkPacket.Payload.RecomputeInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == true, "CS_AppData.HkPacket.Payload.OneShotInProgress == true");
 
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotAddress == CmdPacket.Address,
-                  "CS_AppData.HkPacket.LastOneShotAddress == CmdPacket.Address");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotSize == CmdPacket.Size,
-                  "CS_AppData.HkPacket.LastOneShotSize == CmdPacket.Size");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotChecksum == 0, "CS_AppData.HkPacket.LastOneShotChecksum == 0");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle == CmdPacket.MaxBytesPerCycle,
-                  "CS_AppData.HkPacket.LastOneShotMaxBytesPerCycle == CmdPacket.MaxBytesPerCycle");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotAddress == CmdPacket.Payload.Address,
+                  "CS_AppData.HkPacket.Payload.LastOneShotAddress == CmdPacket.Payload.Address");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotSize == CmdPacket.Payload.Size,
+                  "CS_AppData.HkPacket.Payload.LastOneShotSize == CmdPacket.Payload.Size");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotChecksum == 0, "CS_AppData.HkPacket.Payload.LastOneShotChecksum == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle == CmdPacket.Payload.MaxBytesPerCycle,
+                  "CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle == CmdPacket.Payload.MaxBytesPerCycle");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_STARTED_DBG_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
@@ -1258,7 +1258,7 @@ void CS_OneShotCmd_Test_MaxBytesPerCycleNonZero(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
     UtAssert_BOOL_TRUE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1277,7 +1277,7 @@ void CS_OneShotCmd_Test_CreateChildTaskError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checkum failed, CFE_ES_CreateChildTask returned: 0x%%08X");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
     /* Set to generate error message CS_RECOMPUTE_OS_CREATE_CHDTASK_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CreateChildTask), 1, -1);
@@ -1288,11 +1288,11 @@ void CS_OneShotCmd_Test_CreateChildTaskError(void)
     CS_OneShotCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotAddress == CmdPacket.Address,
-                  "CS_AppData.HkPacket.LastOneShotAddress == CmdPacket.Address");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotSize == CmdPacket.Size,
-                  "CS_AppData.HkPacket.LastOneShotSize == CmdPacket.Size");
-    UtAssert_True(CS_AppData.HkPacket.LastOneShotChecksum == 0, "CS_AppData.HkPacket.LastOneShotChecksum == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotAddress == CmdPacket.Payload.Address,
+                  "CS_AppData.HkPacket.Payload.LastOneShotAddress == CmdPacket.Payload.Address");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotSize == CmdPacket.Payload.Size,
+                  "CS_AppData.HkPacket.Payload.LastOneShotSize == CmdPacket.Payload.Size");
+    UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotChecksum == 0, "CS_AppData.HkPacket.Payload.LastOneShotChecksum == 0");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CREATE_CHDTASK_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
@@ -1301,9 +1301,9 @@ void CS_OneShotCmd_Test_CreateChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == false, "CS_AppData.HkPacket.Payload.RecomputeInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == false, "CS_AppData.HkPacket.Payload.OneShotInProgress == false");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1319,7 +1319,7 @@ void CS_OneShotCmd_Test_ChildTaskError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "OneShot checksum failed: child task in use");
 
-    CS_AppData.HkPacket.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -1334,7 +1334,7 @@ void CS_OneShotCmd_Test_ChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1351,7 +1351,7 @@ void CS_OneShotCmd_Test_MemValidateRangeError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum failed, CFE_PSP_MemValidateRange returned: 0x%%08X");
 
-    CS_AppData.HkPacket.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
 
     /* Set to generate error message CS_ONESHOT_MEMVALIDATE_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_PSP_MemValidateRange), 1, -1);
@@ -1369,7 +1369,7 @@ void CS_OneShotCmd_Test_MemValidateRangeError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1385,9 +1385,9 @@ void CS_OneShotCmd_Test_OneShot(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "OneShot checksum failed: child task in use");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 
-    CS_AppData.HkPacket.OneShotInProgress = true;
+    CS_AppData.HkPacket.Payload.OneShotInProgress = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -1402,7 +1402,7 @@ void CS_OneShotCmd_Test_OneShot(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1419,8 +1419,8 @@ void CS_CancelOneShotCmd_Test_Nominal(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum calculation has been cancelled");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = true;
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
 
@@ -1429,9 +1429,9 @@ void CS_CancelOneShotCmd_Test_Nominal(void)
 
     /* Verify results */
     UtAssert_BOOL_FALSE(CFE_RESOURCEID_TEST_DEFINED(CS_AppData.ChildTaskID));
-    UtAssert_True(CS_AppData.HkPacket.RecomputeInProgress == false, "CS_AppData.HkPacket.RecomputeInProgress == false");
-    UtAssert_True(CS_AppData.HkPacket.OneShotInProgress == false, "CS_AppData.HkPacket.OneShotInProgress == false");
-    UtAssert_True(CS_AppData.HkPacket.CmdCounter == 1, "CS_AppData.HkPacket.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == false, "CS_AppData.HkPacket.Payload.RecomputeInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.OneShotInProgress == false, "CS_AppData.HkPacket.Payload.OneShotInProgress == false");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_CANCELLED_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
@@ -1455,8 +1455,8 @@ void CS_CancelOneShotCmd_Test_DeleteChildTaskError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Cancel OneShot checksum failed, CFE_ES_DeleteChildTask returned:  0x%%08X");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = true;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = true;
 
     /* Set to generate error message CS_ONESHOT_CANCEL_DELETE_CHDTASK_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_DeleteChildTask), 1, -1);
@@ -1474,7 +1474,7 @@ void CS_CancelOneShotCmd_Test_DeleteChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1491,8 +1491,8 @@ void CS_CancelOneShotCmd_Test_NoChildTaskError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Cancel OneShot checksum failed. No OneShot active");
 
-    CS_AppData.HkPacket.RecomputeInProgress = true;
-    CS_AppData.HkPacket.OneShotInProgress   = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
 
     /* Set to generate error message CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_DeleteChildTask), 1, -1);
@@ -1510,7 +1510,7 @@ void CS_CancelOneShotCmd_Test_NoChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
@@ -1527,8 +1527,8 @@ void CS_CancelOneShotCmd_Test_OneShot(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Cancel OneShot checksum failed. No OneShot active");
 
-    CS_AppData.HkPacket.RecomputeInProgress = false;
-    CS_AppData.HkPacket.OneShotInProgress   = false;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+    CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
 
     /* Set to generate error message CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_DeleteChildTask), 1, -1);
@@ -1546,7 +1546,7 @@ void CS_CancelOneShotCmd_Test_OneShot(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.CmdErrCounter == 1, "CS_AppData.HkPacket.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
