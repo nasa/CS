@@ -583,13 +583,13 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr)
     CFE_MSG_FcnCode_t CommandCode    = 0;
     size_t            ActualLength   = 0;
 
-    CFE_MSG_GetSize(&CmdPtr->CmdHeader.Msg, &ActualLength);
+    CFE_MSG_GetSize(CFE_MSG_PTR(CmdPtr->CommandHeader), &ActualLength);
 
     /* Verify the command packet length */
     if (ExpectedLength != ActualLength)
     {
-        CFE_MSG_GetMsgId(&CmdPtr->CmdHeader.Msg, &MessageID);
-        CFE_MSG_GetFcnCode(&CmdPtr->CmdHeader.Msg, &CommandCode);
+        CFE_MSG_GetMsgId(CFE_MSG_PTR(CmdPtr->CommandHeader), &MessageID);
+        CFE_MSG_GetFcnCode(CFE_MSG_PTR(CmdPtr->CommandHeader), &CommandCode);
 
         CFE_EVS_SendEvent(CS_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %lu, Expected = %lu",
@@ -599,8 +599,8 @@ void CS_HousekeepingCmd(const CS_NoArgsCmd_t *CmdPtr)
     else
     {
         /* Send housekeeping telemetry packet */
-        CFE_SB_TimeStampMsg(&CS_AppData.HkPacket.TlmHeader.Msg);
-        CFE_SB_TransmitMsg(&CS_AppData.HkPacket.TlmHeader.Msg, true);
+        CFE_SB_TimeStampMsg(CFE_MSG_PTR(CS_AppData.HkPacket.TelemetryHeader));
+        CFE_SB_TransmitMsg(CFE_MSG_PTR(CS_AppData.HkPacket.TelemetryHeader), true);
     }
 }
 
