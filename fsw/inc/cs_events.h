@@ -54,13 +54,13 @@
 /**
  * \brief CS Reset Counters Command Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
  *  This event message is issued when a reset counters command has been received.
  */
-#define CS_RESET_DBG_EID 3
+#define CS_RESET_INF_EID 3
 
 /**
  * \brief CS Disable Checksumming Command Event ID
@@ -451,7 +451,7 @@
  *  This event message is issued when a software bus message is received
  *  with an invalid command code.
  */
-#define CS_CC1_ERR_EID 34
+#define CS_CC_ERR_EID 34
 
 /**
  * \brief CS App Termination Event ID
@@ -475,7 +475,7 @@
  *  This event message is issued when command message is received with a message
  *  length that doesn't match the expected value.
  */
-#define CS_LEN_ERR_EID 36
+#define CS_CMD_LEN_ERR_EID 36
 
 /**********************************************************************/
 /*EEPROM Commands                                                     */
@@ -1466,7 +1466,7 @@
  *
  *  This event message is issued when CFE_SB_CreatePipe fails for the command pipe
  */
-#define CS_INIT_SB_CREATE_ERR_EID 112
+#define CS_CR_PIPE_ERR_EID 112
 
 /**
  * \brief CS Software Bus Subscribe To Housekeeping Failed Event ID
