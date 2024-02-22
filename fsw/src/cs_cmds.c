@@ -48,10 +48,10 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_NoopCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 
-        CFE_EVS_SendEvent(CS_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION, "No-op command. Version %d.%d.%d.%d",
-                          CS_MAJOR_VERSION, CS_MINOR_VERSION, CS_REVISION, CS_MISSION_REV);
+    CFE_EVS_SendEvent(CS_NOOP_INF_EID, CFE_EVS_EventType_INFORMATION, "No-op command. Version %d.%d.%d.%d",
+                      CS_MAJOR_VERSION, CS_MINOR_VERSION, CS_REVISION, CS_MISSION_REV);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -61,18 +61,18 @@ void CS_NoopCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        CS_AppData.HkPacket.Payload.CmdCounter    = 0;
-        CS_AppData.HkPacket.Payload.CmdErrCounter = 0;
+    CS_AppData.HkPacket.Payload.CmdCounter    = 0;
+    CS_AppData.HkPacket.Payload.CmdErrCounter = 0;
 
-        CS_AppData.HkPacket.Payload.EepromCSErrCounter  = 0;
-        CS_AppData.HkPacket.Payload.MemoryCSErrCounter  = 0;
-        CS_AppData.HkPacket.Payload.TablesCSErrCounter  = 0;
-        CS_AppData.HkPacket.Payload.AppCSErrCounter     = 0;
-        CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter = 0;
-        CS_AppData.HkPacket.Payload.OSCSErrCounter      = 0;
-        CS_AppData.HkPacket.Payload.PassCounter         = 0;
+    CS_AppData.HkPacket.Payload.EepromCSErrCounter  = 0;
+    CS_AppData.HkPacket.Payload.MemoryCSErrCounter  = 0;
+    CS_AppData.HkPacket.Payload.TablesCSErrCounter  = 0;
+    CS_AppData.HkPacket.Payload.AppCSErrCounter     = 0;
+    CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter = 0;
+    CS_AppData.HkPacket.Payload.OSCSErrCounter      = 0;
+    CS_AppData.HkPacket.Payload.PassCounter         = 0;
 
-        CFE_EVS_SendEvent(CS_RESET_DBG_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command recieved");
+    CFE_EVS_SendEvent(CS_RESET_DBG_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command recieved");
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -90,13 +90,13 @@ void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)
     CFE_MSG_FcnCode_t CommandCode    = 0;
     size_t            ActualLength   = 0;
 
-    CFE_MSG_GetSize(&CmdPtr->CmdHeader.Msg, &ActualLength);
+    CFE_MSG_GetSize(CFE_MSG_PTR(CmdPtr->CommandHeader), &ActualLength);
 
     /* Verify the command packet length */
     if (ExpectedLength != ActualLength)
     {
-        CFE_MSG_GetMsgId(&CmdPtr->CmdHeader.Msg, &MessageID);
-        CFE_MSG_GetFcnCode(&CmdPtr->CmdHeader.Msg, &CommandCode);
+        CFE_MSG_GetMsgId(CFE_MSG_PTR(CmdPtr->CommandHeader), &MessageID);
+        CFE_MSG_GetFcnCode(CFE_MSG_PTR(CmdPtr->CommandHeader), &CommandCode);
 
         CFE_EVS_SendEvent(CS_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %lu, Expected = %lu",
@@ -112,7 +112,8 @@ void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)
 
             /* Skip this background cycle if there's a recompute or one shot in
              * progress */
-            if (CS_AppData.HkPacket.Payload.RecomputeInProgress == true || CS_AppData.HkPacket.Payload.OneShotInProgress == true)
+            if (CS_AppData.HkPacket.Payload.RecomputeInProgress == true ||
+                CS_AppData.HkPacket.Payload.OneShotInProgress == true)
             {
                 CFE_EVS_SendEvent(CS_BKGND_COMPUTE_PROG_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "Skipping background cycle. Recompute or oneshot in progress.");
@@ -190,21 +191,21 @@ void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        CS_AppData.HkPacket.Payload.ChecksumState = CS_STATE_DISABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState = CS_STATE_DISABLED;
 
-        /* zero out the temp values in all the tables
-         so that when the checksums are re-enabled,
-         they don't start with a half-old value */
-        CS_ZeroEepromTempValues();
-        CS_ZeroMemoryTempValues();
-        CS_ZeroTablesTempValues();
-        CS_ZeroAppTempValues();
-        CS_ZeroCfeCoreTempValues();
-        CS_ZeroOSTempValues();
+    /* zero out the temp values in all the tables
+     so that when the checksums are re-enabled,
+     they don't start with a half-old value */
+    CS_ZeroEepromTempValues();
+    CS_ZeroMemoryTempValues();
+    CS_ZeroTablesTempValues();
+    CS_ZeroAppTempValues();
+    CS_ZeroCfeCoreTempValues();
+    CS_ZeroOSTempValues();
 
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 
-        CFE_EVS_SendEvent(CS_DISABLE_ALL_INF_EID, CFE_EVS_EventType_INFORMATION, "Background Checksumming Disabled");
+    CFE_EVS_SendEvent(CS_DISABLE_ALL_INF_EID, CFE_EVS_EventType_INFORMATION, "Background Checksumming Disabled");
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -214,11 +215,11 @@ void CS_DisableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        CS_AppData.HkPacket.Payload.ChecksumState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.ChecksumState = CS_STATE_ENABLED;
 
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 
-        CFE_EVS_SendEvent(CS_ENABLE_ALL_INF_EID, CFE_EVS_EventType_INFORMATION, "Background Checksumming Enabled");
+    CFE_EVS_SendEvent(CS_ENABLE_ALL_INF_EID, CFE_EVS_EventType_INFORMATION, "Background Checksumming Enabled");
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -228,17 +229,17 @@ void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_DISABLED;
-        CS_ZeroCfeCoreTempValues();
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_DISABLED;
+    CS_ZeroCfeCoreTempValues();
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
+    CS_UpdateCDS();
 #endif
 
-        CFE_EVS_SendEvent(CS_DISABLE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION,
-                          "Checksumming of cFE Core is Disabled");
+    CFE_EVS_SendEvent(CS_DISABLE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION,
+                      "Checksumming of cFE Core is Disabled");
 
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -248,16 +249,15 @@ void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_ENABLED;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
+    CS_UpdateCDS();
 #endif
 
-        CFE_EVS_SendEvent(CS_ENABLE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION,
-                          "Checksumming of cFE Core is Enabled");
+    CFE_EVS_SendEvent(CS_ENABLE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of cFE Core is Enabled");
 
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -267,17 +267,17 @@ void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        CS_AppData.HkPacket.Payload.OSCSState = CS_STATE_DISABLED;
-        CS_ZeroOSTempValues();
+    CS_AppData.HkPacket.Payload.OSCSState = CS_STATE_DISABLED;
+    CS_ZeroOSTempValues();
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
+    CS_UpdateCDS();
 #endif
 
-        CFE_EVS_SendEvent(CS_DISABLE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
-                          "Checksumming of OS code segment is Disabled");
+    CFE_EVS_SendEvent(CS_DISABLE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
+                      "Checksumming of OS code segment is Disabled");
 
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -287,16 +287,16 @@ void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        CS_AppData.HkPacket.Payload.OSCSState = CS_STATE_ENABLED;
+    CS_AppData.HkPacket.Payload.OSCSState = CS_STATE_ENABLED;
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
+    CS_UpdateCDS();
 #endif
 
-        CFE_EVS_SendEvent(CS_ENABLE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
-                          "Checksumming of OS code segment is Enabled");
+    CFE_EVS_SendEvent(CS_ENABLE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
+                      "Checksumming of OS code segment is Enabled");
 
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -306,18 +306,17 @@ void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ReportBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_AppData.CfeCoreCodeSeg.ComputedYet == true)
-        {
-            CFE_EVS_SendEvent(CS_BASELINE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Baseline of cFE Core is 0x%08X",
-                              (unsigned int)CS_AppData.CfeCoreCodeSeg.ComparisonValue);
-        }
-        else
-        {
-            CFE_EVS_SendEvent(CS_NO_BASELINE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Baseline of cFE Core has not been computed yet");
-        }
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    if (CS_AppData.CfeCoreCodeSeg.ComputedYet == true)
+    {
+        CFE_EVS_SendEvent(CS_BASELINE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION, "Baseline of cFE Core is 0x%08X",
+                          (unsigned int)CS_AppData.CfeCoreCodeSeg.ComparisonValue);
+    }
+    else
+    {
+        CFE_EVS_SendEvent(CS_NO_BASELINE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION,
+                          "Baseline of cFE Core has not been computed yet");
+    }
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -327,18 +326,17 @@ void CS_ReportBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ReportBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_AppData.OSCodeSeg.ComputedYet == true)
-        {
-            CFE_EVS_SendEvent(CS_BASELINE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Baseline of OS code segment is 0x%08X",
-                              (unsigned int)CS_AppData.OSCodeSeg.ComparisonValue);
-        }
-        else
-        {
-            CFE_EVS_SendEvent(CS_NO_BASELINE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Baseline of OS code segment has not been computed yet");
-        }
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+    if (CS_AppData.OSCodeSeg.ComputedYet == true)
+    {
+        CFE_EVS_SendEvent(CS_BASELINE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
+                          "Baseline of OS code segment is 0x%08X", (unsigned int)CS_AppData.OSCodeSeg.ComparisonValue);
+    }
+    else
+    {
+        CFE_EVS_SendEvent(CS_NO_BASELINE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
+                          "Baseline of OS code segment has not been computed yet");
+    }
+    CS_AppData.HkPacket.Payload.CmdCounter++;
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -352,42 +350,42 @@ void CS_RecomputeBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
     CFE_ES_TaskId_t ChildTaskID;
     CFE_Status_t    Status;
 
-        if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false && CS_AppData.HkPacket.Payload.OneShotInProgress == false)
+    if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false &&
+        CS_AppData.HkPacket.Payload.OneShotInProgress == false)
+    {
+        /* There is no child task running right now, we can use it*/
+        CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
+
+        /* fill in child task variables */
+        CS_AppData.ChildTaskTable                = CS_CFECORE;
+        CS_AppData.ChildTaskEntryID              = 0;
+        CS_AppData.RecomputeEepromMemoryEntryPtr = &CS_AppData.CfeCoreCodeSeg;
+
+        Status = CFE_ES_CreateChildTask(&ChildTaskID, CS_RECOMP_CFECORE_TASK_NAME, CS_RecomputeEepromMemoryChildTask,
+                                        NULL, CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
+
+        if (Status == CFE_SUCCESS)
         {
-            /* There is no child task running right now, we can use it*/
-            CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
-
-            /* fill in child task variables */
-            CS_AppData.ChildTaskTable                = CS_CFECORE;
-            CS_AppData.ChildTaskEntryID              = 0;
-            CS_AppData.RecomputeEepromMemoryEntryPtr = &CS_AppData.CfeCoreCodeSeg;
-
-            Status =
-                CFE_ES_CreateChildTask(&ChildTaskID, CS_RECOMP_CFECORE_TASK_NAME, CS_RecomputeEepromMemoryChildTask,
-                                       NULL, CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
-
-            if (Status == CFE_SUCCESS)
-            {
-                CFE_EVS_SendEvent(CS_RECOMPUTE_CFECORE_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                  "Recompute of cFE core started");
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-            }
-            else /* child task creation failed */
-            {
-                CFE_EVS_SendEvent(CS_RECOMPUTE_CFECORE_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Recompute cFE core failed, CFE_ES_CreateChildTask returned: 0x%08X",
-                                  (unsigned int)Status);
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-                CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
-            }
+            CFE_EVS_SendEvent(CS_RECOMPUTE_CFECORE_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+                              "Recompute of cFE core started");
+            CS_AppData.HkPacket.Payload.CmdCounter++;
         }
-        else
+        else /* child task creation failed */
         {
-            /*send event that we can't start another task right now */
-            CFE_EVS_SendEvent(CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Recompute cFE core failed: child task in use");
+            CFE_EVS_SendEvent(CS_RECOMPUTE_CFECORE_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Recompute cFE core failed, CFE_ES_CreateChildTask returned: 0x%08X",
+                              (unsigned int)Status);
             CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
         }
+    }
+    else
+    {
+        /*send event that we can't start another task right now */
+        CFE_EVS_SendEvent(CS_RECOMPUTE_CFECORE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                          "Recompute cFE core failed: child task in use");
+        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -401,40 +399,41 @@ void CS_RecomputeBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
     CFE_ES_TaskId_t ChildTaskID;
     CFE_Status_t    Status;
 
-        if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false && CS_AppData.HkPacket.Payload.OneShotInProgress == false)
+    if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false &&
+        CS_AppData.HkPacket.Payload.OneShotInProgress == false)
+    {
+        /* There is no child task running right now, we can use it*/
+        CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
+
+        /* fill in child task variables */
+        CS_AppData.ChildTaskTable                = CS_OSCORE;
+        CS_AppData.ChildTaskEntryID              = 0;
+        CS_AppData.RecomputeEepromMemoryEntryPtr = &CS_AppData.OSCodeSeg;
+
+        Status = CFE_ES_CreateChildTask(&ChildTaskID, CS_RECOMP_OS_TASK_NAME, CS_RecomputeEepromMemoryChildTask, NULL,
+                                        CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
+        if (Status == CFE_SUCCESS)
         {
-            /* There is no child task running right now, we can use it*/
-            CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
-
-            /* fill in child task variables */
-            CS_AppData.ChildTaskTable                = CS_OSCORE;
-            CS_AppData.ChildTaskEntryID              = 0;
-            CS_AppData.RecomputeEepromMemoryEntryPtr = &CS_AppData.OSCodeSeg;
-
-            Status = CFE_ES_CreateChildTask(&ChildTaskID, CS_RECOMP_OS_TASK_NAME, CS_RecomputeEepromMemoryChildTask,
-                                            NULL, CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
-            if (Status == CFE_SUCCESS)
-            {
-                CFE_EVS_SendEvent(CS_RECOMPUTE_OS_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                  "Recompute of OS code segment started");
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-            }
-            else /* child task creation failed */
-            {
-                CFE_EVS_SendEvent(CS_RECOMPUTE_OS_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Recompute OS code segment failed, CFE_ES_CreateChildTask returned: 0x%08X",
-                                  (unsigned int)Status);
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-                CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
-            }
+            CFE_EVS_SendEvent(CS_RECOMPUTE_OS_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+                              "Recompute of OS code segment started");
+            CS_AppData.HkPacket.Payload.CmdCounter++;
         }
-        else
+        else /* child task creation failed */
         {
-            /*send event that we can't start another task right now */
-            CFE_EVS_SendEvent(CS_RECOMPUTE_OS_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Recompute OS code segment failed: child task in use");
+            CFE_EVS_SendEvent(CS_RECOMPUTE_OS_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Recompute OS code segment failed, CFE_ES_CreateChildTask returned: 0x%08X",
+                              (unsigned int)Status);
             CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
         }
+    }
+    else
+    {
+        /*send event that we can't start another task right now */
+        CFE_EVS_SendEvent(CS_RECOMPUTE_OS_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                          "Recompute OS code segment failed: child task in use");
+        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -448,69 +447,69 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
     CFE_ES_TaskId_t ChildTaskID;
     CFE_Status_t    Status;
 
-        /* validate size and address */
-        Status = CFE_PSP_MemValidateRange(CmdPtr->Payload.Address, CmdPtr->Payload.Size, CFE_PSP_MEM_ANY);
+    /* validate size and address */
+    Status = CFE_PSP_MemValidateRange(CmdPtr->Payload.Address, CmdPtr->Payload.Size, CFE_PSP_MEM_ANY);
 
-        if (Status == CFE_SUCCESS)
+    if (Status == CFE_SUCCESS)
+    {
+        if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false &&
+            CS_AppData.HkPacket.Payload.OneShotInProgress == false)
         {
-            if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false && CS_AppData.HkPacket.Payload.OneShotInProgress == false)
+            /* There is no child task running right now, we can use it*/
+            CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+            CS_AppData.HkPacket.Payload.OneShotInProgress   = true;
+
+            CS_AppData.HkPacket.Payload.LastOneShotAddress = CmdPtr->Payload.Address;
+            CS_AppData.HkPacket.Payload.LastOneShotSize    = CmdPtr->Payload.Size;
+            if (CmdPtr->Payload.MaxBytesPerCycle == 0)
             {
-                /* There is no child task running right now, we can use it*/
-                CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
-                CS_AppData.HkPacket.Payload.OneShotInProgress   = true;
-
-                CS_AppData.HkPacket.Payload.LastOneShotAddress = CmdPtr->Payload.Address;
-                CS_AppData.HkPacket.Payload.LastOneShotSize    = CmdPtr->Payload.Size;
-                if (CmdPtr->Payload.MaxBytesPerCycle == 0)
-                {
-                    CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle = CS_AppData.MaxBytesPerCycle;
-                }
-                else
-                {
-                    CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle = CmdPtr->Payload.MaxBytesPerCycle;
-                }
-
-                CS_AppData.HkPacket.Payload.LastOneShotChecksum = 0;
-
-                Status = CFE_ES_CreateChildTask(&ChildTaskID, CS_ONESHOT_TASK_NAME, CS_OneShotChildTask, NULL,
-                                                CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
-                if (Status == CFE_SUCCESS)
-                {
-                    CFE_EVS_SendEvent(CS_ONESHOT_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "OneShot checksum started on address: 0x%08X, size: %d",
-                                      (unsigned int)(CmdPtr->Payload.Address), (int)(CmdPtr->Payload.Size));
-
-                    CS_AppData.ChildTaskID = ChildTaskID;
-                    CS_AppData.HkPacket.Payload.CmdCounter++;
-                }
-                else /* child task creation failed */
-                {
-                    CFE_EVS_SendEvent(CS_ONESHOT_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                                      "OneShot checkum failed, CFE_ES_CreateChildTask returned: 0x%08X",
-                                      (unsigned int)Status);
-
-                    CS_AppData.HkPacket.Payload.CmdErrCounter++;
-                    CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
-                    CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
-                }
+                CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle = CS_AppData.MaxBytesPerCycle;
             }
             else
             {
-                /*send event that we can't start another task right now */
-                CFE_EVS_SendEvent(CS_ONESHOT_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "OneShot checksum failed: child task in use");
+                CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle = CmdPtr->Payload.MaxBytesPerCycle;
+            }
+
+            CS_AppData.HkPacket.Payload.LastOneShotChecksum = 0;
+
+            Status = CFE_ES_CreateChildTask(&ChildTaskID, CS_ONESHOT_TASK_NAME, CS_OneShotChildTask, NULL,
+                                            CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
+            if (Status == CFE_SUCCESS)
+            {
+                CFE_EVS_SendEvent(CS_ONESHOT_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+                                  "OneShot checksum started on address: 0x%08X, size: %d",
+                                  (unsigned int)(CmdPtr->Payload.Address), (int)(CmdPtr->Payload.Size));
+
+                CS_AppData.ChildTaskID = ChildTaskID;
+                CS_AppData.HkPacket.Payload.CmdCounter++;
+            }
+            else /* child task creation failed */
+            {
+                CFE_EVS_SendEvent(CS_ONESHOT_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                                  "OneShot checkum failed, CFE_ES_CreateChildTask returned: 0x%08X",
+                                  (unsigned int)Status);
 
                 CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+                CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
             }
-        } /* end if CFE_PSP_MemValidateRange */
+        }
         else
         {
-            CFE_EVS_SendEvent(CS_ONESHOT_MEMVALIDATE_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "OneShot checksum failed, CFE_PSP_MemValidateRange returned: 0x%08X",
-                              (unsigned int)Status);
+            /*send event that we can't start another task right now */
+            CFE_EVS_SendEvent(CS_ONESHOT_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "OneShot checksum failed: child task in use");
 
             CS_AppData.HkPacket.Payload.CmdErrCounter++;
         }
+    } /* end if CFE_PSP_MemValidateRange */
+    else
+    {
+        CFE_EVS_SendEvent(CS_ONESHOT_MEMVALIDATE_ERR_EID, CFE_EVS_EventType_ERROR,
+                          "OneShot checksum failed, CFE_PSP_MemValidateRange returned: 0x%08X", (unsigned int)Status);
+
+        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -523,32 +522,33 @@ void CS_CancelOneShotCmd(const CS_NoArgsCmd_t *CmdPtr)
     /* command verification variables */
     CFE_Status_t Status;
 
-        /* Make sure there is a OneShot command in use */
-        if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false && CS_AppData.HkPacket.Payload.OneShotInProgress == true)
-        {
-            Status = CFE_ES_DeleteChildTask(CS_AppData.ChildTaskID);
+    /* Make sure there is a OneShot command in use */
+    if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false &&
+        CS_AppData.HkPacket.Payload.OneShotInProgress == true)
+    {
+        Status = CFE_ES_DeleteChildTask(CS_AppData.ChildTaskID);
 
-            if (Status == CFE_SUCCESS)
-            {
-                CS_AppData.ChildTaskID                  = CFE_ES_TASKID_UNDEFINED;
-                CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
-                CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-                CFE_EVS_SendEvent(CS_ONESHOT_CANCELLED_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "OneShot checksum calculation has been cancelled");
-            }
-            else
-            {
-                CFE_EVS_SendEvent(CS_ONESHOT_CANCEL_DELETE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Cancel OneShot checksum failed, CFE_ES_DeleteChildTask returned:  0x%08X",
-                                  (unsigned int)Status);
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-            }
+        if (Status == CFE_SUCCESS)
+        {
+            CS_AppData.ChildTaskID                          = CFE_ES_TASKID_UNDEFINED;
+            CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
+            CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
+            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CFE_EVS_SendEvent(CS_ONESHOT_CANCELLED_INF_EID, CFE_EVS_EventType_INFORMATION,
+                              "OneShot checksum calculation has been cancelled");
         }
         else
         {
-            CFE_EVS_SendEvent(CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Cancel OneShot checksum failed. No OneShot active");
+            CFE_EVS_SendEvent(CS_ONESHOT_CANCEL_DELETE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "Cancel OneShot checksum failed, CFE_ES_DeleteChildTask returned:  0x%08X",
+                              (unsigned int)Status);
             CS_AppData.HkPacket.Payload.CmdErrCounter++;
         }
+    }
+    else
+    {
+        CFE_EVS_SendEvent(CS_ONESHOT_CANCEL_NO_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                          "Cancel OneShot checksum failed. No OneShot active");
+        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+    }
 }

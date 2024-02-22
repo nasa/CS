@@ -72,8 +72,8 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_TelemetryHeader_t TlmHeader; /**< \brief cFE SB Tlm Msg Hdr */
-    CS_HkPacket_Payload_t Payload; /**< \brief CS HK Payload */
+    CFE_MSG_TelemetryHeader_t TelemetryHeader; /**< \brief cFE SB Tlm Msg Hdr */
+    CS_HkPacket_Payload_t     Payload;         /**< \brief CS HK Payload */
 } CS_HkPacket_t;
 
 /**\}*/
@@ -120,8 +120,8 @@ typedef struct
  */
 typedef struct
 {
-    cpuaddr Address; /**< \brief Address to start checksum */
-    uint32  Size;    /**< \brief Number of bytes to checksum */
+    cpuaddr Address;          /**< \brief Address to start checksum */
+    uint32  Size;             /**< \brief Number of bytes to checksum */
     uint32  MaxBytesPerCycle; /**< \brief Max Number of bytes to compute per cycle. Value of Zero to use platform config
                                 value */
 } CS_OneShotCmd_Payload_t;
@@ -137,7 +137,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader;
+    CFE_MSG_CommandHeader_t CommandHeader;
 } CS_NoArgsCmd_t;
 
 /**
@@ -147,7 +147,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader;
+    CFE_MSG_CommandHeader_t    CommandHeader;
     CS_GetEntryIDCmd_Payload_t Payload;
 } CS_GetEntryIDCmd_t;
 
@@ -159,8 +159,8 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader;
-    CS_EntryCmd_Payload_t Payload;
+    CFE_MSG_CommandHeader_t CommandHeader;
+    CS_EntryCmd_Payload_t   Payload;
 } CS_EntryCmd_t;
 
 /**
@@ -171,7 +171,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader;
+    CFE_MSG_CommandHeader_t   CommandHeader;
     CS_TableNameCmd_Payload_t Payload;
 } CS_TableNameCmd_t;
 
@@ -183,7 +183,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader;
+    CFE_MSG_CommandHeader_t CommandHeader;
     CS_AppNameCmd_Payload_t Payload;
 } CS_AppNameCmd_t;
 
@@ -194,7 +194,7 @@ typedef struct
  */
 typedef struct
 {
-    CFE_MSG_CommandHeader_t CmdHeader;
+    CFE_MSG_CommandHeader_t CommandHeader;
     CS_OneShotCmd_Payload_t Payload;
 } CS_OneShotCmd_t;
 
