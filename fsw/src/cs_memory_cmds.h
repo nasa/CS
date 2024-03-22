@@ -157,7 +157,6 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr);
  *  \par Assumptions, External Events, and Notes:
  *       None
  *
- *
  *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
  *
  *  \sa #CS_GET_ENTRY_ID_MEMORY_CC
