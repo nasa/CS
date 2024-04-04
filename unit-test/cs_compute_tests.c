@@ -1456,7 +1456,7 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
 void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
 {
     CS_Res_App_Table_Entry_t RecomputeAppEntry;
-    CS_Def_App_Table_Entry_t DefAppTbl[10];
+    CS_Def_App_Table_Entry_t DefAppTbl[CS_MAX_NUM_APP_TABLE_ENTRIES];
 
     memset(&RecomputeAppEntry, 0, sizeof(RecomputeAppEntry));
     memset(&DefAppTbl, 0, sizeof(DefAppTbl));
@@ -1637,7 +1637,7 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
 void CS_RecomputeTablesChildTask_Test_CouldNotGetAddress(void)
 {
     CS_Res_Tables_Table_Entry_t RecomputeTablesEntry;
-    CS_Def_Tables_Table_Entry_t DefTablesTbl[10];
+    CS_Def_Tables_Table_Entry_t DefTablesTbl[CS_MAX_NUM_APP_TABLE_ENTRIES];
 
     memset(&RecomputeTablesEntry, 0, sizeof(RecomputeTablesEntry));
     memset(&DefTablesTbl, 0, sizeof(DefTablesTbl));
