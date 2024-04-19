@@ -355,7 +355,7 @@ bool CS_FindEnabledAppEntry(uint16 *EnabledEntry);
  *  \retval true  Message length matches ExpectedLength
  *  \retval false Message length ExpectedLength mismatch
  *
- *  \sa #CS_LEN_ERR_EID
+ *  \sa #CS_CMD_LEN_ERR_EID
  */
 bool CS_VerifyCmdLength(const CFE_MSG_Message_t *msg, size_t ExpectedLength);
 

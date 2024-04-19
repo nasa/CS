@@ -54,7 +54,7 @@ CFE_Status_t CS_SbInit(void)
     Result = CFE_SB_CreatePipe(&CS_AppData.CmdPipe, CS_AppData.PipeDepth, CS_AppData.PipeName);
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(CS_INIT_SB_CREATE_ERR_EID, CFE_EVS_EventType_ERROR,
+        CFE_EVS_SendEvent(CS_CR_PIPE_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Software Bus Create Pipe for command returned: 0x%08X", (unsigned int)Result);
     }
     else
