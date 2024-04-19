@@ -95,9 +95,9 @@ void CS_ReportBaselineEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
     /* command verification variables */
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry   = NULL;
-    uint32                             Baseline       = 0;
-    uint16                             EntryID        = 0;
-    uint16                             State          = CS_STATE_EMPTY;
+    uint32                             Baseline;
+    uint16                             EntryID;
+    uint16                             State = CS_STATE_EMPTY;
 
         EntryID = CmdPtr->Payload.EntryID;
 
@@ -147,9 +147,9 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
     /* command verification variables */
     CFE_ES_TaskId_t ChildTaskID    = CFE_ES_TASKID_UNDEFINED;
-    CFE_Status_t    Status         = CS_ERROR;
-    uint16          EntryID        = 0;
-    uint16          State          = CS_STATE_EMPTY;
+    CFE_Status_t    Status;
+    uint16          EntryID;
+    uint16          State = CS_STATE_EMPTY;
 
         EntryID = CmdPtr->Payload.EntryID;
 
@@ -224,8 +224,8 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
     /* command verification variables */
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry   = NULL;
-    uint16                             EntryID        = 0;
-    uint16                             State          = CS_STATE_EMPTY;
+    uint16                             EntryID;
+    uint16                             State = CS_STATE_EMPTY;
 
         if (CS_CheckRecomputeOneshot() == false)
         {
@@ -284,8 +284,8 @@ void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
     /* command verification variables */
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry   = NULL;
-    uint16                             EntryID        = 0;
-    uint16                             State          = CS_STATE_EMPTY;
+    uint16                             EntryID;
+    uint16                             State = CS_STATE_EMPTY;
 
         if (CS_CheckRecomputeOneshot() == false)
         {
@@ -348,8 +348,8 @@ void CS_GetEntryIDMemoryCmd(const CS_GetEntryIDCmd_t *CmdPtr)
     /* command verification variables */
     CS_Res_EepromMemory_Table_Entry_t *StartOfResultsTable = NULL;
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry        = NULL;
-    uint16                             Loop                = 0;
-    bool                               EntryFound          = false;
+    uint16                             Loop;
+    bool                               EntryFound = false;
 
         StartOfResultsTable = CS_AppData.ResMemoryTblPtr;
 

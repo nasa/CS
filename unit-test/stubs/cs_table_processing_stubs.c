@@ -92,7 +92,7 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
                           void *DefinitionTblPtr, void *ResultsTblPtr, const uint16 Table,
                           const char *DefinitionTableName, const char *ResultsTableName, const uint16 NumEntries,
                           const char *DefinitionTableFileName, const void *DefaultDefTableAddress,
-                          const uint16 SizeofDefinitionTableEntry, const uint16 SizeofResultsTableEntry,
+                          const size_t SizeofDefinitionTableEntry, const size_t SizeofResultsTableEntry,
                           const CFE_TBL_CallbackFuncPtr_t CallBackFunction)
 
 {
