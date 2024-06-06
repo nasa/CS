@@ -536,20 +536,20 @@ void CS_RecomputeEepromMemoryChildTask(void)
 
     if (Table == CS_EEPROM_TABLE)
     {
-        strncpy(TableType, "EEPROM", CS_TABLETYPE_NAME_SIZE);
+        snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "EEPROM");
     }
     if (Table == CS_MEMORY_TABLE)
     {
-        strncpy(TableType, "Memory", CS_TABLETYPE_NAME_SIZE);
+        snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Memory");
     }
     if (Table == CS_CFECORE)
     {
-        strncpy(TableType, "cFE Core", CS_TABLETYPE_NAME_SIZE);
+        snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "cFE Core");
         CS_AppData.HkPacket.Payload.CfeCoreBaseline = NewChecksumValue;
     }
     if (Table == CS_OSCORE)
     {
-        strncpy(TableType, "OS", CS_TABLETYPE_NAME_SIZE);
+        snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "OS");
         CS_AppData.HkPacket.Payload.OSBaseline = NewChecksumValue;
     }
 
