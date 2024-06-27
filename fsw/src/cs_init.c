@@ -42,7 +42,7 @@ CFE_Status_t CS_SbInit(void)
     CFE_Status_t Result = CFE_SUCCESS;
 
     /* Initialize app configuration data */
-    strncpy(CS_AppData.PipeName, CS_CMD_PIPE_NAME, CS_CMD_PIPE_NAME_LEN);
+    snprintf(CS_AppData.PipeName, sizeof(CS_AppData.PipeName), "%s", CS_CMD_PIPE_NAME);
 
     CS_AppData.PipeDepth = CS_PIPE_DEPTH;
 
