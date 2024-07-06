@@ -189,7 +189,7 @@
 /**
  * \brief CS cFE Core Checksum Recompute Started Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
@@ -197,7 +197,7 @@
  *  for the cFE core command has been received and the
  *  recompute task has been started.
  */
-#define CS_RECOMPUTE_CFECORE_STARTED_DBG_EID 14
+#define CS_RECOMPUTE_CFECORE_STARTED_INF_EID 14
 
 /**
  * \brief CS cFE Core Checksum Failed Child Task Create Event ID
@@ -230,7 +230,7 @@
 /**
  * \brief CS OS Code Checksum Recompute Started Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
@@ -238,7 +238,7 @@
  *  for the OS code segment command has been received and the
  *  recompute task has been started.
  */
-#define CS_RECOMPUTE_OS_STARTED_DBG_EID 17
+#define CS_RECOMPUTE_OS_STARTED_INF_EID 17
 
 /**
  * \brief CS OS Code Checksum Recompute Failed Child Task Create Event ID
@@ -271,14 +271,14 @@
 /**
  * \brief CS Oneshot Checksum Started Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
  *  This event message is issued when a OneShot calculation
  *  command has been received and the OneShot task has been started.
  */
-#define CS_ONESHOT_STARTED_DBG_EID 20
+#define CS_ONESHOT_STARTED_INF_EID 20
 
 /**
  * \brief CS Oneshot Checksum Failed Child Task Create Event ID
@@ -547,7 +547,7 @@
 /**
  * \brief CS EEPROM Checksum Recompute Started Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
@@ -555,7 +555,7 @@
  *  for the specified EEPROM Entry ID command has been received and the
  *  recompute task has been started.
  */
-#define CS_RECOMPUTE_EEPROM_STARTED_DBG_EID 42
+#define CS_RECOMPUTE_EEPROM_STARTED_INF_EID 42
 
 /**
  * \brief CS EEPROM Checksum Recompute Failed Child Task Create Event ID
@@ -746,7 +746,7 @@
 /**
  * \brief CS Memory Checksum Recompute Started Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
@@ -754,7 +754,7 @@
  *  for the specified Memory Entry ID command has been received and the
  *  recompute task has been started.
  */
-#define CS_RECOMPUTE_MEMORY_STARTED_DBG_EID 57
+#define CS_RECOMPUTE_MEMORY_STARTED_INF_EID 57
 
 /**
  * \brief CS Memory Checksum Recompute Failed Child Task Create Event ID
@@ -947,7 +947,7 @@
 /**
  * \brief CS Table Checksum Recompute Started Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
@@ -955,7 +955,7 @@
  *  for the specified table command has been received and the
  *  recompute task has been started.
  */
-#define CS_RECOMPUTE_TABLES_STARTED_DBG_EID 72
+#define CS_RECOMPUTE_TABLES_STARTED_INF_EID 72
 
 /**
  * \brief CS Table Checksum Recompute Failed Child Task Create Event ID
@@ -1120,7 +1120,7 @@
 /**
  * \brief CS App Checksum Recompute Started Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: INFORMATION
  *
  *  \par Cause:
  *
@@ -1128,7 +1128,7 @@
  *  for the specified app command has been received and the
  *  recompute task has been started.
  */
-#define CS_RECOMPUTE_APP_STARTED_DBG_EID 85
+#define CS_RECOMPUTE_APP_STARTED_INF_EID 85
 
 /**
  * \brief CS App Checksum Recompute Failed Create Child Task Event ID
@@ -1657,7 +1657,7 @@
 /**
  * \brief CS Table Enable Checksum Unable To Find Entry In Definition Table Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: ERROR
  *
  *  \par Cause:
  *
@@ -1665,12 +1665,12 @@
  *  by name) in the Tables results table but is unable to find the same entry
  *  in the definition table (or the entry is marked as #CS_STATE_EMPTY).
  */
-#define CS_ENABLE_TABLE_DEF_NOT_FOUND_DBG_EID 129
+#define CS_ENABLE_TABLE_DEF_NOT_FOUND_ERR_EID 129
 
 /**
  * \brief CS Table Disable Checksum Unable To Find Entry In Definition Table Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: ERROR
  *
  *  \par Cause:
  *
@@ -1678,12 +1678,12 @@
  *  by name) in the Tables results table but is unable to find the same entry
  *  in the definition table (or the entry is marked as #CS_STATE_EMPTY).
  */
-#define CS_DISABLE_TABLE_DEF_NOT_FOUND_DBG_EID 130
+#define CS_DISABLE_TABLE_DEF_NOT_FOUND_ERR_EID 130
 
 /**
  * \brief CS App Enable Checksum Unable To Find Entry In Definition Table Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: ERROR
  *
  *  \par Cause:
  *
@@ -1691,12 +1691,12 @@
  *  by name) in the Apps results table but is unable to find the same entry
  *  in the definition table (or the entry is marked as #CS_STATE_EMPTY).
  */
-#define CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID 131
+#define CS_ENABLE_APP_DEF_NOT_FOUND_ERR_EID 131
 
 /**
  * \brief CS App Disable Checksum Unable To Find Entry In Definition Table Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: ERROR
  *
  *  \par Cause:
  *
@@ -1704,12 +1704,12 @@
  *  by name) in the Apps results table but is unable to find the same entry
  *  in the definition table (or the entry is marked as #CS_STATE_EMPTY).
  */
-#define CS_DISABLE_APP_DEF_NOT_FOUND_DBG_EID 132
+#define CS_DISABLE_APP_DEF_NOT_FOUND_ERR_EID 132
 
 /**
  * \brief CS Memory Disable Checksum Unable To Find Entry In Definition Table Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: ERROR
  *
  *  \par Cause:
  *
@@ -1717,12 +1717,12 @@
  *  by name) in the Memory results table but identifies the corresponding entry in
  *  the definitions table to be set to #CS_STATE_EMPTY.
  */
-#define CS_DISABLE_MEMORY_DEF_EMPTY_DBG_EID 133
+#define CS_DISABLE_MEMORY_DEF_EMPTY_ERR_EID 133
 
 /**
  * \brief CS Memory Enable Checksum Unable To Find Entry In Definition Table Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: ERROR
  *
  *  \par Cause:
  *
@@ -1730,12 +1730,12 @@
  *  by name) in the Memory results table but identifies the corresponding entry in
  *  the definitions table to be set to #CS_STATE_EMPTY.
  */
-#define CS_ENABLE_MEMORY_DEF_EMPTY_DBG_EID 134
+#define CS_ENABLE_MEMORY_DEF_EMPTY_ERR_EID 134
 
 /**
  * \brief CS EEPROM Disable Checksum Unable To Find Entry In Definition Table Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: ERROR
  *
  *  \par Cause:
  *
@@ -1743,12 +1743,12 @@
  *  by name) in the EEPROM results table but identifies the corresponding entry in
  *  the definitions table to be set to #CS_STATE_EMPTY.
  */
-#define CS_DISABLE_EEPROM_DEF_EMPTY_DBG_EID 135
+#define CS_DISABLE_EEPROM_DEF_EMPTY_ERR_EID 135
 
 /**
  * \brief CS EEPROM Enable Checksum Unable To Find Entry In Definition Table Event ID
  *
- *  \par Type: DEBUG
+ *  \par Type: ERROR
  *
  *  \par Cause:
  *
@@ -1756,7 +1756,7 @@
  *  by name) in the EEPROM results table but identifies the corresponding entry in
  *  the definitions table to be set to #CS_STATE_EMPTY.
  */
-#define CS_ENABLE_EEPROM_DEF_EMPTY_DBG_EID 136
+#define CS_ENABLE_EEPROM_DEF_EMPTY_ERR_EID 136
 
 /**
  * \brief CS Tables Table Validate Failed Duplicate Name Event ID

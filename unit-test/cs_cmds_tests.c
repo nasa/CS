@@ -85,7 +85,7 @@ void CS_ResetCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset Counters command recieved");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset Counters command received");
 
     CS_AppData.HkPacket.Payload.CmdCounter          = 1;
     CS_AppData.HkPacket.Payload.CmdErrCounter       = 2;
@@ -114,7 +114,7 @@ void CS_ResetCmd_Test(void)
     UtAssert_True(CS_AppData.HkPacket.Payload.PassCounter == 0, "CS_AppData.HkPacket.Payload.PassCounter == 0");
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RESET_INF_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
@@ -901,8 +901,8 @@ void CS_RecomputeBaselineCfeCoreCmd_Test_Nominal(void)
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.CfeCoreCodeSeg,
                   "CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.CfeCoreCodeSeg");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_CFECORE_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_CFECORE_STARTED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
@@ -1045,8 +1045,8 @@ void CS_RecomputeBaselineOSCmd_Test_Nominal(void)
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.OSCodeSeg,
                   "CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.OSCodeSeg");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_OS_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_OS_STARTED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
@@ -1201,8 +1201,8 @@ void CS_OneShotCmd_Test_Nominal(void)
     UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle == CS_AppData.MaxBytesPerCycle,
                   "CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle == CS_AppData.MaxBytesPerCycle");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_STARTED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
@@ -1250,8 +1250,8 @@ void CS_OneShotCmd_Test_MaxBytesPerCycleNonZero(void)
     UtAssert_True(CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle == CmdPacket.Payload.MaxBytesPerCycle,
                   "CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle == CmdPacket.Payload.MaxBytesPerCycle");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_STARTED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 

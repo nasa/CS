@@ -111,10 +111,10 @@
  *       Successful execution of this command may be verified with
  *       the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdCounter will increment
- *       - The #CS_ONESHOT_STARTED_DBG_EID debug event message will be
+ *       - The #CS_ONESHOT_STARTED_INF_EID informational event message will be
  *         generated when the command is received
  *       - The CS_ONESHOT_FINISHED_INF_EID informational message will
- *         be generated when the compuation finishes.
+ *         be generated when the computation finishes.
  *       - #CS_HkPacket_Payload_t.LastOneShotChecksum will be updated to the new value
  *
  *  \par Error Conditions
@@ -356,8 +356,8 @@
  *       Successful execution of this command may be verified with
  *       the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdCounter will increment
- *       - The #CS_RECOMPUTE_CFECORE_STARTED_DBG_EID debug event message will be
- *         generated when the command is received
+ *       - The #CS_RECOMPUTE_CFECORE_STARTED_INF_EID informational event message
+ *         will be generated when the command is received
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
@@ -495,8 +495,8 @@
  *       Successful execution of this command may be verified with
  *       the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdCounter will increment
- *       - The #CS_RECOMPUTE_OS_STARTED_DBG_EID debug event message will be
- *         generated when the command is received
+ *       - The #CS_RECOMPUTE_OS_STARTED_INF_EID informational event message
+ *         will be generated when the command is received
  *
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
@@ -637,7 +637,7 @@
  *       Successful execution of this command may be verified with
  *       the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdCounter will increment
- *       - The #CS_RECOMPUTE_EEPROM_STARTED_DBG_EID debug event
+ *       - The #CS_RECOMPUTE_EEPROM_STARTED_INF_EID informational event
  *         message will be generated when the command is received
  *       - The #CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID informational event
  *         message will be generated when the recompute is finished
@@ -881,7 +881,7 @@
  *       Successful execution of this command may be verified with
  *       the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdCounter will increment
- *       - The #CS_RECOMPUTE_MEMORY_STARTED_DBG_EID debug event
+ *       - The #CS_RECOMPUTE_MEMORY_STARTED_INF_EID informational event
  *         message will be generated when the command is received
  *       - The #CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID informational event
  *         message will be generated when the recompute is finished
@@ -1126,7 +1126,7 @@
  *       Successful execution of this command may be verified with
  *       the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdCounter will increment
- *       - The #CS_RECOMPUTE_TABLES_STARTED_DBG_EID debug event
+ *       - The #CS_RECOMPUTE_TABLES_STARTED_INF_EID informational event
  *         message will be generated when the command is received
  *       - The #CS_RECOMPUTE_FINISH_TABLES_INF_EID informational event
  *         message will be generated when the recompute is finished.
@@ -1344,7 +1344,7 @@
  *       Successful execution of this command may be verified with
  *       the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdCounter will increment
- *       - The #CS_RECOMPUTE_APP_STARTED_DBG_EID debug event
+ *       - The #CS_RECOMPUTE_APP_STARTED_INF_EID informational event
  *         message will be generated when the command is received
  *       - The #CS_RECOMPUTE_FINISH_APP_INF_EID informational event
  *         message will be generated when the recompute is finished
