@@ -181,7 +181,7 @@ void CS_InitSegments(void)
     uint32  KernelSize;
     cpuaddr KernelAddress;
 
-    /* Initalize the CFE core segments */
+    /* Initialize the CFE core segments */
     ResultSegment = CFE_PSP_GetCFETextSegmentInfo(&CFEAddress, &CFESize);
 
     if (ResultSegment != OS_SUCCESS)

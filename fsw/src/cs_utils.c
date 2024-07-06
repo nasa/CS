@@ -41,7 +41,7 @@
  **************************************************************************/
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Zero out the temp chcksum values of EEPROM                   */
+/* CS Zero out the temp checksum values of EEPROM                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ZeroEepromTempValues(void)
@@ -57,7 +57,7 @@ void CS_ZeroEepromTempValues(void)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Zero out the temp chcksum values of Memory                   */
+/* CS Zero out the temp checksum values of Memory                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ZeroMemoryTempValues(void)
@@ -73,7 +73,7 @@ void CS_ZeroMemoryTempValues(void)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Zero out the temp chcksum values of Tables                   */
+/* CS Zero out the temp checksum values of Tables                  */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ZeroTablesTempValues(void)
@@ -89,7 +89,7 @@ void CS_ZeroTablesTempValues(void)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Zero out the temp chcksum values of Applications             */
+/* CS Zero out the temp checksum values of Applications            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ZeroAppTempValues(void)
@@ -105,7 +105,7 @@ void CS_ZeroAppTempValues(void)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Zero out the temp chcksum values ofthe cFE core              */
+/* CS Zero out the temp checksum values of the cFE core            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ZeroCfeCoreTempValues(void)
@@ -116,7 +116,7 @@ void CS_ZeroCfeCoreTempValues(void)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Zero out the temp chcksum values of the OS code segment      */
+/* CS Zero out the temp checksum values of the OS code segment     */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ZeroOSTempValues(void)
