@@ -309,8 +309,8 @@ void CS_RecomputeBaselineMemoryCmd_Test_Nominal(void)
     UtAssert_True(CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.ResMemoryTblPtr[CmdPacket.Payload.EntryID],
                   "CS_AppData.RecomputeEepromMemoryEntryPtr == &CS_AppData.ResMemoryTblPtr[CmdPacket.Payload.EntryID]");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_MEMORY_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_MEMORY_STARTED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
@@ -578,8 +578,8 @@ void CS_EnableEntryIDMemoryCmd_Test_DefMemoryTblPtrStateEmpty(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_ENABLE_MEMORY_DEF_EMPTY_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_ENABLE_MEMORY_DEF_EMPTY_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
 
     strCmpResult =
         strncmp(ExpectedEventString[1], context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
@@ -762,8 +762,8 @@ void CS_DisableEntryIDMemoryCmd_Test_DefMemoryTblPtrStateEmpty(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_DISABLE_MEMORY_DEF_EMPTY_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_DISABLE_MEMORY_DEF_EMPTY_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
 
     strCmpResult =
         strncmp(ExpectedEventString[1], context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);

@@ -174,7 +174,7 @@ CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 
         CFE_TBL_ReleaseAddress(LocalTblHandle);
     }
 
-    /* The table has dissapeared since the last time CS looked.
+    /* The table has disappeared since the last time CS looked.
        We are checking to see if the table came back */
     if (Result == CFE_TBL_ERR_UNREGISTERED)
     {
@@ -281,8 +281,8 @@ CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 
         if (Result != CFE_SUCCESS)
         {
             CFE_EVS_SendEvent(CS_COMPUTE_TABLES_RELEASE_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "CS Tables: Could not release addresss for table %s, returned: 0x%08X",
-                              ResultsEntry->Name, (unsigned int)Result);
+                              "CS Tables: Could not release address for table %s, returned: 0x%08X", ResultsEntry->Name,
+                              (unsigned int)Result);
         }
 
     } /* end if tabled was success or updated */

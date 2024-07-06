@@ -173,7 +173,7 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                                            NULL, CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
                 if (Status == CFE_SUCCESS)
                 {
-                    CFE_EVS_SendEvent(CS_RECOMPUTE_MEMORY_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_RECOMPUTE_MEMORY_STARTED_INF_EID, CFE_EVS_EventType_INFORMATION,
                                       "Recompute baseline of Memory Entry ID %d started", EntryID);
                     CS_AppData.HkPacket.Payload.CmdCounter++;
                 }
@@ -249,7 +249,7 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                 }
                 else
                 {
-                    CFE_EVS_SendEvent(CS_ENABLE_MEMORY_DEF_EMPTY_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_ENABLE_MEMORY_DEF_EMPTY_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "CS unable to update memory definition table for entry %d, State: %d", EntryID,
                                       State);
                 }
@@ -311,7 +311,7 @@ void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                 }
                 else
                 {
-                    CFE_EVS_SendEvent(CS_DISABLE_MEMORY_DEF_EMPTY_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_DISABLE_MEMORY_DEF_EMPTY_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "CS unable to update memory definition table for entry %d, State: %d", EntryID,
                                       State);
                 }

@@ -151,7 +151,7 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
                                                 CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
                 if (Status == CFE_SUCCESS)
                 {
-                    CFE_EVS_SendEvent(CS_RECOMPUTE_APP_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_RECOMPUTE_APP_STARTED_INF_EID, CFE_EVS_EventType_INFORMATION,
                                       "Recompute baseline of app %s started", Name);
                     CS_AppData.HkPacket.Payload.CmdCounter++;
                 }
@@ -214,7 +214,7 @@ void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
                 }
                 else
                 {
-                    CFE_EVS_SendEvent(CS_DISABLE_APP_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_DISABLE_APP_DEF_NOT_FOUND_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "CS unable to update apps definition table for entry %s", Name);
                 }
 
@@ -262,7 +262,7 @@ void CS_EnableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
                 }
                 else
                 {
-                    CFE_EVS_SendEvent(CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_ENABLE_APP_DEF_NOT_FOUND_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "CS unable to update apps definition table for entry %s", Name);
                 }
 

@@ -612,7 +612,7 @@ void CS_ComputeTables_Test_ComputeTablesReleaseError(void)
     memset(&TblInfo, 0, sizeof(TblInfo));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS Tables: Could not release addresss for table %%s, returned: 0x%%08X");
+             "CS Tables: Could not release address for table %%s, returned: 0x%%08X");
 
     ResultsEntry.TblHandle = CFE_TBL_BAD_TABLE_HANDLE;
 

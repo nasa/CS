@@ -173,7 +173,7 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
                                            NULL, CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
                 if (Status == CFE_SUCCESS)
                 {
-                    CFE_EVS_SendEvent(CS_RECOMPUTE_EEPROM_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_RECOMPUTE_EEPROM_STARTED_INF_EID, CFE_EVS_EventType_INFORMATION,
                                       "Recompute baseline of EEPROM Entry ID %d started", EntryID);
                     CS_AppData.HkPacket.Payload.CmdCounter++;
                 }
@@ -249,7 +249,7 @@ void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
                 }
                 else
                 {
-                    CFE_EVS_SendEvent(CS_ENABLE_EEPROM_DEF_EMPTY_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_ENABLE_EEPROM_DEF_EMPTY_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "CS unable to update EEPROM definition table for entry %d, State: %d", EntryID,
                                       State);
                 }
@@ -311,7 +311,7 @@ void CS_DisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
                 }
                 else
                 {
-                    CFE_EVS_SendEvent(CS_DISABLE_EEPROM_DEF_EMPTY_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_DISABLE_EEPROM_DEF_EMPTY_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "CS unable to update EEPROM definition table for entry %d, State: %d", EntryID,
                                       State);
                 }
