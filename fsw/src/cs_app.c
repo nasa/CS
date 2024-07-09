@@ -58,7 +58,7 @@ CS_AppData_t CS_AppData;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_AppMain(void)
 {
-    CFE_Status_t     Result = 0;
+    CFE_Status_t     Result;
     CFE_SB_Buffer_t *BufPtr = NULL;
 
     /* Performance Log (start time counter) */
@@ -147,7 +147,7 @@ void CS_AppMain(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_AppInit(void)
 {
-    CFE_Status_t Result = CFE_SUCCESS;
+    CFE_Status_t Result;
 
     /* Register for event services */
     Result = CFE_EVS_Register(NULL, 0, 0);
@@ -264,8 +264,8 @@ CFE_Status_t CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
 
 void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
 {
-    CFE_SB_MsgId_t MessageID   = CFE_SB_INVALID_MSG_ID;
-    uint16         CommandCode = 0;
+    CFE_SB_MsgId_t    MessageID   = CFE_SB_INVALID_MSG_ID;
+    CFE_MSG_FcnCode_t CommandCode = 0;
 
     CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
 

@@ -39,7 +39,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_SbInit(void)
 {
-    CFE_Status_t Result = CFE_SUCCESS;
+    CFE_Status_t Result;
 
     /* Initialize app configuration data */
     snprintf(CS_AppData.PipeName, sizeof(CS_AppData.PipeName), "%s", CS_CMD_PIPE_NAME);
@@ -100,7 +100,7 @@ CFE_Status_t CS_SbInit(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_InitAllTables(void)
 {
-    CFE_Status_t ResultInit = CFE_SUCCESS;
+    CFE_Status_t ResultInit;
 
     ResultInit = CS_TableInit(&CS_AppData.DefEepromTableHandle, &CS_AppData.ResEepromTableHandle,
                               (void *)&CS_AppData.DefEepromTblPtr, (void *)&CS_AppData.ResEepromTblPtr, CS_EEPROM_TABLE,
@@ -175,7 +175,7 @@ CFE_Status_t CS_InitAllTables(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_InitSegments(void)
 {
-    int32   ResultSegment = OS_SUCCESS;
+    int32   ResultSegment;
     uint32  CFESize;
     cpuaddr CFEAddress;
     uint32  KernelSize;

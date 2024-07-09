@@ -47,17 +47,17 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
 {
-    CFE_Status_t                       Result       = CFE_SUCCESS;
-    CFE_Status_t                       Status       = OS_ERROR;
+    CFE_Status_t                       Result = CFE_SUCCESS;
+    CFE_Status_t                       Status;
     CS_Def_EepromMemory_Table_Entry_t *StartOfTable = NULL;
     CS_Def_EepromMemory_Table_Entry_t *OuterEntry   = NULL;
-    int32                              OuterLoop    = 0;
-    uint32                             StateField   = 0;
-    cpuaddr                            Address      = 0;
-    uint32                             Size         = 0;
-    int32                              GoodCount    = 0;
-    int32                              BadCount     = 0;
-    int32                              EmptyCount   = 0;
+    int32                              OuterLoop;
+    uint32                             StateField;
+    cpuaddr                            Address;
+    uint32                             Size;
+    int32                              GoodCount  = 0;
+    int32                              BadCount   = 0;
+    int32                              EmptyCount = 0;
 
     StartOfTable = (CS_Def_EepromMemory_Table_Entry_t *)TblPtr;
 
@@ -127,21 +127,19 @@ CFE_Status_t CS_ValidateEepromChecksumDefinitionTable(void *TblPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr)
 {
-    CFE_Status_t                       Result       = CFE_SUCCESS;
-    CFE_Status_t                       Status       = OS_ERROR;
+    CFE_Status_t                       Result = CFE_SUCCESS;
+    CFE_Status_t                       Status;
     CS_Def_EepromMemory_Table_Entry_t *StartOfTable = NULL;
     CS_Def_EepromMemory_Table_Entry_t *OuterEntry   = NULL;
-    int32                              OuterLoop    = 0;
-    uint32                             StateField   = 0;
-    cpuaddr                            Address      = 0;
-    uint32                             Size         = 0;
-    int32                              GoodCount    = 0;
-    int32                              BadCount     = 0;
-    int32                              EmptyCount   = 0;
+    int32                              OuterLoop;
+    uint32                             StateField;
+    cpuaddr                            Address;
+    uint32                             Size;
+    int32                              GoodCount  = 0;
+    int32                              BadCount   = 0;
+    int32                              EmptyCount = 0;
 
     StartOfTable = (CS_Def_EepromMemory_Table_Entry_t *)TblPtr;
-
-    Result = CFE_SUCCESS;
 
     for (OuterLoop = 0; OuterLoop < CS_MAX_NUM_MEMORY_TABLE_ENTRIES; OuterLoop++)
     {
@@ -211,16 +209,16 @@ CFE_Status_t CS_ValidateMemoryChecksumDefinitionTable(void *TblPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
 {
-    CFE_Status_t                 Result         = CFE_SUCCESS;
-    CS_Def_Tables_Table_Entry_t *StartOfTable   = NULL;
-    CS_Def_Tables_Table_Entry_t *OuterEntry     = NULL;
-    int32                        OuterLoop      = 0;
-    int32                        InnerLoop      = 0;
-    uint32                       StateField     = 0;
-    int32                        GoodCount      = 0;
-    int32                        BadCount       = 0;
-    int32                        EmptyCount     = 0;
-    bool                         DuplicateFound = false;
+    CFE_Status_t                 Result       = CFE_SUCCESS;
+    CS_Def_Tables_Table_Entry_t *StartOfTable = NULL;
+    CS_Def_Tables_Table_Entry_t *OuterEntry   = NULL;
+    int32                        OuterLoop;
+    int32                        InnerLoop;
+    uint32                       StateField;
+    int32                        GoodCount  = 0;
+    int32                        BadCount   = 0;
+    int32                        EmptyCount = 0;
+    bool                         DuplicateFound;
 
     StartOfTable = (CS_Def_Tables_Table_Entry_t *)TblPtr;
 
@@ -474,6 +472,7 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
         PreviousState                     = CS_AppData.HkPacket.Payload.EepromCSState;
         CS_AppData.HkPacket.Payload.EepromCSState = CS_STATE_DISABLED;
     }
+
     if (Table == CS_MEMORY_TABLE)
     {
         PreviousState                     = CS_AppData.HkPacket.Payload.MemoryCSState;
@@ -552,15 +551,15 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
     CS_Def_Tables_Table_Entry_t *DefEntry            = NULL;
     CS_Res_Tables_Table_Entry_t *StartOfResultsTable = NULL;
     CS_Res_Tables_Table_Entry_t *ResultsEntry        = NULL;
-    uint16                       Loop                = 0;
-    uint16                       NumRegionsInTable   = 0;
-    uint16                       PreviousState       = CS_STATE_EMPTY;
-    CFE_ES_AppId_t               AppID               = CFE_ES_APPID_UNDEFINED;
-    CFE_TBL_Handle_t             TableHandle         = CFE_TBL_BAD_TABLE_HANDLE;
-    bool                         Owned               = false;
-    uint16                       DefNameIndex        = 0;
-    uint16                       AppNameIndex        = 0;
-    uint16                       TableNameIndex      = 0;
+    uint16                       Loop;
+    uint16                       NumRegionsInTable = 0;
+    uint16                       PreviousState;
+    CFE_ES_AppId_t               AppID = CFE_ES_APPID_UNDEFINED;
+    CFE_TBL_Handle_t             TableHandle;
+    bool                         Owned;
+    uint16                       DefNameIndex;
+    uint16                       AppNameIndex;
+    uint16                       TableNameIndex;
     char                         AppName[OS_MAX_API_NAME];
     char                         TableAppName[OS_MAX_API_NAME];
     char                         TableTableName[CFE_MISSION_TBL_MAX_NAME_LENGTH];
@@ -745,9 +744,9 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
     CS_Def_App_Table_Entry_t *DefEntry            = NULL;
     CS_Res_App_Table_Entry_t *StartOfResultsTable = NULL;
     CS_Res_App_Table_Entry_t *ResultsEntry        = NULL;
-    uint16                    Loop                = 0;
-    uint16                    NumRegionsInTable   = 0;
-    uint16                    PreviousState       = CS_STATE_EMPTY;
+    uint16                    Loop;
+    uint16                    NumRegionsInTable = 0;
+    uint16                    PreviousState;
 
     memcpy(&StartOfResultsTable, ResultsTblPtr, sizeof(StartOfResultsTable));
     memcpy(&StartOfDefTable, DefinitionTblPtr, sizeof(StartOfDefTable));
@@ -813,17 +812,17 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
 CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handle_t *ResultsTableHandle,
                           void *DefinitionTblPtr, void *ResultsTblPtr, uint16 Table, const char *DefinitionTableName,
                           const char *ResultsTableName, uint16 NumEntries, const char *DefinitionTableFileName,
-                          const void *DefaultDefTableAddress, uint16 SizeofDefinitionTableEntry,
-                          uint16 SizeofResultsTableEntry, CFE_TBL_CallbackFuncPtr_t CallBackFunction)
+                          const void *DefaultDefTableAddress, const size_t SizeofDefinitionTableEntry,
+                          const size_t SizeofResultsTableEntry, CFE_TBL_CallbackFuncPtr_t CallBackFunction)
 {
-    CFE_Status_t Result           = CFE_SUCCESS;
-    int32        OS_Status        = -1;
-    CFE_Status_t ResultFromLoad   = OS_ERROR;
-    int32        SizeOfTable      = 0;
-    bool         LoadedFromMemory = false;
-    bool         ValidFile        = false;
-    osal_id_t    Fd               = OS_OBJECT_ID_UNDEFINED;
-    char         TableType[CS_TABLETYPE_NAME_SIZE];
+    CFE_Status_t  Result;
+    osal_status_t OS_Status      = OS_ERROR;
+    CFE_Status_t  ResultFromLoad = CS_ERROR;
+    size_t        SizeOfTable;
+    bool          LoadedFromMemory = false;
+    bool          ValidFile        = false;
+    osal_id_t     Fd               = OS_OBJECT_ID_UNDEFINED;
+    char          TableType[CS_TABLETYPE_NAME_SIZE];
 
     snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Undef Tbl"); /* Init table type */
 
@@ -957,14 +956,14 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
 CFE_Status_t CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, CFE_TBL_Handle_t DefinitionTableHandle,
                                   CFE_TBL_Handle_t ResultsTableHandle, uint16 Table, uint16 NumEntries)
 {
-    CFE_Status_t ReleaseResult1 = CFE_SUCCESS;
-    CFE_Status_t ManageResult1  = CFE_SUCCESS;
-    CFE_Status_t GetResult1     = CFE_SUCCESS;
-    CFE_Status_t ReleaseResult2 = CFE_SUCCESS;
-    CFE_Status_t ManageResult2  = CFE_SUCCESS;
-    CFE_Status_t GetResult2     = CFE_SUCCESS;
-    CFE_Status_t Result         = CFE_SUCCESS;
-    int32        Loop           = 0;
+    CFE_Status_t ReleaseResult1;
+    CFE_Status_t ManageResult1;
+    CFE_Status_t GetResult1;
+    CFE_Status_t ReleaseResult2;
+    CFE_Status_t ManageResult2;
+    CFE_Status_t GetResult2 = CFE_SUCCESS;
+    CFE_Status_t Result;
+    int32        Loop;
     char         TableType[CS_TABLETYPE_NAME_SIZE];
 
     snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Undef Tbl"); /* Init table type */
