@@ -48,7 +48,7 @@ void CS_Init_Test_SBCreatePipeError(void)
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus Create Pipe for command returned: 0x%%08X");
 
-    /* Set to generate error message CS_INIT_SB_CREATE_ERR_EID */
+    /* Set to generate error message CS_CR_PIPE_ERR_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_SB_CreatePipe), 1, -1);
 
     /* Execute the function being tested */
@@ -58,7 +58,7 @@ void CS_Init_Test_SBCreatePipeError(void)
 
     UtAssert_True(Result == -1, "Result == -1");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_INIT_SB_CREATE_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CR_PIPE_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
@@ -242,7 +242,7 @@ void CS_Init_Test_TableInitErrorMemory(void)
 
     /* Set to prevent unintended error messages */
 
-    /* Set to generate error message CS_INIT_SB_CREATE_ERR_EID.
+    /* Set to generate error message CS_CR_PIPE_ERR_EID.
      * Combining a SetReturnCode and a SetFunctionHook in order to return CFE_SUCCESS all runs except the one specified
      */
 

@@ -327,7 +327,7 @@ void CS_VerifyCmdLength_Test(void)
     UtAssert_BOOL_FALSE(CS_VerifyCmdLength((CFE_MSG_Message_t *)(&CmdPacket), MsgSize - 1));
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_LEN_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CMD_LEN_ERR_EID);
 }
 
 void CS_BackgroundCfeCore_Test(void)
