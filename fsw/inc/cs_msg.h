@@ -37,34 +37,34 @@
  */
 typedef struct
 {
-    uint8   CmdCounter;                  /**< \brief CS Application Command Counter */
-    uint8   CmdErrCounter;               /**< \brief CS Application Command Error Counter */
-    uint8   ChecksumState;               /**< \brief CS Application global checksum state */
-    uint8   EepromCSState;               /**< \brief CS EEPROM table checksum state */
-    uint8   MemoryCSState;               /**< \brief CS Memory table checksum state */
-    uint8   AppCSState;                  /**< \brief CS App table checksum state */
-    uint8   TablesCSState;               /**< \brief CS Tables table checksum state */
-    uint8   OSCSState;                   /**< \brief OS code segment checksum state */
-    uint8   CfeCoreCSState;              /**< \brief cFE Core code segment checksum stat e*/
-    uint8   RecomputeInProgress;         /**< \brief CS "Recompute In Progress" flag */
-    uint8   OneShotInProgress;           /**< \brief CS "OneShot In Progress" flag */
-    uint8   Filler8;                     /**< \brief 8 bit padding */
-    uint16  EepromCSErrCounter;          /**< \brief EEPROM miscompare counter */
-    uint16  MemoryCSErrCounter;          /**< \brief Memory miscompare counter */
-    uint16  AppCSErrCounter;             /**< \brief App miscompare counter */
-    uint16  TablesCSErrCounter;          /**< \brief Tables miscompare counter */
-    uint16  CfeCoreCSErrCounter;         /**< \brief cFE core miscompare counter */
-    uint16  OSCSErrCounter;              /**< \brief OS code segment miscopmare counter */
-    uint16  CurrentCSTable;              /**< \brief Current table being checksummed */
-    uint16  CurrentEntryInTable;         /**< \brief Current entry ID in table being checksummed */
-    uint32  EepromBaseline;              /**< \brief Baseline checksum for all of EEPROM */
-    uint32  OSBaseline;                  /**< \brief Baseline checksum for the OS code segment */
-    uint32  CfeCoreBaseline;             /**< \brief Basline checksum for the cFE core */
-    cpuaddr LastOneShotAddress;          /**< \brief Address used in last one shot checksum command */
-    uint32  LastOneShotSize;             /**< \brief Size used in the last one shot checksum command */
-    uint32  LastOneShotMaxBytesPerCycle; /**< \brief Max bytes per cycle for last one shot checksum command */
-    uint32  LastOneShotChecksum;         /**< \brief Checksum of the last one shot checksum command */
-    uint32  PassCounter;                 /**< \brief Number of times CS has passed through all of its tables */
+    uint8               CmdCounter;          /**< \brief CS Application Command Counter */
+    uint8               CmdErrCounter;       /**< \brief CS Application Command Error Counter */
+    uint8               ChecksumState;       /**< \brief CS Application global checksum state */
+    uint8               EepromCSState;       /**< \brief CS EEPROM table checksum state */
+    uint8               MemoryCSState;       /**< \brief CS Memory table checksum state */
+    uint8               AppCSState;          /**< \brief CS App table checksum state */
+    uint8               TablesCSState;       /**< \brief CS Tables table checksum state */
+    uint8               OSCSState;           /**< \brief OS code segment checksum state */
+    uint8               CfeCoreCSState;      /**< \brief cFE Core code segment checksum stat e*/
+    uint8               RecomputeInProgress; /**< \brief CS "Recompute In Progress" flag */
+    uint8               OneShotInProgress;   /**< \brief CS "OneShot In Progress" flag */
+    uint8               Filler8;             /**< \brief 8 bit padding */
+    uint16              EepromCSErrCounter;  /**< \brief EEPROM miscompare counter */
+    uint16              MemoryCSErrCounter;  /**< \brief Memory miscompare counter */
+    uint16              AppCSErrCounter;     /**< \brief App miscompare counter */
+    uint16              TablesCSErrCounter;  /**< \brief Tables miscompare counter */
+    uint16              CfeCoreCSErrCounter; /**< \brief cFE core miscompare counter */
+    uint16              OSCSErrCounter;      /**< \brief OS code segment miscopmare counter */
+    uint16              CurrentCSTable;      /**< \brief Current table being checksummed */
+    uint16              CurrentEntryInTable; /**< \brief Current entry ID in table being checksummed */
+    uint32              EepromBaseline;      /**< \brief Baseline checksum for all of EEPROM */
+    uint32              OSBaseline;          /**< \brief Baseline checksum for the OS code segment */
+    uint32              CfeCoreBaseline;     /**< \brief Basline checksum for the cFE core */
+    CFE_ES_MemAddress_t LastOneShotAddress;  /**< \brief Address used in last one shot checksum command */
+    uint32              LastOneShotSize;     /**< \brief Size used in the last one shot checksum command */
+    uint32 LastOneShotMaxBytesPerCycle;      /**< \brief Max bytes per cycle for last one shot checksum command */
+    uint32 LastOneShotChecksum;              /**< \brief Checksum of the last one shot checksum command */
+    uint32 PassCounter;                      /**< \brief Number of times CS has passed through all of its tables */
 } CS_HkPacket_Payload_t;
 
 /**
@@ -88,7 +88,7 @@ typedef struct
  */
 typedef struct
 {
-    cpuaddr Address; /**< \brief Address to get the ID for */
+    CFE_ES_MemAddress_t Address; /**< \brief Address to get the ID for */
 } CS_GetEntryIDCmd_Payload_t;
 
 /**
@@ -120,10 +120,10 @@ typedef struct
  */
 typedef struct
 {
-    cpuaddr Address;          /**< \brief Address to start checksum */
-    uint32  Size;             /**< \brief Number of bytes to checksum */
-    uint32  MaxBytesPerCycle; /**< \brief Max Number of bytes to compute per cycle. Value of Zero to use platform config
-                                value */
+    CFE_ES_MemAddress_t Address; /**< \brief Address to start checksum */
+    uint32              Size;    /**< \brief Number of bytes to checksum */
+    uint32 MaxBytesPerCycle; /**< \brief Max Number of bytes to compute per cycle. Value of Zero to use platform config
+                               value */
 } CS_OneShotCmd_Payload_t;
 
 /**

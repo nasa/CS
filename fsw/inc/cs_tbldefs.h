@@ -68,10 +68,10 @@
  */
 typedef struct
 {
-    cpuaddr StartAddress;       /**< \brief The Start address to Checksum */
-    uint16  State;              /**< \brief Uses the CS_STATE_... defines from above */
-    uint16  Filler16;           /** <\brief Padding */
-    uint32  NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
+    CFE_ES_MemAddress_t StartAddress;       /**< \brief The Start address to Checksum */
+    uint16              State;              /**< \brief Uses the CS_STATE_... defines from above */
+    uint16              Filler16;           /** <\brief Padding */
+    uint32              NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
 } CS_Def_EepromMemory_Table_Entry_t;
 
 /**
@@ -79,14 +79,13 @@ typedef struct
  */
 typedef struct
 {
-    cpuaddr StartAddress;       /**< \brief The Start address to Checksum */
-    uint16  State;              /**< \brief Uses the CS_STATE_... defines from above */
-    uint16  ComputedYet;        /**< \brief Have we computed an Integrity value yet */
-    uint32  NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
-    uint32  ComparisonValue;    /**< \brief The Memory Integrity Value */
-    uint32  ByteOffset;         /**< \brief Where a previous unfinished calc left off */
-    uint32  TempChecksumValue;  /**< \brief The unfinished caluculation */
-    uint32  Filler32;           /**< \brief Padding */
+    CFE_ES_MemAddress_t StartAddress;       /**< \brief The Start address to Checksum */
+    uint16              State;              /**< \brief Uses the CS_STATE_... defines from above */
+    uint16              ComputedYet;        /**< \brief Have we computed an Integrity value yet */
+    uint32              NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
+    uint32              ComparisonValue;    /**< \brief The Memory Integrity Value */
+    uint32              ByteOffset;         /**< \brief Where a previous unfinished calc left off */
+    uint32              TempChecksumValue;  /**< \brief The unfinished caluculation */
 } CS_Res_EepromMemory_Table_Entry_t;
 
 /**
@@ -112,17 +111,17 @@ typedef struct
  */
 typedef struct
 {
-    cpuaddr          StartAddress;                    /**< \brief The Start address to Checksum */
-    uint16           State;                           /**< \brief Uses the CS_STATE_... defines from above */
-    uint16           ComputedYet;                     /**< \brief Have we computed an Integrity value yet */
-    uint32           NumBytesToChecksum;              /**< \brief The number of Bytes to Checksum */
-    uint32           ComparisonValue;                 /**< \brief The Memory Integrity Value */
-    uint32           ByteOffset;                      /**< \brief Where a previous unfinished calc left off */
-    uint32           TempChecksumValue;               /**< \brief The unfinished caluculation */
-    CFE_TBL_Handle_t TblHandle;                       /**< \brief handle recieved from CFE_TBL */
-    bool             IsCSOwner;                       /**< \brief Is CS the original owner of this table */
-    bool             Filler8;                         /**< \brief Padding */
-    char             Name[CFE_TBL_MAX_FULL_NAME_LEN]; /**< \brief name of the table */
+    CFE_ES_MemAddress_t StartAddress;                    /**< \brief The Start address to Checksum */
+    uint16              State;                           /**< \brief Uses the CS_STATE_... defines from above */
+    uint16              ComputedYet;                     /**< \brief Have we computed an Integrity value yet */
+    uint32              NumBytesToChecksum;              /**< \brief The number of Bytes to Checksum */
+    uint32              ComparisonValue;                 /**< \brief The Memory Integrity Value */
+    uint32              ByteOffset;                      /**< \brief Where a previous unfinished calc left off */
+    uint32              TempChecksumValue;               /**< \brief The unfinished caluculation */
+    CFE_TBL_Handle_t    TblHandle;                       /**< \brief handle recieved from CFE_TBL */
+    bool                IsCSOwner;                       /**< \brief Is CS the original owner of this table */
+    bool                Filler8;                         /**< \brief Padding */
+    char                Name[CFE_TBL_MAX_FULL_NAME_LEN]; /**< \brief name of the table */
 } CS_Res_Tables_Table_Entry_t;
 
 /**
@@ -130,14 +129,14 @@ typedef struct
  */
 typedef struct
 {
-    cpuaddr StartAddress;          /**< \brief The Start address to Checksum */
-    uint16  State;                 /**< \brief Uses the CS_STATE_... defines from above */
-    uint16  ComputedYet;           /**< \brief Have we computed an Integrity value yet */
-    uint32  NumBytesToChecksum;    /**< \brief The number of Bytes to Checksum */
-    uint32  ComparisonValue;       /**< \brief The Memory Integrity Value */
-    uint32  ByteOffset;            /**< \brief Where a previous unfinished calc left off */
-    uint32  TempChecksumValue;     /**< \brief The unfinished caluculation */
-    char    Name[OS_MAX_API_NAME]; /**< \brief name of the app */
+    CFE_ES_MemAddress_t StartAddress;          /**< \brief The Start address to Checksum */
+    uint16              State;                 /**< \brief Uses the CS_STATE_... defines from above */
+    uint16              ComputedYet;           /**< \brief Have we computed an Integrity value yet */
+    uint32              NumBytesToChecksum;    /**< \brief The number of Bytes to Checksum */
+    uint32              ComparisonValue;       /**< \brief The Memory Integrity Value */
+    uint32              ByteOffset;            /**< \brief Where a previous unfinished calc left off */
+    uint32              TempChecksumValue;     /**< \brief The unfinished caluculation */
+    char                Name[OS_MAX_API_NAME]; /**< \brief name of the app */
 } CS_Res_App_Table_Entry_t;
 
 /**************************************************************************
