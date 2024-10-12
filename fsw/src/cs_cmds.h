@@ -63,7 +63,7 @@ void CS_NoopCmd(const CS_NoArgsCmd_t *CmdPtr);
  *
  *  \sa #CS_RESET_CC
  */
-void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr);
+void CS_ResetCountersCmd(const CS_NoArgsCmd_t *CmdPtr);
 
 /**
  * \brief process a background checking cycle

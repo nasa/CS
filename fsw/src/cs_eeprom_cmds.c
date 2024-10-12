@@ -60,7 +60,7 @@ void CS_DisableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_DISABLE_EEPROM_INF_EID, CFE_EVS_EventType_INFORMATION,
                               "Checksumming of EEPROM is Disabled");
 
-            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CommandCounter++;
         }
 }
 
@@ -82,7 +82,7 @@ void CS_EnableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_ENABLE_EEPROM_INF_EID, CFE_EVS_EventType_INFORMATION,
                               "Checksumming of EEPROM is Enabled");
 
-            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CommandCounter++;
         }
 }
 
@@ -118,7 +118,7 @@ void CS_ReportBaselineEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
                 CFE_EVS_SendEvent(CS_NO_BASELINE_EEPROM_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "Report baseline of EEPROM Entry %d has not been computed yet", EntryID);
             }
-            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CommandCounter++;
         }
         else
         {
@@ -134,7 +134,7 @@ void CS_ReportBaselineEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_BASELINE_INVALID_ENTRY_EEPROM_ERR_EID, CFE_EVS_EventType_ERROR,
                               "EEPROM report baseline failed, Entry ID invalid: %d, State: %d Max ID: %d", EntryID,
                               State, (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
         }
 }
 
@@ -175,7 +175,7 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
                 {
                     CFE_EVS_SendEvent(CS_RECOMPUTE_EEPROM_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
                                       "Recompute baseline of EEPROM Entry ID %d started", EntryID);
-                    CS_AppData.HkPacket.Payload.CmdCounter++;
+                    CS_AppData.HkPacket.Payload.CommandCounter++;
                 }
                 else /* child task creation failed */
                 {
@@ -183,7 +183,7 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
                         CS_RECOMPUTE_EEPROM_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
                         "Recompute baseline of EEPROM Entry ID %d failed, CFE_ES_CreateChildTask returned:  0x%08X",
                         EntryID, (unsigned int)Status);
-                    CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                    CS_AppData.HkPacket.Payload.CommandErrorCounter++;
                     CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
                 }
             }
@@ -203,7 +203,7 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
                     "EEPROM recompute baseline of entry failed, Entry ID invalid: %d, State: %d, Max ID: %d", EntryID,
                     State, (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
 
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CommandErrorCounter++;
             }
         }
         else
@@ -211,7 +211,7 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
             /*send event that we can't start another task right now */
             CFE_EVS_SendEvent(CS_RECOMPUTE_EEPROM_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Recompute baseline of EEPROM Entry ID %d failed: child task in use", EntryID);
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
         }
 }
 
@@ -254,7 +254,7 @@ void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
                                       State);
                 }
 
-                CS_AppData.HkPacket.Payload.CmdCounter++;
+                CS_AppData.HkPacket.Payload.CommandCounter++;
             }
             else
             {
@@ -270,7 +270,7 @@ void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
                 CFE_EVS_SendEvent(CS_ENABLE_EEPROM_INVALID_ENTRY_ERR_EID, CFE_EVS_EventType_ERROR,
                                   "Enable EEPROM entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d", EntryID,
                                   State, (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CommandErrorCounter++;
             }
         } /* end InProgress if */
 }
@@ -316,7 +316,7 @@ void CS_DisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
                                       State);
                 }
 
-                CS_AppData.HkPacket.Payload.CmdCounter++;
+                CS_AppData.HkPacket.Payload.CommandCounter++;
             }
             else
             {
@@ -333,7 +333,7 @@ void CS_DisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
                                   "Disable EEPROM entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d", EntryID,
                                   State, (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
 
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CommandErrorCounter++;
             }
         } /* end InProgress if */
 }
@@ -372,5 +372,5 @@ void CS_GetEntryIDEepromCmd(const CS_GetEntryIDCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_GET_ENTRY_ID_EEPROM_NOT_FOUND_INF_EID, CFE_EVS_EventType_INFORMATION,
                               "Address 0x%08X was not found in EEPROM table", (unsigned int)(CmdPtr->Payload.Address));
         }
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+        CS_AppData.HkPacket.Payload.CommandCounter++;
 }

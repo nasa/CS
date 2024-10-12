@@ -66,14 +66,6 @@ uint8 call_count_CFE_EVS_SendEvent;
  * Function Definitions
  */
 
-CFE_Status_t CS_APP_TEST_CFE_ES_RunLoop_Hook(void *UserObj, int32 StubRetcode, uint32 CallCount,
-                                             const UT_StubContext_t *Context)
-{
-    CS_AppData.RunStatus = CFE_ES_RunStatus_SYS_EXCEPTION;
-
-    return false;
-}
-
 void CS_APP_TEST_CFE_ES_RestoreFromCDS_Handler(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     uint8 *DataStoreBuffer = (uint8 *)UT_Hook_GetArgValueByName(Context, "RestoreToMemory", uint8 *);
@@ -186,54 +178,6 @@ void CS_AppMain_Test_AppInitError(void)
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
-}
-
-void CS_AppMain_Test_SysException(void)
-{
-    int32 strCmpResult;
-    char  ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    char  ExpectedSysLogString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X, RC:0x%%08X");
-
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
-
-    /* Set to make loop not execute */
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, false);
-
-    /* Set to prevent unintended error messages */
-    UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), CFE_SUCCESS);
-
-    /* Set to satisfy subsequent condition "Result != CFE_SUCCESS" */
-    UT_SetDeferredRetcode(UT_KEY(CFE_SB_ReceiveBuffer), 1, -1);
-
-    /* Set to make CS_AppData.RunStatus == CFE_ES_RunStatus_SYS_EXCEPTION */
-    UT_SetHookFunction(UT_KEY(CFE_ES_RunLoop), CS_APP_TEST_CFE_ES_RunLoop_Hook, NULL);
-
-    /* Execute the function being tested */
-    CS_AppMain();
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.RunStatus == CFE_ES_RunStatus_SYS_EXCEPTION,
-                  "CS_AppData.RunStatus == CFE_ES_RunStatus_SYS_EXCEPTION");
-
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_EXIT_ERR_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
-
-    strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
-
-    strCmpResult = strncmp(ExpectedSysLogString, context_CFE_ES_WriteToSysLog.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Sys Log string matched expected result, '%s'", context_CFE_ES_WriteToSysLog.Spec);
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
-                  call_count_CFE_EVS_SendEvent);
-    /* Generates 1 event message we don't care about in this test */
 }
 
 void CS_AppMain_Test_RcvMsgError(void)
@@ -383,52 +327,6 @@ void CS_AppMain_Test_RcvNoMsg(void)
                   call_count_CFE_EVS_SendEvent);
 
     /* Generates 2 event messages we don't care about in this test */
-}
-
-void CS_AppMain_Test_RcvNullBufPtr(void)
-{
-    CFE_SB_MsgId_t  TestMsgId;
-    size_t          MsgSize;
-    int32           strCmpResult;
-    char            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    char            ExpectedSysLogString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    CS_NoArgsCmd_t *Packet = NULL;
-
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X, RC:0x%%08X");
-
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
-
-    /* Set to make loop execute exactly once */
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_RunLoop), 1, true);
-
-    TestMsgId = CFE_SB_ValueToMsgId(CS_SEND_HK_MID);
-    MsgSize   = sizeof(CS_NoArgsCmd_t);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetMsgId), &TestMsgId, sizeof(TestMsgId), false);
-    UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
-    UT_SetDataBuffer(UT_KEY(CFE_SB_ReceiveBuffer), &Packet, sizeof(Packet), false);
-
-    /* Set to make CS_AppPipe return -1 */
-    UT_SetDeferredRetcode(UT_KEY(CS_HandleRoutineTableUpdates), 1, -1);
-
-    /* Set to satisfy subsequent condition "BufPtr == NULL" */
-    UT_SetDataBuffer(UT_KEY(CFE_SB_ReceiveBuffer), Packet, sizeof(CS_NoArgsCmd_t), false);
-
-    /* Execute the function being tested */
-    CS_AppMain();
-
-    /* Verify results */
-    UtAssert_True(CS_AppData.RunStatus == 1, "CS_AppData.RunStatus == 1");
-
-    call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
-
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
-                  call_count_CFE_EVS_SendEvent);
-    /* Generates 1 event messages we don't care about in this test */
-
-    strCmpResult = strncmp(ExpectedSysLogString, context_CFE_ES_WriteToSysLog.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
-
-    UtAssert_True(strCmpResult == 0, "Sys Log string matched expected result, '%s'", context_CFE_ES_WriteToSysLog.Spec);
 }
 
 void CS_AppMain_Test_AppPipeError(void)
@@ -2184,8 +2082,8 @@ void CS_HousekeepingCmd_Test_Nominal(void)
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetFcnCode), &FcnCode, sizeof(FcnCode), false);
     UT_SetDataBuffer(UT_KEY(CFE_MSG_GetSize), &MsgSize, sizeof(MsgSize), false);
 
-    CS_AppData.HkPacket.Payload.CmdCounter          = 1;
-    CS_AppData.HkPacket.Payload.CmdErrCounter       = 2;
+    CS_AppData.HkPacket.Payload.CommandCounter      = 1;
+    CS_AppData.HkPacket.Payload.CommandErrorCounter = 2;
     CS_AppData.HkPacket.Payload.ChecksumState       = 3;
     CS_AppData.HkPacket.Payload.EepromCSState       = 4;
     CS_AppData.HkPacket.Payload.MemoryCSState       = 5;
@@ -2215,8 +2113,9 @@ void CS_HousekeepingCmd_Test_Nominal(void)
     CS_HousekeepingCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 2, "CS_AppData.HkPacket.Payload.CmdErrCounter == 2");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 2,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 2");
     UtAssert_True(CS_AppData.HkPacket.Payload.ChecksumState == 3, "CS_AppData.HkPacket.Payload.ChecksumState == 3");
     UtAssert_True(CS_AppData.HkPacket.Payload.EepromCSState == 4, "CS_AppData.HkPacket.Payload.EepromCSState == 4");
     UtAssert_True(CS_AppData.HkPacket.Payload.MemoryCSState == 5, "CS_AppData.HkPacket.Payload.MemoryCSState == 5");
@@ -2319,7 +2218,7 @@ void CS_ProcessCmd_ResetCmd_Test(void)
     CS_ProcessCmd(&CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_STUB_COUNT(CS_ResetCmd, 1);
+    UtAssert_STUB_COUNT(CS_ResetCountersCmd, 1);
 }
 
 void CS_ProcessCmd_DisableAllCSCmd_Test(void)
@@ -2999,7 +2898,7 @@ void CS_ProcessCmd_ResetCmd_Test_VerifyError(void)
     CS_ProcessCmd(&CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_STUB_COUNT(CS_ResetCmd, 0);
+    UtAssert_STUB_COUNT(CS_ResetCountersCmd, 0);
 }
 
 void CS_ProcessCmd_DisableAllCSCmd_Test_VerifyError(void)
@@ -3718,11 +3617,9 @@ void UtTest_Setup(void)
 
     UtTest_Add(CS_AppMain_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_AppMain_Test_Nominal");
     UtTest_Add(CS_AppMain_Test_AppInitError, CS_Test_Setup, CS_Test_TearDown, "CS_AppMain_Test_AppInitError");
-    UtTest_Add(CS_AppMain_Test_SysException, CS_Test_Setup, CS_Test_TearDown, "CS_AppMain_Test_SysException");
     UtTest_Add(CS_AppMain_Test_RcvMsgError, CS_Test_Setup, CS_Test_TearDown, "CS_AppMain_Test_RcvMsgError");
     UtTest_Add(CS_AppMain_Test_RcvMsgTimeout, CS_Test_Setup, CS_Test_TearDown, "CS_AppMain_Test_RcvMsgTimeout");
     UtTest_Add(CS_AppMain_Test_RcvNoMsg, CS_Test_Setup, CS_Test_TearDown, "CS_AppMain_Test_RcvNoMsg");
-    UtTest_Add(CS_AppMain_Test_RcvNullBufPtr, CS_Test_Setup, CS_Test_TearDown, "CS_AppMain_Test_RcvNullBufPtr");
     UtTest_Add(CS_AppMain_Test_AppPipeError, CS_Test_Setup, CS_Test_TearDown, "CS_AppMain_Test_AppPipeError");
 
     UtTest_Add(CS_AppInit_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_AppInit_Test_Nominal");

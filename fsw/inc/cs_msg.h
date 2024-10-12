@@ -37,8 +37,8 @@
  */
 typedef struct
 {
-    uint8   CmdCounter;                  /**< \brief CS Application Command Counter */
-    uint8   CmdErrCounter;               /**< \brief CS Application Command Error Counter */
+    uint8   CommandCounter;              /**< \brief CS Application Command Counter */
+    uint8   CommandErrorCounter;         /**< \brief CS Application Command Error Counter */
     uint8   ChecksumState;               /**< \brief CS Application global checksum state */
     uint8   EepromCSState;               /**< \brief CS EEPROM table checksum state */
     uint8   MemoryCSState;               /**< \brief CS Memory table checksum state */

@@ -88,7 +88,7 @@ void CS_AppMain(void)
         /* Performance Log (start time counter)  */
         CFE_ES_PerfLogEntry(CS_APPMAIN_PERF_ID);
 
-        if ((Result == CFE_SUCCESS) && (BufPtr != NULL))
+        if (Result == CFE_SUCCESS)
         {
             /* Process Software Bus message */
             Result = CS_AppPipe(BufPtr);
@@ -116,7 +116,7 @@ void CS_AppMain(void)
     } /* end run loop */
 
     /* Check for "fatal" process error */
-    if (CS_AppData.RunStatus == CFE_ES_RunStatus_APP_ERROR || CS_AppData.RunStatus == CFE_ES_RunStatus_SYS_EXCEPTION)
+    if (CS_AppData.RunStatus == CFE_ES_RunStatus_APP_ERROR)
     {
         /* Send an error event with run status and result */
         CFE_EVS_SendEvent(CS_EXIT_ERR_EID, CFE_EVS_EventType_ERROR, "App terminating, RunStatus:0x%08X, RC:0x%08X",
@@ -249,7 +249,7 @@ CFE_Status_t CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
             CFE_EVS_SendEvent(CS_MID_ERR_EID, CFE_EVS_EventType_ERROR, "Invalid command pipe message ID: 0x%08lX",
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID));
 
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
             break;
     }
 
@@ -284,7 +284,7 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
         case CS_RESET_CC:
             if (CS_VerifyCmdLength(&BufPtr->Msg, sizeof(CS_NoArgsCmd_t)))
             {
-                CS_ResetCmd((CS_NoArgsCmd_t *)BufPtr);
+                CS_ResetCountersCmd((CS_NoArgsCmd_t *)BufPtr);
             }
             break;
 
@@ -565,7 +565,7 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
                               "Invalid ground command code: ID = 0x%08lX, CC = %d",
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode);
 
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
             break;
     } /* end switch */
 }
