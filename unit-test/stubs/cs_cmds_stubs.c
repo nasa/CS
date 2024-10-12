@@ -35,10 +35,10 @@ void CS_NoopCmd(const CS_NoArgsCmd_t *CmdPtr)
     UT_DEFAULT_IMPL(CS_NoopCmd);
 }
 
-void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
+void CS_ResetCountersCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    UT_Stub_RegisterContext(UT_KEY(CS_ResetCmd), CmdPtr);
-    UT_DEFAULT_IMPL(CS_ResetCmd);
+    UT_Stub_RegisterContext(UT_KEY(CS_ResetCountersCmd), CmdPtr);
+    UT_DEFAULT_IMPL(CS_ResetCountersCmd);
 }
 
 void CS_BackgroundCheckCycle(const CS_NoArgsCmd_t *CmdPtr)

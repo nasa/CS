@@ -464,7 +464,7 @@ bool CS_VerifyCmdLength(const CFE_MSG_Message_t *msg, size_t ExpectedLength)
                           (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode, (unsigned long)ActualLength,
                           (unsigned long)ExpectedLength);
         Result = false;
-        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        CS_AppData.HkPacket.Payload.CommandErrorCounter++;
     }
     return Result;
 }
@@ -1038,7 +1038,7 @@ bool CS_CheckRecomputeOneshot(void)
         CFE_EVS_SendEvent(CS_CMD_COMPUTE_PROG_ERR_EID, CFE_EVS_EventType_ERROR,
                           "Cannot perform command. Recompute or oneshot in progress.");
 
-        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        CS_AppData.HkPacket.Payload.CommandErrorCounter++;
 
         Result = true;
     }

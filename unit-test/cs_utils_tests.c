@@ -687,14 +687,14 @@ void CS_CheckRecomputeOneShot_Test(void)
 
     UtAssert_BOOL_FALSE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 0);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CommandErrorCounter, 0);
 
     /* One shot in progress */
     CS_AppData.HkPacket.Payload.OneShotInProgress = true;
     UtAssert_BOOL_TRUE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CMD_COMPUTE_PROG_ERR_EID);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 1);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CommandErrorCounter, 1);
 
     /* Recompute in progress */
     CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
@@ -702,7 +702,7 @@ void CS_CheckRecomputeOneShot_Test(void)
     UtAssert_BOOL_TRUE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_CMD_COMPUTE_PROG_ERR_EID);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 2);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CommandErrorCounter, 2);
 }
 
 void UtTest_Setup(void)

@@ -60,7 +60,7 @@ void CS_DisableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_DISABLE_MEMORY_INF_EID, CFE_EVS_EventType_INFORMATION,
                               "Checksumming of Memory is Disabled");
 
-            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CommandCounter++;
         }
 }
 
@@ -82,7 +82,7 @@ void CS_EnableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_ENABLE_MEMORY_INF_EID, CFE_EVS_EventType_INFORMATION,
                               "Checksumming of Memory is Enabled");
 
-            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CommandCounter++;
         }
 }
 
@@ -118,7 +118,7 @@ void CS_ReportBaselineEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                 CFE_EVS_SendEvent(CS_NO_BASELINE_MEMORY_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "Report baseline of Memory Entry %d has not been computed yet", EntryID);
             }
-            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CommandCounter++;
         }
         else
         {
@@ -134,7 +134,7 @@ void CS_ReportBaselineEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_BASELINE_INVALID_ENTRY_MEMORY_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Memory report baseline failed, Entry ID invalid: %d, State: %d Max ID: %d", EntryID,
                               State, (CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1));
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
         }
 }
 
@@ -175,7 +175,7 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                 {
                     CFE_EVS_SendEvent(CS_RECOMPUTE_MEMORY_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
                                       "Recompute baseline of Memory Entry ID %d started", EntryID);
-                    CS_AppData.HkPacket.Payload.CmdCounter++;
+                    CS_AppData.HkPacket.Payload.CommandCounter++;
                 }
                 else /* child task creation failed */
                 {
@@ -183,7 +183,7 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                         CS_RECOMPUTE_MEMORY_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
                         "Recompute baseline of Memory Entry ID %d failed, ES_CreateChildTask returned:  0x%08X",
                         EntryID, (unsigned int)Status);
-                    CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                    CS_AppData.HkPacket.Payload.CommandErrorCounter++;
                     CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
                 }
             }
@@ -203,7 +203,7 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                     "Memory recompute baseline of entry failed, Entry ID invalid: %d, State: %d, Max ID: %d", EntryID,
                     State, (CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1));
 
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CommandErrorCounter++;
             }
         }
         else
@@ -211,7 +211,7 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
             /*send event that we can't start another task right now */
             CFE_EVS_SendEvent(CS_RECOMPUTE_MEMORY_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Recompute baseline of Memory Entry ID %d failed: child task in use", EntryID);
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
         }
 }
 
@@ -254,7 +254,7 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                                       State);
                 }
 
-                CS_AppData.HkPacket.Payload.CmdCounter++;
+                CS_AppData.HkPacket.Payload.CommandCounter++;
             }
             else
             {
@@ -270,7 +270,7 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                 CFE_EVS_SendEvent(CS_ENABLE_MEMORY_INVALID_ENTRY_ERR_EID, CFE_EVS_EventType_ERROR,
                                   "Enable Memory entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d", EntryID,
                                   State, (CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1));
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CommandErrorCounter++;
             }
         } /* end InProgress if */
 }
@@ -316,7 +316,7 @@ void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                                       State);
                 }
 
-                CS_AppData.HkPacket.Payload.CmdCounter++;
+                CS_AppData.HkPacket.Payload.CommandCounter++;
             }
             else
             {
@@ -333,7 +333,7 @@ void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
                                   "Disable Memory entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d", EntryID,
                                   State, (CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1));
 
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CS_AppData.HkPacket.Payload.CommandErrorCounter++;
             }
         } /* end InProgress if */
 }
@@ -372,5 +372,5 @@ void CS_GetEntryIDMemoryCmd(const CS_GetEntryIDCmd_t *CmdPtr)
             CFE_EVS_SendEvent(CS_GET_ENTRY_ID_MEMORY_NOT_FOUND_INF_EID, CFE_EVS_EventType_INFORMATION,
                               "Address 0x%08X was not found in Memory table", (unsigned int)(CmdPtr->Payload.Address));
         }
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+        CS_AppData.HkPacket.Payload.CommandCounter++;
 }
