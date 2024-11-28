@@ -339,7 +339,7 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
  *  \param [in]    SizeofDefinitionTableEntry  The sizeof an entry in the
  *                                             definition table
  *
- *  \param [in]    SizeofResultsTableEntry     The size of an enrty in the
+ *  \param [in]    SizeofResultsTableEntry     The size of an entry in the
  *                                             results table
  *
  *  \param [in]    CallBackFunction            A pointer to a function used to
@@ -367,7 +367,7 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
                           void *DefinitionTblPtr, void *ResultsTblPtr, const uint16 Table,
                           const char *DefinitionTableName, const char *ResultsTableName, const uint16 NumEntries,
                           const char *DefinitionTableFileName, const void *DefaultDefTableAddress,
-                          const uint16 SizeofDefinitionTableEntry, const uint16 SizeofResultsTableEntry,
+                          const size_t SizeofDefinitionTableEntry, const size_t SizeofResultsTableEntry,
                           const CFE_TBL_CallbackFuncPtr_t CallBackFunction);
 
 /**

@@ -125,9 +125,9 @@ CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 
     uint32       NewChecksumValue        = 0;
     CFE_Status_t Status                  = CFE_SUCCESS;
     CFE_Status_t Result                  = CFE_SUCCESS;
-    CFE_Status_t ResultShare             = 0;
-    CFE_Status_t ResultGetInfo           = 0;
-    CFE_Status_t ResultGetAddress        = 0;
+    CFE_Status_t ResultShare      = 0;
+    CFE_Status_t ResultGetInfo    = 0;
+    CFE_Status_t ResultGetAddress = 0;
 
     /* variables to get the table address */
     CFE_TBL_Handle_t LocalTblHandle = CFE_TBL_BAD_TABLE_HANDLE;
@@ -313,7 +313,7 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
     uint32       NewChecksumValue        = 0;
     CFE_Status_t Status                  = CFE_SUCCESS;
     CFE_Status_t Result;
-    CFE_Status_t ResultGetResourceID   = CS_ERROR;
+    CFE_Status_t ResultGetResourceID;
     CFE_Status_t ResultGetResourceInfo = CS_ERROR;
     bool         ResultAddressValid    = false;
 
@@ -780,11 +780,11 @@ void CS_RecomputeTablesChildTask(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_OneShotChildTask(void)
 {
-    uint32  NewChecksumValue        = 0;
-    uint32  NumBytesRemainingCycles = 0;
-    uint32  NumBytesThisCycle       = 0;
-    cpuaddr FirstAddrThisCycle      = 0;
-    uint32  MaxBytesPerCycle        = 0;
+    uint32  NewChecksumValue;
+    uint32  NumBytesRemainingCycles;
+    uint32  NumBytesThisCycle;
+    cpuaddr FirstAddrThisCycle;
+    uint32  MaxBytesPerCycle;
 
     NewChecksumValue        = 0;
     NumBytesRemainingCycles = CS_AppData.HkPacket.Payload.LastOneShotSize;

@@ -175,7 +175,7 @@ CFE_Status_t CS_HandleRoutineTableUpdates(void)
 }
 
 CFE_Status_t CS_AttemptTableReshare(CS_Res_Tables_Table_Entry_t *ResultsEntry, CFE_TBL_Handle_t *LocalTblHandle,
-                                    CFE_TBL_Info_t *TblInfo, cpuaddr *LocalAddress, int32 *ResultGetInfo)
+                                    CFE_TBL_Info_t *TblInfo, cpuaddr *LocalAddress, CFE_Status_t *ResultGetInfo)
 {
     UT_Stub_RegisterContext(UT_KEY(CS_AttemptTableReshare), ResultsEntry);
     UT_Stub_RegisterContext(UT_KEY(CS_AttemptTableReshare), LocalTblHandle);
