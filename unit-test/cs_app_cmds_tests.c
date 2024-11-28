@@ -353,7 +353,7 @@ void CS_RecomputeBaselineAppCmd_Test_Nominal(void)
     /* Needed to make subfunction CS_GetAppResTblEntryByName behave properly */
     CS_AppData.ResAppTblPtr->State = 1;
 
-    /* Set to generate event message CS_RECOMPUTE_APP_STARTED_DBG_EID */
+    /* Set to generate event message CS_RECOMPUTE_APP_STARTED_INF_EID */
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CreateChildTask), 1, CFE_SUCCESS);
 
     UT_SetDeferredRetcode(UT_KEY(CS_VerifyCmdLength), 1, true);
@@ -368,8 +368,8 @@ void CS_RecomputeBaselineAppCmd_Test_Nominal(void)
     UtAssert_True(CS_AppData.ResAppTblPtr == CS_AppData.RecomputeAppEntryPtr,
                   "CS_AppData.ResAppTblPtr == CS_AppData.RecomputeAppEntryPtr");
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_APP_STARTED_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_APP_STARTED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
     strCmpResult = strncmp(ExpectedEventString, context_CFE_EVS_SendEvent[0].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
@@ -595,8 +595,8 @@ void CS_DisableNameAppCmd_Test_UpdateAppsDefinitionTableError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_DISABLE_APP_DEF_NOT_FOUND_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_DISABLE_APP_DEF_NOT_FOUND_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
 
     strCmpResult =
         strncmp(ExpectedEventString[1], context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
@@ -757,8 +757,8 @@ void CS_EnableNameAppCmd_Test_UpdateAppsDefinitionTableError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID);
-    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_DEBUG);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_ENABLE_APP_DEF_NOT_FOUND_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
 
     strCmpResult =
         strncmp(ExpectedEventString[1], context_CFE_EVS_SendEvent[1].Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);

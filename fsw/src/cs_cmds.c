@@ -72,7 +72,7 @@ void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
     CS_AppData.HkPacket.Payload.OSCSErrCounter      = 0;
     CS_AppData.HkPacket.Payload.PassCounter         = 0;
 
-    CFE_EVS_SendEvent(CS_RESET_INF_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command recieved");
+    CFE_EVS_SendEvent(CS_RESET_INF_EID, CFE_EVS_EventType_INFORMATION, "Reset Counters command received");
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -366,7 +366,7 @@ void CS_RecomputeBaselineCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 
         if (Status == CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(CS_RECOMPUTE_CFECORE_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+            CFE_EVS_SendEvent(CS_RECOMPUTE_CFECORE_STARTED_INF_EID, CFE_EVS_EventType_INFORMATION,
                               "Recompute of cFE core started");
             CS_AppData.HkPacket.Payload.CmdCounter++;
         }
@@ -414,7 +414,7 @@ void CS_RecomputeBaselineOSCmd(const CS_NoArgsCmd_t *CmdPtr)
                                         CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
         if (Status == CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(CS_RECOMPUTE_OS_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+            CFE_EVS_SendEvent(CS_RECOMPUTE_OS_STARTED_INF_EID, CFE_EVS_EventType_INFORMATION,
                               "Recompute of OS code segment started");
             CS_AppData.HkPacket.Payload.CmdCounter++;
         }
@@ -476,7 +476,7 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
                                             CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
             if (Status == CFE_SUCCESS)
             {
-                CFE_EVS_SendEvent(CS_ONESHOT_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+                CFE_EVS_SendEvent(CS_ONESHOT_STARTED_INF_EID, CFE_EVS_EventType_INFORMATION,
                                   "OneShot checksum started on address: 0x%08X, size: %d",
                                   (unsigned int)(CmdPtr->Payload.Address), (int)(CmdPtr->Payload.Size));
 

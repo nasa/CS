@@ -151,7 +151,7 @@ void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
                                                 NULL, CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
                 if (Status == CFE_SUCCESS)
                 {
-                    CFE_EVS_SendEvent(CS_RECOMPUTE_TABLES_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_RECOMPUTE_TABLES_STARTED_INF_EID, CFE_EVS_EventType_INFORMATION,
                                       "Recompute baseline of table %s started", Name);
                     CS_AppData.HkPacket.Payload.CmdCounter++;
                 }
@@ -213,7 +213,7 @@ void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
                 }
                 else
                 {
-                    CFE_EVS_SendEvent(CS_DISABLE_TABLE_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_DISABLE_TABLE_DEF_NOT_FOUND_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "CS unable to update tables definition table for entry %s", Name);
                 }
 
@@ -259,7 +259,7 @@ void CS_EnableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
                 }
                 else
                 {
-                    CFE_EVS_SendEvent(CS_ENABLE_TABLE_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
+                    CFE_EVS_SendEvent(CS_ENABLE_TABLE_DEF_NOT_FOUND_ERR_EID, CFE_EVS_EventType_ERROR,
                                       "CS unable to update tables definition table for entry %s", Name);
                 }
 
