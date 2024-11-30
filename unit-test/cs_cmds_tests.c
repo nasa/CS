@@ -1275,7 +1275,7 @@ void CS_OneShotCmd_Test_CreateChildTaskError(void)
     memset(&CmdPacket, 0, sizeof(CmdPacket));
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
-             "OneShot checkum failed, CFE_ES_CreateChildTask returned: 0x%%08X");
+             "OneShot checksum failed, CFE_ES_CreateChildTask returned: 0x%%08X");
 
     CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
 

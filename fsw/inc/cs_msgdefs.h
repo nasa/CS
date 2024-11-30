@@ -1459,7 +1459,7 @@
 /**\}*/
 
 /**
- * \name CS Checkum States
+ * \name CS Checksum States
  * \{
  */
 #define CS_STATE_EMPTY     0x00 /**< \brief Entry unused */
