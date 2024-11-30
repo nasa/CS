@@ -267,8 +267,6 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
     CFE_SB_MsgId_t MessageID   = CFE_SB_INVALID_MSG_ID;
     uint16         CommandCode = 0;
 
-    CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
-
     CFE_MSG_GetFcnCode(&BufPtr->Msg, &CommandCode);
 
     switch (CommandCode)
@@ -561,6 +559,8 @@ void CS_ProcessCmd(const CFE_SB_Buffer_t *BufPtr)
             break;
 
         default:
+            CFE_MSG_GetMsgId(&BufPtr->Msg, &MessageID);
+
             CFE_EVS_SendEvent(CS_CC_ERR_EID, CFE_EVS_EventType_ERROR,
                               "Invalid ground command code: ID = 0x%08lX, CC = %d",
                               (unsigned long)CFE_SB_MsgIdToValue(MessageID), CommandCode);

@@ -456,7 +456,6 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
             CS_AppData.HkPacket.Payload.OneShotInProgress == false)
         {
             /* There is no child task running right now, we can use it*/
-            CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
             CS_AppData.HkPacket.Payload.OneShotInProgress   = true;
 
             CS_AppData.HkPacket.Payload.LastOneShotAddress = CmdPtr->Payload.Address;
@@ -486,7 +485,7 @@ void CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
             else /* child task creation failed */
             {
                 CFE_EVS_SendEvent(CS_ONESHOT_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "OneShot checkum failed, CFE_ES_CreateChildTask returned: 0x%08X",
+                                  "OneShot checksum failed, CFE_ES_CreateChildTask returned: 0x%08X",
                                   (unsigned int)Status);
 
                 CS_AppData.HkPacket.Payload.CmdErrCounter++;
@@ -531,7 +530,6 @@ void CS_CancelOneShotCmd(const CS_NoArgsCmd_t *CmdPtr)
         if (Status == CFE_SUCCESS)
         {
             CS_AppData.ChildTaskID                          = CFE_ES_TASKID_UNDEFINED;
-            CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
             CS_AppData.HkPacket.Payload.OneShotInProgress   = false;
             CS_AppData.HkPacket.Payload.CmdCounter++;
             CFE_EVS_SendEvent(CS_ONESHOT_CANCELLED_INF_EID, CFE_EVS_EventType_INFORMATION,
