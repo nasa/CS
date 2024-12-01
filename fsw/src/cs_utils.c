@@ -105,7 +105,7 @@ void CS_ZeroAppTempValues(void)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Zero out the temp chcksum values ofthe cFE core              */
+/* CS Zero out the temp chcksum values of the cFE core             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ZeroCfeCoreTempValues(void)

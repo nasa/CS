@@ -411,9 +411,6 @@ void CS_AppMain_Test_RcvNullBufPtr(void)
     /* Set to make CS_AppPipe return -1 */
     UT_SetDeferredRetcode(UT_KEY(CS_HandleRoutineTableUpdates), 1, -1);
 
-    /* Set to satisfy subsequent condition "BufPtr == NULL" */
-    UT_SetDataBuffer(UT_KEY(CFE_SB_ReceiveBuffer), Packet, sizeof(CS_NoArgsCmd_t), false);
-
     /* Execute the function being tested */
     CS_AppMain();
 
