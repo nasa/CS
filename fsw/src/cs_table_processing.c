@@ -234,8 +234,7 @@ CFE_Status_t CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
         if (OS_strnlen(OuterEntry->Name, CFE_TBL_MAX_FULL_NAME_LEN) != 0)
         {
             /* Verify valid state definition */
-            if (((StateField == CS_STATE_EMPTY) || (StateField == CS_STATE_ENABLED) ||
-                 (StateField == CS_STATE_DISABLED)))
+            if ((StateField == CS_STATE_EMPTY) || (StateField == CS_STATE_ENABLED) || (StateField == CS_STATE_DISABLED))
             {
                 DuplicateFound = false;
 
@@ -360,8 +359,7 @@ CFE_Status_t CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
         else if (OS_strnlen(OuterEntry->Name, CFE_TBL_MAX_FULL_NAME_LEN) != 0)
         {
             /* Verify valid state definition */
-            if (((StateField == CS_STATE_EMPTY) || (StateField == CS_STATE_ENABLED) ||
-                 (StateField == CS_STATE_DISABLED)))
+            if ((StateField == CS_STATE_EMPTY) || (StateField == CS_STATE_ENABLED) || (StateField == CS_STATE_DISABLED))
             {
                 DuplicateFound = false;
 
@@ -436,7 +434,7 @@ CFE_Status_t CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
             }
         }
 
-    } /* for (OuterLoop = 0; OuterLoop < CS_MAX_NUM_APPS_TABLE_ENTRIES; OuterLoop++) */
+    } /* for (OuterLoop = 0; OuterLoop < CS_MAX_NUM_APP_TABLE_ENTRIES; OuterLoop++) */
 
     CFE_EVS_SendEvent(CS_VAL_APP_INF_EID, CFE_EVS_EventType_INFORMATION,
                       "CS Apps Table verification results: good = %d, bad = %d, unused = %d", (int)GoodCount,
@@ -466,17 +464,17 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
     memcpy(&StartOfResultsTable, ResultsTblPtr, sizeof(StartOfResultsTable));
     memcpy(&StartOfDefTable, DefinitionTblPtr, sizeof(StartOfDefTable));
 
-    snprintf(&TableType[0], CS_TABLETYPE_NAME_SIZE, "%s", "Undef Tbl"); /* Init the table type string */
+    snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Undef Tbl"); /* Init the table type string */
 
     /* We don't want to be doing chekcksums while changing the table out */
     if (Table == CS_EEPROM_TABLE)
     {
-        PreviousState                     = CS_AppData.HkPacket.Payload.EepromCSState;
+        PreviousState                             = CS_AppData.HkPacket.Payload.EepromCSState;
         CS_AppData.HkPacket.Payload.EepromCSState = CS_STATE_DISABLED;
     }
     if (Table == CS_MEMORY_TABLE)
     {
-        PreviousState                     = CS_AppData.HkPacket.Payload.MemoryCSState;
+        PreviousState                             = CS_AppData.HkPacket.Payload.MemoryCSState;
         CS_AppData.HkPacket.Payload.MemoryCSState = CS_STATE_DISABLED;
     }
 
@@ -528,11 +526,11 @@ void CS_ProcessNewEepromMemoryDefinitionTable(const CS_Def_EepromMemory_Table_En
     {
         if (Table == CS_EEPROM_TABLE)
         {
-            snprintf(&TableType[0], CS_TABLETYPE_NAME_SIZE, "%s", "EEPROM");
+            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "EEPROM");
         }
         if (Table == CS_MEMORY_TABLE)
         {
-            snprintf(&TableType[0], CS_TABLETYPE_NAME_SIZE, "%s", "Memory");
+            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Memory");
         }
 
         CFE_EVS_SendEvent(CS_PROCESS_EEPROM_MEMORY_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
@@ -572,7 +570,7 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
     CFE_ES_GetAppName(AppName, AppID, OS_MAX_API_NAME);
 
     /* We don't want to be doing chekcksums while changing the table out */
-    PreviousState                     = CS_AppData.HkPacket.Payload.TablesCSState;
+    PreviousState                             = CS_AppData.HkPacket.Payload.TablesCSState;
     CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_DISABLED;
 
     /* Assume none of the CS tables are listed in the new Tables table */
@@ -645,49 +643,43 @@ void CS_ProcessNewTablesDefinitionTable(const CS_Def_Tables_Table_Entry_t *Defin
             /* if the table's owner's name is CS */
             if (strncmp(TableAppName, AppName, OS_MAX_API_NAME) == 0)
             {
+                Owned = true;
+
                 if (strncmp(TableTableName, CS_DEF_EEPROM_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
                 {
                     TableHandle                   = CS_AppData.DefEepromTableHandle;
                     CS_AppData.EepResTablesTblPtr = ResultsEntry;
-                    Owned                         = true;
                 }
-                if (strncmp(TableTableName, CS_DEF_MEMORY_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
+                else if (strncmp(TableTableName, CS_DEF_MEMORY_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
                 {
                     TableHandle                   = CS_AppData.DefMemoryTableHandle;
                     CS_AppData.MemResTablesTblPtr = ResultsEntry;
-                    Owned                         = true;
                 }
-                if (strncmp(TableTableName, CS_DEF_TABLES_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
+                else if (strncmp(TableTableName, CS_DEF_TABLES_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
                 {
                     TableHandle                   = CS_AppData.DefTablesTableHandle;
                     CS_AppData.TblResTablesTblPtr = ResultsEntry;
-                    Owned                         = true;
                 }
-                if (strncmp(TableTableName, CS_DEF_APP_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
+                else if (strncmp(TableTableName, CS_DEF_APP_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
                 {
                     TableHandle                   = CS_AppData.DefAppTableHandle;
                     CS_AppData.AppResTablesTblPtr = ResultsEntry;
-                    Owned                         = true;
                 }
-                if (strncmp(TableTableName, CS_RESULTS_EEPROM_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
+                else if (strncmp(TableTableName, CS_RESULTS_EEPROM_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
                 {
                     TableHandle = CS_AppData.ResEepromTableHandle;
-                    Owned       = true;
                 }
-                if (strncmp(TableTableName, CS_RESULTS_MEMORY_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
+                else if (strncmp(TableTableName, CS_RESULTS_MEMORY_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
                 {
                     TableHandle = CS_AppData.ResMemoryTableHandle;
-                    Owned       = true;
                 }
-                if (strncmp(TableTableName, CS_RESULTS_TABLES_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
+                else if (strncmp(TableTableName, CS_RESULTS_TABLES_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
                 {
                     TableHandle = CS_AppData.ResTablesTableHandle;
-                    Owned       = true;
                 }
-                if (strncmp(TableTableName, CS_RESULTS_APP_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
+                else if (strncmp(TableTableName, CS_RESULTS_APP_TABLE_NAME, CFE_MISSION_TBL_MAX_NAME_LENGTH) == 0)
                 {
                     TableHandle = CS_AppData.ResAppTableHandle;
-                    Owned       = true;
                 }
             }
 
@@ -754,7 +746,7 @@ void CS_ProcessNewAppDefinitionTable(const CS_Def_App_Table_Entry_t *DefinitionT
 
     /* We don't want to be doing chekcksums while changing the table out */
 
-    PreviousState                  = CS_AppData.HkPacket.Payload.AppCSState;
+    PreviousState                          = CS_AppData.HkPacket.Payload.AppCSState;
     CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_DISABLED;
 
     for (Loop = 0; Loop < CS_MAX_NUM_APP_TABLE_ENTRIES; Loop++)
@@ -821,11 +813,10 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
     CFE_Status_t ResultFromLoad   = OS_ERROR;
     int32        SizeOfTable      = 0;
     bool         LoadedFromMemory = false;
-    bool         ValidFile        = false;
     osal_id_t    Fd               = OS_OBJECT_ID_UNDEFINED;
     char         TableType[CS_TABLETYPE_NAME_SIZE];
 
-    snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Undef Tbl"); /* Init table type */
+    snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Undef Tbl"); /* Init table type */
 
     SizeOfTable = NumEntries * SizeofResultsTableEntry;
 
@@ -849,11 +840,10 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
 
     if (OS_Status == OS_SUCCESS)
     {
-        ValidFile = true;
         OS_close(Fd);
     }
 
-    if ((Result == CFE_SUCCESS) && (ValidFile == true))
+    if ((Result == CFE_SUCCESS) && (OS_Status == OS_SUCCESS))
     {
         Result         = CFE_TBL_Load(*DefinitionTableHandle, CFE_TBL_SRC_FILE, DefinitionTableFileName);
         ResultFromLoad = Result;
@@ -871,7 +861,7 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
     {
         Result = CFE_TBL_GetAddress(DefinitionTblPtr, *DefinitionTableHandle);
 
-        if ((Result == CFE_TBL_INFO_UPDATED))
+        if (Result == CFE_TBL_INFO_UPDATED)
         {
             if (Table == CS_APP_TABLE)
             {
@@ -893,7 +883,7 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
                 }
             }
 
-        } /* end if (Result == CFE_TBL_INFO_UPDATED) || (Result == CFE_SUCCESS) */
+        } /* end if (Result == CFE_TBL_INFO_UPDATED) */
     }
 
     if (Result >= CFE_SUCCESS)
@@ -904,19 +894,19 @@ CFE_Status_t CS_TableInit(CFE_TBL_Handle_t *DefinitionTableHandle, CFE_TBL_Handl
     {
         if (Table == CS_EEPROM_TABLE)
         {
-            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "EEPROM");
+            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "EEPROM");
         }
         if (Table == CS_MEMORY_TABLE)
         {
-            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Memory");
+            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Memory");
         }
         if (Table == CS_TABLES_TABLE)
         {
-            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Tables");
+            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Tables");
         }
         if (Table == CS_APP_TABLE)
         {
-            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Apps");
+            snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Apps");
         }
 
         CFE_EVS_SendEvent(CS_TBL_INIT_ERR_EID, CFE_EVS_EventType_ERROR,
@@ -967,7 +957,7 @@ CFE_Status_t CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, C
     int32        Loop           = 0;
     char         TableType[CS_TABLETYPE_NAME_SIZE];
 
-    snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Undef Tbl"); /* Init table type */
+    snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Undef Tbl"); /* Init table type */
 
     /* Below, there are several values that are returned and assigned, but never evaluated. */
     /* This is done so intentionally, as it helps us with Source-Level debugging this functions. */
@@ -988,7 +978,7 @@ CFE_Status_t CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, C
         Result     = GetResult2;
     }
 
-    if ((Result == CFE_TBL_INFO_UPDATED))
+    if (Result == CFE_TBL_INFO_UPDATED)
     {
         if (Table == CS_TABLES_TABLE)
         {
@@ -1031,19 +1021,19 @@ CFE_Status_t CS_HandleTableUpdate(void *DefinitionTblPtr, void *ResultsTblPtr, C
         {
             if (Table == CS_EEPROM_TABLE)
             {
-                snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "EEPROM");
+                snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "EEPROM");
             }
             if (Table == CS_MEMORY_TABLE)
             {
-                snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Memory");
+                snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Memory");
             }
             if (Table == CS_TABLES_TABLE)
             {
-                snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "Table");
+                snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "Table");
             }
             if (Table == CS_APP_TABLE)
             {
-                snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "%s", "App");
+                snprintf(TableType, CS_TABLETYPE_NAME_SIZE, "App");
             }
 
             /* There was a problem somewhere, generate an event */
