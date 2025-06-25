@@ -193,7 +193,7 @@ CFE_Status_t CS_AppInit(void)
     {
         CS_InitSegments();
 
-        /* initialize the place to ostart background checksumming */
+        /* initialize the place to start background checksumming */
         CS_AppData.HkPacket.Payload.CurrentCSTable      = 0;
         CS_AppData.HkPacket.Payload.CurrentEntryInTable = 0;
 

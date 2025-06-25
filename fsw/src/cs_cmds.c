@@ -72,7 +72,7 @@ void CS_ResetCmd(const CS_NoArgsCmd_t *CmdPtr)
     CS_AppData.HkPacket.Payload.OSCSErrCounter      = 0;
     CS_AppData.HkPacket.Payload.PassCounter         = 0;
 
-    CFE_EVS_SendEvent(CS_RESET_INF_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command recieved");
+    CFE_EVS_SendEvent(CS_RESET_INF_EID, CFE_EVS_EventType_DEBUG, "Reset Counters command received");
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -224,22 +224,36 @@ void CS_EnableAllCSCmd(const CS_NoArgsCmd_t *CmdPtr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Disable background checking of the cFE core command          */
+/* Common handler for cFE Core enable/disable commands             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
+static void CS_DoEnableDisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr, uint16 NewState, uint32 EventID)
 {
-    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_DISABLED;
-    CS_ZeroCfeCoreTempValues();
+    CS_AppData.HkPacket.Payload.CfeCoreCSState = NewState;
+
+    if (NewState == CS_STATE_DISABLED)
+    {
+        CS_ZeroCfeCoreTempValues();
+    }
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
     CS_UpdateCDS();
 #endif
 
-    CFE_EVS_SendEvent(CS_DISABLE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION,
-                      "Checksumming of cFE Core is Disabled");
-
+    CFE_EVS_SendEvent(EventID, CFE_EVS_EventType_INFORMATION,
+                      NewState == CS_STATE_ENABLED ? "Checksumming of cFE Core is Enabled"
+                                                   : "Checksumming of cFE Core is Disabled");
     CS_AppData.HkPacket.Payload.CmdCounter++;
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* CS Disable background checking of the cFE core command          */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
+{
+    CS_DoEnableDisableCfeCoreCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_CFECORE_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -249,14 +263,30 @@ void CS_DisableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_STATE_ENABLED;
+    CS_DoEnableDisableCfeCoreCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_CFECORE_INF_EID);
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Common handler for OS enable/disable commands                   */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+static void CS_DoEnableDisableOSCmd(const CS_NoArgsCmd_t *CmdPtr, uint16 NewState, uint32 EventID)
+{
+    CS_AppData.HkPacket.Payload.OSCSState = NewState;
+
+    if (NewState == CS_STATE_DISABLED)
+    {
+        CS_ZeroOSTempValues();
+    }
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
     CS_UpdateCDS();
 #endif
 
-    CFE_EVS_SendEvent(CS_ENABLE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of cFE Core is Enabled");
-
+    CFE_EVS_SendEvent(EventID, CFE_EVS_EventType_INFORMATION,
+                      NewState == CS_STATE_ENABLED ? "Checksumming of OS code segment is Enabled"
+                                                   : "Checksumming of OS code segment is Disabled");
     CS_AppData.HkPacket.Payload.CmdCounter++;
 }
 
@@ -267,17 +297,7 @@ void CS_EnableCfeCoreCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    CS_AppData.HkPacket.Payload.OSCSState = CS_STATE_DISABLED;
-    CS_ZeroOSTempValues();
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-    CS_UpdateCDS();
-#endif
-
-    CFE_EVS_SendEvent(CS_DISABLE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
-                      "Checksumming of OS code segment is Disabled");
-
-    CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_DoEnableDisableOSCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_OS_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -287,16 +307,7 @@ void CS_DisableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableOSCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-    CS_AppData.HkPacket.Payload.OSCSState = CS_STATE_ENABLED;
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-    CS_UpdateCDS();
-#endif
-
-    CFE_EVS_SendEvent(CS_ENABLE_OS_INF_EID, CFE_EVS_EventType_INFORMATION,
-                      "Checksumming of OS code segment is Enabled");
-
-    CS_AppData.HkPacket.Payload.CmdCounter++;
+    CS_DoEnableDisableOSCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_OS_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

@@ -138,7 +138,7 @@ typedef struct
     CFE_TBL_Handle_t ResTablesTableHandle; /**< \brief Handle to the Tables results table */
 
     CFE_TBL_Handle_t DefAppTableHandle; /**< \brief Handle to the Apps definition table */
-    CFE_TBL_Handle_t ResAppTableHandle; /**< \brief Hanlde to the Apps results table */
+    CFE_TBL_Handle_t ResAppTableHandle; /**< \brief Handle to the Apps results table */
 
     CS_Def_EepromMemory_Table_Entry_t *DefEepromTblPtr; /**< \brief Pointer to the EEPROM definition table */
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr; /**< \brief Pointer to the EEPROM results table */

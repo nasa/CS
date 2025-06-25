@@ -43,25 +43,39 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
+/* Common handler for EEPROM enable/disable commands               */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+static void CS_DoEnableDisableEepromCmd(const CS_NoArgsCmd_t *CmdPtr, uint16 NewState, uint32 EventID)
+{
+    if (CS_CheckRecomputeOneshot() == false)
+    {
+        CS_AppData.HkPacket.Payload.EepromCSState = NewState;
+
+        if (NewState == CS_STATE_DISABLED)
+        {
+            CS_ZeroEepromTempValues();
+        }
+
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
+        CS_UpdateCDS();
+#endif
+
+        CFE_EVS_SendEvent(EventID, CFE_EVS_EventType_INFORMATION,
+                          NewState == CS_STATE_ENABLED ? "Checksumming of EEPROM is Enabled"
+                                                       : "Checksumming of EEPROM is Disabled");
+        CS_AppData.HkPacket.Payload.CmdCounter++;
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
 /* CS Disable background checking of EEPROM command                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            CS_AppData.HkPacket.Payload.EepromCSState = CS_STATE_DISABLED;
-            CS_ZeroEepromTempValues();
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-            CS_UpdateCDS();
-#endif
-
-            CFE_EVS_SendEvent(CS_DISABLE_EEPROM_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Checksumming of EEPROM is Disabled");
-
-            CS_AppData.HkPacket.Payload.CmdCounter++;
-        }
+    CS_DoEnableDisableEepromCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_EEPROM_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -71,19 +85,7 @@ void CS_DisableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableEepromCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            CS_AppData.HkPacket.Payload.EepromCSState = CS_STATE_ENABLED;
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-            CS_UpdateCDS();
-#endif
-
-            CFE_EVS_SendEvent(CS_ENABLE_EEPROM_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Checksumming of EEPROM is Enabled");
-
-            CS_AppData.HkPacket.Payload.CmdCounter++;
-        }
+    CS_DoEnableDisableEepromCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_EEPROM_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -217,62 +219,71 @@ void CS_RecomputeBaselineEepromCmd(const CS_EntryCmd_t *CmdPtr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Enable a specific entry in the EEPROM table command          */
+/* Common handler for EEPROM EntryID enable/disable commands      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
+static void CS_DoEnableDisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr, uint16 NewState, uint32 EnableEventID,
+                                               uint32 DefEmptyEventID, uint32 InvalidEntryEventID)
 {
-    /* command verification variables */
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
     uint16                             EntryID      = 0;
     uint16                             State        = CS_STATE_EMPTY;
 
-        if (CS_CheckRecomputeOneshot() == false)
+    if (CS_CheckRecomputeOneshot() == false)
+    {
+        EntryID = CmdPtr->Payload.EntryID;
+
+        if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
+            (CS_AppData.ResEepromTblPtr[EntryID].State != CS_STATE_EMPTY))
         {
-            EntryID = CmdPtr->Payload.EntryID;
+            ResultsEntry = &CS_AppData.ResEepromTblPtr[EntryID];
 
-            if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
-                (CS_AppData.ResEepromTblPtr[EntryID].State != CS_STATE_EMPTY))
+            ResultsEntry->State = NewState;
+
+            if (NewState == CS_STATE_DISABLED)
             {
-                ResultsEntry = &CS_AppData.ResEepromTblPtr[EntryID];
+                ResultsEntry->TempChecksumValue = 0;
+                ResultsEntry->ByteOffset        = 0;
+            }
 
-                ResultsEntry->State = CS_STATE_ENABLED;
+            CFE_EVS_SendEvent(EnableEventID, CFE_EVS_EventType_INFORMATION,
+                              NewState == CS_STATE_ENABLED ? "Checksumming of EEPROM Entry ID %d is Enabled"
+                                                           : "Checksumming of EEPROM Entry ID %d is Disabled",
+                              EntryID);
 
-                CFE_EVS_SendEvent(CS_ENABLE_EEPROM_ENTRY_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "Checksumming of EEPROM Entry ID %d is Enabled", EntryID);
-
-                if (CS_AppData.DefEepromTblPtr[EntryID].State != CS_STATE_EMPTY)
-                {
-                    CS_AppData.DefEepromTblPtr[EntryID].State = CS_STATE_ENABLED;
-                    CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);
-                    CFE_TBL_Modified(CS_AppData.DefEepromTableHandle);
-                }
-                else
-                {
-                    CFE_EVS_SendEvent(CS_ENABLE_EEPROM_DEF_EMPTY_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "CS unable to update EEPROM definition table for entry %d, State: %d", EntryID,
-                                      State);
-                }
-
-                CS_AppData.HkPacket.Payload.CmdCounter++;
+            if (CS_AppData.DefEepromTblPtr[EntryID].State != CS_STATE_EMPTY)
+            {
+                CS_AppData.DefEepromTblPtr[EntryID].State = NewState;
+                CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);
+                CFE_TBL_Modified(CS_AppData.DefEepromTableHandle);
             }
             else
             {
-                if (EntryID >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
-                {
-                    State = CS_STATE_UNDEFINED;
-                }
-                else
-                {
-                    State = CS_AppData.ResEepromTblPtr[EntryID].State;
-                }
-
-                CFE_EVS_SendEvent(CS_ENABLE_EEPROM_INVALID_ENTRY_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Enable EEPROM entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d", EntryID,
-                                  State, (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CFE_EVS_SendEvent(DefEmptyEventID, CFE_EVS_EventType_DEBUG,
+                                  "CS unable to update EEPROM definition table for entry %d, State: %d", EntryID,
+                                  State);
             }
-        } /* end InProgress if */
+            CS_AppData.HkPacket.Payload.CmdCounter++;
+        }
+        else
+        {
+            if (EntryID >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
+            {
+                State = CS_STATE_UNDEFINED;
+            }
+            else
+            {
+                State = CS_AppData.ResEepromTblPtr[EntryID].State;
+            }
+
+            CFE_EVS_SendEvent(InvalidEntryEventID, CFE_EVS_EventType_ERROR,
+                              NewState == CS_STATE_ENABLED
+                                  ? "Enable EEPROM entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d"
+                                  : "Disable EEPROM entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d",
+                              EntryID, State, (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        }
+    }
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -282,60 +293,19 @@ void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
-    uint16                             EntryID      = 0;
-    uint16                             State        = CS_STATE_EMPTY;
+    CS_DoEnableDisableEntryIDEepromCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_EEPROM_ENTRY_INF_EID,
+                                       CS_DISABLE_EEPROM_DEF_EMPTY_DBG_EID, CS_DISABLE_EEPROM_INVALID_ENTRY_ERR_EID);
+}
 
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            EntryID = CmdPtr->Payload.EntryID;
-
-            if ((EntryID < CS_MAX_NUM_EEPROM_TABLE_ENTRIES) &&
-                (CS_AppData.ResEepromTblPtr[EntryID].State != CS_STATE_EMPTY))
-            {
-                ResultsEntry = &CS_AppData.ResEepromTblPtr[EntryID];
-
-                ResultsEntry->State             = CS_STATE_DISABLED;
-                ResultsEntry->TempChecksumValue = 0;
-                ResultsEntry->ByteOffset        = 0;
-
-                CFE_EVS_SendEvent(CS_DISABLE_EEPROM_ENTRY_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "Checksumming of EEPROM Entry ID %d is Disabled", EntryID);
-
-                if (CS_AppData.DefEepromTblPtr[EntryID].State != CS_STATE_EMPTY)
-                {
-                    CS_AppData.DefEepromTblPtr[EntryID].State = CS_STATE_DISABLED;
-                    CS_ResetTablesTblResultEntry(CS_AppData.EepResTablesTblPtr);
-                    CFE_TBL_Modified(CS_AppData.DefEepromTableHandle);
-                }
-                else
-                {
-                    CFE_EVS_SendEvent(CS_DISABLE_EEPROM_DEF_EMPTY_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "CS unable to update EEPROM definition table for entry %d, State: %d", EntryID,
-                                      State);
-                }
-
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-            }
-            else
-            {
-                if (EntryID >= CS_MAX_NUM_EEPROM_TABLE_ENTRIES)
-                {
-                    State = CS_STATE_UNDEFINED;
-                }
-                else
-                {
-                    State = CS_AppData.ResEepromTblPtr[EntryID].State;
-                }
-
-                CFE_EVS_SendEvent(CS_DISABLE_EEPROM_INVALID_ENTRY_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Disable EEPROM entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d", EntryID,
-                                  State, (CS_MAX_NUM_EEPROM_TABLE_ENTRIES - 1));
-
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-            }
-        } /* end InProgress if */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* CS Enable a specific entry in the EEPROM table command          */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void CS_EnableEntryIDEepromCmd(const CS_EntryCmd_t *CmdPtr)
+{
+    CS_DoEnableDisableEntryIDEepromCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_EEPROM_ENTRY_INF_EID,
+                                       CS_ENABLE_EEPROM_DEF_EMPTY_DBG_EID, CS_ENABLE_EEPROM_INVALID_ENTRY_ERR_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

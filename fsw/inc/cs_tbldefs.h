@@ -85,7 +85,7 @@ typedef struct
     uint32  NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
     uint32  ComparisonValue;    /**< \brief The Memory Integrity Value */
     uint32  ByteOffset;         /**< \brief Where a previous unfinished calc left off */
-    uint32  TempChecksumValue;  /**< \brief The unfinished caluculation */
+    uint32  TempChecksumValue;  /**< \brief The unfinished calculation */
     uint32  Filler32;           /**< \brief Padding */
 } CS_Res_EepromMemory_Table_Entry_t;
 
@@ -118,7 +118,7 @@ typedef struct
     uint32           NumBytesToChecksum;              /**< \brief The number of Bytes to Checksum */
     uint32           ComparisonValue;                 /**< \brief The Memory Integrity Value */
     uint32           ByteOffset;                      /**< \brief Where a previous unfinished calc left off */
-    uint32           TempChecksumValue;               /**< \brief The unfinished caluculation */
+    uint32           TempChecksumValue;               /**< \brief The unfinished calculation */
     CFE_TBL_Handle_t TblHandle;                       /**< \brief handle recieved from CFE_TBL */
     bool             IsCSOwner;                       /**< \brief Is CS the original owner of this table */
     bool             Filler8;                         /**< \brief Padding */
@@ -136,7 +136,7 @@ typedef struct
     uint32  NumBytesToChecksum;    /**< \brief The number of Bytes to Checksum */
     uint32  ComparisonValue;       /**< \brief The Memory Integrity Value */
     uint32  ByteOffset;            /**< \brief Where a previous unfinished calc left off */
-    uint32  TempChecksumValue;     /**< \brief The unfinished caluculation */
+    uint32  TempChecksumValue;     /**< \brief The unfinished calculation */
     char    Name[OS_MAX_API_NAME]; /**< \brief name of the app */
 } CS_Res_App_Table_Entry_t;
 

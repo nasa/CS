@@ -41,23 +41,39 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
+/* Common handler for App enable/disable commands                 */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+static void CS_DoEnableDisableAppCmd(const CS_NoArgsCmd_t *CmdPtr, uint16 NewState, uint32 EventID)
+{
+    if (CS_CheckRecomputeOneshot() == false)
+    {
+        CS_AppData.HkPacket.Payload.AppCSState = NewState;
+
+        if (NewState == CS_STATE_DISABLED)
+        {
+            CS_ZeroAppTempValues();
+        }
+
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
+        CS_UpdateCDS();
+#endif
+
+        CFE_EVS_SendEvent(EventID, CFE_EVS_EventType_INFORMATION,
+                          NewState == CS_STATE_ENABLED ? "Checksumming of App is Enabled"
+                                                       : "Checksumming of App is Disabled");
+        CS_AppData.HkPacket.Payload.CmdCounter++;
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
 /* CS Disable background checking of App command                   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_DISABLED;
-            CS_ZeroAppTempValues();
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-            CS_UpdateCDS();
-#endif
-
-            CFE_EVS_SendEvent(CS_DISABLE_APP_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of App is Disabled");
-            CS_AppData.HkPacket.Payload.CmdCounter++;
-        }
+    CS_DoEnableDisableAppCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_APP_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -67,17 +83,7 @@ void CS_DisableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableAppCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            CS_AppData.HkPacket.Payload.AppCSState = CS_STATE_ENABLED;
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-            CS_UpdateCDS();
-#endif
-
-            CFE_EVS_SendEvent(CS_ENABLE_APP_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of App is Enabled");
-            CS_AppData.HkPacket.Payload.CmdCounter++;
-        }
+    CS_DoEnableDisableAppCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_APP_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -182,52 +188,69 @@ void CS_RecomputeBaselineAppCmd(const CS_AppNameCmd_t *CmdPtr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
+/* Common handler for App name-based enable/disable commands      */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+static void CS_DoEnableDisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr, uint16 NewState, uint32 EventID,
+                                         uint32 UnknownNameEventID, uint32 DefNotFoundEventID)
+{
+    CS_Res_App_Table_Entry_t *ResultsEntry;
+    CS_Def_App_Table_Entry_t *DefinitionEntry;
+    char                      Name[OS_MAX_API_NAME];
+
+    if (CS_CheckRecomputeOneshot() == false)
+    {
+        strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
+        Name[sizeof(Name) - 1] = '\0';
+
+        if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
+        {
+            ResultsEntry->State = NewState;
+
+            if (NewState == CS_STATE_DISABLED)
+            {
+                ResultsEntry->TempChecksumValue = 0;
+                ResultsEntry->ByteOffset        = 0;
+            }
+
+            CFE_EVS_SendEvent(EventID, CFE_EVS_EventType_INFORMATION,
+                              NewState == CS_STATE_ENABLED ? "Checksumming of app %s is Enabled"
+                                                           : "Checksumming of app %s is Disabled",
+                              Name);
+
+            if (CS_GetAppDefTblEntryByName(&DefinitionEntry, Name))
+            {
+                DefinitionEntry->State = NewState;
+                CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);
+                CFE_TBL_Modified(CS_AppData.DefAppTableHandle);
+            }
+            else
+            {
+                CFE_EVS_SendEvent(DefNotFoundEventID, CFE_EVS_EventType_DEBUG,
+                                  "CS unable to update apps definition table for entry %s", Name);
+            }
+            CS_AppData.HkPacket.Payload.CmdCounter++;
+        }
+        else
+        {
+            CFE_EVS_SendEvent(UnknownNameEventID, CFE_EVS_EventType_ERROR,
+                              NewState == CS_STATE_ENABLED ? "App enable app command failed, app %s not found"
+                                                           : "App disable app command failed, app %s not found",
+                              Name);
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        }
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
 /* CS Disable a specific entry in the App table command            */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    CS_Res_App_Table_Entry_t *ResultsEntry;
-    CS_Def_App_Table_Entry_t *DefinitionEntry;
-    char                      Name[OS_MAX_API_NAME];
-
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
-            Name[sizeof(Name) - 1] = '\0';
-
-            if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
-            {
-                ResultsEntry->State             = CS_STATE_DISABLED;
-                ResultsEntry->TempChecksumValue = 0;
-                ResultsEntry->ByteOffset        = 0;
-
-                CFE_EVS_SendEvent(CS_DISABLE_APP_NAME_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "Checksumming of app %s is Disabled", Name);
-
-                if (CS_GetAppDefTblEntryByName(&DefinitionEntry, Name))
-                {
-                    DefinitionEntry->State = CS_STATE_DISABLED;
-                    CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);
-                    CFE_TBL_Modified(CS_AppData.DefAppTableHandle);
-                }
-                else
-                {
-                    CFE_EVS_SendEvent(CS_DISABLE_APP_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "CS unable to update apps definition table for entry %s", Name);
-                }
-
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-            }
-
-            else
-            {
-                CFE_EVS_SendEvent(CS_DISABLE_APP_UNKNOWN_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "App disable app command failed, app %s not found", Name);
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-            }
-        } /* end InProgress if */
+    CS_DoEnableDisableNameAppCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_APP_NAME_INF_EID,
+                                 CS_DISABLE_APP_UNKNOWN_NAME_ERR_EID, CS_DISABLE_APP_DEF_NOT_FOUND_DBG_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -237,42 +260,6 @@ void CS_DisableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableNameAppCmd(const CS_AppNameCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    CS_Res_App_Table_Entry_t *ResultsEntry;
-    CS_Def_App_Table_Entry_t *DefinitionEntry;
-    char                      Name[OS_MAX_API_NAME];
-
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
-            Name[sizeof(Name) - 1] = '\0';
-
-            if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
-            {
-                ResultsEntry->State = CS_STATE_ENABLED;
-
-                CFE_EVS_SendEvent(CS_ENABLE_APP_NAME_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "Checksumming of app %s is Enabled", Name);
-
-                if (CS_GetAppDefTblEntryByName(&DefinitionEntry, Name))
-                {
-                    DefinitionEntry->State = CS_STATE_ENABLED;
-                    CS_ResetTablesTblResultEntry(CS_AppData.AppResTablesTblPtr);
-                    CFE_TBL_Modified(CS_AppData.DefAppTableHandle);
-                }
-                else
-                {
-                    CFE_EVS_SendEvent(CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "CS unable to update apps definition table for entry %s", Name);
-                }
-
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-            }
-            else
-            {
-                CFE_EVS_SendEvent(CS_ENABLE_APP_UNKNOWN_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "App enable app command failed, app %s not found", Name);
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-            }
-        } /* end InProgress if */
+    CS_DoEnableDisableNameAppCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_APP_NAME_INF_EID,
+                                 CS_ENABLE_APP_UNKNOWN_NAME_ERR_EID, CS_ENABLE_APP_DEF_NOT_FOUND_DBG_EID);
 }

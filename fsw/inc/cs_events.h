@@ -513,7 +513,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a report baseline
- *  for the EEPROM entry specifiedcommand has been received
+ *  for the EEPROM entry specified command has been received
  *  and there is a baseline computed to report.
  */
 #define CS_BASELINE_EEPROM_INF_EID 39
@@ -603,7 +603,7 @@
  *
  *  \par Type: INFORMATION
  *
- *  \par Cause:invalid
+ *  \par Cause:
  *
  *  This event message is issued when an enable EEPROM Entry ID
  *  command is accepted.
@@ -712,7 +712,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a report baseline
- *  for the Memory entry specifiedcommand has been received
+ *  for the Memory entry specified command has been received
  *  and there is a baseline computed to report.
  */
 #define CS_BASELINE_MEMORY_INF_EID 54
@@ -912,7 +912,7 @@
  *  \par Cause:
  *
  *  This event message is issued when a report baseline
- *  for the Tables entry specifiedcommand has been received
+ *  for the Tables entry specified command has been received
  *  and there is a baseline computed to report.
  */
 #define CS_BASELINE_TABLES_INF_EID 69
@@ -1458,7 +1458,7 @@
 /***********************************************************************************************/
 
 /**
- * \brief CS Software Buse Create Pipe Failed Event ID
+ * \brief CS Software Bus Create Pipe Failed Event ID
  *
  *  \par Type: ERROR
  *

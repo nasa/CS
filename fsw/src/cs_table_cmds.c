@@ -41,24 +41,39 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
+/* Common handler for Tables enable/disable commands               */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+static void CS_DoEnableDisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr, uint16 NewState, uint32 EventID)
+{
+    if (CS_CheckRecomputeOneshot() == false)
+    {
+        CS_AppData.HkPacket.Payload.TablesCSState = NewState;
+
+        if (NewState == CS_STATE_DISABLED)
+        {
+            CS_ZeroTablesTempValues();
+        }
+
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
+        CS_UpdateCDS();
+#endif
+
+        CFE_EVS_SendEvent(EventID, CFE_EVS_EventType_INFORMATION,
+                          NewState == CS_STATE_ENABLED ? "Checksumming of Tables is Enabled"
+                                                       : "Checksumming of Tables is Disabled");
+        CS_AppData.HkPacket.Payload.CmdCounter++;
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
 /* CS Disable background checking of Tables command                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_DISABLED;
-            CS_ZeroTablesTempValues();
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-            CS_UpdateCDS();
-#endif
-
-            CFE_EVS_SendEvent(CS_DISABLE_TABLES_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Checksumming of Tables is Disabled");
-            CS_AppData.HkPacket.Payload.CmdCounter++;
-        }
+    CS_DoEnableDisableTablesCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_TABLES_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -68,18 +83,7 @@ void CS_DisableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableTablesCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            CS_AppData.HkPacket.Payload.TablesCSState = CS_STATE_ENABLED;
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-            CS_UpdateCDS();
-#endif
-
-            CFE_EVS_SendEvent(CS_ENABLE_TABLES_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Checksumming of Tables is Enabled");
-            CS_AppData.HkPacket.Payload.CmdCounter++;
-        }
+    CS_DoEnableDisableTablesCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_TABLES_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -182,50 +186,69 @@ void CS_RecomputeBaselineTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
-/* CS Disable a specific entry in the Tables table command         */
+/* Common handler for Tables name-based enable/disable commands   */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
+static void CS_DoEnableDisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr, uint16 NewState, uint32 EventID,
+                                            uint32 DefNotFoundEventID, uint32 UnknownNameEventID)
 {
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     CS_Def_Tables_Table_Entry_t *DefinitionEntry;
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
-            Name[sizeof(Name) - 1] = '\0';
+    if (CS_CheckRecomputeOneshot() == false)
+    {
+        strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
+        Name[sizeof(Name) - 1] = '\0';
 
-            if (CS_GetTableResTblEntryByName(&ResultsEntry, Name))
+        if (CS_GetTableResTblEntryByName(&ResultsEntry, Name))
+        {
+            ResultsEntry->State = NewState;
+
+            if (NewState == CS_STATE_DISABLED)
             {
-                ResultsEntry->State             = CS_STATE_DISABLED;
                 ResultsEntry->TempChecksumValue = 0;
                 ResultsEntry->ByteOffset        = 0;
+            }
 
-                CFE_EVS_SendEvent(CS_DISABLE_TABLES_NAME_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "Checksumming of table %s is Disabled", Name);
+            CFE_EVS_SendEvent(EventID, CFE_EVS_EventType_INFORMATION,
+                              NewState == CS_STATE_ENABLED ? "Checksumming of table %s is Enabled"
+                                                           : "Checksumming of table %s is Disabled",
+                              Name);
 
-                if (CS_GetTableDefTblEntryByName(&DefinitionEntry, Name))
-                {
-                    DefinitionEntry->State = CS_STATE_DISABLED;
-                    CS_ResetTablesTblResultEntry(CS_AppData.TblResTablesTblPtr);
-                    CFE_TBL_Modified(CS_AppData.DefTablesTableHandle);
-                }
-                else
-                {
-                    CFE_EVS_SendEvent(CS_DISABLE_TABLE_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "CS unable to update tables definition table for entry %s", Name);
-                }
-
-                CS_AppData.HkPacket.Payload.CmdCounter++;
+            if (CS_GetTableDefTblEntryByName(&DefinitionEntry, Name))
+            {
+                DefinitionEntry->State = NewState;
+                CS_ResetTablesTblResultEntry(CS_AppData.TblResTablesTblPtr);
+                CFE_TBL_Modified(CS_AppData.DefTablesTableHandle);
             }
             else
             {
-                CFE_EVS_SendEvent(CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Tables disable table command failed, table %s not found", Name);
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                CFE_EVS_SendEvent(DefNotFoundEventID, CFE_EVS_EventType_DEBUG,
+                                  "CS unable to update tables definition table for entry %s", Name);
             }
-        } /* end InProgress if */
+            CS_AppData.HkPacket.Payload.CmdCounter++;
+        }
+        else
+        {
+            CFE_EVS_SendEvent(UnknownNameEventID, CFE_EVS_EventType_ERROR,
+                              NewState == CS_STATE_ENABLED ? "Tables enable table command failed, table %s not found"
+                                                           : "Tables disable table command failed, table %s not found",
+                              Name);
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        }
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* CS Disable a specific entry in the Tables table command         */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
+{
+    CS_DoEnableDisableNameTablesCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_TABLES_NAME_INF_EID,
+                                    CS_DISABLE_TABLE_DEF_NOT_FOUND_DBG_EID, CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -235,41 +258,6 @@ void CS_DisableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableNameTablesCmd(const CS_TableNameCmd_t *CmdPtr)
 {
-    CS_Res_Tables_Table_Entry_t *ResultsEntry;
-    CS_Def_Tables_Table_Entry_t *DefinitionEntry;
-    char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
-
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
-            Name[sizeof(Name) - 1] = '\0';
-
-            if (CS_GetTableResTblEntryByName(&ResultsEntry, Name))
-            {
-                ResultsEntry->State = CS_STATE_ENABLED;
-
-                CFE_EVS_SendEvent(CS_ENABLE_TABLES_NAME_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "Checksumming of table %s is Enabled", Name);
-
-                if (CS_GetTableDefTblEntryByName(&DefinitionEntry, Name))
-                {
-                    DefinitionEntry->State = CS_STATE_ENABLED;
-                    CS_ResetTablesTblResultEntry(CS_AppData.TblResTablesTblPtr);
-                    CFE_TBL_Modified(CS_AppData.DefTablesTableHandle);
-                }
-                else
-                {
-                    CFE_EVS_SendEvent(CS_ENABLE_TABLE_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "CS unable to update tables definition table for entry %s", Name);
-                }
-
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-            }
-            else
-            {
-                CFE_EVS_SendEvent(CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Tables enable table command failed, table %s not found", Name);
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-            }
-        } /* end InProgress if */
+    CS_DoEnableDisableNameTablesCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_TABLES_NAME_INF_EID,
+                                    CS_ENABLE_TABLE_DEF_NOT_FOUND_DBG_EID, CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID);
 }

@@ -114,7 +114,7 @@
  *       - The #CS_ONESHOT_STARTED_DBG_EID debug event message will be
  *         generated when the command is received
  *       - The CS_ONESHOT_FINISHED_INF_EID informational message will
- *         be generated when the compuation finishes.
+ *         be generated when the computation finishes.
  *       - #CS_HkPacket_Payload_t.LastOneShotChecksum will be updated to the new value
  *
  *  \par Error Conditions
@@ -346,7 +346,7 @@
  * \brief Recompute Baseline checksum of cFE core
  *
  *  \par Description
- *       Recomputesthe baseline checksum of the cFE core
+ *       Recomputes the baseline checksum of the cFE core
  *       and use the new value as the baseline.
  *
  *  \par Command Structure
@@ -485,7 +485,7 @@
  * \brief Recompute Baseline checksum of OS code segment
  *
  *  \par Description
- *       Recomputesthe baseline checksum of the OS code segment
+ *       Recomputes the baseline checksum of the OS code segment
  *       and use the new value as the baseline.
  *
  *  \par Command Structure
@@ -1099,7 +1099,7 @@
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
- *       - The command specified able name is invalid
+ *       - The command specified table name is invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
@@ -1317,7 +1317,7 @@
  *  \par Error Conditions
  *       This command may fail for the following reason(s):
  *       - Command packet length not as expected
- *       - The command specified able name is invalid
+ *       - The command specified table name is invalid
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
@@ -1433,13 +1433,13 @@
  *
  *  \par Evidence of failure may be found in the following telemetry:
  *       - #CS_HkPacket_Payload_t.CmdErrCounter will increment
- *       - Error specific event message #CS_DISABLE_APP_NAME_INF_EID
+ *       - Error specific event message #CS_CMD_LEN_ERR_EID
  *       - Error specific event message #CS_DISABLE_APP_UNKNOWN_NAME_ERR_EID
  *
  *  \par Criticality
  *       None
  *
- *  \sa #CS_DISABLE_NAME_APP_CC
+ *  \sa #CS_ENABLE_NAME_APP_CC
  */
 #define CS_DISABLE_NAME_APP_CC 39
 

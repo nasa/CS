@@ -43,47 +43,49 @@
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
+/* Common handler for Memory enable/disable commands               */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+static void CS_DoEnableDisableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr, uint16 NewState, uint32 EventID)
+{
+    if (CS_CheckRecomputeOneshot() == false)
+    {
+        CS_AppData.HkPacket.Payload.MemoryCSState = NewState;
+
+        if (NewState == CS_STATE_DISABLED)
+        {
+            CS_ZeroMemoryTempValues();
+        }
+
+#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
+        CS_UpdateCDS();
+#endif
+
+        CFE_EVS_SendEvent(EventID, CFE_EVS_EventType_INFORMATION,
+                          NewState == CS_STATE_ENABLED ? "Checksumming of Memory is Enabled"
+                                                       : "Checksumming of Memory is Disabled");
+        CS_AppData.HkPacket.Payload.CmdCounter++;
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
 /* CS Disable background checking of Memory command                */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            CS_AppData.HkPacket.Payload.MemoryCSState = CS_STATE_DISABLED;
-            CS_ZeroMemoryTempValues();
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-            CS_UpdateCDS();
-#endif
-
-            CFE_EVS_SendEvent(CS_DISABLE_MEMORY_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Checksumming of Memory is Disabled");
-
-            CS_AppData.HkPacket.Payload.CmdCounter++;
-        }
+    CS_DoEnableDisableMemoryCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_MEMORY_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
 /* CS Enable background checking of Memory command                 */
 /*                                                                 */
-/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableMemoryCmd(const CS_NoArgsCmd_t *CmdPtr)
 {
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            CS_AppData.HkPacket.Payload.MemoryCSState = CS_STATE_ENABLED;
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-            CS_UpdateCDS();
-#endif
-
-            CFE_EVS_SendEvent(CS_ENABLE_MEMORY_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Checksumming of Memory is Enabled");
-
-            CS_AppData.HkPacket.Payload.CmdCounter++;
-        }
+    CS_DoEnableDisableMemoryCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_MEMORY_INF_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -217,62 +219,82 @@ void CS_RecomputeBaselineMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
+/* Common handler for Memory EntryID enable/disable commands      */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+static void CS_DoEnableDisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr, uint16 NewState, uint32 EnableEventID,
+                                               uint32 DefEmptyEventID, uint32 InvalidEntryEventID)
+{
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
+    uint16                             EntryID      = 0;
+    uint16                             State        = CS_STATE_EMPTY;
+
+    if (CS_CheckRecomputeOneshot() == false)
+    {
+        EntryID = CmdPtr->Payload.EntryID;
+
+        if ((EntryID < CS_MAX_NUM_MEMORY_TABLE_ENTRIES) &&
+            (CS_AppData.ResMemoryTblPtr[EntryID].State != CS_STATE_EMPTY))
+        {
+            ResultsEntry = &CS_AppData.ResMemoryTblPtr[EntryID];
+
+            ResultsEntry->State = NewState;
+
+            if (NewState == CS_STATE_DISABLED)
+            {
+                ResultsEntry->TempChecksumValue = 0;
+                ResultsEntry->ByteOffset        = 0;
+            }
+
+            CFE_EVS_SendEvent(EnableEventID, CFE_EVS_EventType_INFORMATION,
+                              NewState == CS_STATE_ENABLED ? "Checksumming of Memory Entry ID %d is Enabled"
+                                                           : "Checksumming of Memory Entry ID %d is Disabled",
+                              EntryID);
+
+            if (CS_AppData.DefMemoryTblPtr[EntryID].State != CS_STATE_EMPTY)
+            {
+                CS_AppData.DefMemoryTblPtr[EntryID].State = NewState;
+                CS_ResetTablesTblResultEntry(CS_AppData.MemResTablesTblPtr);
+                CFE_TBL_Modified(CS_AppData.DefMemoryTableHandle);
+            }
+            else
+            {
+                CFE_EVS_SendEvent(DefEmptyEventID, CFE_EVS_EventType_DEBUG,
+                                  "CS unable to update memory definition table for entry %d, State: %d", EntryID,
+                                  State);
+            }
+            CS_AppData.HkPacket.Payload.CmdCounter++;
+        }
+        else
+        {
+            if (EntryID >= CS_MAX_NUM_MEMORY_TABLE_ENTRIES)
+            {
+                State = CS_STATE_UNDEFINED;
+            }
+            else
+            {
+                State = CS_AppData.ResMemoryTblPtr[EntryID].State;
+            }
+
+            CFE_EVS_SendEvent(InvalidEntryEventID, CFE_EVS_EventType_ERROR,
+                              NewState == CS_STATE_ENABLED
+                                  ? "Enable Memory entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d"
+                                  : "Disable Memory entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d",
+                              EntryID, State, (CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1));
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        }
+    }
+}
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
 /* CS Enable a specific entry in the Memory table command          */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry   = NULL;
-    uint16                             EntryID        = 0;
-    uint16                             State          = CS_STATE_EMPTY;
-
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            EntryID = CmdPtr->Payload.EntryID;
-
-            if ((EntryID < CS_MAX_NUM_MEMORY_TABLE_ENTRIES) &&
-                (CS_AppData.ResMemoryTblPtr[EntryID].State != CS_STATE_EMPTY))
-            {
-                ResultsEntry = &CS_AppData.ResMemoryTblPtr[EntryID];
-
-                ResultsEntry->State = CS_STATE_ENABLED;
-
-                CFE_EVS_SendEvent(CS_ENABLE_MEMORY_ENTRY_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "Checksumming of Memory Entry ID %d is Enabled", EntryID);
-
-                if (CS_AppData.DefMemoryTblPtr[EntryID].State != CS_STATE_EMPTY)
-                {
-                    CS_AppData.DefMemoryTblPtr[EntryID].State = CS_STATE_ENABLED;
-                    CS_ResetTablesTblResultEntry(CS_AppData.MemResTablesTblPtr);
-                    CFE_TBL_Modified(CS_AppData.DefMemoryTableHandle);
-                }
-                else
-                {
-                    CFE_EVS_SendEvent(CS_ENABLE_MEMORY_DEF_EMPTY_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "CS unable to update memory definition table for entry %d, State: %d", EntryID,
-                                      State);
-                }
-
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-            }
-            else
-            {
-                if (EntryID >= CS_MAX_NUM_MEMORY_TABLE_ENTRIES)
-                {
-                    State = CS_STATE_UNDEFINED;
-                }
-                else
-                {
-                    State = CS_AppData.ResMemoryTblPtr[EntryID].State;
-                }
-
-                CFE_EVS_SendEvent(CS_ENABLE_MEMORY_INVALID_ENTRY_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Enable Memory entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d", EntryID,
-                                  State, (CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1));
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-            }
-        } /* end InProgress if */
+    CS_DoEnableDisableEntryIDMemoryCmd(CmdPtr, CS_STATE_ENABLED, CS_ENABLE_MEMORY_ENTRY_INF_EID,
+                                       CS_ENABLE_MEMORY_DEF_EMPTY_DBG_EID, CS_ENABLE_MEMORY_INVALID_ENTRY_ERR_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -282,60 +304,8 @@ void CS_EnableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_DisableEntryIDMemoryCmd(const CS_EntryCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry   = NULL;
-    uint16                             EntryID        = 0;
-    uint16                             State          = CS_STATE_EMPTY;
-
-        if (CS_CheckRecomputeOneshot() == false)
-        {
-            EntryID = CmdPtr->Payload.EntryID;
-
-            if ((EntryID < CS_MAX_NUM_MEMORY_TABLE_ENTRIES) &&
-                (CS_AppData.ResMemoryTblPtr[EntryID].State != CS_STATE_EMPTY))
-            {
-                ResultsEntry = &CS_AppData.ResMemoryTblPtr[EntryID];
-
-                ResultsEntry->State             = CS_STATE_DISABLED;
-                ResultsEntry->TempChecksumValue = 0;
-                ResultsEntry->ByteOffset        = 0;
-
-                CFE_EVS_SendEvent(CS_DISABLE_MEMORY_ENTRY_INF_EID, CFE_EVS_EventType_INFORMATION,
-                                  "Checksumming of Memory Entry ID %d is Disabled", EntryID);
-
-                if (CS_AppData.DefMemoryTblPtr[EntryID].State != CS_STATE_EMPTY)
-                {
-                    CS_AppData.DefMemoryTblPtr[EntryID].State = CS_STATE_DISABLED;
-                    CS_ResetTablesTblResultEntry(CS_AppData.MemResTablesTblPtr);
-                    CFE_TBL_Modified(CS_AppData.DefMemoryTableHandle);
-                }
-                else
-                {
-                    CFE_EVS_SendEvent(CS_DISABLE_MEMORY_DEF_EMPTY_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                      "CS unable to update memory definition table for entry %d, State: %d", EntryID,
-                                      State);
-                }
-
-                CS_AppData.HkPacket.Payload.CmdCounter++;
-            }
-            else
-            {
-                if (EntryID >= CS_MAX_NUM_MEMORY_TABLE_ENTRIES)
-                {
-                    State = CS_STATE_UNDEFINED;
-                }
-                else
-                {
-                    State = CS_AppData.ResMemoryTblPtr[EntryID].State;
-                }
-
-                CFE_EVS_SendEvent(CS_DISABLE_MEMORY_INVALID_ENTRY_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Disable Memory entry failed, invalid Entry ID:  %d, State: %d, Max ID: %d", EntryID,
-                                  State, (CS_MAX_NUM_MEMORY_TABLE_ENTRIES - 1));
-
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
-            }
-        } /* end InProgress if */
+    CS_DoEnableDisableEntryIDMemoryCmd(CmdPtr, CS_STATE_DISABLED, CS_DISABLE_MEMORY_ENTRY_INF_EID,
+                                       CS_DISABLE_MEMORY_DEF_EMPTY_DBG_EID, CS_DISABLE_MEMORY_INVALID_ENTRY_ERR_EID);
 }
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */

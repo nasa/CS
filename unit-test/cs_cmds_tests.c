@@ -85,7 +85,7 @@ void CS_ResetCmd_Test(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset Counters command recieved");
+    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Reset Counters command received");
 
     CS_AppData.HkPacket.Payload.CmdCounter          = 1;
     CS_AppData.HkPacket.Payload.CmdErrCounter       = 2;
