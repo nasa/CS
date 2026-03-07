@@ -472,6 +472,11 @@ bool CS_CheckRecomputeOneshot(void);
 CS_ChecksumState_Enum_t CS_SetDefEntryState(CS_TableWrapper_t *tw, void *EntryPtr, CS_ChecksumState_Enum_t NewState);
 
 /**
+ * \brief Verifies that an address range is safe to access
+ */
+CFE_Status_t CS_VerifyAddressRange(cpuaddr StartAddress, size_t Size);
+
+/**
  * \brief Checks if the definition table matches the given name
  *
  *  \par Description

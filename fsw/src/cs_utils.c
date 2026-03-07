@@ -1148,3 +1148,82 @@ bool CS_CheckRecomputeOneshot(void)
     }
     return Result;
 }
+
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+/*                                                                 */
+/* Verifies that an address range is safe to access                */
+/*                                                                 */
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+CFE_Status_t CS_VerifyAddressRange(cpuaddr StartAddress, size_t Size)
+{
+    CFE_Status_t                      Status = CS_TABLE_ERROR;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry;
+    uint32                            Loop;
+
+    /* Check CFE core segment */
+    ResultsEntry = CS_GetCfeCoreCodeSegResTable();
+    if (ResultsEntry != NULL && ResultsEntry->State != CS_ChecksumState_EMPTY)
+    {
+        if (StartAddress >= ResultsEntry->StartAddress &&
+            Size <= ResultsEntry->NumBytesToChecksum &&
+            (StartAddress - ResultsEntry->StartAddress) <= (ResultsEntry->NumBytesToChecksum - Size))
+        {
+            Status = CFE_SUCCESS;
+        }
+    }
+
+    if (Status != CFE_SUCCESS)
+    {
+        /* Check OS core segment */
+        ResultsEntry = CS_GetOSCodeSegResTable();
+        if (ResultsEntry != NULL && ResultsEntry->State != CS_ChecksumState_EMPTY)
+        {
+            if (StartAddress >= ResultsEntry->StartAddress &&
+                Size <= ResultsEntry->NumBytesToChecksum &&
+                (StartAddress - ResultsEntry->StartAddress) <= (ResultsEntry->NumBytesToChecksum - Size))
+            {
+                Status = CFE_SUCCESS;
+            }
+        }
+    }
+
+    if (Status != CFE_SUCCESS)
+    {
+        /* Check Memory table */
+        for (Loop = 0; Loop < CS_MAX_NUM_MEMORY_TABLE_ENTRIES; Loop++)
+        {
+            ResultsEntry = CS_GetMemoryResEntry(Loop);
+            if (ResultsEntry != NULL && ResultsEntry->State != CS_ChecksumState_EMPTY)
+            {
+                if (StartAddress >= ResultsEntry->StartAddress &&
+                    Size <= ResultsEntry->NumBytesToChecksum &&
+                    (StartAddress - ResultsEntry->StartAddress) <= (ResultsEntry->NumBytesToChecksum - Size))
+                {
+                    Status = CFE_SUCCESS;
+                    break;
+                }
+            }
+        }
+    }
+
+    if (Status != CFE_SUCCESS)
+    {
+        /* Check EEPROM table */
+        for (Loop = 0; Loop < CS_MAX_NUM_EEPROM_TABLE_ENTRIES; Loop++)
+        {
+            ResultsEntry = CS_GetEepromResEntry(Loop);
+            if (ResultsEntry != NULL && ResultsEntry->State != CS_ChecksumState_EMPTY)
+            {
+                if (StartAddress >= ResultsEntry->StartAddress &&
+                    Size <= ResultsEntry->NumBytesToChecksum &&
+                    (StartAddress - ResultsEntry->StartAddress) <= (ResultsEntry->NumBytesToChecksum - Size))
+                {
+                    Status = CFE_SUCCESS;
+                    break;
+                }
+            }
+        }
+    }
+
+    return Status;
+}

@@ -1997,6 +1997,10 @@
  */
 #define CS_VAL_TABLES_DEF_TBL_LONG_NAME_ERR_EID 155
 
+/**
+ * \brief CS Oneshot Checksum Failed Memory Range Validation Event ID
+ */
+#define CS_ONESHOT_MEMRANGE_ERR_EID 156
 /**@}*/
 
 #endif
