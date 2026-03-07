@@ -474,6 +474,28 @@ CFE_Status_t CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
 
     if (Status == CFE_SUCCESS)
     {
+        /* Perform application-level secondary validation */
+        Status = CS_VerifyAddressRange(CmdPtr->Payload.Address, CmdPtr->Payload.Size);
+
+        if (Status != CFE_SUCCESS)
+        {
+            CFE_EVS_SendEvent(CS_ONESHOT_MEMRANGE_ERR_EID, CFE_EVS_EventType_ERROR,
+                              "OneShot checksum failed, address range not in a permitted memory region: 0x%08X",
+                              (unsigned int)Status);
+
+            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        }
+    }
+    else
+    {
+        CFE_EVS_SendEvent(CS_ONESHOT_MEMVALIDATE_ERR_EID, CFE_EVS_EventType_ERROR,
+                          "OneShot checksum failed, CFE_PSP_MemValidateRange returned: 0x%08X", (unsigned int)Status);
+
+        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+    }
+
+    if (Status == CFE_SUCCESS)
+    {
         if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false &&
             CS_AppData.HkPacket.Payload.OneShotInProgress == false)
         {
@@ -508,7 +530,7 @@ CFE_Status_t CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
             else /* child task creation failed */
             {
                 CFE_EVS_SendEvent(CS_ONESHOT_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "OneShot checkum failed, CFE_ES_CreateChildTask returned: 0x%08X",
+                                  "OneShot checksum failed, CFE_ES_CreateChildTask returned: 0x%08X",
                                   (unsigned int)Status);
 
                 CS_AppData.HkPacket.Payload.CmdErrCounter++;
@@ -524,13 +546,6 @@ CFE_Status_t CS_OneShotCmd(const CS_OneShotCmd_t *CmdPtr)
 
             CS_AppData.HkPacket.Payload.CmdErrCounter++;
         }
-    } /* end if CFE_PSP_MemValidateRange */
-    else
-    {
-        CFE_EVS_SendEvent(CS_ONESHOT_MEMVALIDATE_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "OneShot checksum failed, CFE_PSP_MemValidateRange returned: 0x%08X", (unsigned int)Status);
-
-        CS_AppData.HkPacket.Payload.CmdErrCounter++;
     }
 
     return CFE_SUCCESS;
