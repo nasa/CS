@@ -44,7 +44,8 @@ void CS_Init_Test_SBCreatePipeError(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus Create Pipe for command returned: 0x%%08X");
 
     /* Set to generate error message CS_CR_PIPE_ERR_EID */
@@ -66,7 +67,8 @@ void CS_Init_Test_SBCreatePipeError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -82,7 +84,8 @@ void CS_Init_Test_SBSubscribeHKNominal(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -92,7 +95,8 @@ void CS_Init_Test_SBSubscribeHKError(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus subscribe to housekeeping returned: 0x%%08X");
 
     /* Set to generate error message CS_INIT_SB_SUBSCRIBE_HK_ERR_EID */
@@ -114,7 +118,8 @@ void CS_Init_Test_SBSubscribeHKError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -124,7 +129,8 @@ void CS_Init_Test_SBSubscribeBackgroundCycleError(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus subscribe to background cycle returned: 0x%%08X");
 
     /* Set to generate error message CS_INIT_SB_SUBSCRIBE_BACK_ERR_EID */
@@ -145,7 +151,8 @@ void CS_Init_Test_SBSubscribeBackgroundCycleError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -155,7 +162,8 @@ void CS_Init_Test_SBSubscribeCmdError(void)
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Software Bus subscribe to command returned: 0x%%08X");
 
     /* Set to generate error message CS_INIT_SB_SUBSCRIBE_CMD_ERR_EID */
@@ -176,7 +184,8 @@ void CS_Init_Test_SBSubscribeCmdError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -198,7 +207,8 @@ void CS_Init_Test_TableInitNominal(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 
     UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.EepromCSState, CS_ChecksumState_ENABLED);
@@ -237,7 +247,8 @@ void CS_Init_Test_TableInitErrorEEPROM(void)
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     /* Generates 1 event message we don't care about in this test */
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.EepromCSState, CS_ChecksumState_DISABLED);
 }
@@ -276,7 +287,8 @@ void CS_Init_Test_TableInitErrorMemory(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
     UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.MemoryCSState, CS_ChecksumState_DISABLED);
@@ -314,7 +326,8 @@ void CS_Init_Test_TableInitErrorApps(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
     UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.AppCSState, CS_ChecksumState_DISABLED);
@@ -352,7 +365,8 @@ void CS_Init_Test_TableInitErrorTables(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
     UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.TablesCSState, CS_ChecksumState_DISABLED);
@@ -396,7 +410,8 @@ void CS_Init_Test_CFETextSegmentInfoError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -428,7 +443,8 @@ void CS_Init_Test_KernelTextSegmentInfoError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -437,7 +453,9 @@ void UtTest_Setup(void)
     UtTest_Add(CS_Init_Test_SBCreatePipeError, CS_Test_Setup, CS_Test_TearDown, "CS_Init_Test_SBCreatePipeError");
     UtTest_Add(CS_Init_Test_SBSubscribeHKNominal, CS_Test_Setup, CS_Test_TearDown, "CS_Init_Test_SBSubscribeHKNominal");
     UtTest_Add(CS_Init_Test_SBSubscribeHKError, CS_Test_Setup, CS_Test_TearDown, "CS_Init_Test_SBSubscribeHKError");
-    UtTest_Add(CS_Init_Test_SBSubscribeBackgroundCycleError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_Init_Test_SBSubscribeBackgroundCycleError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_Init_Test_SBSubscribeBackgroundCycleError");
     UtTest_Add(CS_Init_Test_SBSubscribeCmdError, CS_Test_Setup, CS_Test_TearDown, "CS_Init_Test_SBSubscribeCmdError");
     UtTest_Add(CS_Init_Test_TableInitNominal, CS_Test_Setup, CS_Test_TearDown, "CS_Init_Test_TableInitNominal");
@@ -446,8 +464,12 @@ void UtTest_Setup(void)
     UtTest_Add(CS_Init_Test_TableInitErrorApps, CS_Test_Setup, CS_Test_TearDown, "CS_Init_Test_TableInitErrorApps");
     UtTest_Add(CS_Init_Test_TableInitErrorTables, CS_Test_Setup, CS_Test_TearDown, "CS_Init_Test_TableInitErrorTables");
     UtTest_Add(CS_Init_Test_TableInitErrorOther, CS_Test_Setup, CS_Test_TearDown, "CS_Init_Test_TableInitErrorOther");
-    UtTest_Add(CS_Init_Test_CFETextSegmentInfoError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_Init_Test_CFETextSegmentInfoError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_Init_Test_CFETextSegmentInfoError");
-    UtTest_Add(CS_Init_Test_KernelTextSegmentInfoError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_Init_Test_KernelTextSegmentInfoError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_Init_Test_KernelTextSegmentInfoError");
 }

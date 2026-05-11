@@ -338,7 +338,6 @@ const char *CS_GetTableTypeAsString(const CS_TableWrapper_t *Tbl)
  */
 void CS_GoToNextTable(void)
 {
-
     UT_GenStub_Execute(CS_GoToNextTable, Basic, NULL);
 }
 
@@ -363,7 +362,6 @@ CFE_Status_t CS_HandleRoutineTableUpdates(void)
  */
 void CS_InitializeDefaultTables(void)
 {
-
     UT_GenStub_Execute(CS_InitializeDefaultTables, Basic, NULL);
 }
 
@@ -404,7 +402,6 @@ CS_ChecksumState_Enum_t CS_SetDefEntryState(CS_TableWrapper_t *tw, void *EntryPt
  */
 void CS_ZeroAppTempValues(void)
 {
-
     UT_GenStub_Execute(CS_ZeroAppTempValues, Basic, NULL);
 }
 
@@ -415,7 +412,6 @@ void CS_ZeroAppTempValues(void)
  */
 void CS_ZeroCfeCoreTempValues(void)
 {
-
     UT_GenStub_Execute(CS_ZeroCfeCoreTempValues, Basic, NULL);
 }
 
@@ -426,7 +422,6 @@ void CS_ZeroCfeCoreTempValues(void)
  */
 void CS_ZeroEepromTempValues(void)
 {
-
     UT_GenStub_Execute(CS_ZeroEepromTempValues, Basic, NULL);
 }
 
@@ -437,7 +432,6 @@ void CS_ZeroEepromTempValues(void)
  */
 void CS_ZeroMemoryTempValues(void)
 {
-
     UT_GenStub_Execute(CS_ZeroMemoryTempValues, Basic, NULL);
 }
 
@@ -448,7 +442,6 @@ void CS_ZeroMemoryTempValues(void)
  */
 void CS_ZeroOSTempValues(void)
 {
-
     UT_GenStub_Execute(CS_ZeroOSTempValues, Basic, NULL);
 }
 
@@ -459,6 +452,5 @@ void CS_ZeroOSTempValues(void)
  */
 void CS_ZeroTablesTempValues(void)
 {
-
     UT_GenStub_Execute(CS_ZeroTablesTempValues, Basic, NULL);
 }

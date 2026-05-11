@@ -54,8 +54,8 @@
 
       <ContainerDataType name="HkPacket_Payload">
         <EntryList>
-          <Entry type="BASE_TYPES/uint8" name="CmdCounter" shortDescription="CS Application Command Counter" />
-          <Entry type="BASE_TYPES/uint8" name="CmdErrCounter" shortDescription="CS Application Command Error Counter" />
+          <Entry type="BASE_TYPES/uint8" name="CommandCounter" shortDescription="CS Application Command Counter" />
+          <Entry type="BASE_TYPES/uint8" name="CommandErrorCounter" shortDescription="CS Application Command Error Counter" />
           <Entry type="ChecksumState" name="ChecksumState" shortDescription="CS Application global checksum state" />
           <Entry type="ChecksumState" name="EepromCSState" shortDescription="CS EEPROM table checksum state" />
           <Entry type="ChecksumState" name="MemoryCSState" shortDescription="CS Memory table checksum state" />
@@ -238,7 +238,7 @@
           <ValueConstraint entry="Sec.FunctionCode" value="0" />
         </ConstraintSet>
       </ContainerDataType>
-      <ContainerDataType name="ResetCmd" baseType="CMD">
+      <ContainerDataType name="ResetCountersCmd" baseType="CMD">
         <ConstraintSet>
           <ValueConstraint entry="Sec.FunctionCode" value="1" />
         </ConstraintSet>

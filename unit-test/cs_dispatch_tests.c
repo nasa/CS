@@ -54,7 +54,7 @@ typedef union
 
     CS_SendHkCmd_t                      SendHkCmd;
     CS_NoopCmd_t                        NoopCmd;
-    CS_ResetCmd_t                       ResetCmd;
+    CS_ResetCountersCmd_t               ResetCountersCmd;
     CS_BackgroundCheckCycleCmd_t        BackgroundCheckCycle;
     CS_DisableAllCSCmd_t                DisableAllCSCmd;
     CS_EnableAllCSCmd_t                 EnableAllCSCmd;
@@ -99,7 +99,7 @@ typedef union
 
 const size_t UT_CMD_SIZE[] = {
     [CS_NOOP_CC]                            = sizeof(CS_NoopCmd_t),
-    [CS_RESET_CC]                           = sizeof(CS_ResetCmd_t),
+    [CS_RESET_COUNTERS_CC]                  = sizeof(CS_ResetCountersCmd_t),
     [CS_ONE_SHOT_CC]                        = sizeof(CS_OneShotCmd_t),
     [CS_CANCEL_ONE_SHOT_CC]                 = sizeof(CS_CancelOneShotCmd_t),
     [CS_ENABLE_ALL_CS_CC]                   = sizeof(CS_EnableAllCSCmd_t),
@@ -214,7 +214,8 @@ void CS_AppPipe_Test_TableUpdateErrors(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 5 event messages we don't care about in this test */
 }
@@ -240,7 +241,8 @@ void CS_AppPipe_Test_BackgroundCycle(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -267,11 +269,12 @@ void CS_AppPipe_Test_NoopCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
-void CS_AppPipe_Test_ResetCmd(void)
+void CS_AppPipe_Test_ResetCountersCmd(void)
 {
     CFE_Status_t      Result;
     UT_CmdBuf_t       CmdBuf;
@@ -283,7 +286,7 @@ void CS_AppPipe_Test_ResetCmd(void)
     CS_AppData.ChildTaskTable = -1;
 
     TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    FcnCode   = CS_RESET_CC;
+    FcnCode   = CS_RESET_COUNTERS_CC;
     UT_CS_SetupDispatchCheck(TestMsgId, FcnCode, true);
 
     /* Execute the function being tested */
@@ -294,7 +297,8 @@ void CS_AppPipe_Test_ResetCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -321,7 +325,8 @@ void CS_AppPipe_Test_OneShotCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -348,7 +353,8 @@ void CS_AppPipe_Test_CancelOneShotCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -375,7 +381,8 @@ void CS_AppPipe_Test_EnableAllCSCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -402,7 +409,8 @@ void CS_AppPipe_Test_DisableAllCSCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -429,7 +437,8 @@ void CS_AppPipe_Test_EnableCfeCoreCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -456,7 +465,8 @@ void CS_AppPipe_Test_DisableCfeCoreCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -483,7 +493,8 @@ void CS_AppPipe_Test_ReportBaselineCfeCoreCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -510,7 +521,8 @@ void CS_AppPipe_Test_RecomputeBaselineCfeCoreCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -537,7 +549,8 @@ void CS_AppPipe_Test_EnableOSCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -564,7 +577,8 @@ void CS_AppPipe_Test_DisableOSCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -591,7 +605,8 @@ void CS_AppPipe_Test_ReportBaselineOSCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -618,7 +633,8 @@ void CS_AppPipe_Test_RecomputeBaselineOSCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -645,7 +661,8 @@ void CS_AppPipe_Test_EnableEepromCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -672,7 +689,8 @@ void CS_AppPipe_Test_DisableEepromCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -699,7 +717,8 @@ void CS_AppPipe_Test_ReportBaselineEntryIDEepromCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -726,7 +745,8 @@ void CS_AppPipe_Test_RecomputeBaselineEepromCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -753,7 +773,8 @@ void CS_AppPipe_Test_EnableEntryIDEepromCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -780,7 +801,8 @@ void CS_AppPipe_Test_DisableEntryIDEepromCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -807,7 +829,8 @@ void CS_AppPipe_Test_GetEntryIDEepromCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -834,7 +857,8 @@ void CS_AppPipe_Test_EnableMemoryCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -861,7 +885,8 @@ void CS_AppPipe_Test_DisableMemoryCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -888,7 +913,8 @@ void CS_AppPipe_Test_ReportBaselineEntryIDMemoryCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -915,7 +941,8 @@ void CS_AppPipe_Test_RecomputeBaselineMemoryCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -942,7 +969,8 @@ void CS_AppPipe_Test_EnableEntryIDMemoryCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -969,7 +997,8 @@ void CS_AppPipe_Test_DisableEntryIDMemoryCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -996,7 +1025,8 @@ void CS_AppPipe_Test_GetEntryIDMemoryCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1023,7 +1053,8 @@ void CS_AppPipe_Test_EnableTablesCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1050,7 +1081,8 @@ void CS_AppPipe_Test_DisableTablesCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1077,7 +1109,8 @@ void CS_AppPipe_Test_ReportBaselineTableCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1104,7 +1137,8 @@ void CS_AppPipe_Test_RecomputeBaselineTableCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1131,7 +1165,8 @@ void CS_AppPipe_Test_EnableNameTableCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1158,7 +1193,8 @@ void CS_AppPipe_Test_DisableNameTableCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1185,7 +1221,8 @@ void CS_AppPipe_Test_EnableAppsCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1212,7 +1249,8 @@ void CS_AppPipe_Test_DisableAppsCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1239,7 +1277,8 @@ void CS_AppPipe_Test_ReportBaselineAppCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1266,7 +1305,8 @@ void CS_AppPipe_Test_RecomputeBaselineAppCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1293,7 +1333,8 @@ void CS_AppPipe_Test_EnableNameAppCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1320,7 +1361,8 @@ void CS_AppPipe_Test_DisableNameAppCmd(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1335,7 +1377,8 @@ void CS_AppPipe_Test_InvalidCCError(void)
 
     memset(&CmdBuf, 0, sizeof(CmdBuf));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Invalid ground command code: ID = 0x%%08lX, CC = %%d");
 
     CS_AppData.ChildTaskTable = -1;
@@ -1359,7 +1402,8 @@ void CS_AppPipe_Test_InvalidCCError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1396,7 +1440,8 @@ void CS_AppPipe_Test_InvalidMIDError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1486,18 +1531,18 @@ void CS_ProcessCmd_NoopCmd_Test(void)
     UtAssert_STUB_COUNT(CS_NoopCmd, 1);
 }
 
-void CS_ProcessCmd_ResetCmd_Test(void)
+void CS_ProcessCmd_ResetCountersCmd_Test(void)
 {
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    CFE_MSG_FcnCode_t FcnCode   = CS_RESET_CC;
+    CFE_MSG_FcnCode_t FcnCode   = CS_RESET_COUNTERS_CC;
 
     UT_CS_SetupDispatchCheck(TestMsgId, FcnCode, true);
     /* Execute the function being tested */
     CS_ProcessCmd(&CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_STUB_COUNT(CS_ResetCmd, 1);
+    UtAssert_STUB_COUNT(CS_ResetCountersCmd, 1);
 }
 
 void CS_ProcessCmd_DisableAllCSCmd_Test(void)
@@ -2046,18 +2091,18 @@ void CS_ProcessCmd_NoopCmd_Test_VerifyError(void)
     UtAssert_STUB_COUNT(CS_NoopCmd, 0);
 }
 
-void CS_ProcessCmd_ResetCmd_Test_VerifyError(void)
+void CS_ProcessCmd_ResetCountersCmd_Test_VerifyError(void)
 {
     UT_CmdBuf_t       CmdBuf;
     CFE_SB_MsgId_t    TestMsgId = CFE_SB_ValueToMsgId(CS_CMD_MID);
-    CFE_MSG_FcnCode_t FcnCode   = CS_RESET_CC;
+    CFE_MSG_FcnCode_t FcnCode   = CS_RESET_COUNTERS_CC;
 
     UT_CS_SetupDispatchCheck(TestMsgId, FcnCode, false);
     /* Execute the function being tested */
     CS_ProcessCmd(&CmdBuf.Buf);
 
     /* Verify results */
-    UtAssert_STUB_COUNT(CS_ResetCmd, 0);
+    UtAssert_STUB_COUNT(CS_ResetCountersCmd, 0);
 }
 
 void CS_ProcessCmd_DisableAllCSCmd_Test_VerifyError(void)
@@ -2597,62 +2642,102 @@ void UtTest_Setup(void)
     UtTest_Add(CS_AppPipe_Test_TableUpdateErrors, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_TableUpdateErrors");
     UtTest_Add(CS_AppPipe_Test_BackgroundCycle, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_BackgroundCycle");
     UtTest_Add(CS_AppPipe_Test_NoopCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_NoopCmd");
-    UtTest_Add(CS_AppPipe_Test_ResetCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_ResetCmd");
+    UtTest_Add(CS_AppPipe_Test_ResetCountersCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_ResetCountersCmd");
     UtTest_Add(CS_AppPipe_Test_OneShotCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_OneShotCmd");
     UtTest_Add(CS_AppPipe_Test_CancelOneShotCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_CancelOneShotCmd");
     UtTest_Add(CS_AppPipe_Test_EnableAllCSCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_EnableAllCSCmd");
     UtTest_Add(CS_AppPipe_Test_DisableAllCSCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_DisableAllCSCmd");
     UtTest_Add(CS_AppPipe_Test_EnableCfeCoreCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_EnableCfeCoreCmd");
     UtTest_Add(CS_AppPipe_Test_DisableCfeCoreCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_DisableCfeCoreCmd");
-    UtTest_Add(CS_AppPipe_Test_ReportBaselineCfeCoreCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_ReportBaselineCfeCoreCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_ReportBaselineCfeCoreCmd");
-    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineCfeCoreCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineCfeCoreCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_RecomputeBaselineCfeCoreCmd");
     UtTest_Add(CS_AppPipe_Test_EnableOSCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_EnableOSCmd");
     UtTest_Add(CS_AppPipe_Test_DisableOSCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_DisableOSCmd");
-    UtTest_Add(CS_AppPipe_Test_ReportBaselineOSCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_ReportBaselineOSCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_ReportBaselineOSCmd");
-    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineOSCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineOSCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_RecomputeBaselineOSCmd");
     UtTest_Add(CS_AppPipe_Test_EnableEepromCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_EnableEepromCmd");
     UtTest_Add(CS_AppPipe_Test_DisableEepromCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_DisableEepromCmd");
-    UtTest_Add(CS_AppPipe_Test_ReportBaselineEntryIDEepromCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_ReportBaselineEntryIDEepromCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_ReportBaselineEntryIDEepromCmd");
-    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineEepromCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineEepromCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_RecomputeBaselineEepromCmd");
-    UtTest_Add(CS_AppPipe_Test_EnableEntryIDEepromCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_EnableEntryIDEepromCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_EnableEntryIDEepromCmd");
-    UtTest_Add(CS_AppPipe_Test_DisableEntryIDEepromCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_DisableEntryIDEepromCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_DisableEntryIDEepromCmd");
-    UtTest_Add(CS_AppPipe_Test_GetEntryIDEepromCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_GetEntryIDEepromCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_GetEntryIDEepromCmd");
     UtTest_Add(CS_AppPipe_Test_EnableMemoryCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_EnableMemoryCmd");
     UtTest_Add(CS_AppPipe_Test_DisableMemoryCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_DisableMemoryCmd");
-    UtTest_Add(CS_AppPipe_Test_ReportBaselineEntryIDMemoryCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_ReportBaselineEntryIDMemoryCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_ReportBaselineEntryIDMemoryCmd");
-    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineMemoryCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineMemoryCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_RecomputeBaselineMemoryCmd");
-    UtTest_Add(CS_AppPipe_Test_EnableEntryIDMemoryCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_EnableEntryIDMemoryCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_EnableEntryIDMemoryCmd");
-    UtTest_Add(CS_AppPipe_Test_DisableEntryIDMemoryCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_DisableEntryIDMemoryCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_DisableEntryIDMemoryCmd");
-    UtTest_Add(CS_AppPipe_Test_GetEntryIDMemoryCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_GetEntryIDMemoryCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_GetEntryIDMemoryCmd");
     UtTest_Add(CS_AppPipe_Test_EnableTablesCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_EnableTablesCmd");
     UtTest_Add(CS_AppPipe_Test_DisableTablesCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_DisableTablesCmd");
-    UtTest_Add(CS_AppPipe_Test_ReportBaselineTableCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_ReportBaselineTableCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_ReportBaselineTableCmd");
-    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineTableCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineTableCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_RecomputeBaselineTableCmd");
-    UtTest_Add(CS_AppPipe_Test_EnableNameTableCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_EnableNameTableCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_EnableNameTableCmd");
-    UtTest_Add(CS_AppPipe_Test_DisableNameTableCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_DisableNameTableCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_DisableNameTableCmd");
     UtTest_Add(CS_AppPipe_Test_EnableAppsCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_EnableAppsCmd");
     UtTest_Add(CS_AppPipe_Test_DisableAppsCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_DisableAppsCmd");
-    UtTest_Add(CS_AppPipe_Test_ReportBaselineAppCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_ReportBaselineAppCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_ReportBaselineAppCmd");
-    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineAppCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_RecomputeBaselineAppCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_RecomputeBaselineAppCmd");
     UtTest_Add(CS_AppPipe_Test_EnableNameAppCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_EnableNameAppCmd");
     UtTest_Add(CS_AppPipe_Test_DisableNameAppCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_DisableNameAppCmd");
@@ -2661,162 +2746,313 @@ void UtTest_Setup(void)
 
     UtTest_Add(CS_AppPipe_Test_SendHkCmd, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_SendHkVerifyError");
     UtTest_Add(CS_AppPipe_Test_SendHkVerifyError, CS_Test_Setup, CS_Test_TearDown, "CS_AppPipe_Test_SendHkVerifyError");
-    UtTest_Add(CS_AppPipe_Test_BackgroundCheckCycleCmd, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_BackgroundCheckCycleCmd,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_BackgroundCheckCycleCmd");
-    UtTest_Add(CS_AppPipe_Test_BackgroundCheckCycleVerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppPipe_Test_BackgroundCheckCycleVerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppPipe_Test_BackgroundCheckCycleVerifyError");
 
     UtTest_Add(CS_ProcessCmd_NoopCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ProcessCmd_NoopCmd_Test");
-    UtTest_Add(CS_ProcessCmd_ResetCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ProcessCmd_ResetCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableAllCSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ResetCountersCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ProcessCmd_ResetCountersCmd_Test");
+    UtTest_Add(CS_ProcessCmd_DisableAllCSCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableAllCSCmd_Test");
     UtTest_Add(CS_ProcessCmd_EnableAllCSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ProcessCmd_EnableAllCSCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableCfeCoreCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableCfeCoreCmd_Test");
-    UtTest_Add(CS_ProcessCMD_EnableCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCMD_EnableCfeCoreCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCMD_EnableCfeCoreCmd_Test");
     UtTest_Add(CS_ProcessCmd_DisableOSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ProcessCmd_DisableOSCmd_Test");
     UtTest_Add(CS_ProcessCmd_EnableOSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ProcessCmd_EnableOSCmd_Test");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineOSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineOSCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineOSCmd_Test");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineOSCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineOSCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineOSCmd_Test");
     UtTest_Add(CS_ProcessCmd_OneShotCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ProcessCmd_OneShotCmd_Test");
-    UtTest_Add(CS_ProcessCmd_CancelOneShotCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_CancelOneShotCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_CancelOneShotCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableTablesCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableTablesCmd_Test");
-    UtTest_Add(CS_ProcessCmd_EnableTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableTablesCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableTablesCmd_Test");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineTableCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineTableCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineTableCmd_Test");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineTableCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineTableCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineTableCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableNameTableCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableNameTableCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableNameTableCmd_Test");
-    UtTest_Add(CS_ProcessCmd_EnableNameTableCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableNameTableCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableNameTableCmd_Test");
     UtTest_Add(CS_ProcessCmd_DisableAppsCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ProcessCmd_DisableAppsCmd_Test");
     UtTest_Add(CS_ProcessCmd_EnableAppsCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_ProcessCmd_EnableAppsCmd_Test");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineAppCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineAppCmd_Test");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineAppCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineAppCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableNameAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableNameAppCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableNameAppCmd_Test");
-    UtTest_Add(CS_ProcessCmd_EnableNameAppCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableNameAppCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableNameAppCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableMemoryCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableMemoryCmd_Test");
-    UtTest_Add(CS_ProcessCmd_EnableMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableMemoryCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableMemoryCmd_Test");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test");
-    UtTest_Add(CS_ProcessCmd_EnableEntryIDMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableEntryIDMemoryCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableEntryIDMemoryCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableEntryIDMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableEntryIDMemoryCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableEntryIDMemoryCmd_Test");
-    UtTest_Add(CS_ProcessCmd_GetEntryIDMemoryCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_GetEntryIDMemoryCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_GetEntryIDMemoryCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableEepromCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableEepromCmd_Test");
-    UtTest_Add(CS_ProcessCmd_EnableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableEepromCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableEepromCmd_Test");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineEepromCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineEepromCmd_Test");
-    UtTest_Add(CS_ProcessCmd_EnableEntryIDEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableEntryIDEepromCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableEntryIDEepromCmd_Test");
-    UtTest_Add(CS_ProcessCmd_DisableEntryIDEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableEntryIDEepromCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableEntryIDEepromCmd_Test");
-    UtTest_Add(CS_ProcessCmd_GetEntryIDEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_GetEntryIDEepromCmd_Test,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_GetEntryIDEepromCmd_Test");
 
-    UtTest_Add(CS_ProcessCmd_NoopCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_NoopCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_NoopCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_ResetCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
-               "CS_ProcessCmd_ResetCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableAllCSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ResetCountersCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ProcessCmd_ResetCountersCmd_Test_VerifyError");
+    UtTest_Add(CS_ProcessCmd_DisableAllCSCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableAllCSCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableAllCSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableAllCSCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableAllCSCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableCfeCoreCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableCfeCoreCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCMD_EnableCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCMD_EnableCfeCoreCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCMD_EnableCfeCoreCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableOSCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableOSCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableOSCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableOSCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineCfeCoreCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineOSCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineOSCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineCfeCoreCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineOSCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineOSCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineOSCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_OneShotCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_OneShotCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_OneShotCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_CancelOneShotCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_CancelOneShotCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_CancelOneShotCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableTablesCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableTablesCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableTablesCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableTablesCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableTablesCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineTableCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineTableCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineTableCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineTableCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineTableCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineTableCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableNameTableCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableNameTableCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableNameTableCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableNameTableCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableNameTableCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableNameTableCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableAppsCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableAppsCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableAppsCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableAppsCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableAppsCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableAppsCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineAppCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineAppCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineAppCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineAppCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableNameAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableNameAppCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableNameAppCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableNameAppCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableNameAppCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableNameAppCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableMemoryCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableMemoryCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableMemoryCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableMemoryCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineEntryIDMemoryCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineMemoryCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableEntryIDMemoryCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableEntryIDMemoryCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableEntryIDMemoryCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableEntryIDMemoryCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_GetEntryIDMemoryCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_GetEntryIDMemoryCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_GetEntryIDMemoryCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableEepromCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableEepromCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableEepromCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableEepromCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_ReportBaselineEntryIDEepromCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_RecomputeBaselineEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_RecomputeBaselineEepromCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_RecomputeBaselineEepromCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_EnableEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_EnableEntryIDEepromCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_EnableEntryIDEepromCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_DisableEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_DisableEntryIDEepromCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_DisableEntryIDEepromCmd_Test_VerifyError");
-    UtTest_Add(CS_ProcessCmd_GetEntryIDEepromCmd_Test_VerifyError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ProcessCmd_GetEntryIDEepromCmd_Test_VerifyError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessCmd_GetEntryIDEepromCmd_Test_VerifyError");
 }

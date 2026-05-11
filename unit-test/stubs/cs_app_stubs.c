@@ -46,7 +46,6 @@ CFE_Status_t CS_AppInit(void)
  */
 void CS_AppMain(void)
 {
-
     UT_GenStub_Execute(CS_AppMain, Basic, NULL);
 }
 
@@ -71,6 +70,5 @@ CFE_Status_t CS_CreateRestoreStatesFromCDS(void)
  */
 void CS_UpdateCDS(void)
 {
-
     UT_GenStub_Execute(CS_UpdateCDS, Basic, NULL);
 }

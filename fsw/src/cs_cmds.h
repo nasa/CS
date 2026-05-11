@@ -73,9 +73,9 @@ CFE_Status_t CS_NoopCmd(const CS_NoopCmd_t *CmdPtr);
  *
  *  \param[in] CmdPtr Command pointer, verified non-null in CS_AppMain
  *
- *  \sa #CS_RESET_CC
+ *  \sa #CS_RESET_COUNTERS_CC
  */
-CFE_Status_t CS_ResetCmd(const CS_ResetCmd_t *CmdPtr);
+CFE_Status_t CS_ResetCountersCmd(const CS_ResetCountersCmd_t *CmdPtr);
 
 /**
  * \brief process a background checking cycle

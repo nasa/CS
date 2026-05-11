@@ -103,14 +103,14 @@ typedef struct
     CFE_ES_TaskId_t        ChildTaskID;      /**< \brief Task ID for the child task */
 
     size_t MaxBytesPerCycle; /**< \brief Max number of bytes to process in a cycle */
-
-    uint32 RunStatus; /**< \brief Application run status */
+    uint32 RunStatus;        /**< \brief Application run status */
 
     CS_Res_EepromMemory_Table_Entry_t *RecomputeEepromMemoryEntryPtr; /**< \brief Pointer to an entry to recompute in
                                                                          the EEPROM or Memory table */
 
-    CS_Res_App_Table_Entry_t *RecomputeAppEntryPtr;       /**< \brief Pointer to an entry to recompute in the
-                                                                      Application table */
+    CS_Res_App_Table_Entry_t *RecomputeAppEntryPtr; /**< \brief Pointer to an entry to recompute in the
+                                                                Application table */
+
     CS_Res_Tables_Table_Entry_t *RecomputeTablesEntryPtr; /**< \brief Pointer to an entry to recompute in the
                                                                       Tables table */
 

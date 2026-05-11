@@ -113,7 +113,7 @@ void CS_GoToNextTable_Test(void)
 void CS_GetTableResTblEntryByName_Test(void)
 {
     CS_Res_Tables_Table_Entry_t *EntryPtr        = NULL;
-    CS_TableWrapper_t *          tw              = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
+    CS_TableWrapper_t           *tw              = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
     CS_Res_Tables_Table_Entry_t *ResTablesTblPtr = tw->ResAddr;
 
     /* Empty name, enabled state */
@@ -144,7 +144,7 @@ void CS_GetTableResTblEntryByName_Test(void)
 void CS_GetTableDefTblEntryByName_Test(void)
 {
     CS_Def_Tables_Table_Entry_t *EntryPtr        = NULL;
-    CS_TableWrapper_t *          tw              = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
+    CS_TableWrapper_t           *tw              = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
     CS_Def_Tables_Table_Entry_t *DefTablesTblPtr = tw->DefAddr;
 
     /* Empty name, enabled state */
@@ -175,7 +175,7 @@ void CS_GetTableDefTblEntryByName_Test(void)
 void CS_GetAppResTblEntryByName_Test(void)
 {
     CS_Res_App_Table_Entry_t *EntryPtr     = NULL;
-    CS_TableWrapper_t *       tw           = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
+    CS_TableWrapper_t        *tw           = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
     CS_Res_App_Table_Entry_t *ResAppTblPtr = tw->ResAddr;
 
     /* Empty name, enabled state */
@@ -206,7 +206,7 @@ void CS_GetAppResTblEntryByName_Test(void)
 void CS_GetAppDefTblEntryByName_Test(void)
 {
     CS_Def_App_Table_Entry_t *EntryPtr     = NULL;
-    CS_TableWrapper_t *       tw           = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
+    CS_TableWrapper_t        *tw           = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
     CS_Def_App_Table_Entry_t *DefAppTblPtr = tw->DefAddr;
 
     /* Empty name, enabled state */
@@ -236,7 +236,7 @@ void CS_GetAppDefTblEntryByName_Test(void)
 
 void CS_FindEnabledEepromEntry_Test(void)
 {
-    CS_TableWrapper_t *                tw              = &CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE];
+    CS_TableWrapper_t                 *tw              = &CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE];
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = tw->ResAddr;
 
     /* Call with zeros */
@@ -256,7 +256,7 @@ void CS_FindEnabledEepromEntry_Test(void)
 
 void CS_FindEnabledMemoryEntry_Test(void)
 {
-    CS_TableWrapper_t *                tw              = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
+    CS_TableWrapper_t                 *tw              = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
     CS_Res_EepromMemory_Table_Entry_t *ResMemoryTblPtr = tw->ResAddr;
 
     /* Call with zeros */
@@ -276,7 +276,7 @@ void CS_FindEnabledMemoryEntry_Test(void)
 
 void CS_FindEnabledTablesEntry_Test(void)
 {
-    CS_TableWrapper_t *          tw              = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
+    CS_TableWrapper_t           *tw              = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
     CS_Res_Tables_Table_Entry_t *ResTablesTblPtr = tw->ResAddr;
 
     /* Call with zeros */
@@ -296,7 +296,7 @@ void CS_FindEnabledTablesEntry_Test(void)
 
 void CS_FindEnabledAppEntry_Test(void)
 {
-    CS_TableWrapper_t *       tw           = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
+    CS_TableWrapper_t        *tw           = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
     CS_Res_App_Table_Entry_t *ResAppTblPtr = tw->ResAddr;
 
     /* Call with zeros */
@@ -388,7 +388,7 @@ void CS_BackgroundOS_Test(void)
 
 void CS_BackgroundEeprom_Test(void)
 {
-    CS_TableWrapper_t *                tw              = &CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE];
+    CS_TableWrapper_t                 *tw              = &CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE];
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = tw->ResAddr;
 
     /* Entirely disabled */
@@ -431,7 +431,7 @@ void CS_BackgroundEeprom_Test(void)
 
 void CS_BackgroundMemory_Test(void)
 {
-    CS_TableWrapper_t *                tw              = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
+    CS_TableWrapper_t                 *tw              = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
     CS_Res_EepromMemory_Table_Entry_t *ResMemoryTblPtr = tw->ResAddr;
 
     /* Entirely disabled */
@@ -469,7 +469,7 @@ void CS_BackgroundMemory_Test(void)
 
 void CS_BackgroundTables_Test(void)
 {
-    CS_TableWrapper_t *          tw              = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
+    CS_TableWrapper_t           *tw              = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
     CS_Res_Tables_Table_Entry_t *ResTablesTblPtr = tw->ResAddr;
 
     /* Entirely disabled */
@@ -516,7 +516,7 @@ void CS_BackgroundTables_Test(void)
 
 void CS_BackgroundApp_Test(void)
 {
-    CS_TableWrapper_t *       tw           = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
+    CS_TableWrapper_t        *tw           = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
     CS_Res_App_Table_Entry_t *ResAppTblPtr = tw->ResAddr;
 
     /* Entirely disabled */
@@ -580,8 +580,11 @@ void CS_ResetTablesTblResultEntry_Test(void)
 
 void CS_HandleRoutineTableUpdates_Test(void)
 {
-    uint16 ChildTaskTable[] = {CS_ChecksumType_CFECORE, CS_ChecksumType_EEPROM_TABLE, CS_ChecksumType_MEMORY_TABLE,
-                               CS_ChecksumType_APP_TABLE, CS_ChecksumType_TABLES_TABLE};
+    uint16 ChildTaskTable[] = { CS_ChecksumType_CFECORE,
+                                CS_ChecksumType_EEPROM_TABLE,
+                                CS_ChecksumType_MEMORY_TABLE,
+                                CS_ChecksumType_APP_TABLE,
+                                CS_ChecksumType_TABLES_TABLE };
     uint16 TblMax           = sizeof(ChildTaskTable) / sizeof(ChildTaskTable[0]);
     uint16 i;
 
@@ -677,14 +680,14 @@ void CS_CheckRecomputeOneShot_Test(void)
 
     UtAssert_BOOL_FALSE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 0);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CommandErrorCounter, 0);
 
     /* One shot in progress */
     CS_AppData.HkPacket.Payload.OneShotInProgress = true;
     UtAssert_BOOL_TRUE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_CMD_COMPUTE_PROG_ERR_EID);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 1);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CommandErrorCounter, 1);
 
     /* Recompute in progress */
     CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
@@ -692,7 +695,7 @@ void CS_CheckRecomputeOneShot_Test(void)
     UtAssert_BOOL_TRUE(CS_CheckRecomputeOneshot());
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_CMD_COMPUTE_PROG_ERR_EID);
-    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CmdErrCounter, 2);
+    UtAssert_UINT8_EQ(CS_AppData.HkPacket.Payload.CommandErrorCounter, 2);
 }
 
 void CS_GetTableTypeAsString_Test(void)
@@ -711,7 +714,7 @@ void Test_CS_SetDefEntryState(void)
     /* Test case for:
      * uint16 CS_SetDefEntryState(CS_TableWrapper_t *tw, void *EntryPtr, uint16 NewState);
      */
-    CS_TableWrapper_t *                tw;
+    CS_TableWrapper_t                 *tw;
     CS_Def_EepromMemory_Table_Entry_t *DefEntry;
 
     tw       = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
@@ -784,7 +787,7 @@ void Test_CS_GetDefEntryAddr(void)
      * void *CS_GetDefEntryAddr(CS_TableWrapper_t *tw, uint16 EntryIdx);
      */
 
-    CS_TableWrapper_t *                tw;
+    CS_TableWrapper_t                 *tw;
     CS_Def_EepromMemory_Table_Entry_t *DefEntry;
 
     tw       = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
@@ -804,7 +807,7 @@ void Test_CS_GetResEntryAddr(void)
      * void *CS_GetResEntryAddr(CS_TableWrapper_t *tw, uint16 EntryIdx);
      */
 
-    CS_TableWrapper_t *                tw;
+    CS_TableWrapper_t                 *tw;
     CS_Res_EepromMemory_Table_Entry_t *ResEntry;
 
     tw       = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];

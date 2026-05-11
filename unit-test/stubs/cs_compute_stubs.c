@@ -48,8 +48,8 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
  * Generated stub function for CS_ComputeEepromMemory()
  * ----------------------------------------------------
  */
-CFE_Status_t CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue,
-                                    bool *DoneWithEntry)
+CFE_Status_t
+CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry)
 {
     UT_GenStub_SetupReturnBuffer(CS_ComputeEepromMemory, CFE_Status_t);
 
@@ -87,7 +87,6 @@ CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 
  */
 void CS_OneShotChildTask(void)
 {
-
     UT_GenStub_Execute(CS_OneShotChildTask, Basic, NULL);
 }
 
@@ -98,7 +97,6 @@ void CS_OneShotChildTask(void)
  */
 void CS_RecomputeAppChildTask(void)
 {
-
     UT_GenStub_Execute(CS_RecomputeAppChildTask, Basic, NULL);
 }
 
@@ -109,7 +107,6 @@ void CS_RecomputeAppChildTask(void)
  */
 void CS_RecomputeEepromMemoryChildTask(void)
 {
-
     UT_GenStub_Execute(CS_RecomputeEepromMemoryChildTask, Basic, NULL);
 }
 
@@ -120,6 +117,5 @@ void CS_RecomputeEepromMemoryChildTask(void)
  */
 void CS_RecomputeTablesChildTask(void)
 {
-
     UT_GenStub_Execute(CS_RecomputeTablesChildTask, Basic, NULL);
 }

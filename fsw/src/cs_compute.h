@@ -59,8 +59,8 @@
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  * \retval #CS_ERROR   \copybrief CS_ERROR
  */
-CFE_Status_t CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue,
-                                    bool *DoneWithEntry);
+CFE_Status_t
+CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry);
 
 /**
  * \brief Computes checksums on tables

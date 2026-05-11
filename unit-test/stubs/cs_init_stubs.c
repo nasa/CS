@@ -46,7 +46,6 @@ CFE_Status_t CS_InitAllTables(void)
  */
 void CS_InitSegments(void)
 {
-
     UT_GenStub_Execute(CS_InitSegments, Basic, NULL);
 }
 

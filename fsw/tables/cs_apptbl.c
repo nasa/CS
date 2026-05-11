@@ -32,30 +32,54 @@
 
 CS_Def_App_Table_Entry_t CS_AppTable[CS_MAX_NUM_APP_TABLE_ENTRIES] = {
     /*            State             Name   */
-    /*   0 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   1 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   2 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   3 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   4 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   5 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   6 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   7 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   8 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*   9 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  10 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  11 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  12 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  13 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  14 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  15 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  16 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  17 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  18 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  19 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  20 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  21 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  22 */ {.State = CS_ChecksumState_EMPTY, .Name = ""},
-    /*  23 */ {.State = CS_ChecksumState_EMPTY, .Name = ""}};
+    /*   0 */ { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   1 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   2 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   3 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   4 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   5 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   6 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   7 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   8 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*   9 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  10 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  11 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  12 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  13 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  14 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  15 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  16 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  17 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  18 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  19 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  20 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  21 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  22 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" },
+    /*  23 */
+    { .State = CS_ChecksumState_EMPTY, .Name = "" }
+};
 
 /*
 ** Table file header

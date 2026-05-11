@@ -79,7 +79,7 @@ static const EdsDispatchTable_EdsComponent_CS_Application_CFE_SB_Telecommand_t C
             .ReportBaselineEntryIDMemoryCmd_indication = CS_ReportBaselineEntryIDMemoryCmd,
             .ReportBaselineOSCmd_indication            = CS_ReportBaselineOSCmd,
             .ReportBaselineTableCmd_indication         = CS_ReportBaselineTableCmd,
-            .ResetCmd_indication                       = CS_ResetCmd,
+            .ResetCountersCmd_indication                       = CS_ResetCountersCmd,
         },
     .SEND_HK          = {.indication = CS_SendHkCmd},
     .BACKGROUND_CYCLE = {.indication = CS_BackgroundCheckCycleCmd}};
@@ -102,11 +102,13 @@ CFE_Status_t CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
     {
         CFE_MSG_GetMsgId(&BufPtr->Msg, &MsgId);
 
-        ++CS_AppData.HkPacket.Payload.CmdErrCounter;
+        ++CS_AppData.HkPacket.Payload.CommandErrorCounter;
 
         if (status == CFE_STATUS_UNKNOWN_MSG_ID)
         {
-            CFE_EVS_SendEvent(CS_MID_ERR_EID, CFE_EVS_EventType_ERROR, "Invalid command pipe message ID: 0x%08lX",
+            CFE_EVS_SendEvent(CS_MID_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Invalid command pipe message ID: 0x%08lX",
                               (unsigned long)CFE_SB_MsgIdToValue(MsgId));
         }
         else
@@ -115,15 +117,20 @@ CFE_Status_t CS_AppPipe(const CFE_SB_Buffer_t *BufPtr)
             if (status == CFE_STATUS_WRONG_MSG_LENGTH)
             {
                 CFE_MSG_GetSize(&BufPtr->Msg, &MsgSize);
-                CFE_EVS_SendEvent(CS_CMD_LEN_ERR_EID, CFE_EVS_EventType_ERROR,
+                CFE_EVS_SendEvent(CS_CMD_LEN_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
                                   "Invalid msg length: ID = 0x%08lX, CC = %d, Len = %lu",
-                                  (unsigned long)CFE_SB_MsgIdToValue(MsgId), MsgFc, (unsigned long)MsgSize);
+                                  (unsigned long)CFE_SB_MsgIdToValue(MsgId),
+                                  MsgFc,
+                                  (unsigned long)MsgSize);
             }
             else
             {
-                CFE_EVS_SendEvent(CS_CC_ERR_EID, CFE_EVS_EventType_ERROR,
+                CFE_EVS_SendEvent(CS_CC_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
                                   "Invalid ground command code: ID = 0x%08lX, CC = %d",
-                                  (unsigned long)CFE_SB_MsgIdToValue(MsgId), MsgFc);
+                                  (unsigned long)CFE_SB_MsgIdToValue(MsgId),
+                                  MsgFc);
             }
         }
 

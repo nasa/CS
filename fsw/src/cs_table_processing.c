@@ -57,7 +57,7 @@ typedef enum CS_ValidationError
  */
 typedef struct CS_ValidationMetrics
 {
-    const char *  TableName;
+    const char   *TableName;
     const uint16 *EventMap;
 
     uint16 Position;
@@ -136,34 +136,48 @@ void CS_ValidationMetrics_ReportEvent(CS_ValidationMetrics_t *Metrics)
     {
         case CS_ValidationError_STATE:
         default:
-            CFE_EVS_SendEvent(PendingEventId, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(PendingEventId,
+                              CFE_EVS_EventType_ERROR,
                               "%s Table Validate: Illegal State Field (0x%04X) found in Entry ID %d",
-                              Metrics->TableName, (unsigned short)Metrics->StateField, (int)Metrics->Position);
+                              Metrics->TableName,
+                              (unsigned short)Metrics->StateField,
+                              (int)Metrics->Position);
             break;
 
         case CS_ValidationError_LONG_NAME:
-            CFE_EVS_SendEvent(PendingEventId, CFE_EVS_EventType_ERROR,
-                              "%s Table Validate: Unterminated Name found at entry %d", Metrics->TableName,
+            CFE_EVS_SendEvent(PendingEventId,
+                              CFE_EVS_EventType_ERROR,
+                              "%s Table Validate: Unterminated Name found at entry %d",
+                              Metrics->TableName,
                               (int)Metrics->Position);
             break;
 
         case CS_ValidationError_ZERO_NAME:
-            CFE_EVS_SendEvent(PendingEventId, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(PendingEventId,
+                              CFE_EVS_EventType_ERROR,
                               "%s Table Validate: Illegal State (0x%04X) with empty name at entry %d",
-                              Metrics->TableName, (unsigned short)Metrics->StateField, (int)Metrics->Position);
+                              Metrics->TableName,
+                              (unsigned short)Metrics->StateField,
+                              (int)Metrics->Position);
             break;
 
         case CS_ValidationError_DUPLICATE:
-            CFE_EVS_SendEvent(PendingEventId, CFE_EVS_EventType_ERROR,
-                              "%s Table Validate: Duplicate Name (%s) found at entry %d", Metrics->TableName,
-                              Metrics->ErrorMessage, (int)Metrics->Position);
+            CFE_EVS_SendEvent(PendingEventId,
+                              CFE_EVS_EventType_ERROR,
+                              "%s Table Validate: Duplicate Name (%s) found at entry %d",
+                              Metrics->TableName,
+                              Metrics->ErrorMessage,
+                              (int)Metrics->Position);
             break;
 
         case CS_ValidationError_MEM_RANGE:
-            CFE_EVS_SendEvent(PendingEventId, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(PendingEventId,
+                              CFE_EVS_EventType_ERROR,
                               "%s Table Validate: Illegal MemRange in Entry ID %d, "
                               "CFE_PSP_MemValidateRange: %s",
-                              Metrics->TableName, (int)Metrics->Position, Metrics->ErrorMessage);
+                              Metrics->TableName,
+                              (int)Metrics->Position,
+                              Metrics->ErrorMessage);
             break;
     }
 }
@@ -207,9 +221,13 @@ void CS_ValidationMetrics_Accumulate(CS_ValidationMetrics_t *Metrics)
  *-----------------------------------------------------------------*/
 int32 CS_ValidationMetrics_GetFinalStatus(const CS_ValidationMetrics_t *Metrics)
 {
-    CFE_EVS_SendEvent(Metrics->EventMap[0], CFE_EVS_EventType_INFORMATION,
-                      "CS %s Table verification results: good = %d, bad = %d, unused = %d", Metrics->TableName,
-                      (int)Metrics->GoodCount, (int)Metrics->BadCount, (int)Metrics->EmptyCount);
+    CFE_EVS_SendEvent(Metrics->EventMap[0],
+                      CFE_EVS_EventType_INFORMATION,
+                      "CS %s Table verification results: good = %d, bad = %d, unused = %d",
+                      Metrics->TableName,
+                      (int)Metrics->GoodCount,
+                      (int)Metrics->BadCount,
+                      (int)Metrics->EmptyCount);
 
     if (CS_ValidationMetrics_IsAllOK(Metrics))
     {
@@ -480,7 +498,7 @@ CFE_Status_t CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
 void CS_ProcessNewEepromMemoryDefinitionTable(CS_TableWrapper_t *tw)
 {
     const CS_Def_EepromMemory_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_EepromMemory_Table_Entry_t *      ResultsEntry      = NULL;
+    CS_Res_EepromMemory_Table_Entry_t       *ResultsEntry      = NULL;
     uint16                                   Loop              = 0;
     uint16                                   NumRegionsInTable = 0;
     CS_ChecksumState_Enum_t                  PreviousState     = CS_ChecksumState_EMPTY;
@@ -530,8 +548,10 @@ void CS_ProcessNewEepromMemoryDefinitionTable(CS_TableWrapper_t *tw)
 
     if (NumRegionsInTable == 0)
     {
-        CFE_EVS_SendEvent(CS_PROCESS_EEPROM_MEMORY_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
-                          "CS %s Table: No valid entries in the table", CS_GetTableTypeAsString(tw));
+        CFE_EVS_SendEvent(CS_PROCESS_EEPROM_MEMORY_NO_ENTRIES_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
+                          "CS %s Table: No valid entries in the table",
+                          CS_GetTableTypeAsString(tw));
     }
 }
 
@@ -540,8 +560,11 @@ void CS_ProcessNewEepromMemoryDefinitionTable(CS_TableWrapper_t *tw)
 /* Helper function to split the App.Table name pattern             */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-void CS_ExtractNames(const CS_Def_Tables_Table_Entry_t *DefEntry, char *AppBuf, size_t AppSz, char *TableBuf,
-                     size_t TableSz)
+void CS_ExtractNames(const CS_Def_Tables_Table_Entry_t *DefEntry,
+                     char                              *AppBuf,
+                     size_t                             AppSz,
+                     char                              *TableBuf,
+                     size_t                             TableSz)
 {
     const char *Sep;
     size_t      TableNameLen;
@@ -565,13 +588,13 @@ void CS_ExtractNames(const CS_Def_Tables_Table_Entry_t *DefEntry, char *AppBuf, 
 
     TableNameLen -= AppNameLen;
 
-    if (AppNameLen > AppSz)
+    if (AppNameLen >= AppSz)
     {
-        AppNameLen = AppSz;
+        AppNameLen = AppSz - 1;
     }
-    if (TableNameLen > TableSz)
+    if (TableNameLen >= TableSz)
     {
-        TableNameLen = TableSz;
+        TableNameLen = TableSz - 1;
     }
 
     memcpy(AppBuf, DefEntry->Name, AppNameLen);
@@ -588,7 +611,7 @@ void CS_ExtractNames(const CS_Def_Tables_Table_Entry_t *DefEntry, char *AppBuf, 
 void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
 {
     const CS_Def_Tables_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_Tables_Table_Entry_t *      ResultsEntry      = NULL;
+    CS_Res_Tables_Table_Entry_t       *ResultsEntry      = NULL;
     uint16                             Loop              = 0;
     uint16                             NumRegionsInTable = 0;
     CS_ChecksumState_Enum_t            PreviousState     = CS_ChecksumState_EMPTY;
@@ -666,7 +689,10 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
             ResultsEntry->TblHandleID = CFE_TBL_HandleToID(TableHandle);
             ResultsEntry->IsCSOwner   = Owned;
 
-            CFE_SB_MessageStringGet(ResultsEntry->Name, DefEntry->Name, NULL, sizeof(ResultsEntry->Name),
+            CFE_SB_MessageStringGet(ResultsEntry->Name,
+                                    DefEntry->Name,
+                                    NULL,
+                                    sizeof(ResultsEntry->Name),
                                     sizeof(DefEntry->Name));
         }
 
@@ -679,7 +705,8 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
 
     if (NumRegionsInTable == 0)
     {
-        CFE_EVS_SendEvent(CS_PROCESS_TABLES_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
+        CFE_EVS_SendEvent(CS_PROCESS_TABLES_NO_ENTRIES_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
                           "CS Tables Table: No valid entries in the table");
     }
 }
@@ -692,7 +719,7 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
 void CS_ProcessNewAppDefinitionTable(CS_TableWrapper_t *tw)
 {
     const CS_Def_App_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_App_Table_Entry_t *      ResultsEntry      = NULL;
+    CS_Res_App_Table_Entry_t       *ResultsEntry      = NULL;
     uint16                          Loop              = 0;
     uint16                          NumRegionsInTable = 0;
     CS_ChecksumState_Enum_t         PreviousState     = CS_ChecksumState_EMPTY;
@@ -723,7 +750,10 @@ void CS_ProcessNewAppDefinitionTable(CS_TableWrapper_t *tw)
             NumRegionsInTable++;
 
             ResultsEntry->State = DefEntry->State;
-            CFE_SB_MessageStringGet(ResultsEntry->Name, DefEntry->Name, NULL, sizeof(ResultsEntry->Name),
+            CFE_SB_MessageStringGet(ResultsEntry->Name,
+                                    DefEntry->Name,
+                                    NULL,
+                                    sizeof(ResultsEntry->Name),
                                     sizeof(DefEntry->Name));
         }
 
@@ -737,7 +767,8 @@ void CS_ProcessNewAppDefinitionTable(CS_TableWrapper_t *tw)
 
     if (NumRegionsInTable == 0)
     {
-        CFE_EVS_SendEvent(CS_PROCESS_APP_NO_ENTRIES_INF_EID, CFE_EVS_EventType_INFORMATION,
+        CFE_EVS_SendEvent(CS_PROCESS_APP_NO_ENTRIES_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
                           "CS Apps Table: No valid entries in the table");
     }
 }
@@ -752,8 +783,11 @@ CFE_Status_t CS_RegisterResultTable(CS_TableWrapper_t *tw)
 {
     CFE_Status_t Result;
 
-    Result = CFE_TBL_Register(&tw->ResHandle, tw->ResTableName, tw->NumEntries * tw->ResEntrySize,
-                              CFE_TBL_OPT_SNGL_BUFFER | CFE_TBL_OPT_DUMP_ONLY, NULL);
+    Result = CFE_TBL_Register(&tw->ResHandle,
+                              tw->ResTableName,
+                              tw->NumEntries * tw->ResEntrySize,
+                              CFE_TBL_OPT_SNGL_BUFFER | CFE_TBL_OPT_DUMP_ONLY,
+                              NULL);
 
     if (Result >= CFE_SUCCESS)
     {
@@ -775,14 +809,18 @@ CFE_Status_t CS_RegisterResultTable(CS_TableWrapper_t *tw)
  * table, and obtain the address.
  *
  *-----------------------------------------------------------------*/
-CFE_Status_t CS_RegisterDefinitionTable(CS_TableWrapper_t *tw, const char *DefinitionTableFileName,
+CFE_Status_t CS_RegisterDefinitionTable(CS_TableWrapper_t        *tw,
+                                        const char               *DefinitionTableFileName,
                                         CFE_TBL_CallbackFuncPtr_t CallBackFunction)
 {
     bool         LoadedFromMemory = false;
     CFE_Status_t Result;
 
-    Result = CFE_TBL_Register(&tw->DefHandle, tw->DefTableName, tw->NumEntries * tw->DefEntrySize,
-                              CFE_TBL_OPT_SNGL_BUFFER | CFE_TBL_OPT_LOAD_DUMP, CallBackFunction);
+    Result = CFE_TBL_Register(&tw->DefHandle,
+                              tw->DefTableName,
+                              tw->NumEntries * tw->DefEntrySize,
+                              CFE_TBL_OPT_SNGL_BUFFER | CFE_TBL_OPT_LOAD_DUMP,
+                              CallBackFunction);
 
     if (Result >= CFE_SUCCESS)
     {
@@ -822,8 +860,8 @@ CFE_Status_t CS_RegisterDefinitionTable(CS_TableWrapper_t *tw, const char *Defin
 /* CS  function for initializing new tables                        */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFileName,
-                          CFE_TBL_CallbackFuncPtr_t CallBackFunction)
+CFE_Status_t
+CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFileName, CFE_TBL_CallbackFuncPtr_t CallBackFunction)
 {
     CFE_Status_t Result;
 
@@ -842,8 +880,10 @@ CFE_Status_t CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFile
 
         if (Result != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(CS_TBL_INIT_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "CS received error 0x%08X initializing tables for %s", (unsigned int)Result,
+            CFE_EVS_SendEvent(CS_TBL_INIT_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "CS received error 0x%08X initializing tables for %s",
+                              (unsigned int)Result,
                               CS_GetTableTypeAsString(tw));
         }
     }
@@ -928,11 +968,16 @@ CFE_Status_t CS_HandleTableUpdate(CS_TableWrapper_t *tw)
         if (Result < CFE_SUCCESS)
         {
             /* There was a problem somewhere, generate an event */
-            CFE_EVS_SendEvent(CS_TBL_UPDATE_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(CS_TBL_UPDATE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "CS had problems updating table. Res Release: 0x%08X Def Release:0x%08X Res "
                               "Manage:0x%08X Def Manage: 0x%08X Get:0x%08X for table %s",
-                              (unsigned int)ReleaseResult1, (unsigned int)ReleaseResult2, (unsigned int)ManageResult1,
-                              (unsigned int)ManageResult2, (unsigned int)GetResult2, CS_GetTableTypeAsString(tw));
+                              (unsigned int)ReleaseResult1,
+                              (unsigned int)ReleaseResult2,
+                              (unsigned int)ManageResult1,
+                              (unsigned int)ManageResult2,
+                              (unsigned int)GetResult2,
+                              CS_GetTableTypeAsString(tw));
         }
     }
     return Result;

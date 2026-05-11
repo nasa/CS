@@ -42,7 +42,9 @@ uint8 call_count_CFE_EVS_SendEvent;
  * Function Definitions
  */
 
-CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetAddressHook(void *UserObj, int32 StubRetcode, uint32 CallCount,
+CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetAddressHook(void                   *UserObj,
+                                                    int32                   StubRetcode,
+                                                    uint32                  CallCount,
                                                     const UT_StubContext_t *Context)
 {
     /* This function exists so that one return code can be set for the 1st run and a different for the 2nd run */
@@ -50,7 +52,9 @@ CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetAddressHook(void *UserObj, int32 StubRet
     return CFE_TBL_ERR_UNREGISTERED;
 }
 
-CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetInfoHook1(void *UserObj, int32 StubRetcode, uint32 CallCount,
+CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetInfoHook1(void                   *UserObj,
+                                                  int32                   StubRetcode,
+                                                  uint32                  CallCount,
                                                   const UT_StubContext_t *Context)
 {
     CFE_TBL_Info_t *TblInfoPtr = (CFE_TBL_Info_t *)Context->ArgPtr[0];
@@ -245,7 +249,7 @@ void CS_ComputeTables_Test_TableNeverLoaded(void)
     bool                        DoneWithEntry   = true;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
@@ -255,7 +259,8 @@ void CS_ComputeTables_Test_TableNeverLoaded(void)
     ResultsEntry.NumBytesToChecksum = sizeof(TblData);
     ResultsEntry.StartAddress       = CFE_ES_MEMADDRESS_C(TblAddr);
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s: Status=0x%%08X");
 
     strncpy(ResultsEntry.Name, "name", 10);
@@ -271,7 +276,9 @@ void CS_ComputeTables_Test_TableNeverLoaded(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -284,7 +291,7 @@ void CS_ComputeTables_Test_TableAddressChange(void)
     uint32                      ComputedCSValue = 0;
     bool                        DoneWithEntry   = true;
     uint8                       TblData[6];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
@@ -325,7 +332,7 @@ void CS_ComputeTables_Test_TableResume(void)
     uint32                      ComputedCSValue = 0;
     bool                        DoneWithEntry   = true;
     uint8                       TblData[6];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
@@ -364,7 +371,7 @@ void CS_ComputeTables_Test_TableAddressNULL(void)
     uint32                      ComputedCSValue = 0;
     bool                        DoneWithEntry   = true;
     uint8                       TblData[6];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
@@ -408,7 +415,8 @@ void CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded(void)
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s: Status=0x%%08X");
 
     ResultsEntry.TblHandleID = CFE_TBL_HANDLEID_C(CFE_ResourceId_FromInteger(99));
@@ -436,7 +444,9 @@ void CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -451,7 +461,8 @@ void CS_ComputeTables_Test_ResultShareNotSuccess(void)
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s: Status=0x%%08X");
 
     ResultsEntry.TblHandleID = CFE_TBL_HANDLEID_UNDEFINED;
@@ -476,7 +487,9 @@ void CS_ComputeTables_Test_ResultShareNotSuccess(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -489,7 +502,7 @@ void CS_ComputeTables_Test_TblInfoUpdated(void)
     bool                        DoneWithEntry   = true;
     CFE_TBL_Info_t              TblInfo;
     uint8                       TblData[6];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&TblInfo, 0, sizeof(TblInfo));
@@ -536,7 +549,7 @@ void CS_ComputeTables_Test_GetInfoResult(void)
     bool                        DoneWithEntry   = true;
     CFE_TBL_Info_t              TblInfo;
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&TblInfo, 0, sizeof(TblInfo));
@@ -583,7 +596,7 @@ void CS_ComputeTables_Test_CSError(void)
     bool                        DoneWithEntry   = false;
     CFE_TBL_Info_t              TblInfo;
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&TblInfo, 0, sizeof(TblInfo));
@@ -632,7 +645,7 @@ void CS_ComputeTables_Test_NominalBadTableHandle(void)
     bool                        DoneWithEntry   = false;
     CFE_TBL_Info_t              TblInfo;
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&TblInfo, 0, sizeof(TblInfo));
@@ -684,7 +697,7 @@ void CS_ComputeTables_Test_FirstTimeThrough(void)
     bool                        DoneWithEntry   = false;
     CFE_TBL_Info_t              TblInfo;
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&TblInfo, 0, sizeof(TblInfo));
@@ -740,7 +753,7 @@ void CS_ComputeTables_Test_EntryNotFinished(void)
     bool                        DoneWithEntry   = true;
     CFE_TBL_Info_t              TblInfo;
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&TblInfo, 0, sizeof(TblInfo));
@@ -793,12 +806,13 @@ void CS_ComputeTables_Test_ComputeTablesReleaseError(void)
     CFE_TBL_Info_t              TblInfo;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&TblInfo, 0, sizeof(TblInfo));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Could not release addresss for table %%s, returned: 0x%%08X");
 
     ResultsEntry.TblHandleID = CFE_TBL_HANDLEID_UNDEFINED;
@@ -846,7 +860,9 @@ void CS_ComputeTables_Test_ComputeTablesReleaseError(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_RELEASE_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -863,7 +879,8 @@ void CS_ComputeTables_Test_ComputeTablesError(void)
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&TblInfo, 0, sizeof(TblInfo));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Tables: Problem Getting table %%s: Status=0x%%08X");
 
     ResultsEntry.TblHandleID = CFE_TBL_HANDLEID_UNDEFINED;
@@ -890,7 +907,9 @@ void CS_ComputeTables_Test_ComputeTablesError(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_TABLES_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -903,7 +922,7 @@ void CS_ComputeTables_Test_OffsetlargerThanBytesCheck(void)
     bool                        DoneWithEntry   = false;
     CFE_TBL_Info_t              TblInfo;
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&TblInfo, 0, sizeof(TblInfo));
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
@@ -1018,7 +1037,8 @@ void CS_ComputeApp_Test_GetAppAndLibIDByNameError(void)
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Apps: Problems getting module %%s info, Result: 0x%%08X, AddressValid: %%d");
 
     strncpy(ResultsEntry.Name, "name", 10);
@@ -1038,7 +1058,9 @@ void CS_ComputeApp_Test_GetAppAndLibIDByNameError(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_APP_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -1053,7 +1075,8 @@ void CS_ComputeApp_Test_GetModuleInfoError(void)
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Apps: Problems getting module %%s info, Result: 0x%%08X, AddressValid: %%d");
 
     strncpy(ResultsEntry.Name, "name", 10);
@@ -1070,7 +1093,9 @@ void CS_ComputeApp_Test_GetModuleInfoError(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_APP_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_ERROR);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -1085,10 +1110,12 @@ void CS_ComputeApp_Test_ComputeAppPlatformError(void)
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
 
-    snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString[0],
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS cannot get a valid address for %%s, due to the platform");
 
-    snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString[1],
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS Apps: Problems getting module %%s info, Result: 0x%%08X, AddressValid: %%d");
 
     strncpy(ResultsEntry.Name, "name", 10);
@@ -1105,13 +1132,17 @@ void CS_ComputeApp_Test_ComputeAppPlatformError(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_APP_PLATFORM_DBG_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_DEBUG);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString[0],
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_COMPUTE_APP_ERR_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventType, CFE_EVS_EventType_ERROR);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[1].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString[1],
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[1].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
@@ -1296,7 +1327,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
     memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
     memset(DefEepromTbl, 0, sizeof(DefEepromTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
     CS_AppData.RecomputeEepromMemoryEntryPtr             = &RecomputeEepromMemoryEntry;
@@ -1335,7 +1367,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -1350,7 +1384,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
     memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
     memset(DefMemoryTbl, 0, sizeof(DefMemoryTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
     CS_AppData.RecomputeEepromMemoryEntryPtr             = &RecomputeEepromMemoryEntry;
@@ -1389,7 +1424,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_MemoryTable(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -1404,7 +1441,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
     memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
     memset(DefMemoryTbl, 0, sizeof(DefMemoryTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
     CS_AppData.RecomputeEepromMemoryEntryPtr             = &RecomputeEepromMemoryEntry;
@@ -1443,7 +1481,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_CFECore(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.CfeCoreBaseline, 1);
@@ -1460,7 +1500,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
     memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
     memset(DefMemoryTbl, 0, sizeof(DefMemoryTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
     CS_AppData.RecomputeEepromMemoryEntryPtr             = &RecomputeEepromMemoryEntry;
@@ -1499,7 +1540,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_OSCore(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.OSBaseline, 1);
@@ -1516,7 +1559,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryID(void)
     memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
     memset(DefEepromTbl, 0, sizeof(DefEepromTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
     CS_AppData.RecomputeEepromMemoryEntryPtr             = &RecomputeEepromMemoryEntry;
@@ -1554,7 +1598,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryID(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -1569,7 +1615,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
     memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
     memset(DefEepromTbl, 0, sizeof(DefEepromTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
     CS_AppData.RecomputeEepromMemoryEntryPtr             = &RecomputeEepromMemoryEntry;
@@ -1608,7 +1655,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -1623,7 +1672,8 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
     memset(&RecomputeEepromMemoryEntry, 0, sizeof(RecomputeEepromMemoryEntry));
     memset(DefEepromTbl, 0, sizeof(DefEepromTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "%%s entry %%d recompute finished. New baseline is 0X%%08X");
 
     CS_AppData.RecomputeEepromMemoryEntryPtr             = &RecomputeEepromMemoryEntry;
@@ -1662,7 +1712,9 @@ void CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -1677,7 +1729,8 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
     memset(&RecomputeAppEntry, 0, sizeof(RecomputeAppEntry));
     memset(&DefAppTbl, 0, sizeof(DefAppTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App %%s recompute finished. New baseline is 0x%%08X");
 
     CS_AppData.RecomputeAppEntryPtr                   = &RecomputeAppEntry;
@@ -1715,7 +1768,9 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_APP_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
@@ -1783,7 +1838,8 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
     memset(&RecomputeAppEntry, 0, sizeof(RecomputeAppEntry));
     memset(&DefAppTbl, 0, sizeof(DefAppTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "App %%s recompute finished. New baseline is 0x%%08X");
 
     CS_AppData.RecomputeAppEntryPtr                   = &RecomputeAppEntry;
@@ -1822,7 +1878,9 @@ void CS_RecomputeAppChildTask_Test_DefEntryId(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_APP_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
@@ -1837,12 +1895,13 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
     CFE_TBL_Info_t              TblInfo;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&RecomputeTablesEntry, 0, sizeof(RecomputeTablesEntry));
     memset(&DefTablesTbl, 0, sizeof(DefTablesTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Table %%s recompute finished. New baseline is 0x%%08X");
 
     CS_AppData.RecomputeTablesEntryPtr                   = &RecomputeTablesEntry;
@@ -1876,7 +1935,8 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
 
     /* Sets ResultsEntry->TblHandle to 99 and returns CFE_SUCCESS */
     UT_SetHandlerFunction(UT_KEY(CFE_TBL_Share), CS_COMPUTE_TEST_CFE_TBL_ShareHandler, NULL);
-    UT_SetHandlerFunction(UT_KEY(CS_GetTableDefTblEntryByName), CS_COMPUTE_TEST_CS_GetDefTblEntryByName,
+    UT_SetHandlerFunction(UT_KEY(CS_GetTableDefTblEntryByName),
+                          CS_COMPUTE_TEST_CS_GetDefTblEntryByName,
                           &DefTablesTbl[1]);
 
     /* Sets TblInfo.Size = 5 and returns CFE_SUCCESS */
@@ -1903,7 +1963,9 @@ void CS_RecomputeTablesChildTask_Test_Nominal(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_TABLES_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
@@ -1965,12 +2027,13 @@ void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
     CFE_TBL_Info_t              TblInfo;
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     uint8                       TblData[5];
-    void *                      TblAddr;
+    void                       *TblAddr;
 
     memset(&RecomputeTablesEntry, 0, sizeof(RecomputeTablesEntry));
     memset(&DefTablesTbl, 0, sizeof(DefTablesTbl));
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Table %%s recompute finished. New baseline is 0x%%08X");
 
     CS_AppData.RecomputeTablesEntryPtr                   = &RecomputeTablesEntry;
@@ -2028,7 +2091,9 @@ void CS_RecomputeTablesChildTask_Test_DefEntryId(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_RECOMPUTE_FINISH_TABLES_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
@@ -2040,7 +2105,8 @@ void CS_OneShotChildTask_Test_Nominal(void)
 {
     char ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "OneShot checksum on Address: 0x%%08X, size %%d completed. Checksum =  0x%%08X");
 
     /* NewChecksumValue will be set to value returned by this function */
@@ -2060,7 +2126,9 @@ void CS_OneShotChildTask_Test_Nominal(void)
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_ONESHOT_FINISHED_INF_EID);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
 
-    UtAssert_STRINGBUF_EQ(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, context_CFE_EVS_SendEvent[0].Spec,
+    UtAssert_STRINGBUF_EQ(ExpectedEventString,
+                          CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+                          context_CFE_EVS_SendEvent[0].Spec,
                           CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
 
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
@@ -2072,90 +2140,164 @@ void CS_OneShotChildTask_Test_Nominal(void)
 
 void UtTest_Setup(void)
 {
-    UtTest_Add(CS_ComputeEepromMemory_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeEepromMemory_Test_Nominal,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeEepromMemory_Test_Nominal");
     UtTest_Add(CS_ComputeEepromMemory_Test_Error, CS_Test_Setup, CS_Test_TearDown, "CS_ComputeEepromMemory_Test_Error");
-    UtTest_Add(CS_ComputeEepromMemory_Test_FirstTimeThrough, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeEepromMemory_Test_FirstTimeThrough,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeEepromMemory_Test_FirstTimeThrough");
-    UtTest_Add(CS_ComputeEepromMemory_Test_NotFinished, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeEepromMemory_Test_NotFinished,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeEepromMemory_Test_NotFinished");
-    UtTest_Add(CS_ComputeEepromMemory_Test_OffsetlargerThanBytesCheck, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeEepromMemory_Test_OffsetlargerThanBytesCheck,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeEepromMemory_Test_OffsetlargerThanBytesCheck");
 
-    UtTest_Add(CS_ComputeTables_Test_TableNeverLoaded, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_TableNeverLoaded,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_TableNeverLoaded");
-    UtTest_Add(CS_ComputeTables_Test_TableAddressChange, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_TableAddressChange,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_TableAddressChange");
     UtTest_Add(CS_ComputeTables_Test_TableResume, CS_Test_Setup, CS_Test_TearDown, "CS_ComputeTables_Test_TableResume");
-    UtTest_Add(CS_ComputeTables_Test_TableAddressNULL, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_TableAddressNULL,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_TableAddressNULL");
-    UtTest_Add(CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_TableUnregisteredAndNeverLoaded");
-    UtTest_Add(CS_ComputeTables_Test_ResultShareNotSuccess, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_ResultShareNotSuccess,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_ResultShareNotSuccess");
-    UtTest_Add(CS_ComputeTables_Test_TblInfoUpdated, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_TblInfoUpdated,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_TblInfoUpdated");
-    UtTest_Add(CS_ComputeTables_Test_GetInfoResult, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_GetInfoResult,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_GetInfoResult");
     UtTest_Add(CS_ComputeTables_Test_CSError, CS_Test_Setup, CS_Test_TearDown, "CS_ComputeTables_Test_CSError");
-    UtTest_Add(CS_ComputeTables_Test_NominalBadTableHandle, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_NominalBadTableHandle,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_NominalBadTableHandle");
-    UtTest_Add(CS_ComputeTables_Test_FirstTimeThrough, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_FirstTimeThrough,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_FirstTimeThrough");
-    UtTest_Add(CS_ComputeTables_Test_EntryNotFinished, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_EntryNotFinished,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_EntryNotFinished");
-    UtTest_Add(CS_ComputeTables_Test_ComputeTablesReleaseError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_ComputeTablesReleaseError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_ComputeTablesReleaseError");
-    UtTest_Add(CS_ComputeTables_Test_ComputeTablesError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_ComputeTablesError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_ComputeTablesError");
-    UtTest_Add(CS_ComputeTables_Test_OffsetlargerThanBytesCheck, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeTables_Test_OffsetlargerThanBytesCheck,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeTables_Test_OffsetlargerThanBytesCheck");
 
     UtTest_Add(CS_ComputeApp_Test_NominalApp, CS_Test_Setup, CS_Test_TearDown, "CS_ComputeApp_Test_NominalApp");
     UtTest_Add(CS_ComputeApp_Test_NominalLib, CS_Test_Setup, CS_Test_TearDown, "CS_ComputeApp_Test_NominalLib");
-    UtTest_Add(CS_ComputeApp_Test_GetAppAndLibIDByNameError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeApp_Test_GetAppAndLibIDByNameError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeApp_Test_GetAppAndLibIDByNameError");
-    UtTest_Add(CS_ComputeApp_Test_GetModuleInfoError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeApp_Test_GetModuleInfoError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeApp_Test_GetModuleInfoError");
-    UtTest_Add(CS_ComputeApp_Test_ComputeAppPlatformError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeApp_Test_ComputeAppPlatformError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeApp_Test_ComputeAppPlatformError");
-    UtTest_Add(CS_ComputeApp_Test_DifferFromSavedValue, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeApp_Test_DifferFromSavedValue,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeApp_Test_DifferFromSavedValue");
-    UtTest_Add(CS_ComputeApp_Test_FirstTimeThrough, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeApp_Test_FirstTimeThrough,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeApp_Test_FirstTimeThrough");
-    UtTest_Add(CS_ComputeApp_Test_EntryNotFinished, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeApp_Test_EntryNotFinished,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeApp_Test_EntryNotFinished");
     UtTest_Add(CS_ComputeApp_Test_EntryFinished, CS_Test_Setup, CS_Test_TearDown, "CS_ComputeApp_Test_EntryFinished");
-    UtTest_Add(CS_ComputeApp_Test_OffsetlargerThanBytesCheck, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ComputeApp_Test_OffsetlargerThanBytesCheck,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ComputeApp_Test_OffsetlargerThanBytesCheck");
 
-    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable");
-    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_MemoryTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_MemoryTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeEepromMemoryChildTask_Test_MemoryTable");
-    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_CFECore, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_CFECore,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeEepromMemoryChildTask_Test_CFECore");
-    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_OSCore, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_OSCore,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeEepromMemoryChildTask_Test_OSCore");
-    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryID, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryID,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableEntryID");
-    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableStartAddress");
-    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeEepromMemoryChildTask_Test_EEPROMTableState");
 
-    UtTest_Add(CS_RecomputeAppChildTask_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeAppChildTask_Test_Nominal,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeAppChildTask_Test_Nominal");
-    UtTest_Add(CS_RecomputeAppChildTask_Test_CouldNotGetAddress, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeAppChildTask_Test_CouldNotGetAddress,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeAppChildTask_Test_CouldNotGetAddress");
-    UtTest_Add(CS_RecomputeAppChildTask_Test_DefEntryId, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeAppChildTask_Test_DefEntryId,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeAppChildTask_Test_DefEntryId");
 
-    UtTest_Add(CS_RecomputeTablesChildTask_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeTablesChildTask_Test_Nominal,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeTablesChildTask_Test_Nominal");
-    UtTest_Add(CS_RecomputeTablesChildTask_Test_CouldNotGetAddress, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeTablesChildTask_Test_CouldNotGetAddress,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeTablesChildTask_Test_CouldNotGetAddress");
-    UtTest_Add(CS_RecomputeTablesChildTask_Test_DefEntryId, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeTablesChildTask_Test_DefEntryId,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeTablesChildTask_Test_DefEntryId");
 
     UtTest_Add(CS_OneShotChildTask_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_OneShotChildTask_Test_Nominal");

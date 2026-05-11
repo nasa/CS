@@ -94,8 +94,8 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
  * Generated stub function for CS_TableInit()
  * ----------------------------------------------------
  */
-CFE_Status_t CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFileName,
-                          CFE_TBL_CallbackFuncPtr_t CallBackFunction)
+CFE_Status_t
+CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFileName, CFE_TBL_CallbackFuncPtr_t CallBackFunction)
 {
     UT_GenStub_SetupReturnBuffer(CS_TableInit, CFE_Status_t);
 

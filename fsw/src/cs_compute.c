@@ -87,8 +87,10 @@ void CS_DoChecksumChunk(CS_LocalChecksumState_t *State)
         NumBytesThisCycle = CS_AppData.MaxBytesPerCycle;
     }
 
-    NewChecksumValue = CFE_ES_CalculateCRC(State->BufferAddr + State->CurrOffset, NumBytesThisCycle,
-                                           State->ResultBuffer, CS_DEFAULT_ALGORITHM);
+    NewChecksumValue = CFE_ES_CalculateCRC(State->BufferAddr + State->CurrOffset,
+                                           NumBytesThisCycle,
+                                           State->ResultBuffer,
+                                           CS_DEFAULT_ALGORITHM);
 
     /* Export all data */
     State->CurrOffset   = State->CurrOffset + NumBytesThisCycle;
@@ -136,7 +138,7 @@ CFE_Status_t CS_CheckOrUpdateReference(CS_LocalChecksumState_t *State, uint16 *R
 CFE_Status_t CS_GetTableAddr(CS_LocalChecksumState_t *State, CFE_TBL_Handle_t LocalHandle)
 {
     CFE_Status_t Status;
-    void *       Addr;
+    void        *Addr;
 
     Status = CFE_TBL_GetAddress(&Addr, LocalHandle);
 
@@ -167,8 +169,10 @@ void CS_ReleaseTableAddr(CFE_TBL_HandleId_t LocalId, const char *Name)
     Result = CFE_TBL_ReleaseAddress(LocalHandle);
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(CS_COMPUTE_TABLES_RELEASE_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "CS Tables: Could not release addresss for table %s, returned: 0x%08X", Name,
+        CFE_EVS_SendEvent(CS_COMPUTE_TABLES_RELEASE_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "CS Tables: Could not release addresss for table %s, returned: 0x%08X",
+                          Name,
                           (unsigned int)Result);
     }
 }
@@ -204,8 +208,8 @@ CFE_Status_t CS_RefreshTableSize(CS_LocalChecksumState_t *State, const char *Nam
  * Local helper function
  *
  *-----------------------------------------------------------------*/
-CFE_Status_t CS_RefreshTableHandleAndAddress(CS_LocalChecksumState_t *State, CFE_TBL_Handle_t *LocalHandle,
-                                             const char *Name)
+CFE_Status_t
+CS_RefreshTableHandleAndAddress(CS_LocalChecksumState_t *State, CFE_TBL_Handle_t *LocalHandle, const char *Name)
 {
     CFE_Status_t Result;
 
@@ -315,8 +319,10 @@ CFE_Status_t CS_RefreshAppSizeAndAddr(CS_LocalChecksumState_t *State, const char
         /* We got a valid ResourceID and good App info, so check the for valid addresses */
         if (Result == CFE_SUCCESS && !AppInfo.AddressesAreValid)
         {
-            CFE_EVS_SendEvent(CS_COMPUTE_APP_PLATFORM_DBG_EID, CFE_EVS_EventType_DEBUG,
-                              "CS cannot get a valid address for %s, due to the platform", AppName);
+            CFE_EVS_SendEvent(CS_COMPUTE_APP_PLATFORM_DBG_EID,
+                              CFE_EVS_EventType_DEBUG,
+                              "CS cannot get a valid address for %s, due to the platform",
+                              AppName);
 
             Result = CS_ERROR;
         }
@@ -332,9 +338,12 @@ CFE_Status_t CS_RefreshAppSizeAndAddr(CS_LocalChecksumState_t *State, const char
     else
     {
         /* Something failed -- either invalid ResourceID, bad App info, or invalid addresses, so notify ground */
-        CFE_EVS_SendEvent(CS_COMPUTE_APP_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "CS Apps: Problems getting module %s info, Result: 0x%08X, AddressValid: %d", AppName,
-                          (unsigned int)Result, (unsigned int)AppInfo.AddressesAreValid);
+        CFE_EVS_SendEvent(CS_COMPUTE_APP_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "CS Apps: Problems getting module %s info, Result: 0x%08X, AddressValid: %d",
+                          AppName,
+                          (unsigned int)Result,
+                          (unsigned int)AppInfo.AddressesAreValid);
 
         Result = CS_ERR_NOT_FOUND;
     }
@@ -348,8 +357,8 @@ CFE_Status_t CS_RefreshAppSizeAndAddr(CS_LocalChecksumState_t *State, const char
 /* and cFE core code segments                                      */
 /*                                                                 */
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-CFE_Status_t CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue,
-                                    bool *DoneWithEntry)
+CFE_Status_t
+CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *ComputedCSValue, bool *DoneWithEntry)
 {
     CFE_Status_t            Status;
     CS_LocalChecksumState_t State;
@@ -409,8 +418,10 @@ CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 
 
     if (Status != CFE_SUCCESS || State.BufferAddr == NULL)
     {
-        CFE_EVS_SendEvent(CS_COMPUTE_TABLES_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "CS Tables: Problem Getting table %s: Status=0x%08X", ResultsEntry->Name,
+        CFE_EVS_SendEvent(CS_COMPUTE_TABLES_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "CS Tables: Problem Getting table %s: Status=0x%08X",
+                          ResultsEntry->Name,
                           (unsigned int)Status);
 
         memset(&State, 0, sizeof(State));
@@ -421,8 +432,8 @@ CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 
     else
     {
         /* If the address and size has NOT changed since our last visit, resume checksumming */
-        if (ResultsEntry->StartAddress == (cpuaddr)State.BufferAddr &&
-            ResultsEntry->NumBytesToChecksum == State.TotalSize)
+        if (ResultsEntry->StartAddress == (cpuaddr)State.BufferAddr
+            && ResultsEntry->NumBytesToChecksum == State.TotalSize)
         {
             State.CurrOffset   = ResultsEntry->ByteOffset;
             State.ResultBuffer = ResultsEntry->TempChecksumValue;
@@ -520,7 +531,7 @@ void CS_RecomputeEepromMemoryChildTask(void)
     bool                               DoneWithEntry    = false;
     CS_ChecksumState_Enum_t            PreviousDefState = CS_ChecksumState_EMPTY;
     CS_Def_EepromMemory_Table_Entry_t *DefEntry         = NULL;
-    CS_TableWrapper_t *                tw;
+    CS_TableWrapper_t                 *tw;
 
     tw           = &CS_AppData.Tbl[CS_AppData.ChildTaskTable];
     EntryID      = CS_AppData.ChildTaskEntryID;
@@ -579,8 +590,11 @@ void CS_RecomputeEepromMemoryChildTask(void)
     }
 
     /* send event message */
-    CFE_EVS_SendEvent(CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID, CFE_EVS_EventType_INFORMATION,
-                      "%s entry %d recompute finished. New baseline is 0X%08X", CS_GetTableTypeAsString(tw), EntryID,
+    CFE_EVS_SendEvent(CS_RECOMPUTE_FINISH_EEPROM_MEMORY_INF_EID,
+                      CFE_EVS_EventType_INFORMATION,
+                      "%s entry %d recompute finished. New baseline is 0X%08X",
+                      CS_GetTableTypeAsString(tw),
+                      EntryID,
                       (unsigned int)NewChecksumValue);
 
     CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
@@ -654,14 +668,18 @@ void CS_RecomputeAppChildTask(void)
 
     if (Status == CS_ERR_NOT_FOUND)
     {
-        CFE_EVS_SendEvent(CS_RECOMPUTE_ERROR_APP_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "App %s recompute failed. Could not get address", ResultsEntry->Name);
+        CFE_EVS_SendEvent(CS_RECOMPUTE_ERROR_APP_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "App %s recompute failed. Could not get address",
+                          ResultsEntry->Name);
     }
     else
     {
         /* send event message */
-        CFE_EVS_SendEvent(CS_RECOMPUTE_FINISH_APP_INF_EID, CFE_EVS_EventType_INFORMATION,
-                          "App %s recompute finished. New baseline is 0x%08X", ResultsEntry->Name,
+        CFE_EVS_SendEvent(CS_RECOMPUTE_FINISH_APP_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
+                          "App %s recompute finished. New baseline is 0x%08X",
+                          ResultsEntry->Name,
                           (unsigned int)NewChecksumValue);
     }
 
@@ -725,14 +743,18 @@ void CS_RecomputeTablesChildTask(void)
     /* The new checksum value is stored in the table by the above functions */
     if (Status == CS_ERR_NOT_FOUND)
     {
-        CFE_EVS_SendEvent(CS_RECOMPUTE_ERROR_TABLES_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Table %s recompute failed. Could not get address", ResultsEntry->Name);
+        CFE_EVS_SendEvent(CS_RECOMPUTE_ERROR_TABLES_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Table %s recompute failed. Could not get address",
+                          ResultsEntry->Name);
     }
     else
     {
         /* send event message */
-        CFE_EVS_SendEvent(CS_RECOMPUTE_FINISH_TABLES_INF_EID, CFE_EVS_EventType_INFORMATION,
-                          "Table %s recompute finished. New baseline is 0x%08X", ResultsEntry->Name,
+        CFE_EVS_SendEvent(CS_RECOMPUTE_FINISH_TABLES_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
+                          "Table %s recompute finished. New baseline is 0x%08X",
+                          ResultsEntry->Name,
                           (unsigned int)NewChecksumValue);
     }
 
@@ -771,11 +793,13 @@ void CS_OneShotChildTask(void)
     {
         NumBytesThisCycle = ((MaxBytesPerCycle < NumBytesRemainingCycles) ? MaxBytesPerCycle : NumBytesRemainingCycles);
 
-        NewChecksumValue = CFE_ES_CalculateCRC((void *)(FirstAddrThisCycle), NumBytesThisCycle, NewChecksumValue,
+        NewChecksumValue = CFE_ES_CalculateCRC((void *)(FirstAddrThisCycle),
+                                               NumBytesThisCycle,
+                                               NewChecksumValue,
                                                CS_DEFAULT_ALGORITHM);
 
         /* Update the remainders for the next cycle */
-        FirstAddrThisCycle += NumBytesThisCycle;
+        FirstAddrThisCycle      += NumBytesThisCycle;
         NumBytesRemainingCycles -= NumBytesThisCycle;
 
         OS_TaskDelay(CS_CHILD_TASK_DELAY);
@@ -787,7 +811,8 @@ void CS_OneShotChildTask(void)
     CS_AppData.HkPacket.Payload.LastOneShotChecksum = NewChecksumValue;
 
     /* send event message */
-    CFE_EVS_SendEvent(CS_ONESHOT_FINISHED_INF_EID, CFE_EVS_EventType_INFORMATION,
+    CFE_EVS_SendEvent(CS_ONESHOT_FINISHED_INF_EID,
+                      CFE_EVS_EventType_INFORMATION,
                       "OneShot checksum on Address: 0x%08X, size %d completed. Checksum =  0x%08X",
                       (unsigned int)(CS_AppData.HkPacket.Payload.LastOneShotAddress),
                       (unsigned int)(CS_AppData.HkPacket.Payload.LastOneShotSize),

@@ -54,7 +54,7 @@ typedef union
 
     CS_SendHkCmd_t                      SendHkCmd;
     CS_NoopCmd_t                        NoopCmd;
-    CS_ResetCmd_t                       ResetCmd;
+    CS_ResetCountersCmd_t               ResetCountersCmd;
     CS_BackgroundCheckCycleCmd_t        BackgroundCheckCycle;
     CS_DisableAllCSCmd_t                DisableAllCSCmd;
     CS_EnableAllCSCmd_t                 EnableAllCSCmd;
@@ -104,8 +104,8 @@ uint8 call_count_CFE_EVS_SendEvent;
  * Function Definitions
  */
 
-CFE_Status_t CS_APP_TEST_CFE_ES_RunLoop_Hook(void *UserObj, int32 StubRetcode, uint32 CallCount,
-                                             const UT_StubContext_t *Context)
+CFE_Status_t
+CS_APP_TEST_CFE_ES_RunLoop_Hook(void *UserObj, int32 StubRetcode, uint32 CallCount, const UT_StubContext_t *Context)
 {
     CS_AppData.RunStatus = CFE_ES_RunStatus_SYS_EXCEPTION;
 
@@ -134,7 +134,7 @@ void CS_App_TestCmdTlmAlign(void)
     UtAssert_True(TLM_STRUCT_DATA_IS_32_ALIGNED(CS_HkPacket_t), "CS_HkPacket_t is 32-bit aligned");
     UtAssert_True(CMD_STRUCT_DATA_IS_32_ALIGNED(CS_SendHkCmd_t), "CS_SendHkCmd_t is 32-bit aligned");
     UtAssert_True(CMD_STRUCT_DATA_IS_32_ALIGNED(CS_NoopCmd_t), "CS_NoopCmd_t is 32-bit aligned");
-    UtAssert_True(CMD_STRUCT_DATA_IS_32_ALIGNED(CS_ResetCmd_t), "CS_ResetCmd_t is 32-bit aligned");
+    UtAssert_True(CMD_STRUCT_DATA_IS_32_ALIGNED(CS_ResetCountersCmd_t), "CS_ResetCountersCmd_t is 32-bit aligned");
     UtAssert_True(CMD_STRUCT_DATA_IS_32_ALIGNED(CS_BackgroundCheckCycleCmd_t),
                   "CS_BackgroundCheckCycleCmd_t is 32-bit aligned");
     UtAssert_True(CMD_STRUCT_DATA_IS_32_ALIGNED(CS_DisableAllCSCmd_t), "CS_DisableAllCSCmd_t is 32-bit aligned");
@@ -204,7 +204,8 @@ void CS_AppMain_Test_Nominal(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X");
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
 
     /* Set to prevent segmentation fault */
@@ -237,7 +238,8 @@ void CS_AppMain_Test_Nominal(void)
     /* 2 Messages Tested elsewhere so we can ignore them here. INFO:CS Initialized  and ERROR:Invalid Command pipe  */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
 
     /* Generates 2 event messages we don't care about in this test */
@@ -251,7 +253,8 @@ void CS_AppMain_Test_AppInitError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X, RC:0x%%08X");
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
 
     /* Set to make subfunction CS_AppInit return -1 */
@@ -277,7 +280,8 @@ void CS_AppMain_Test_AppInitError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -289,7 +293,8 @@ void CS_AppMain_Test_SysException(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X, RC:0x%%08X");
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
 
     /* Set to make loop not execute */
@@ -324,7 +329,8 @@ void CS_AppMain_Test_SysException(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
 }
@@ -337,7 +343,8 @@ void CS_AppMain_Test_RcvMsgError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X, RC:0x%%08X");
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
 
     /* Set to make loop execute exactly once */
@@ -369,7 +376,8 @@ void CS_AppMain_Test_RcvMsgError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event message we don't care about in this test */
 }
@@ -385,7 +393,8 @@ void CS_AppMain_Test_RcvMsgTimeout(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X, RC:0x%%08X");
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
 
     /* Set to make loop execute exactly once */
@@ -421,7 +430,8 @@ void CS_AppMain_Test_RcvMsgTimeout(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 3 event messages we don't care about in this test */
 
@@ -438,7 +448,8 @@ void CS_AppMain_Test_RcvNoMsg(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X");
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
 
     /* Set to prevent segmentation fault */
@@ -472,7 +483,8 @@ void CS_AppMain_Test_RcvNoMsg(void)
     /* 2 Messages Tested elsewhere so we can ignore them here. INFO:CS Initialized  and ERROR:Invalid Command pipe  */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
 
     /* Generates 2 event messages we don't care about in this test */
@@ -485,11 +497,12 @@ void CS_AppMain_Test_RcvNullBufPtr(void)
     int32          strCmpResult;
     char           ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
     char           ExpectedSysLogString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    CS_NoopCmd_t * PacketPtr = NULL;
+    CS_NoopCmd_t  *PacketPtr = NULL;
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X, RC:0x%%08X");
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
 
     /* Set to make loop execute exactly once */
@@ -515,7 +528,8 @@ void CS_AppMain_Test_RcvNullBufPtr(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 1 event messages we don't care about in this test */
 
@@ -534,7 +548,8 @@ void CS_AppMain_Test_AppPipeError(void)
 
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "App terminating, RunStatus:0x%%08X, RC:0x%%08X");
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App terminating, RunStatus:0x%%08X, RC:0x%%08X\n");
 
     /* Set to make loop execute exactly once */
@@ -564,7 +579,8 @@ void CS_AppMain_Test_AppPipeError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
     /* Generates 3 event messages we don't care about in this test */
 
@@ -603,7 +619,8 @@ void CS_AppInit_Test_Nominal(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -656,7 +673,8 @@ void CS_AppInit_Test_NominalPowerOnReset(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -718,7 +736,8 @@ void CS_CreateRestoreStatesFromCDS_Test_NoExistingCDS(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -760,7 +779,8 @@ void CS_CreateRestoreStatesFromCDS_Test_CDSSuccess(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -815,7 +835,8 @@ void CS_CreateRestoreStatesFromCDS_Test_CDSFail(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -872,7 +893,8 @@ void CS_CreateRestoreStatesFromCDS_Test_CopyToCDSFail(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -929,7 +951,8 @@ void CS_CreateRestoreStatesFromCDS_Test_RegisterCDSFail(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -941,7 +964,8 @@ void CS_AppInit_Test_EVSRegisterError(void)
     int32        strCmpResult;
     char         ExpectedSysLogString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
-    snprintf(ExpectedSysLogString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedSysLogString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS App: Error Registering For Event Services, RC = 0x%%08X\n");
 
     /* Set CFE_EVS_Register to return -1 in order to reach call to CFE_ES_WriteToSysLog */
@@ -955,7 +979,8 @@ void CS_AppInit_Test_EVSRegisterError(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 
     strCmpResult = strncmp(ExpectedSysLogString, context_CFE_ES_WriteToSysLog.Spec, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH);
@@ -978,7 +1003,8 @@ void CS_UpdateCDS_Test_Nominal(void)
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1008,7 +1034,8 @@ void CS_UpdateCDS_Test_CopyToCDSFail(void)
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1022,7 +1049,8 @@ void CS_UpdateCDS_Test_NullCDSHandle(void)
     /* Verify results */
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 #endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true) */
@@ -1042,21 +1070,33 @@ void UtTest_Setup(void)
 
     UtTest_Add(CS_AppInit_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_AppInit_Test_Nominal");
     UtTest_Add(CS_AppInit_Test_EVSRegisterError, CS_Test_Setup, CS_Test_TearDown, "CS_AppInit_Test_EVSRegisterError");
-    UtTest_Add(CS_AppInit_Test_NominalPowerOnReset, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_AppInit_Test_NominalPowerOnReset,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_AppInit_Test_NominalPowerOnReset");
 
 #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
     UtTest_Add(CS_AppInit_Test_NominalProcReset, CS_Test_Setup, CS_Test_TearDown, "CS_AppInit_Test_NominalProcReset");
 
-    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_NoExistingCDS, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_NoExistingCDS,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_CreateRestoreStatesFromCDS_Test_NoExistingCDS");
-    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_CDSSuccess, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_CDSSuccess,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_CreateRestoreStatesFromCDS_Test_CDSSuccess");
-    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_CDSFail, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_CDSFail,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_CreateRestoreStatesFromCDS_Test_CDSFail");
-    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_CopyToCDSFail, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_CopyToCDSFail,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_CreateRestoreStatesFromCDS_Test_CopyToCDSFail");
-    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_RegisterCDSFail, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_RegisterCDSFail,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_CreateRestoreStatesFromCDS_Test_RegisterCDSFail");
 
     UtTest_Add(CS_UpdateCDS_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_UpdateCDS_Test_Nominal");

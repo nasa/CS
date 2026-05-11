@@ -33,40 +33,86 @@
 CS_Def_EepromMemory_Table_Entry_t CS_EepromTable[CS_MAX_NUM_EEPROM_TABLE_ENTRIES] = {
     /*         State           Filler   StartAddress     NumBytes */
     /*  0 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  1 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  2 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  3 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  4 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  5 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  6 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  7 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  8 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /*  9 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /* 10 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /* 11 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /* 12 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /* 13 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /* 14 */
-    {.State = CS_ChecksumState_EMPTY, .Filler16 = 0x1234, .StartAddress = 0x00000000, .NumBytesToChecksum = 0x00000000},
-    /* 15 */
-    {.State              = CS_ChecksumState_EMPTY,
+    { .State              = CS_ChecksumState_EMPTY,
      .Filler16           = 0x1234,
      .StartAddress       = 0x00000000,
-     .NumBytesToChecksum = 0x00000000}};
+     .NumBytesToChecksum = 0x00000000 },
+    /*  1 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /*  2 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /*  3 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /*  4 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /*  5 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /*  6 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /*  7 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /*  8 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /*  9 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /* 10 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /* 11 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /* 12 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /* 13 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /* 14 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 },
+    /* 15 */
+    { .State              = CS_ChecksumState_EMPTY,
+     .Filler16           = 0x1234,
+     .StartAddress       = 0x00000000,
+     .NumBytesToChecksum = 0x00000000 }
+};
 
 /*
 ** Table file header

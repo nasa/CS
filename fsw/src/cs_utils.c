@@ -91,7 +91,7 @@ void *CS_GetDefEntryAddr(CS_TableWrapper_t *tw, uint16 EntryId)
 
     if (tw->DefAddr != NULL && EntryId < tw->NumEntries)
     {
-        EntryAddr = tw->DefAddr;
+        EntryAddr  = tw->DefAddr;
         EntryAddr += (tw->DefEntrySize * EntryId);
     }
     else
@@ -114,7 +114,7 @@ void *CS_GetResEntryAddr(CS_TableWrapper_t *tw, uint16 EntryId)
 
     if (tw->ResAddr != NULL && EntryId < tw->NumEntries)
     {
-        EntryAddr = tw->ResAddr;
+        EntryAddr  = tw->ResAddr;
         EntryAddr += (tw->ResEntrySize * EntryId);
     }
     else
@@ -133,9 +133,9 @@ void *CS_GetResEntryAddr(CS_TableWrapper_t *tw, uint16 EntryId)
  *-----------------------------------------------------------------*/
 CS_ChecksumState_Enum_t CS_SetGenericEntryState(void *EntryPtr, size_t Offset, CS_ChecksumState_Enum_t NewState)
 {
-    uint8 *                 StateAddr;
+    uint8                  *StateAddr;
     CS_ChecksumState_Enum_t PreviousDefState;
-    uint16 *                StatePtr;
+    uint16                 *StatePtr;
 
     PreviousDefState = CS_ChecksumState_UNDEFINED;
     if (CS_StateValid(NewState))
@@ -150,7 +150,7 @@ CS_ChecksumState_Enum_t CS_SetGenericEntryState(void *EntryPtr, size_t Offset, C
     if (StateAddr != NULL)
     {
         StateAddr += Offset;
-        StatePtr = (uint16 *)(void *)StateAddr;
+        StatePtr   = (uint16 *)(void *)StateAddr;
 
         PreviousDefState = *StatePtr;
         if (CS_StateValid(PreviousDefState))
@@ -433,8 +433,8 @@ bool CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t **EntryPtr, const 
             break;
         }
 
-        if (ResultsEntry->State != CS_ChecksumState_EMPTY &&
-            strncmp(ResultsEntry->Name, Name, CFE_TBL_MAX_FULL_NAME_LEN) == 0)
+        if (ResultsEntry->State != CS_ChecksumState_EMPTY
+            && strncmp(ResultsEntry->Name, Name, CFE_TBL_MAX_FULL_NAME_LEN) == 0)
         {
             Status    = true;
             *EntryPtr = ResultsEntry;
@@ -466,8 +466,8 @@ bool CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t **EntryPtr, const 
             break;
         }
 
-        if (CS_StateValid(DefinitionEntry->State) &&
-            strncmp(DefinitionEntry->Name, Name, CFE_TBL_MAX_FULL_NAME_LEN) == 0)
+        if (CS_StateValid(DefinitionEntry->State)
+            && strncmp(DefinitionEntry->Name, Name, CFE_TBL_MAX_FULL_NAME_LEN) == 0)
         {
             Status    = true;
             *EntryPtr = DefinitionEntry;
@@ -669,9 +669,11 @@ bool CS_BackgroundCfeCore(void)
 
                 CS_AppData.HkPacket.Payload.CfeCoreCSErrCounter++;
 
-                CFE_EVS_SendEvent(CS_CFECORE_MISCOMPARE_ERR_EID, CFE_EVS_EventType_ERROR,
+                CFE_EVS_SendEvent(CS_CFECORE_MISCOMPARE_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
                                   "Checksum Failure: cFE Core, Expected: 0x%08X, Calculated: 0x%08X",
-                                  (unsigned int)(ResultsEntry->ComparisonValue), (unsigned int)ComputedCSValue);
+                                  (unsigned int)(ResultsEntry->ComparisonValue),
+                                  (unsigned int)ComputedCSValue);
             }
 
             if (DoneWithEntry == true)
@@ -735,9 +737,11 @@ bool CS_BackgroundOS(void)
                 /* we had a miscompare */
                 CS_AppData.HkPacket.Payload.OSCSErrCounter++;
 
-                CFE_EVS_SendEvent(CS_OS_MISCOMPARE_ERR_EID, CFE_EVS_EventType_ERROR,
+                CFE_EVS_SendEvent(CS_OS_MISCOMPARE_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
                                   "Checksum Failure: OS code segment, Expected: 0x%08X, Calculated: 0x%08X",
-                                  (unsigned int)(ResultsEntry->ComparisonValue), (unsigned int)ComputedCSValue);
+                                  (unsigned int)(ResultsEntry->ComparisonValue),
+                                  (unsigned int)ComputedCSValue);
             }
 
             if (DoneWithEntry == true)
@@ -808,9 +812,11 @@ bool CS_BackgroundEeprom(void)
 
             CS_AppData.HkPacket.Payload.EepromCSErrCounter++;
 
-            CFE_EVS_SendEvent(CS_EEPROM_MISCOMPARE_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(CS_EEPROM_MISCOMPARE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Checksum Failure: Address 0x%lx in EEPROM Table, Expected: 0x%08X, Calculated: 0x%08X",
-                              (unsigned long)ResultsEntry->StartAddress, (unsigned int)(ResultsEntry->ComparisonValue),
+                              (unsigned long)ResultsEntry->StartAddress,
+                              (unsigned int)(ResultsEntry->ComparisonValue),
                               (unsigned int)ComputedCSValue);
         }
 
@@ -890,9 +896,11 @@ bool CS_BackgroundMemory(void)
 
             CS_AppData.HkPacket.Payload.MemoryCSErrCounter++;
 
-            CFE_EVS_SendEvent(CS_MEMORY_MISCOMPARE_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(CS_MEMORY_MISCOMPARE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Checksum Failure: Address 0x%lx in Memory Table, Expected: 0x%08X, Calculated: 0x%08X",
-                              (unsigned long)ResultsEntry->StartAddress, (unsigned int)(ResultsEntry->ComparisonValue),
+                              (unsigned long)ResultsEntry->StartAddress,
+                              (unsigned int)(ResultsEntry->ComparisonValue),
                               (unsigned int)ComputedCSValue);
         }
 
@@ -949,15 +957,18 @@ bool CS_BackgroundTables(void)
             /* we had a miscompare */
             CS_AppData.HkPacket.Payload.TablesCSErrCounter++;
 
-            CFE_EVS_SendEvent(CS_TABLES_MISCOMPARE_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(CS_TABLES_MISCOMPARE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Checksum Failure: Table %s, Expected: 0x%08X, Calculated: 0x%08X",
-                              TablesResultsEntry->Name, (unsigned int)(TablesResultsEntry->ComparisonValue),
+                              TablesResultsEntry->Name,
+                              (unsigned int)(TablesResultsEntry->ComparisonValue),
                               (unsigned int)ComputedCSValue);
         }
 
         if (Status == CS_ERR_NOT_FOUND)
         {
-            CFE_EVS_SendEvent(CS_COMPUTE_TABLES_NOT_FOUND_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(CS_COMPUTE_TABLES_NOT_FOUND_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Tables table computing: Table %s could not be found, skipping",
                               TablesResultsEntry->Name);
 
@@ -970,8 +981,8 @@ bool CS_BackgroundTables(void)
         }
     }
 
-    if (TablesResultsEntry == NULL ||
-        CS_AppData.HkPacket.Payload.CurrentEntryInTable >= CS_MAX_NUM_TABLES_TABLE_ENTRIES)
+    if (TablesResultsEntry == NULL
+        || CS_AppData.HkPacket.Payload.CurrentEntryInTable >= CS_MAX_NUM_TABLES_TABLE_ENTRIES)
     {
         /* We are done with this table */
         CS_GoToNextTable();
@@ -1018,16 +1029,20 @@ bool CS_BackgroundApp(void)
             /* we had a miscompare */
             CS_AppData.HkPacket.Payload.AppCSErrCounter++;
 
-            CFE_EVS_SendEvent(CS_APP_MISCOMPARE_ERR_EID, CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(CS_APP_MISCOMPARE_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
                               "Checksum Failure: Application %s, Expected: 0x%08X, Calculated: 0x%08X",
-                              AppResultsEntry->Name, (unsigned int)(AppResultsEntry->ComparisonValue),
+                              AppResultsEntry->Name,
+                              (unsigned int)(AppResultsEntry->ComparisonValue),
                               (unsigned int)ComputedCSValue);
         }
 
         if (Status == CS_ERR_NOT_FOUND)
         {
-            CFE_EVS_SendEvent(CS_COMPUTE_APP_NOT_FOUND_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "App table computing: App %s could not be found, skipping", AppResultsEntry->Name);
+            CFE_EVS_SendEvent(CS_COMPUTE_APP_NOT_FOUND_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "App table computing: App %s could not be found, skipping",
+                              AppResultsEntry->Name);
 
             DoneWithEntry = true;
         }
@@ -1113,9 +1128,11 @@ CFE_Status_t CS_HandleRoutineTableUpdates(void)
 
         if (Result != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(EventIdMap[TableId], CFE_EVS_EventType_ERROR,
+            CFE_EVS_SendEvent(EventIdMap[TableId],
+                              CFE_EVS_EventType_ERROR,
                               "Table update failed for %s: 0x%08X, checksumming is disabled",
-                              CS_GetTableTypeAsString(tw), (unsigned int)Result);
+                              CS_GetTableTypeAsString(tw),
+                              (unsigned int)Result);
 
             if (tw->GlobalState)
             {
@@ -1136,13 +1153,14 @@ bool CS_CheckRecomputeOneshot(void)
 {
     bool Result = false;
 
-    if (CS_AppData.HkPacket.Payload.RecomputeInProgress == true ||
-        CS_AppData.HkPacket.Payload.OneShotInProgress == true)
+    if (CS_AppData.HkPacket.Payload.RecomputeInProgress == true
+        || CS_AppData.HkPacket.Payload.OneShotInProgress == true)
     {
-        CFE_EVS_SendEvent(CS_CMD_COMPUTE_PROG_ERR_EID, CFE_EVS_EventType_ERROR,
+        CFE_EVS_SendEvent(CS_CMD_COMPUTE_PROG_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
                           "Cannot perform command. Recompute or oneshot in progress.");
 
-        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        CS_AppData.HkPacket.Payload.CommandErrorCounter++;
 
         Result = true;
     }

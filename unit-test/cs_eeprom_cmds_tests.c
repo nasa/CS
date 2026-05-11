@@ -65,11 +65,12 @@ void CS_DisableEepromCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -84,11 +85,12 @@ void CS_DisableEepromCmd_Test_OneShot(void)
     CS_DisableEepromCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 0, "CS_AppData.HkPacket.Payload.CommandCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -115,11 +117,12 @@ void CS_EnableEepromCmd_Test(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -134,11 +137,12 @@ void CS_EnableEepromCmd_Test_OneShot(void)
     CS_EnableEepromCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 0, "CS_AppData.HkPacket.Payload.CommandCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -147,7 +151,7 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_Computed(void)
     CS_ReportBaselineEntryIDEepromCmd_t CmdPacket;
     int32                               strCmpResult;
     char                                ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    CS_Res_EepromMemory_Table_Entry_t * ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
+    CS_Res_EepromMemory_Table_Entry_t  *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
     snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH, "Report baseline of EEPROM Entry %%d is 0x%%08X");
@@ -169,11 +173,12 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_Computed(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -182,10 +187,11 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_NotYetComputed(void)
     CS_ReportBaselineEntryIDEepromCmd_t CmdPacket;
     int32                               strCmpResult;
     char                                ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    CS_Res_EepromMemory_Table_Entry_t * ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
+    CS_Res_EepromMemory_Table_Entry_t  *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Report baseline of EEPROM Entry %%d has not been computed yet");
 
     CmdPacket.Payload.EntryID = 1;
@@ -205,11 +211,12 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_NotYetComputed(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -220,7 +227,8 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void
     char                                ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "EEPROM report baseline failed, Entry ID invalid: %%d, State: %%d Max ID: %%d");
 
     CmdPacket.Payload.EntryID = CS_MAX_NUM_EEPROM_TABLE_ENTRIES;
@@ -237,11 +245,13 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -250,10 +260,11 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     CS_ReportBaselineEntryIDEepromCmd_t CmdPacket;
     int32                               strCmpResult;
     char                                ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
-    CS_Res_EepromMemory_Table_Entry_t * ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
+    CS_Res_EepromMemory_Table_Entry_t  *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "EEPROM report baseline failed, Entry ID invalid: %%d, State: %%d Max ID: %%d");
 
     CmdPacket.Payload.EntryID = 1;
@@ -271,11 +282,13 @@ void CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -287,7 +300,8 @@ void CS_RecomputeBaselineEepromCmd_Test_Nominal(void)
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute baseline of EEPROM Entry ID %%d started");
 
     CmdPacket.Payload.EntryID = 1;
@@ -317,11 +331,12 @@ void CS_RecomputeBaselineEepromCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -333,7 +348,8 @@ void CS_RecomputeBaselineEepromCmd_Test_CreateChildTaskError(void)
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute baseline of EEPROM Entry ID %%d failed, CFE_ES_CreateChildTask returned:  0x%%08X");
 
     CmdPacket.Payload.EntryID = 1;
@@ -364,13 +380,15 @@ void CS_RecomputeBaselineEepromCmd_Test_CreateChildTaskError(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
     UtAssert_True(CS_AppData.HkPacket.Payload.RecomputeInProgress == false,
                   "CS_AppData.HkPacket.Payload.RecomputeInProgress == false");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -381,7 +399,8 @@ void CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
     char                            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "EEPROM recompute baseline of entry failed, Entry ID invalid: %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.Payload.EntryID = CS_MAX_NUM_EEPROM_TABLE_ENTRIES;
@@ -398,11 +417,13 @@ void CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -414,7 +435,8 @@ void CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "EEPROM recompute baseline of entry failed, Entry ID invalid: %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.Payload.EntryID = 1;
@@ -432,11 +454,13 @@ void CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -447,7 +471,8 @@ void CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress(void)
     char                            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute baseline of EEPROM Entry ID %%d failed: child task in use");
 
     CmdPacket.Payload.EntryID = 1;
@@ -465,11 +490,13 @@ void CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -480,7 +507,8 @@ void CS_RecomputeBaselineEepromCmd_Test_OneShot(void)
     char                            ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Recompute baseline of EEPROM Entry ID %%d failed: child task in use");
 
     CmdPacket.Payload.EntryID = 1;
@@ -499,11 +527,13 @@ void CS_RecomputeBaselineEepromCmd_Test_OneShot(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -540,11 +570,12 @@ void CS_EnableEntryIDEepromCmd_Test_Nominal(void)
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
     CS_Test_Check_SetDefEntryState(&DefEepromTblPtr[CmdPacket.Payload.EntryID], CS_ChecksumState_ENABLED);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -557,10 +588,12 @@ void CS_EnableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty(void)
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString[0],
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Checksumming of EEPROM Entry ID %%d is Enabled");
 
-    snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString[1],
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS unable to update EEPROM definition table for entry %%d, State: %%d");
 
     CmdPacket.Payload.EntryID = 1;
@@ -595,11 +628,12 @@ void CS_EnableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -610,7 +644,8 @@ void CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
     char                        ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Enable EEPROM entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.Payload.EntryID = CS_MAX_NUM_EEPROM_TABLE_ENTRIES;
@@ -627,11 +662,13 @@ void CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -643,7 +680,8 @@ void CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Enable EEPROM entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.Payload.EntryID = 1;
@@ -661,11 +699,13 @@ void CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -680,11 +720,12 @@ void CS_EnableEntryIDEepromCmd_Test_OneShot(void)
     CS_EnableEntryIDEepromCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 0, "CS_AppData.HkPacket.Payload.CommandCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -697,7 +738,8 @@ void CS_DisableEntryIDEepromCmd_Test_Nominal(void)
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Checksumming of EEPROM Entry ID %%d is Disabled");
 
     CmdPacket.Payload.EntryID = 1;
@@ -728,11 +770,12 @@ void CS_DisableEntryIDEepromCmd_Test_Nominal(void)
 
     CS_Test_Check_SetDefEntryState(&DefEepromTblPtr[CmdPacket.Payload.EntryID], CS_ChecksumState_DISABLED);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -745,10 +788,12 @@ void CS_DisableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty(void)
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString[0], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString[0],
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Checksumming of EEPROM Entry ID %%d is Disabled");
 
-    snprintf(ExpectedEventString[1], CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString[1],
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "CS unable to update EEPROM definition table for entry %%d, State: %%d");
 
     CmdPacket.Payload.EntryID = 1;
@@ -787,11 +832,12 @@ void CS_DisableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[1].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 2, "CFE_EVS_SendEvent was called %u time(s), expected 2",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 2,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 2",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -802,7 +848,8 @@ void CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
     char                         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Disable EEPROM entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.Payload.EntryID = CS_MAX_NUM_EEPROM_TABLE_ENTRIES;
@@ -818,11 +865,13 @@ void CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -834,7 +883,8 @@ void CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
     CS_Res_EepromMemory_Table_Entry_t *ResEepromTblPtr = CS_AppData.Tbl[CS_ChecksumType_EEPROM_TABLE].ResAddr;
 
     memset(&CmdPacket, 0, sizeof(CmdPacket));
-    snprintf(ExpectedEventString, CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
+    snprintf(ExpectedEventString,
+             CFE_MISSION_EVS_MAX_MESSAGE_LENGTH,
              "Disable EEPROM entry failed, invalid Entry ID:  %%d, State: %%d, Max ID: %%d");
 
     CmdPacket.Payload.EntryID = 1;
@@ -852,11 +902,13 @@ void CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdErrCounter == 1, "CS_AppData.HkPacket.Payload.CmdErrCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandErrorCounter == 1,
+                  "CS_AppData.HkPacket.Payload.CommandErrorCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -871,11 +923,12 @@ void CS_DisableEntryIDEepromCmd_Test_OneShot(void)
     CS_DisableEntryIDEepromCmd(&CmdPacket);
 
     /* Verify results */
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 0, "CS_AppData.HkPacket.Payload.CmdCounter == 0");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 0, "CS_AppData.HkPacket.Payload.CommandCounter == 0");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 0, "CFE_EVS_SendEvent was called %u time(s), expected 0",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -907,11 +960,12 @@ void CS_GetEntryIDEepromCmd_Test_Nominal(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -941,11 +995,12 @@ void CS_GetEntryIDEepromCmd_Test_AddressNotFound(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -977,11 +1032,12 @@ void CS_GetEntryIDEepromCmd_Test_AddressPtr(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1013,11 +1069,12 @@ void CS_GetEntryIDEepromCmd_Test_State(void)
 
     UtAssert_True(strCmpResult == 0, "Event string matched expected result, '%s'", context_CFE_EVS_SendEvent[0].Spec);
 
-    UtAssert_True(CS_AppData.HkPacket.Payload.CmdCounter == 1, "CS_AppData.HkPacket.Payload.CmdCounter == 1");
+    UtAssert_True(CS_AppData.HkPacket.Payload.CommandCounter == 1, "CS_AppData.HkPacket.Payload.CommandCounter == 1");
 
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
-    UtAssert_True(call_count_CFE_EVS_SendEvent == 1, "CFE_EVS_SendEvent was called %u time(s), expected 1",
+    UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
+                  "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
 }
 
@@ -1029,55 +1086,101 @@ void UtTest_Setup(void)
     UtTest_Add(CS_EnableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableEepromCmd_Test");
     UtTest_Add(CS_EnableEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_EnableEepromCmd_Test_OneShot");
 
-    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_Computed, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_Computed,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ReportBaselineEntryIDEepromCmd_Test_Computed");
-    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_NotYetComputed, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_NotYetComputed,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ReportBaselineEntryIDEepromCmd_Test_NotYetComputed");
-    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh");
-    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ReportBaselineEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty");
 
-    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_Nominal,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_Nominal");
-    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_CreateChildTaskError, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_CreateChildTaskError,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_CreateChildTaskError");
-    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh");
-    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorStateEmpty,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_RecomputeInProgress");
-    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_RecomputeBaselineEepromCmd_Test_OneShot,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_RecomputeBaselineEepromCmd_Test_OneShot");
 
-    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_Nominal,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_EnableEntryIDEepromCmd_Test_Nominal");
-    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_EnableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty");
-    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh");
-    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_EnableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_EnableEntryIDEepromCmd_Test_OneShot,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_EnableEntryIDEepromCmd_Test_OneShot");
 
-    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_Nominal,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_DisableEntryIDEepromCmd_Test_Nominal");
-    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_DisableEntryIDEepromCmd_Test_DefEepromTblPtrStateEmpty");
-    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorEntryIDTooHigh");
-    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_DisableEntryIDEepromCmd_Test_InvalidEntryErrorStateEmpty");
-    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_DisableEntryIDEepromCmd_Test_OneShot,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_DisableEntryIDEepromCmd_Test_OneShot");
 
-    UtTest_Add(CS_GetEntryIDEepromCmd_Test_Nominal, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_GetEntryIDEepromCmd_Test_Nominal,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_GetEntryIDEepromCmd_Test_Nominal");
-    UtTest_Add(CS_GetEntryIDEepromCmd_Test_AddressNotFound, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_GetEntryIDEepromCmd_Test_AddressNotFound,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_GetEntryIDEepromCmd_Test_AddressNotFound");
-    UtTest_Add(CS_GetEntryIDEepromCmd_Test_AddressPtr, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(CS_GetEntryIDEepromCmd_Test_AddressPtr,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_GetEntryIDEepromCmd_Test_AddressPtr");
     UtTest_Add(CS_GetEntryIDEepromCmd_Test_State, CS_Test_Setup, CS_Test_TearDown, "CS_GetEntryIDEepromCmd_Test_State");
 }

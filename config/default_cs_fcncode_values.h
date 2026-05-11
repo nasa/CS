@@ -29,7 +29,7 @@
 enum CS_FunctionCode
 {
     CS_FunctionCode_NOOP                            = 0,
-    CS_FunctionCode_RESET                           = 1,
+    CS_FunctionCode_RESET_COUNTERS                  = 1,
     CS_FunctionCode_ONE_SHOT                        = 2,
     CS_FunctionCode_CANCEL_ONE_SHOT                 = 3,
     CS_FunctionCode_ENABLE_ALL_CS                   = 4,

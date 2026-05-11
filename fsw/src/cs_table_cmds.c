@@ -54,9 +54,10 @@ CFE_Status_t CS_DisableTablesCmd(const CS_DisableTablesCmd_t *CmdPtr)
         CS_UpdateCDS();
 #endif
 
-        CFE_EVS_SendEvent(CS_DISABLE_TABLES_INF_EID, CFE_EVS_EventType_INFORMATION,
+        CFE_EVS_SendEvent(CS_DISABLE_TABLES_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
                           "Checksumming of Tables is Disabled");
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+        CS_AppData.HkPacket.Payload.CommandCounter++;
     }
 
     return CFE_SUCCESS;
@@ -78,7 +79,7 @@ CFE_Status_t CS_EnableTablesCmd(const CS_EnableTablesCmd_t *CmdPtr)
 #endif
 
         CFE_EVS_SendEvent(CS_ENABLE_TABLES_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of Tables is Enabled");
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+        CS_AppData.HkPacket.Payload.CommandCounter++;
     }
 
     return CFE_SUCCESS;
@@ -103,21 +104,28 @@ CFE_Status_t CS_ReportBaselineTableCmd(const CS_ReportBaselineTableCmd_t *CmdPtr
         if (ResultsEntry->ComputedYet == true)
         {
             Baseline = ResultsEntry->ComparisonValue;
-            CFE_EVS_SendEvent(CS_BASELINE_TABLE_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Report baseline of table %s is 0x%08X", Name, (unsigned int)Baseline);
+            CFE_EVS_SendEvent(CS_BASELINE_TABLE_INF_EID,
+                              CFE_EVS_EventType_INFORMATION,
+                              "Report baseline of table %s is 0x%08X",
+                              Name,
+                              (unsigned int)Baseline);
         }
         else
         {
-            CFE_EVS_SendEvent(CS_NO_BASELINE_TABLE_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Report baseline of table %s has not been computed yet", Name);
+            CFE_EVS_SendEvent(CS_NO_BASELINE_TABLE_INF_EID,
+                              CFE_EVS_EventType_INFORMATION,
+                              "Report baseline of table %s has not been computed yet",
+                              Name);
         }
-        CS_AppData.HkPacket.Payload.CmdCounter++;
+        CS_AppData.HkPacket.Payload.CommandCounter++;
     }
     else
     {
-        CFE_EVS_SendEvent(CS_BASELINE_INVALID_NAME_TABLES_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Tables report baseline failed, table %s not found", Name);
-        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        CFE_EVS_SendEvent(CS_BASELINE_INVALID_NAME_TABLES_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Tables report baseline failed, table %s not found",
+                          Name);
+        CS_AppData.HkPacket.Payload.CommandErrorCounter++;
     }
 
     return CFE_SUCCESS;
@@ -135,8 +143,8 @@ CFE_Status_t CS_RecomputeBaselineTableCmd(const CS_RecomputeBaselineTableCmd_t *
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 
-    if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false &&
-        CS_AppData.HkPacket.Payload.OneShotInProgress == false)
+    if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false
+        && CS_AppData.HkPacket.Payload.OneShotInProgress == false)
     {
         strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
         Name[sizeof(Name) - 1] = '\0';
@@ -152,36 +160,49 @@ CFE_Status_t CS_RecomputeBaselineTableCmd(const CS_RecomputeBaselineTableCmd_t *
 
             CS_AppData.RecomputeTablesEntryPtr = ResultsEntry;
 
-            Status = CFE_ES_CreateChildTask(&ChildTaskID, CS_RECOMP_TABLES_TASK_NAME, CS_RecomputeTablesChildTask, NULL,
-                                            CFE_PLATFORM_ES_DEFAULT_STACK_SIZE, CS_CHILD_TASK_PRIORITY, 0);
+            Status = CFE_ES_CreateChildTask(&ChildTaskID,
+                                            CS_RECOMP_TABLES_TASK_NAME,
+                                            CS_RecomputeTablesChildTask,
+                                            NULL,
+                                            CFE_PLATFORM_ES_DEFAULT_STACK_SIZE,
+                                            CS_CHILD_TASK_PRIORITY,
+                                            0);
             if (Status == CFE_SUCCESS)
             {
-                CFE_EVS_SendEvent(CS_RECOMPUTE_TABLES_STARTED_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                  "Recompute baseline of table %s started", Name);
-                CS_AppData.HkPacket.Payload.CmdCounter++;
+                CFE_EVS_SendEvent(CS_RECOMPUTE_TABLES_STARTED_DBG_EID,
+                                  CFE_EVS_EventType_DEBUG,
+                                  "Recompute baseline of table %s started",
+                                  Name);
+                CS_AppData.HkPacket.Payload.CommandCounter++;
             }
             else /* child task creation failed */
             {
-                CFE_EVS_SendEvent(CS_RECOMPUTE_TABLES_CREATE_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
+                CFE_EVS_SendEvent(CS_RECOMPUTE_TABLES_CREATE_CHDTASK_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
                                   "Recompute baseline of table %s failed, CFE_ES_CreateChildTask returned: 0x%08X",
-                                  Name, (unsigned int)Status);
-                CS_AppData.HkPacket.Payload.CmdErrCounter++;
+                                  Name,
+                                  (unsigned int)Status);
+                CS_AppData.HkPacket.Payload.CommandErrorCounter++;
                 CS_AppData.HkPacket.Payload.RecomputeInProgress = false;
             }
         }
         else
         {
-            CFE_EVS_SendEvent(CS_RECOMPUTE_UNKNOWN_NAME_TABLES_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Tables recompute baseline failed, table %s not found", Name);
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CFE_EVS_SendEvent(CS_RECOMPUTE_UNKNOWN_NAME_TABLES_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Tables recompute baseline failed, table %s not found",
+                              Name);
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
         }
     }
     else
     {
         /*send event that we can't start another task right now */
-        CFE_EVS_SendEvent(CS_RECOMPUTE_TABLES_CHDTASK_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Tables recompute baseline for table %s failed: child task in use", Name);
-        CS_AppData.HkPacket.Payload.CmdErrCounter++;
+        CFE_EVS_SendEvent(CS_RECOMPUTE_TABLES_CHDTASK_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Tables recompute baseline for table %s failed: child task in use",
+                          Name);
+        CS_AppData.HkPacket.Payload.CommandErrorCounter++;
     }
 
     return CFE_SUCCESS;
@@ -196,7 +217,7 @@ CFE_Status_t CS_DisableNameTableCmd(const CS_DisableNameTableCmd_t *CmdPtr)
 {
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     CS_Def_Tables_Table_Entry_t *DefinitionEntry;
-    CS_TableWrapper_t *          tw = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
+    CS_TableWrapper_t           *tw = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 
     if (CS_CheckRecomputeOneshot() == false)
@@ -210,8 +231,10 @@ CFE_Status_t CS_DisableNameTableCmd(const CS_DisableNameTableCmd_t *CmdPtr)
             ResultsEntry->TempChecksumValue = 0;
             ResultsEntry->ByteOffset        = 0;
 
-            CFE_EVS_SendEvent(CS_DISABLE_TABLES_NAME_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Checksumming of table %s is Disabled", Name);
+            CFE_EVS_SendEvent(CS_DISABLE_TABLES_NAME_INF_EID,
+                              CFE_EVS_EventType_INFORMATION,
+                              "Checksumming of table %s is Disabled",
+                              Name);
 
             if (CS_GetTableDefTblEntryByName(&DefinitionEntry, Name))
             {
@@ -219,17 +242,21 @@ CFE_Status_t CS_DisableNameTableCmd(const CS_DisableNameTableCmd_t *CmdPtr)
             }
             else
             {
-                CFE_EVS_SendEvent(CS_DISABLE_TABLE_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                  "CS unable to update tables definition table for entry %s", Name);
+                CFE_EVS_SendEvent(CS_DISABLE_TABLE_DEF_NOT_FOUND_DBG_EID,
+                                  CFE_EVS_EventType_DEBUG,
+                                  "CS unable to update tables definition table for entry %s",
+                                  Name);
             }
 
-            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CommandCounter++;
         }
         else
         {
-            CFE_EVS_SendEvent(CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Tables disable table command failed, table %s not found", Name);
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CFE_EVS_SendEvent(CS_DISABLE_TABLES_UNKNOWN_NAME_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Tables disable table command failed, table %s not found",
+                              Name);
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
         }
     } /* end InProgress if */
 
@@ -245,7 +272,7 @@ CFE_Status_t CS_EnableNameTableCmd(const CS_EnableNameTableCmd_t *CmdPtr)
 {
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
     CS_Def_Tables_Table_Entry_t *DefinitionEntry;
-    CS_TableWrapper_t *          tw = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
+    CS_TableWrapper_t           *tw = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
     char                         Name[CFE_TBL_MAX_FULL_NAME_LEN];
 
     if (CS_CheckRecomputeOneshot() == false)
@@ -257,8 +284,10 @@ CFE_Status_t CS_EnableNameTableCmd(const CS_EnableNameTableCmd_t *CmdPtr)
         {
             ResultsEntry->State = CS_ChecksumState_ENABLED;
 
-            CFE_EVS_SendEvent(CS_ENABLE_TABLES_NAME_INF_EID, CFE_EVS_EventType_INFORMATION,
-                              "Checksumming of table %s is Enabled", Name);
+            CFE_EVS_SendEvent(CS_ENABLE_TABLES_NAME_INF_EID,
+                              CFE_EVS_EventType_INFORMATION,
+                              "Checksumming of table %s is Enabled",
+                              Name);
 
             if (CS_GetTableDefTblEntryByName(&DefinitionEntry, Name))
             {
@@ -266,17 +295,21 @@ CFE_Status_t CS_EnableNameTableCmd(const CS_EnableNameTableCmd_t *CmdPtr)
             }
             else
             {
-                CFE_EVS_SendEvent(CS_ENABLE_TABLE_DEF_NOT_FOUND_DBG_EID, CFE_EVS_EventType_DEBUG,
-                                  "CS unable to update tables definition table for entry %s", Name);
+                CFE_EVS_SendEvent(CS_ENABLE_TABLE_DEF_NOT_FOUND_DBG_EID,
+                                  CFE_EVS_EventType_DEBUG,
+                                  "CS unable to update tables definition table for entry %s",
+                                  Name);
             }
 
-            CS_AppData.HkPacket.Payload.CmdCounter++;
+            CS_AppData.HkPacket.Payload.CommandCounter++;
         }
         else
         {
-            CFE_EVS_SendEvent(CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Tables enable table command failed, table %s not found", Name);
-            CS_AppData.HkPacket.Payload.CmdErrCounter++;
+            CFE_EVS_SendEvent(CS_ENABLE_TABLES_UNKNOWN_NAME_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Tables enable table command failed, table %s not found",
+                              Name);
+            CS_AppData.HkPacket.Payload.CommandErrorCounter++;
         }
     } /* end InProgress if */
 

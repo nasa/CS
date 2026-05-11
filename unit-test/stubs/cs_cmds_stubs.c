@@ -251,18 +251,18 @@ CFE_Status_t CS_ReportBaselineOSCmd(const CS_ReportBaselineOSCmd_t *CmdPtr)
 
 /*
  * ----------------------------------------------------
- * Generated stub function for CS_ResetCmd()
+ * Generated stub function for CS_ResetCountersCmd()
  * ----------------------------------------------------
  */
-CFE_Status_t CS_ResetCmd(const CS_ResetCmd_t *CmdPtr)
+CFE_Status_t CS_ResetCountersCmd(const CS_ResetCountersCmd_t *CmdPtr)
 {
-    UT_GenStub_SetupReturnBuffer(CS_ResetCmd, CFE_Status_t);
+    UT_GenStub_SetupReturnBuffer(CS_ResetCountersCmd, CFE_Status_t);
 
-    UT_GenStub_AddParam(CS_ResetCmd, const CS_ResetCmd_t *, CmdPtr);
+    UT_GenStub_AddParam(CS_ResetCountersCmd, const CS_ResetCountersCmd_t *, CmdPtr);
 
-    UT_GenStub_Execute(CS_ResetCmd, Basic, NULL);
+    UT_GenStub_Execute(CS_ResetCountersCmd, Basic, NULL);
 
-    return UT_GenStub_GetReturnValue(CS_ResetCmd, CFE_Status_t);
+    return UT_GenStub_GetReturnValue(CS_ResetCountersCmd, CFE_Status_t);
 }
 
 /*

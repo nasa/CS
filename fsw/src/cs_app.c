@@ -119,18 +119,24 @@ void CS_AppMain(void)
     if (CS_AppData.RunStatus == CFE_ES_RunStatus_APP_ERROR || CS_AppData.RunStatus == CFE_ES_RunStatus_SYS_EXCEPTION)
     {
         /* Send an error event with run status and result */
-        CFE_EVS_SendEvent(CS_EXIT_ERR_EID, CFE_EVS_EventType_ERROR, "App terminating, RunStatus:0x%08X, RC:0x%08X",
-                          (unsigned int)CS_AppData.RunStatus, (unsigned int)Result);
+        CFE_EVS_SendEvent(CS_EXIT_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "App terminating, RunStatus:0x%08X, RC:0x%08X",
+                          (unsigned int)CS_AppData.RunStatus,
+                          (unsigned int)Result);
     }
     else
     {
         /* Send an informational event describing the reason for the termination */
-        CFE_EVS_SendEvent(CS_EXIT_INF_EID, CFE_EVS_EventType_INFORMATION, "App terminating, RunStatus:0x%08X",
+        CFE_EVS_SendEvent(CS_EXIT_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
+                          "App terminating, RunStatus:0x%08X",
                           (unsigned int)CS_AppData.RunStatus);
     }
 
     /* In case cFE Event Services is not working */
-    CFE_ES_WriteToSysLog("CS App terminating, RunStatus:0x%08X, RC:0x%08X\n", (unsigned int)CS_AppData.RunStatus,
+    CFE_ES_WriteToSysLog("CS App terminating, RunStatus:0x%08X, RC:0x%08X\n",
+                         (unsigned int)CS_AppData.RunStatus,
                          (unsigned int)Result);
 
     /* Performance Log (stop time counter) */
@@ -207,9 +213,13 @@ CFE_Status_t CS_AppInit(void)
         CS_AppData.MaxBytesPerCycle = CS_DEFAULT_BYTES_PER_CYCLE;
 
         /* Application startup event message */
-        Result =
-            CFE_EVS_SendEvent(CS_INIT_INF_EID, CFE_EVS_EventType_INFORMATION, "CS Initialized. Version %d.%d.%d.%d",
-                              CS_MAJOR_VERSION, CS_MINOR_VERSION, CS_REVISION, CS_MISSION_REV);
+        Result = CFE_EVS_SendEvent(CS_INIT_INF_EID,
+                                   CFE_EVS_EventType_INFORMATION,
+                                   "CS Initialized. Version %d.%d.%d.%d",
+                                   CS_MAJOR_VERSION,
+                                   CS_MINOR_VERSION,
+                                   CS_REVISION,
+                                   CS_MISSION_REV);
     }
     return Result;
 }
@@ -299,7 +309,9 @@ CFE_Status_t CS_CreateRestoreStatesFromCDS(void)
         CS_AppData.HkPacket.Payload.OSCSState      = CS_OSCS_CHECKSUM_STATE;
         CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_CFECORE_CHECKSUM_STATE;
 
-        CFE_EVS_SendEvent(EventId, CFE_EVS_EventType_ERROR, "Critical Data Store access error = 0x%08X",
+        CFE_EVS_SendEvent(EventId,
+                          CFE_EVS_EventType_ERROR,
+                          "Critical Data Store access error = 0x%08X",
                           (unsigned int)Result);
         /*
         ** CDS errors are not fatal - CS can still run...
@@ -345,8 +357,10 @@ void CS_UpdateCDS(void)
 
         if (Result != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(CS_UPDATE_CDS_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Critical Data Store access error = 0x%08X", (unsigned int)Result);
+            CFE_EVS_SendEvent(CS_UPDATE_CDS_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Critical Data Store access error = 0x%08X",
+                              (unsigned int)Result);
             /*
             ** CDS is broken - prevent further errors...
             */

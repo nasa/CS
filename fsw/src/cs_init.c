@@ -42,15 +42,18 @@ CFE_Status_t CS_SbInit(void)
     CFE_Status_t Result = CFE_SUCCESS;
 
     /* Initialize housekeeping packet */
-    CFE_MSG_Init(CFE_MSG_PTR(CS_AppData.HkPacket.TelemetryHeader), CFE_SB_ValueToMsgId(CS_HK_TLM_MID),
+    CFE_MSG_Init(CFE_MSG_PTR(CS_AppData.HkPacket.TelemetryHeader),
+                 CFE_SB_ValueToMsgId(CS_HK_TLM_MID),
                  sizeof(CS_HkPacket_t));
 
     /* Create Software Bus message pipe */
     Result = CFE_SB_CreatePipe(&CS_AppData.CmdPipe, CS_PIPE_DEPTH, CS_CMD_PIPE_NAME);
     if (Result != CFE_SUCCESS)
     {
-        CFE_EVS_SendEvent(CS_CR_PIPE_ERR_EID, CFE_EVS_EventType_ERROR,
-                          "Software Bus Create Pipe for command returned: 0x%08X", (unsigned int)Result);
+        CFE_EVS_SendEvent(CS_CR_PIPE_ERR_EID,
+                          CFE_EVS_EventType_ERROR,
+                          "Software Bus Create Pipe for command returned: 0x%08X",
+                          (unsigned int)Result);
     }
     else
     {
@@ -59,8 +62,10 @@ CFE_Status_t CS_SbInit(void)
 
         if (Result != CFE_SUCCESS)
         {
-            CFE_EVS_SendEvent(CS_INIT_SB_SUBSCRIBE_HK_ERR_EID, CFE_EVS_EventType_ERROR,
-                              "Software Bus subscribe to housekeeping returned: 0x%08X", (unsigned int)Result);
+            CFE_EVS_SendEvent(CS_INIT_SB_SUBSCRIBE_HK_ERR_EID,
+                              CFE_EVS_EventType_ERROR,
+                              "Software Bus subscribe to housekeeping returned: 0x%08X",
+                              (unsigned int)Result);
         }
         else
         {
@@ -69,8 +74,10 @@ CFE_Status_t CS_SbInit(void)
 
             if (Result != CFE_SUCCESS)
             {
-                CFE_EVS_SendEvent(CS_INIT_SB_SUBSCRIBE_BACK_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Software Bus subscribe to background cycle returned: 0x%08X", (unsigned int)Result);
+                CFE_EVS_SendEvent(CS_INIT_SB_SUBSCRIBE_BACK_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Software Bus subscribe to background cycle returned: 0x%08X",
+                                  (unsigned int)Result);
             }
         }
 
@@ -80,8 +87,10 @@ CFE_Status_t CS_SbInit(void)
             Result = CFE_SB_Subscribe(CFE_SB_ValueToMsgId(CS_CMD_MID), CS_AppData.CmdPipe);
             if (Result != CFE_SUCCESS)
             {
-                CFE_EVS_SendEvent(CS_INIT_SB_SUBSCRIBE_CMD_ERR_EID, CFE_EVS_EventType_ERROR,
-                                  "Software Bus subscribe to command returned: 0x%08X", (unsigned int)Result);
+                CFE_EVS_SendEvent(CS_INIT_SB_SUBSCRIBE_CMD_ERR_EID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Software Bus subscribe to command returned: 0x%08X",
+                                  (unsigned int)Result);
             }
         }
     }
@@ -162,24 +171,26 @@ CFE_Status_t CS_InitAllTables(void)
         [CS_ChecksumType_EEPROM_TABLE] = CS_DEF_EEPROM_TABLE_FILENAME,
         [CS_ChecksumType_MEMORY_TABLE] = CS_DEF_MEMORY_TABLE_FILENAME,
         [CS_ChecksumType_TABLES_TABLE] = CS_DEF_TABLES_TABLE_FILENAME,
-        [CS_ChecksumType_APP_TABLE]    = CS_DEF_APP_TABLE_FILENAME};
+        [CS_ChecksumType_APP_TABLE]    = CS_DEF_APP_TABLE_FILENAME
+    };
 
     static const CFE_TBL_CallbackFuncPtr_t TABLE_CALLBACK_MAP[CS_NUM_TABLES] = {
         [CS_ChecksumType_EEPROM_TABLE] = CS_ValidateEepromChecksumDefinitionTable,
         [CS_ChecksumType_MEMORY_TABLE] = CS_ValidateMemoryChecksumDefinitionTable,
         [CS_ChecksumType_TABLES_TABLE] = CS_ValidateTablesChecksumDefinitionTable,
-        [CS_ChecksumType_APP_TABLE]    = CS_ValidateAppChecksumDefinitionTable};
+        [CS_ChecksumType_APP_TABLE]    = CS_ValidateAppChecksumDefinitionTable
+    };
 
-    static const uint16 TABLE_EVENTID_MAP[CS_NUM_TABLES] = {[CS_ChecksumType_EEPROM_TABLE] = CS_INIT_EEPROM_ERR_EID,
-                                                            [CS_ChecksumType_MEMORY_TABLE] = CS_INIT_MEMORY_ERR_EID,
-                                                            [CS_ChecksumType_TABLES_TABLE] = CS_INIT_TABLES_ERR_EID,
-                                                            [CS_ChecksumType_APP_TABLE]    = CS_INIT_APP_ERR_EID};
+    static const uint16 TABLE_EVENTID_MAP[CS_NUM_TABLES] = { [CS_ChecksumType_EEPROM_TABLE] = CS_INIT_EEPROM_ERR_EID,
+                                                             [CS_ChecksumType_MEMORY_TABLE] = CS_INIT_MEMORY_ERR_EID,
+                                                             [CS_ChecksumType_TABLES_TABLE] = CS_INIT_TABLES_ERR_EID,
+                                                             [CS_ChecksumType_APP_TABLE]    = CS_INIT_APP_ERR_EID };
 
     CFE_Status_t              ResultAll;
     CFE_Status_t              Result;
-    const char *              LoadFilename;
+    const char               *LoadFilename;
     CFE_TBL_CallbackFuncPtr_t ValidationFunc;
-    CS_TableWrapper_t *       tw;
+    CS_TableWrapper_t        *tw;
     CS_ChecksumType_Enum_t    TableId;
     uint16                    ErrorEventID;
 
@@ -205,8 +216,11 @@ CFE_Status_t CS_InitAllTables(void)
 
             if (ErrorEventID != 0)
             {
-                CFE_EVS_SendEvent(ErrorEventID, CFE_EVS_EventType_ERROR, "Table initialization failed for %s: 0x%08X",
-                                  CS_GetTableTypeAsString(tw), (unsigned int)Result);
+                CFE_EVS_SendEvent(ErrorEventID,
+                                  CFE_EVS_EventType_ERROR,
+                                  "Table initialization failed for %s: 0x%08X",
+                                  CS_GetTableTypeAsString(tw),
+                                  (unsigned int)Result);
             }
 
             ResultAll = Result;
@@ -275,7 +289,8 @@ void CS_InitSegments(void)
         CodeSeg->TempChecksumValue  = 0;
         CodeSeg->State              = CS_ChecksumState_DISABLED;
 
-        CFE_EVS_SendEvent(CS_OS_TEXT_SEG_INF_EID, CFE_EVS_EventType_INFORMATION,
+        CFE_EVS_SendEvent(CS_OS_TEXT_SEG_INF_EID,
+                          CFE_EVS_EventType_INFORMATION,
                           "OS Text Segment disabled due to platform");
     }
     else

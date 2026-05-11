@@ -43,7 +43,8 @@ uint8 call_count_CFE_EVS_SendEvent;
  * Function Definitions
  */
 
-void CS_TABLE_PROCESSING_TEST_CFE_ES_GetAppNameHandler1(void *UserObj, UT_EntryKey_t FuncKey,
+void CS_TABLE_PROCESSING_TEST_CFE_ES_GetAppNameHandler1(void                   *UserObj,
+                                                        UT_EntryKey_t           FuncKey,
                                                         const UT_StubContext_t *Context)
 {
     char *AppName = (char *)UT_Hook_GetArgValueByName(Context, "AppName", char *);
@@ -51,13 +52,17 @@ void CS_TABLE_PROCESSING_TEST_CFE_ES_GetAppNameHandler1(void *UserObj, UT_EntryK
     strncpy((char *)AppName, "CS", 3);
 }
 
-CFE_Status_t CS_TABLE_PROCESSING_TEST_CFE_TBL_GetAddressHook(void *UserObj, int32 StubRetcode, uint32 CallCount,
+CFE_Status_t CS_TABLE_PROCESSING_TEST_CFE_TBL_GetAddressHook(void                   *UserObj,
+                                                             int32                   StubRetcode,
+                                                             uint32                  CallCount,
                                                              const UT_StubContext_t *Context)
 {
     return CFE_SUCCESS;
 }
 
-CFE_Status_t CS_TABLE_PROCESSING_TEST_CFE_TBL_LoadHook(void *UserObj, int32 StubRetcode, uint32 CallCount,
+CFE_Status_t CS_TABLE_PROCESSING_TEST_CFE_TBL_LoadHook(void                   *UserObj,
+                                                       int32                   StubRetcode,
+                                                       uint32                  CallCount,
                                                        const UT_StubContext_t *Context)
 {
     return CFE_SUCCESS;
@@ -309,7 +314,7 @@ void Test_CS_ProcessNewTablesDefinitionTable(void)
      * void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw);
      */
 
-    CS_TableWrapper_t *          tw;
+    CS_TableWrapper_t           *tw;
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
 
     /* path where all entries are empty */
@@ -555,7 +560,7 @@ void Test_CS_HandleTableUpdate(void)
      * CFE_Status_t CS_HandleTableUpdate(CS_TableWrapper_t *tw);
      */
     CS_Res_Tables_Table_Entry_t *ResultsEntry;
-    CS_TableWrapper_t *          tw;
+    CS_TableWrapper_t           *tw;
 
     tw = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
 
@@ -645,19 +650,33 @@ void Test_CS_CallTableUpdateHandler(void)
 
 void UtTest_Setup(void)
 {
-    UtTest_Add(Test_CS_ValidateEepromChecksumDefinitionTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(Test_CS_ValidateEepromChecksumDefinitionTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ValidateEepromChecksumDefinitionTable");
-    UtTest_Add(Test_CS_ValidateMemoryChecksumDefinitionTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(Test_CS_ValidateMemoryChecksumDefinitionTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ValidateMemoryChecksumDefinitionTable");
-    UtTest_Add(Test_CS_ValidateTablesChecksumDefinitionTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(Test_CS_ValidateTablesChecksumDefinitionTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ValidateTablesChecksumDefinitionTable");
-    UtTest_Add(Test_CS_ValidateAppChecksumDefinitionTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(Test_CS_ValidateAppChecksumDefinitionTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ValidateAppChecksumDefinitionTable");
-    UtTest_Add(Test_CS_ProcessNewEepromMemoryDefinitionTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(Test_CS_ProcessNewEepromMemoryDefinitionTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessNewEepromMemoryDefinitionTable");
-    UtTest_Add(Test_CS_ProcessNewTablesDefinitionTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(Test_CS_ProcessNewTablesDefinitionTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessNewTablesDefinitionTable");
-    UtTest_Add(Test_CS_ProcessNewAppDefinitionTable, CS_Test_Setup, CS_Test_TearDown,
+    UtTest_Add(Test_CS_ProcessNewAppDefinitionTable,
+               CS_Test_Setup,
+               CS_Test_TearDown,
                "CS_ProcessNewAppDefinitionTable");
     UtTest_Add(Test_CS_TableInit, CS_Test_Setup, CS_Test_TearDown, "CS_TableInit");
     UtTest_Add(Test_CS_HandleTableUpdate, CS_Test_Setup, CS_Test_TearDown, "CS_HandleTableUpdate");

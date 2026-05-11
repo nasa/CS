@@ -53,11 +53,11 @@ typedef struct CS_TableWrapper
 
     size_t NumEntries; /**< \brief Number of entries in table (applies to both def and res) */
 
-    void * DefAddr;        /**< \brief Pointer to definition table */
+    void  *DefAddr;        /**< \brief Pointer to definition table */
     size_t DefEntrySize;   /**< \brief Size of each entry in definition table */
     size_t DefStateOffset; /**< \brief Offset of "State" member within definition entry */
 
-    void * ResAddr;      /**< \brief Pointer to results table */
+    void  *ResAddr;      /**< \brief Pointer to results table */
     size_t ResEntrySize; /**< \brief Size of each entry in result table */
 
     const void *DefaultDefinitionPtr; /**< Pointer to default definition, if applicable */
@@ -65,7 +65,7 @@ typedef struct CS_TableWrapper
     void (*UpdateHandler)(struct CS_TableWrapper *); /**< Function to handle table updates */
 
     uint32 *BaselineValue; /**< \brief pointer to HK TLM entry containing baseline value */
-    uint8 * GlobalState;   /**< \brief pointer to HK TLM entry containing global enable/disable */
+    uint8  *GlobalState;   /**< \brief pointer to HK TLM entry containing global enable/disable */
 
     CS_Res_Tables_Table_Entry_t *ResTblPtr; /**< \brief CS results entry for this table */
 
@@ -226,8 +226,8 @@ void CS_ProcessNewAppDefinitionTable(CS_TableWrapper_t *tw);
  * \return Execution status, see \ref CFEReturnCodes
  * \retval #CFE_SUCCESS \copybrief CFE_SUCCESS
  */
-CFE_Status_t CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFileName,
-                          CFE_TBL_CallbackFuncPtr_t CallBackFunction);
+CFE_Status_t
+CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFileName, CFE_TBL_CallbackFuncPtr_t CallBackFunction);
 
 /**
  * \brief Handles table updates for all CS tables
