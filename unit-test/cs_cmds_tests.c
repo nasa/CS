@@ -42,19 +42,6 @@ uint8 call_count_CFE_EVS_SendEvent;
  * Function Definitions
  */
 
-CFE_Status_t CS_CMDS_TEST_CFE_ES_CreateChildTaskHook(uint32                       *TaskIdPtr,
-                                                     const char                   *TaskName,
-                                                     CFE_ES_ChildTaskMainFuncPtr_t FunctionPtr,
-                                                     uint32                       *StackPtr,
-                                                     uint32                        StackSize,
-                                                     uint32                        Priority,
-                                                     uint32                        Flags)
-{
-    *TaskIdPtr = 5;
-
-    return CFE_SUCCESS;
-}
-
 void CS_SendHkCmd_Test_Nominal(void)
 {
     CS_SendHkCmd_t    CmdPacket;
