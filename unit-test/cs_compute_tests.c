@@ -52,18 +52,6 @@ CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetAddressHook(void                   *User
     return CFE_TBL_ERR_UNREGISTERED;
 }
 
-CFE_Status_t CS_COMPUTE_TEST_CFE_TBL_GetInfoHook1(void                   *UserObj,
-                                                  int32                   StubRetcode,
-                                                  uint32                  CallCount,
-                                                  const UT_StubContext_t *Context)
-{
-    CFE_TBL_Info_t *TblInfoPtr = (CFE_TBL_Info_t *)Context->ArgPtr[0];
-
-    TblInfoPtr->Size = 5;
-
-    return CFE_TBL_INFO_UPDATED;
-}
-
 void CS_COMPUTE_TEST_CFE_TBL_ShareHandler(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     CFE_TBL_Handle_t *TblHandlePtr =
