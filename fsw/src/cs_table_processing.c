@@ -929,7 +929,7 @@ CFE_Status_t CS_HandleTableUpdate(CS_TableWrapper_t *tw)
         Result     = GetResult2;
     }
 
-    if ((Result == CFE_TBL_INFO_UPDATED))
+    if (Result == CFE_TBL_INFO_UPDATED)
     {
         if (CS_CheckTableId(tw, CS_ChecksumType_TABLES_TABLE))
         {
