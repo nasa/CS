@@ -1,241 +1,405 @@
-Summary,Requirement ID,Description,Requirement Rationale
-CS1000,CS1000,"Upon receipt of a No-Op command, CS shall increment the CS Valid Command Counter and generate an event message.",Debug command to verify application is alive.
-CS1001,CS1001,"Upon receipt of a Reset command, CS shall reset the following housekeeping variables to a value of zero:
-a)       Valid Ground Command Counter
-b)       Ground Command Rejected Counter
-c)       Non-volatile CRC Miscompare Counter
-d)       OS Code Segment CRC Miscompare Counter
-e)       cFE Code Segment CRC Miscompare Counter
-f)        Application CRC Miscompare Counter
-g)       Table CRC Miscompare Counter
-h)       User-defined Memory CRC Miscompare Counter
-i)         Checksum Pass Counter (number of passes through all of the checksum areas)",Important for testing and on-orbit flight operations in order to start with a “clean slate”.
-CS1002,CS1002,"For all CS commands, if the length contained in the message header is not equal to the expected length, CS shall reject the command and issue an event message.",Basic command verification in the event of SEU or memory corruption
-CS1003,CS1003,"If CS accepts any command as valid, CS shall execute the command, increment the CS Valid Command Counter and issue an event message ",Operators require feedback on command execution
-CS1004,CS1004,"If CS rejects any command, CS shall abort the command execution, increment the CS Command Rejected Counter and issue an error event message",Operators require feedback on command execution
-CS1005,CS1005,CS shall use the <MISSION_DEFINED> CRC algorithm to compute the CRCs for any segment,Want to provide the flexibility for a mission to define the CRC algorithm that is used.
-CS2001,CS2001,"The Checksum App shall calculate CRCs for each Table-Defined Non-volatile segment and compare them against the corresponding baseline Non-volatile segment CRCs if:
-a)       Checksumming (as a whole) is Enabled
-b)       Non-volatile segment checksumming is Enabled
-c)       Checksumming for the individual Non-volatile segment is Enabled",Need to verify Non-volatile memory. Note that each segment within a non-volatile region can have a different size since the segment is defined as an address and number of bytes
-CS2001.1,CS2001.1,"If the Non-volatile segment CRC is not equal to the corresponding baseline CRC, CS shall increment the Non-volatile CRC Miscompare Counter and send an event message","Since the location of files loaded to Nonvolatile is unknown apriori, there is no way to determine which Nonvolatile segment or segments will be affected"
-CS2001.2,CS2001.2,"If the table-defined segement is invalid, CS shall send an error event message",Operational notification of invalid segment processing
-CS2002,CS2002,"Upon receipt of a Enable Non-volatile Checksumming command, CS shall enable non-volatile checksumming",Enable checksumming of all of the nonvolatile memory segments defined in the table
-CS2003,CS2003,"Upon receipt of a Disable Non-volatile Checksumming command, CS shall disable non-volatile checksumming",Disable checksumming of all of the nonvolatile memory segments defined in the table
-CS2004,CS2004,"Upon receipt of a Enable Non-volatile Segment command, CS shall enable checksumming of the command-specified non-volatile segment",Enable checksumming of a particular segment
-CS2005,CS2005,"Upon receipt of a Disable Non-volatile Segment command, CS shall disable checksumming of the command-specified non-volatile segment",Disable checksumming of a particular segment
-CS2006,CS2006,"Upon receipt of a Recompute Non-volatile Checksum Segment command, CS shall:
-a) Recompute the baseline checksum for the command-specified non-volatile segment
-b) Set the Recompute In Progress Flag to TRUE",Would be used after non-volatile memory is updated in order to regenerate the baseline
-CS2006.1,CS2006.1,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Recompute is done in a background task so can only do one recompute at a time
-CS2006.2,CS2006.2,"Once the baseline CRC is computed, CS shall:
-a) Generate an informational event message containing the baseline CRC
-b) Set the Recompute In Progress Flag to FALSE",Operational notification of baseline CRC computation completion
-CS2007,CS2007,"Upon receipt of a Report Non-volatile Checksum Segment command, CS shall send an event message containing the baseline checksum for the command-specified non-volatile segment",Provides the ground with the baseline being used.
-CS2008,CS2008,"Upon receipt of a Get Non-volatile Checksum Segment command, CS shall send an event message containing the segment number for the command-specified non-volatile address",Provides the ground with ability to map the address to segment. Helpful since other commands use segment ID.
-CS2009,CS2009,"If a command-specified segment is invalid (for any of the non-volatile memory commands where segment is a command argument), CS shall reject the command and send an event message",Need to handle the case where an invalid segment is specified for any of the nonvolatile commands
-CS2010,CS2010,CS shall provide the ability to dump the baseline CRCs and status for the non-volatile memory segments via a dump-only table,Need the ability to get all of the non-volatile checksums. Easiest to use the cFE Table services dump-only table feature
-CS3000,CS3000,"Checksum shall calculate CRC for the OS code segment and compare them against the corresponding baseline OS code segment CRC if:
-a)       Checksumming (as a whole) is Enabled
-b)       OS segment checksumming is Enabled",Need to verify the OS code segment
-CS3000.1,CS3000.1,"If the OS code segment CRC is not equal to the baseline OS code segment CRC, CS shall increment the OS Code Segment CRC Miscompare Counter and send an event message",Operational notification of CRC mismatch.
-CS3002,CS3002,"Upon receipt of a Enable OS code segment command, CS shall enable checksumming of the OS Code segment",Enable checksumming of the OS code segment
-CS3003,CS3003,"Upon receipt of a Disable OS code segment command, CS shall Disable checksumming of the OS Code segment",Disable checksumming of the OS code segment
-CS3004,CS3004,"Upon receipt of a Recompute OS code segment CRC command, CS shall:
-a) Recompute the baseline CRC for the OS code segment
-b) Set the Recompute In Progress Flag to TRUE",May want to recompute OS code segment in the event of a modification to the  OS code segment
-CS3004.1,CS3004.1,"Once the baseline CRC is computed, CS shall:
-a) Generate an event message containing the baseline CRC
-b) Set the Recompute In Progress Flag to FALSE",Gives the ground indication not only that the CRC baseline was calculated but what the value is.
-CS3004.2,CS3004.2,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Recompute done in the background so can only do one at a time
-CS3005,CS3005,"Upon receipt of a Report OS code segment CRC command, CS shall send an event message containing the baseline OS code segment CRC.",Provides the ability to view the OS code segment baseline CRC
-CS3006,CS3006,"Checksum shall calculate CRC for the cFE code segment and compare them against the corresponding baseline cFE code segment CRC if:
-a)       Checksumming (as a whole) is Enabled
-b)       cFE segment checksumming is Enabled",Need to verify the cFE code segment
-CS3006.1,CS3006.1,"If the cFE code segment CRC is not equal to the baseline cFE code segment CRC, CS shall increment the cFE Code Segment CRC Miscompare Counter and send an event message",Operational notification of CRC mismatch
-CS3007,CS3007,"Upon receipt of a Enable cFE code segment command, CS shall enable checksumming of the cFE Code segment",Enable checksumming of the cFE code segment
-CS3008,CS3008,"Upon receipt of a Disable cFE code segment command, CS shall Disable checksumming of the cFE Code segment",Disable checksumming of the cFE code segment
-CS3009,CS3009,"Upon receipt of a Recompute cFE Code Segment CRC command, CS shall:
-a) Recompute the baseline CRC for the cFE Code Segment
-b) Set the Recompute In Progress Flag to TRUE",May want to recompute cFE code segment in the event of a modification to the cFE code segment
-CS3009.1,CS3009.1,"Once the baseline CRC is computed, CS shall:
-a) Generate an event message containing the baseline CRC
-b) Set the Recompute In Progress Flag to FALSE",Gives the ground indication not only that the CRC baseline was calculated but what the value is
-CS3009.2,CS3009.2,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Only able to process one recompute one at a time
-CS3010,CS3010,"Upon receipt of a Report cFE code segment CRC command, CS shall send an event message containing the baseline cFE code segment CRC.",Provides the ability to view the cFE code segment baseline CRC
-CS4000,CS4000,"Checksum shall calculate CRCs for each Table-Defined Application or Library's code segment and compare them against the corresponding Application's baseline code segment CRC if:
-a)       Checksumming (as a whole) is Enabled
-b)       App code segment checksumming is Enabled
-c)       Checksumming of the individual Application or Library Code Segment is Enabled",Need to verify each Application or Library’s code segment. Note that CS depends on ES to provide the information as to which applications are running
-CS4000.1,CS4000.1,"If the Application or Library's code segment CRC is not equal to the corresponding  Application or Library's baseline code segment CRC, CS shall increment the Application Code Segment CRC Miscompare Counter and send an event message.","In practice, when a new application or library is being loaded, checksumming of Application or Library code segments should be disabled prior to the load and then enabled after the load."
-CS4000.2,CS4000.2,"If the table-defined Application or Library code segment is invalid, CS shall send an event message and skip that Application or Library code segment.",This may be a result of an invalid Application or Library code segment table or a deleted application.
-CS4001,CS4001,"Upon receipt of a Enable Application checksumming command, CS shall enable checksumming of all Application and Library Code segments.",Enable checksumming of all of the Application and Library code segments defined in the table
-CS4002,CS4002,"Upon receipt of a Disable Application checksumming command, CS shall Disable checksumming of all Application and Library Code segments.",Disable checksumming of all of the Application and Library code segments defined in the table
-CS4003,CS4003,"Upon receipt of a Enable Application code segment command, CS shall enable checksumming of the command-specified Application or Library.",Enable checksumming of a particular Application or Library code segment
-CS4004,CS4004,"Upon receipt of a Disable Application code segment command, CS shall Disable checksumming of the command-specified Application or Library.",Disable checksumming of a particular Application or Library Code segment. This may be particularly useful when reloading an existing application.
-CS4005,CS4005,"Upon receipt of a Recompute Application Code Segment CRC command, CS shall:
-a) Recompute the baseline CRC for the Application or Library
-b) Set the Recompute In Progress Flag to TRUE",Would be used after an Application or Library code segment is updated in order to regenerate the baseline
-CS4005.1,CS4005.1,"Once the baseline CRC is computed, CS shall:
-a) Generate an event message containing the baseline CRC
-b) Set the Recompute In Progress Flag to FALSE",Gives the ground indication not only that the CRC baseline was calculated but what the value is.
-CS4005.2,CS4005.2,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Can only support one recompute CRC at a time
-CS4006,CS4006,"Upon receipt of a Report Application code segment CRC command, CS shall send an event message containing the baseline Application or Library code segment CRC",Provides the ground with the baseline being used.
-CS4007,CS4007,"If the command-specified Application or Library is invalid (for any Application Code Segment command where the Application/Library is a command argument, CS shall reject the command and send an event message",Need to handle the case where an invalid Application or Library is specified for any of the Application code segment commands
-CS4008,CS4008,CS shall provide the ability to dump the baseline CRCs and status for the Application or Library code segment memory segments via a dump-only table,Need the ability to get all of the application code segment checksums. Easiest to use the cFE Table services dump-only table feature
-CS5000,CS5000,"Checksum shall calculate CRCs for each Table-Defined Table and compare them against the corresponding Table's baseline CRC if:
-a)       Checksumming (as a whole) is Enabled
-b)       Table checksumming is Enabled
-c)       Checksumming of the Individual Table is Enabled",Need to verify each Table CRC . Note that CS depends on ES to provide the information as to which Tables to checksum
-CS5000.1,CS5000.1,"If the Table's  CRC is not equal to the corresponding Table's baseline CRC and the table has not been modified (thru a table load), CS shall increment the Table CRC Miscompare Counter and send an event message.","cFE Tables services provides an indication that a table was modified, a checksum miscompare when a table was not modified via a table load, then there was a checksum failure"
-CS5000.2,CS5000.2,"If the Table's CRC is not equal to the corresponding  Table's baseline CRC and the table has been modified (thru a table load), CS shall recompute the table baseline CRC.","If a table is changed via a table load, CS needs to recompute the baseline CRC"
-CS5000.3,CS5000.3,"If the table-defined Table  is invalid, CS shall send an event message and skip that Table.",This may be a result of an invalid Table table or a deleted table.
-CS5001,CS5001,"Upon receipt of a Enable Table Checksumming command, CS shall enable checksumming of all Tables.",Enable checksumming of all of the Tables defined in the table
-CS5002,CS5002,"Upon receipt of a Disable Table Checksumming command, CS shall Disable checksumming of all Tables.",Disable checksumming of all of the Tables defined in the table
-CS5003,CS5003,"Upon receipt of a Enable Table Name command, CS shall enable checksumming of the command-specified Table.",Provides control over enable/disable status of each table
-CS5004,CS5004,"Upon receipt of a Disable Table Name command, CS shall Disable checksumming of the command-specified Table.",Provides control over enable/disable status of each table
-CS5005,CS5005,"Upon receipt of a Recompute Table CRC Command, CS shall:
-a) Recompute the baseline CRC for the command-specified table
-b) Set the Recompute In Progress Flag to TRUE","If a table is modified, CS needs to recompute a baseline CRC"
-CS5005.1,CS5005.1,"Once the baseline CRC is computed, CS shall:
-a) Generate an event message containing the baseline CRC
-b) Set the Recompute In Progress Flag to FALSE",Gives the ground indication not only that the CRC baseline was calculated but what the value is.
-CS5005.2,CS5005.2,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Can only support one recompute at a time
-CS5006,CS5006,"Upon receipt of a Report Table CRC command, CS shall send an event message containing the baseline Table CRC for the command-specified table.",Provides the ground with the baseline being used.
-CS5007,CS5007,"If the command-specified Table in invalid (for any CS Table command where a table name is a command argument ), CS shall reject the command and send an event message",Need to handle the case where an invalid Table is specified
-CS5008,CS5008,CS shall provide the ability to dump the baseline CRCs and status for the tables via a dump-only table.,Need the ability to get all of the table checksums. Easiest to use the cFE Table services dump-only table feature
-CS6000,CS6000,"Checksum shall calculate CRCs for each Table-Defined User-Defined Memory and compare them against the corresponding  baseline CRC if
-a)       Checksumming (as a whole) is Enabled
-b)       User-Defined Memory checksumming is Enabled
-c)       Checksumming of the Individual Memory segments is Enabled",Need to verify each Table CRC. Note that CS depends on ES to provide the information as to which Tables to checksum
-CS6000.1,CS6000.1,"If the User-Defined Memory's CRC is not equal to the corresponding  baseline CRC, CS shall increment the User-Defined Memory CRC Miscompare Counter and send an event message.",Inform operator of CRC mismatches
-CS6000.2,CS6000.2,"If the table-defined Memory is invalid, CS shall send an event message.",This may be a result of an invalid User-Defined Memory area
-CS6001,CS6001,"Upon receipt of a Enable User-Defined Memory Checksumming command, CS shall enable checksumming of all User-Defined Memory.",Enable checksumming of all of the User-Defined Memory defined in the table
-CS6002,CS6002,"Upon receipt of a Disable User-Defined Memory Checksumming command, CS shall disable checksumming of all User-Defined Memory.",Disable checksumming of all of the User-Defined Memory defined in the table
-CS6003,CS6003,"Upon receipt of a Enable User-Defined Memory Item command, CS shall enable checksumming of the command-specified Memory.",Operational control of checksumming command-specified memory
-CS6004,CS6004,"Upon receipt of a Disable User-Defined Memory Item command, CS shall Disable checksumming of the command-specified Memory.",Operational control of checksumming command specified memory
-CS6005,CS6005,"Upon receipt of a Recompute User-Defined Memory CRC command, CS shall:
-a) Recompute the baseline CRC for the command-specified User-Defined Memory.
-b) Set the Recompute In Progress Flag to TRUE",Allows continued CRC checking for areas of memory that are intentionally changed.
-CS6005.1,CS6005.1,"Once the baseline CRC is computed, CS shall:
-a) Generate an event message containing the baseline CRC
-b) Set the Recompute In Progress Flag to FALSE",Gives the ground indication not only that the CRC baseline was calculated but what the value is.
-CS6005.2,CS6005.2,"If CS is already processing a Recompute CRC command or a One Shot CRC command, CS shall reject the command.",Can only support one recompute at a time
-CS6006,CS6006,"Upon receipt of a Report User-Defined Memory CRC command, CS shall send an event message containing the baseline CRC for the command-specified User-Defined Memory.",Provides the ground with the baseline being used.
-CS6007,CS6007,"If the command-specified User-Defined Memory is invalid (for any of the User-Defined memory commands where the memory ID is a command argument), CS shall reject the command and send an event message",Need to handle the case where an invalid User-Defined Memory is specified
-CS6008,CS6008,CS shall provide the ability to dump the baseline CRCs and status for all the User-Defined Memory via a dump-only table.,Need the ability to get all of the User-Defined Memory checksums. Easiest to use the cFE User-Defined Memory services dump-only User-Defined Memory feature
-CS6009,CS6009,"Upon receipt of a Get User-Defined Memory Entry ID command, CS shall send an informational event message containing the User-Defined Memory Table Entry ID for the command-specified Memory Address.",Operational support for getting memory table entry ID
-CS6009.1,CS6009.1,"If the command-specified Memory Address cannot be found within the User-Defined Memory Table, CS shall send an informational event message.",Operational notification of memory address not found
-CS7000,CS7000,The CS software shall limit the amount of bytes processed during each of its execution cycles to a maximum of <PLATFORM_DEFINED> bytes,Want to make sure that CS does not hog the CPU
-CS8000,CS8000,"Upon receipt of a Enable Checksum command, CS shall start calculating CRCs and compare them against the baseline CRCs.",Provides global control over CS
-CS8001,CS8001,"Upon receipt of a Disable Checksum command, CS shall stop calculating  CRCs and comparing them against the baseline CRCs.","Provides global control over CS. Note that this supercedes the enable/disable status of each region’s enable/disable status AND the enable status of each element within a region (eg. Even if App code segment X is Enabled, CS will not perform checksumming operation. If Table checksumming is Enabled, CS will not perform checksumming."
-CS8002,CS8002,"Upon receipt of a One Shot command, CS shall:
-a) Calculate the CRC starting at the command-specified address for the command-specified bytes at the command-specified rate (Max Bytes Per Cycle).
-b) Set the One Shot In Progress Flag to TRUE",Provides a generic capability to compute a checksum for any memory
-CS8002.1,CS8002.1,"Once the CRC is computed CS shall:
-a) Issue an event message containing the CRC
-b) Set the One Shot In Progress Flag to FALSE",Operational notification of CRC computation completion
-CS8002.2,CS8002.2,"If CS is already processing a One Shot CRC command or a Recompute CRC command, CS shall reject the command.",Can only process one One Shot command at a time
-CS8002.3,CS8002.3,"If the command-specified rate is zero, CS shall calculate the CRC at the <PLATFORM_DEFINED> rate (Max Bytes Per Cycle).",Use default CRC calculation rate if not specified in command
-CS8003,CS8003,"Upon receipt of a Cancel One Shot command, CS shall stop the current One Shot calculation.","In the event that a memory region is too large, requiring too much time, cancelling the calculation may be required"
-CS9000,CS9000,"CS shall generate a housekeeping message containing the following:
-a)       Valid Ground Command Counter
-b)       Ground Command Rejected Counter
-c)       Overall CRC enable/disable status
-d)       Total Non-volatile Baseline CRC
-e)       OS code segment Baseline CRC
-f)        cFE code segment Baseline CRC
-g)       Non-volatile CRC Miscompare Counter
-h)       OS Code Segment CRC Miscompare Counter
-i)         cFE Code Segment CRC Miscompare Counter
-j)         Application CRC Miscompare Counter
-k)       Table CRC Miscompare Counter
-l)         User-Defined Memory CRC Miscompare Counter
-m)      Last One Shot Address
-n)       Last One Shot Size
-o)       Last One Shot Checksum
-p)       Checksum Pass Counter (number of passes thru all of the checksum areas)
-q)       Current Checksum Region (Non-volatile, OS code segment, cFE code segment etc)
-r)        Non-volatile CRC enable/disable status
-s)       OS Code Segment CRC enable/disable status
-t)        cFE Code Segment CRC enable/disable status
-u)       Application CRC enable/disable status
-v)       Table CRC enable/disable status
-w)      User-Defined Memory CRC enable/disable status
-x)      Last One Shot Rate
-y)      Recompute In Progress Flag
-z)      One Shot In Progress Flag",Housekeeping telemetry to indicate basic CS status.
-CS9001,CS9001,"Upon any Initialization of the CS Application (cFE Power On, cFE Processor Reset or CS Application Reset),  CS shall initialize the following data to Zero:
-a)       Valid Ground Command Counter
-b)       Ground Command Rejected Counter
-c)       Non-volatile CRC Miscompare Counter
-d)       OS Code Segment CRC Miscompare Counter
-e)       cFE Code Segment CRC Miscompare Counter
-f)        Application CRC Miscompare Counter
-g)       Table CRC Miscompare Counter
-h)       User-Defined Memory CRC Miscompare Counter
-i)       Recompute In Progress Flag
-j)       One Shot In Progress Flag",No information is preserved across a cFE Processor reset or CS Application Reset.
-CS9002,CS9002,"Upon a cFE Power On Reset, if the segment's <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute baseline CRCs for the following regions:
-a)       OS code segment
-b)       cFE code segment",Need to compute a baseline which is used to compare against when background checking the checksums.
-CS9003,CS9003,"Upon a cFE Power On Reset, if the Non-Volatile <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute baseline CRCs for Non-volatile segments based on the corresponding table definition for up to <PLATFORM_DEFINED> segments.",Need to compute a baseline which is used to compare against when background checking the checksums.
-CS9003.1,CS9003.1,"If the address range for any of the Non-volatile segments is Invalid, CS shall send an event message and disable Non-volatile Checksumming",Table validation includes verifying that the memory ranges are within limits
-CS9003.2,CS9003.2,"CS shall send an event message and disable Non-volatile Checksumming, if the state is not one of the following:
-a)       enabled
-b)       disabled
-c)       empty",Table validation includes verifying that the table contains valid intial states.
-CS9004,CS9004,"Upon a cFE Power On Reset, if the Non-Volatile <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute the baseline CRC for the total of all of non-volatile segments.",Need to have a checksum for the entire image. Note that the CRCs for each of the non-volatile segments specified in the table are added together to arrive at this number.
-CS9005,CS9005,"Upon a cFE Power On Reset, if the Application <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute baseline CRCs for the Application or Library code segments region based on the corresponding table definition for up to a <PLATFORM_DEFINED> Applications and Libraries",Need to compute baselines for the Applications and Libraries specified in the table. The platform-defined value could be equal to the max number of apps defined by cFE ES but could be less
-CS9005.1,CS9005.1,"CS shall send an event message and disable Application code segment Checksumming, if the state is not one of the following:
-a)       enabled
-b)       disabled
-c)       empty",Table validation includes verifying that the table contains valid initial states.
-CS9006,CS9006,"Upon a cFE Power On Reset, if the Tables <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute baseline CRCs for the tables specified in the corresponding table definition for up to <PLATFORM_DEFINED> tables",A table is used to define the tables that should be checksummed. Baseline checksums are computed for the tables specified in the table. The platform-defined value could be equal to the max tables defined by cFE TBL but could be less
-CS9006.1,CS9006.1,"CS shall send an event message and disable Table Checksumming, if the state is not one of the following:
-a)       enabled
-b)       disabled
-c)       empty",Table validation includes verifying that the table contains valid initial states.
-CS9007,CS9007,"Upon a cFE Power On Reset, if the User-Defined Memory <PLATFORM_DEFINED> Power-On Initialization state is set to Enabled, CS shall compute baseline CRCs for the User-Defined memory region based on the corresponding table definition for up to <PLATFORM_DEFINED> memory segments.",Need to calculate baseline for all User-defined memory segments specified in a table
-CS9007.1,CS9007.1,"If the address range for any of the User-Defined Memory is Invalid, CS shall send an event message and disable User-Defined Memory Checksumming",Table validation includes verifying that the memory ranges are within limits
-CS9007.2,CS9007.2,"CS shall send an event message and disable Checksumming of the User-Defined Memory, if the state is not one of the following:
-a) enabled
-b) disabled
-c) empty",Table validation includes verifying that the table contains valid initial states.
-CS9008,CS9008,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True, CS shall preserve the following:
-a) OS Code Segment Checksumming State
-b) cFE Code Segment Checksumming State
-c) Non-volatile Checksumming State
-d) Application Code Segment Checksumming State
-e) Table Checksumming State
-f) User-Defined Memory Checksumming State",Reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET flag is true
-CS9009,CS9009,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to False, CS shall perform initialization in accordance with a Power On reset.",Reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is false
-CS9010,CS9010,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the segment's state is set to Enabled, CS shall compute baseline CRCs for the following regions:
-a)       OS code segment
-b)       cFE code segment",Baseline recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is true
-CS9011,CS9011,"Upon a Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Non-volatile Checksumming State is Enabled, CS shall compute baseline CRCs for Non-volatile segments based on the corresponding table definition for up to <PLATFORM_DEFINED> segments.",Baseline recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET flag is True.
-CS9011.1,CS9011.1,"If the address range for any of the Non-volatile segments is Invalid, CS shall send an event message and disable Non-volatile
-Checksumming",Operational notification of invalid address range for non-volatile segment
-CS9011.2,CS9011.2,"CS shall send an event message and disable Non-volatile Checksumming, if the state is not one of the following:
-a) enabled
-b) disabled
-c) empty",Response to invalid state request
-CS9012,CS9012,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Non-volatile Checksumming State is Enabled, CS shall compute the baseline CRC for the total of all of non-volatile segments",Checksum recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is True
-CS9013,CS9013,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Application Code Segment Checksumming State is Enabled, CS shall compute baseline CRCs for the Application code segments region based on the corresponding table definition for up to <PLATFORM_DEFINED> Applications",Checksum recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is True
-CS9013.1,CS9013.1,"CS shall send an event message and disable Application code segment Checksumming, if the state is not one of the
-following:
-a) enabled
-b) disabled
-c) empty",Response to invalid state request
-CS9014,CS9014,"Upon a a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the Table Checksumming State is Enabled, CS shall compute baseline CRCs for the tables specified in the corresponding table definition for up to <PLATFORM_DEFINED> tables",Checksum recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET flag is True
-CS9014.1,CS9014.1,"CS shall send an event message and disable Table Checksumming, if the state is not one of the following:
-a) enabled
-b) disabled
-c) empty",Response to invalid state request
-CS9015,CS9015,"Upon a cFE Processor Reset or CS Application Reset, if the <PLATFORM_DEFINED> PRESERVE_STATES_ON_PROCESSOR_RESET Flag is set to True and the User-Defined Memory Checksumming State is Enabled, CS shall compute baseline CRCs for the User-Defined memory region based on the corresponding table definition for up to <PLATFORM_DEFINED> memory segments.",Checksum recompute reset behavior when PRESERVE_STATES_ON_PROCESSOR_RESET is True
-CS9015.1,CS9015.1,"If the address range for any of the User-Defined Memory is Invalid, CS shall send an event message and disable User-Defined Memory Checksumming",Operational response to user-defined memory invalid address range
-CS9015.2,CS9015.2,"CS shall send an event message and disable Checksumming of the User-Defined Memory, if the state is not one of
-the following:
-a) enabled
-b) disabled
-c) empty",Response to invalid state request
+Summary,Requirement ID,Description,,,Requirement Rationale,Notes,
+Application Initialization,CS1000,"When reset, the CS Application shall initialize the application as follows:",,,To ensure the CS Application starts in a known and consistent state upon reset,,
+,,"1) ""Recompute In-Progress Flag"" to 'FALSE'",,,,,
+,,"2) ""One Shot In-Progress Flag"" to 'FALSE'",,,,,
+,,"3) ""Global Checksum State"" to 'ENABLED'",,,,,
+,,"4) ""Non-volatile Memory Table Checksum State"" to 'ENABLED'",,,,"Initial ""Non-volatile Memory Table Checksum State"" is configurable",
+,,"5) ""User-defined Memory Table Checksum State"" to 'ENABLED'",,,,"Initial ""User-defined Memory Table Checksum State"" is configurable",
+,,"6) ""Application Table Checksum State"" to 'ENABLED'",,,,"Initial ""Application Table Checksum State"" is configurable",
+,,"7) ""Table of cFE Tables Checksum State"" to 'ENABLED'",,,,"Initial ""Table of cFE Tables Checksum State"" is configurable",
+,,"8) ""OS Checksum State"" to 'ENABLED'",,,,"Initial ""OS Checksum State"" is configurable",
+,,"9) ""cFE Core Checksum State"" to 'ENABLED'",,,,"Initial ""cFE Core Checksum State"" is configurable",
+,,"7) Issue an event message stating the CS Application initialized, including the application version number",,,,,
+CDS Restoration Flag,CS1001,"When attempting to register the CDS, if the ""Preserve States on Processor or Application Reset Flag"" is 'FALSE' the CS Application shall not register or update a CDS",,,To prevent unintended state changes or data corruption during restarts by ensuring that checksum states are not preserved if the system is explicitly configured not to do so.,"""Preserve States on Processor or Application Reset Flag"" is configurable",
+CDS Restoration Failure,CS1002,"When registering the CDS, if restoration of the contents fails, the CS Application shall abort the cFE start up process and write an explanation of the failure to the system log",,,To ensure critical system integrity by halting the startup process and logging detailed information if the foundational CDS cannot be restored.,,
+CDS Restoration Success,CS1003,"When registering the CDS, if restoration of the contents succeeds, the CS Application shall restore:",,,To maintain continuous monitoring by restoring the exact checksum states that were active before a reset,,
+,,"1) ""OS Checksum State""",,,,,
+,,"2) ""cFE Core Checksum State""",,,,,
+,,"3) ""Non-volatile Checksum State""",,,,,
+,,"4) ""Application Table Checksum State""",,,,,
+,,"5) ""Table of cFE Tables Checksum State""",,,,,
+,,"6) ""User-defined Memory Checksum State""",,,,,
+Counter Initialization,CS1010,"When reset, the CS Application shall set the following counters to 0:",,,To ensure accurate tracking of CS Application operations by resetting relevant counters to zero upon start up,,
+,,"1) ""Commands Processed Counter""",,,,,
+,,"2) ""Command Error Counter""",,,,,
+,,"3) ""Non-volatile Memory Table Miscompare Counter""",,,,,
+,,"4) ""OS Miscompare Counter""",,,,,
+,,"5) ""cFE Core Miscompare Counter""",,,,,
+,,"6) ""Application Table Miscompare Counter""",,,,,
+,,"7) ""Table of cFE Tables Miscompare Counter""",,,,,
+,,"8) ""User-defined Memory Table Miscompare Counter""",,,,,
+,,"9) ""Passes through all Checksum Tables""",,,,,
+Reset Failure,CS1999,"When the CS Application fails to initialize properly, the CS Application shall:",,,To allow for diagnosis and recovery by ensuring proper system response and operator awareness in the event of critical initialization failures,,
+,,1) Issue an event message containing the reason for the failure,,,,,
+,,"2) Write to the system log that the application failed to initialize, including the return code",,,,,
+,,3) Exit the application,,,,,
+General Command Verification,CS2000,When the CS Application receives a command which:,,,"To ensure that all received commands undergo a standardized, comprehensive validation process before execution",,
+,,1) Contain a CCSDS application message identifier corresponding to one of the CS Application's subscribed messages,,,,,
+,,2) Contains a function code which is one of the CS Application's defined function codes,,,,,
+,,3) Contains a packet length consistent with the CS Application's defined packet structure,,,,,
+,,4) Passes any argument validations specified by the command requirements,,,,"""Command requirements"" are defined as the CS2XXX requirements",
+,,5) Passes any additional validations as specified by the command requirements,,,,"""Command requirements"" are defined as the CS2XXX requirements",
+,,the CS Application shall accept and execute the command,,,,,
+Command Acceptance,CS2001,"When the CS Application accepts a command, the CS Application shall:",,,To provide positive feedback to operators confirming that valid commands have been successfully received and are being processed.,,
+,,"1) Increment the ""Commands Processed Counter""",,,,Except in the case of CS2020,
+,,2) Issue an informational or debug event message,,,,,
+Command Rejection,CS2002,"If the CS Application receives a command which fails any of the validation specified by CS2000, the CS Application shall:",,,To ensure operators are immediately notified of command processing errors,,
+,,"1) Increment the ""Command Error Counter""",,,,,
+,,2) Issue an error event message,,,,,
+No-Operation Command,CS2010,"When the CS Application receives a ""No-Operation"" command, the CS Application shall issue an event which contains the version information for the CS Application",,,"To allow for simple, low-overhead application health checks by enabling operators to verify the application is running and responsive.",,
+Reset Counter Command,CS2020,"When the CS Application receives a ""Reset Counters"" command, the CS Application shall set the counter to the values described in CS1010",,,To provide a mechanism for resetting operational counters to a known state,,
+One Shot Command,CS2030,"When the CS Application receives a ""One Shot"" command that passes the validation specified in CS2031, the CS Application shall:",,,"To provide a flexible, on-demand checksum calculation capability for a specific memory segment, allowing targeted verification without pre-configuration",,
+,,"1) Set ""Recompute In-Progress State"" to 'FALSE'",,,,,
+,,"2) Set ""One Shot In-Progress State"" to 'TRUE' while the one shot operation is in-progress",,,,See CS4010,
+,,"3) Set ""Address Used in Last One Shot Command"" to the command-specified ""Start Address""",,,,,
+,,"4) Set ""Size Used in Last One Shot Command"" to the command-specified ""Number of Bytes to Checksum""",,,,,
+,,"5) Set ""Checksum Calculated in Last One Shot Command"" to the calculated checksum for the range defined by the command-specified ""Number of Bytes to Checksum"" and command-specified ""Start Address""",,,,,
+,,"6) Set ""Maximum Bytes per Cycle Used in Last One Shot Command"" to:",,,,,
+,,,"a) if the command-specified ""Bytes per Cycle"" is 0: the default maximum bytes per cycle for a checksum operation",,,The default maximum bytes per cycle for a checksum operation is configurable,
+,,,"b) if the command-specified ""Bytes per Cycle"" is greater than 0and less than the default maximum bytes per cycle for a checksum operation: the command-specified ""Bytes per Cycle""",,,The default maximum bytes per cycle for a checksum operation is configurable,
+,,,"c) if the command-specified ""Bytes per Cycle"" is greater than the maximum bytes per cycle for a checksum operation: the default maximum bytes per cycle for a checksum operation",,,The default maximum bytes per cycle for a checksum operation is configurable,
+,,"7) Calculate the checksum starting at the command-specified ""Start Address"" for the command-specified ""Number of Bytes to Checksum"" at the comand-specified ""Bytes per Cycle"" rate",,,,,
+,,8) Issue an informational event containing the calculated checksum,,,,,
+One Shot Command Validation,CS2031,"When the CS Application receives a ""One Shot"" command, if:",,,To prevent invalid or unsafe checksum operations by validating memory ranges and ensuring that computationally expensive or duplicate operations are not concurrently active.,,
+,,1) the memory range is invalid,,,,See CS4000,
+,,"2) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"3) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Cancel One Shot Command,CS2040,"When the CS Application receives a ""Cancel One Shot"" command that passes the validation specified in CS2041, the CS Application shall:",,,To allow operators to halt a computationally expensive or unwanted checksum calculation gracefully,,
+,,"1) Set ""Recompute In-Progress State"" to 'FALSE'",,,,,
+,,"2) Set ""One Shot In-Progress State"" to 'FALSE'",,,,,
+,,3) Stop the current One Shot calculation,,,,,
+Cancel One Shot Command Validation,CS2041,"When the CS Application receives a ""Cancel One Shot"" command, if:",,,To prevent invalid or unsafe cancel operations,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'FALSE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable All Checksumming Command,CS2050,"When the CS Application receives an ""Enable All Checksumming"" command, the CS Application shall:",,,"To provide a simple, global command to enable all checksumming operations, ensuring comprehensive data integrity monitoring.",,
+,,"1) Set ""Global Checksum State"" to 'ENABLED'",,,,,
+,,2) Begin calculating checksums for every memory region,,,,,
+,,3) Compare the current checksums to the baseline checksums for each memory region,,,,,
+Disable All Checksumming Command,CS2060,"When the CS Application receives an ""Disable All Checksumming"" command, the CS Application shall:",,,"To provide a simple, global command to disable all checksumming operations, allowing for controlled stopping of integrity checks",,
+,,"1) Set ""Global Checksum State"" to 'DISABLED'",,,,,
+,,2) Cease calculation of checksums for the following memory regions:,,,,,
+,,,a) Non-volatile Memory Table,,,,
+,,,b) User-defined Memory Table,,,,
+,,,c) cFE Table of Tables,,,,
+,,,d) Application Table,,,,
+,,,e) cFE Core,,,,
+,,,f) OS,,,,
+,,3) Compare the current checksums to the baseline checksums for each memory region,,,,,
+Enable Checksumming for cFE Core Command,CS2070,"When the CS Application receives an ""Enable Checksumming for cFE Core"" command, the CS Application shall:",,,"To enable specific checksum monitoring for the critical cFE Core component, allowing for targeted integrity verification",,
+,,"1) Set ""cFE Core Checksum State"" to 'ENABLED'",,,,,
+,,2) Calculate the checksum for the cFE core segment of memory,,,,,
+Disable Checksumming for cFE Core Command,CS2080,"When the CS Application receives a ""Disable Checksumming for cFE Core"" command, the CS Application shall:",,,"To disable specific checksum monitoring for the cFE Core component, allowing for fine-grained control over resource utilization.",,
+,,"1) Set ""cFE Core Checksum State"" to 'DISABLED'",,,,,
+,,2) Cease the calculation of the checksum for the cFE core segment of memory,,,,,
+Report Baseline Checksum of cFE Core Command,CS2090,"When the CS Application receives a ""Report Baseline Checksum of cFE Core"" command that passes the validation specified in CS2091, the CS Application shall issue an event reporting the baseline checksum for the cFE core segment of memory",,,To aid in diagnostic and configuration verification by providing operators with the ability to query and verify the baseline checksum value for the cFE Core segment,,
+Report Baseline Checksum of cFE Core Command Validation,CS2091,"When the CS Application receives a ""Report Baseline Checksum of cFE Core"" command, if a checksum has not yet been computed, the CS Application shall reject the command",,,To prevent erroneous reporting by ensuring that a baseline checksum has actually been computed before attempting to report it.,,
+Recompute Baseline Checksum of cFE Core Command,CS2100,"When the CS Application receives a ""Recompute Baseline Checksum of cFE Core"" command that passes the validation specified in CS2101, the CS Application shall:",,,"To allow for the regeneration of the baseline checksum for the cFE Core segment, necessary after modifications or if the existing baseline is suspect.",,
+,,"1) Set ""Recompute In-Progress State"" to 'TRUE'",,,,See CS4010,
+,,2) Calculate the checksum for the cFE core segment of memory,,,,,
+,,"3) Set ""cFE Core Baseline Checksum"" value to checksum calculated for the cFE core segment of memory once calulcation has finished",,,,,
+Recompute Baseline Checksum of cFE Core Command Validation,CS2101,"When the CS Application receives a ""Recompute Baseline Checksum of cFE Core"" command, if:",,,To prevent data corruption or race conditions by disallowing recomputation of the cFE Core baseline if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for OS Command,CS2110,"When the CS Application receives an ""Enable Checksumming for OS"" command, the CS Application shall set ""OS Checksum State"" to 'ENABLED'",,,"To enable specific checksum monitoring for the OS segment, allowing for targeted integrity verification.",,
+,,"1) Set ""OS Checksum State"" to 'ENABLED'",,,,,
+,,2) Calculate the checksum for the OS segment of memory,,,,,
+Disable Checksumming for OS Command,CS2120,"When the CS Application receives a ""Disable Checksumming for OS"" command, the CS Application shall:",,,"To disable specific checksum monitoring for the OS segment, allowing for fine-grained control over resource utilization.",,
+,,"1) Set ""OS Checksum State"" to 'DISABLED'",,,,,
+,,2) Cease the calculation of the checksum for the OS segment of memory,,,,,
+Report Baseline Checksum of OS Command,CS2130,"When the CS Application receives a ""Report Baseline Checksum of OS"" command that passes the validation specified in CS2131, the CS Application shall issue an event reporting the baseline checksum for the OS segment of memory",,,"To provide operators with the ability to query and verify the baseline checksum value for the OS segment, aiding in diagnostics and configuration verification.",,
+Report Baseline Checksum of OS Command Validation,CS2131,"When the CS Application receives a ""Report Baseline Checksum of OS"" command, if a checksum has not yet been computed, the CS Application shall reject the command",,,To prevent erroneous reporting by ensuring that a baseline checksum has actually been computed before attempting to report it.,,
+Recompute Baseline Checksum of OS Command,CS2140,"When the CS Application receives a ""Recompute Baseline Checksum of OS"" command, the CS Application shall:",,,"To allow for the regeneration of the baseline checksum for the OS segment, necessary after modifications or if the existing baseline is suspect.",,
+,,"1) Set ""Recompute In-Progress State"" to 'TRUE'",,,,See CS4010,
+,,2) Calculate the checksum for the OS segment of memory,,,,,
+,,"3) Set ""OS Baseline Checksum"" value to checksum calculated for the OS segment of memory once calulcation has finished",,,,,
+Recompute Baseline Checksum of OS Command Validation,CS2141,"When the CS Application receives a ""Recompute Baseline Checksum of OS"" command, if:",,,To prevent data corruption or race conditions by disallowing recomputation of the OS baseline if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for Non-volatile Memory Table Command,CS2150,"When the CS Application receives an ""Enable Checksumming for Non-volatile Memory Table"" command, the CS Application shall set ""Non-volatile Memory Table Checksum State"" to 'ENABLED'",,,"To enable specific checksum monitoring for the Non-volatile Memory Table, allowing for targeted integrity verification.",,
+,,"1) Set ""Non-volatile Memory Table Checksum State"" to 'ENABLED'",,,,,
+,,2) Calculate the checksum for all entries in the Non-volatile Memory Table,,,,,
+Enable Checksumming for Non-volatile Memory Table Command Validation,CS2151,"When the CS Application receives an ""Enable Checksumming for Non-volatile Memory Table"" command, if:",,,To prevent data corruption or race conditions by disallowing the enabling of Non-volatile Memory Table checksumming if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Disable Checksumming for Non-volatile Memory Table Command,CS2160,"When the CS Application receives a ""Disable Checksumming for Non-volatile Memory Table"" command that passes the validation specified in CS2161, the CS Application shall:",,,"To disable specific checksum monitoring for the Non-volatile Memory Table, allowing for fine-grained control over resource utilization.",,
+,,"1) Set ""Non-volatile Memory Table Checksum State"" to 'DISABLED'",,,,,
+,,2) Cease the calculation of the checksum for all entries in the Non-volatile Memory Table,,,,,
+Disable Checksumming for Non-volatile Memory Table Command Validation,CS2161,"When the CS Application receives a ""Disable Checksumming for Non-volatile Memory Table"" command, if:",,,To prevent data corruption or race conditions by disallowing the disabling of Non-volatile Memory Table checksumming if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Report Baseline Checksum of Non-volatile Memory Table Entry Command,CS2170,"When the CS Application receives a ""Report Baseline Checksum of Non-volatile Memory Table Entry"" command that passes the validation specified in CS2171, the CS Application shall issue an event reporting the baseline checksum for the segment of memory identified by the command-specified ""Non-volatile Memory Table Entry ID""",,,"To provide operators with the ability to query and verify the baseline checksum value for specific entries in the Non-volatile Memory Table, aiding in diagnostics.",,
+Report Baseline Checksum of Non-volatile Memory Table Entry Command Validation,CS2171,"When the CS Application receives a ""Report Baseline Checksum of Non-volatile Memory Table Entry"" command, if:",,,"To prevent invalid operations by ensuring that specified Non-volatile Memory Table entries are valid, within range, and have a computed baseline checksum before reporting.",,
+,,"1) The command-specified ""Non-volatile Memory Table Entry ID"" is greater than the maximum number of entries allowed in the Non-volatile Memory Table",,,,Maximum number of entries allowed in the Non-volatile Memory Table is configurable,
+,,"2) The valid Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,"2) The baseline checksum for the segment of memory covered by the Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID"" has not been calculated",,,,,
+,,the CS Application shall reject the command,,,,,
+Recompute Baseline Checksum of Non-volatile Memory Table Entry Command,CS2180,"When the CS Application receives a ""Recompute Baseline Checksum of Non-volatile Memory Table Entry"" command that passes the validation specified in CS2181, the CS Application shall:",,,"To allow for the regeneration of the baseline checksum for specific Non-volatile Memory Table entries, necessary after modifications or if the existing baseline is suspect.",,
+,,"1) Set ""Recompute In-Progress State"" to 'TRUE'",,,,See CS4010,
+,,"2) Calculate the checksum for the segment of memory covered by the Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID""",,,,,
+Recompute Baseline Checksum of Non-volatile Memory Table Entry Command Validation,CS2181,"When the CS Application receives a ""Recompute Baseline Checksum of Non-volatile Memory Table Entry"" command, if:",,,To prevent data corruption or race conditions by disallowing the recomputation of Non-volatile Memory Table entry baselines if another intensive checksum operation is already in progress or if the entry is invalid.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""Non-volatile Memory Table Entry ID"" is greater than the maximum number of entries allowed in the Non-volatile Memory Table",,,,Maximum number of entries allowed in the Non-volatile Memory Table is configurable,
+,,"4) The valid entry identified by the command-specified ""Non-volatile Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for Non-volatile Memory Table Entry Command,CS2190,"When the CS Application receives an ""Enable Checksumming for Non-volatile Memory Table Entry"" command that passes the validation specified in CS2191, the CS Application shall:",,,"To enable specific checksum monitoring for individual entries within the Non-volatile Memory Table, allowing for granular integrity verification.",,
+,,"1) Set ""Entry Checksum State"" for the Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID"" to 'ENABLED'",,,,,
+,,"2) Calculate the checksum for the segment of memory covered by the Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID""",,,,,
+Enable Checksumming for Non-volatile Memory Table Entry Command Validation,CS2191,"When the CS Application receives an ""Enable Checksumming for Non-volatile Memory Table Entry"" command, if:",,,To prevent invalid operations by ensuring that specified Non-volatile Memory Table entries are valid and that no conflicting checksum operations are in progress before enabling checksumming.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""Non-volatile Memory Table Entry ID"" is greater than the maximum number of entries allowed in the Non-volatile Memory Table",,,,Maximum number of entries allowed in the Non-volatile Memory Table is configurable,
+,,"4) The valid Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Disable Checksumming for Non-volatile Memory Table Entry Command,CS2200,"When the CS Application receives a ""Disable Checksumming for Non-volatile Memory Table Entry"" command that passes the validation specified in CS2201, the CS Application shall:",,,"To disable specific checksum monitoring for individual entries within the Non-volatile Memory Table, allowing for granular control over resource utilization.",,
+,,"1) Set ""Entry Checksum State"" for the Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID"" to 'DISABLED'",,,,,
+,,"2) Cease the calculation of the checksum for the memory segment covered by the Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID""",,,,,
+Disable Checksumming for Non-volatile Memory Table Entry Command Validation,CS2201,"When the CS Application receives a ""Disable Checksumming for Non-volatile Memory Table Entry"" command, if:",,,To prevent invalid operations by ensuring that specified Non-volatile Memory Table entries are valid and that no conflicting checksum operations are in progress before disabling checksumming.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""Non-volatile Memory Table Entry ID"" is greater than the maximum number of entries allowed in the Non-volatile Memory Table",,,,Maximum number of entries allowed in the Non-volatile Memory Table is configurable,
+,,"4) The valid Non-volatile Memory Table entry identified by the command-specified ""Non-volatile Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Get Non-volatile Memory Table Entry ID Command,CS2210,"When the CS Application receives a ""Get Non-volatile Memory Table Entry ID"" command that passes the validation specified in CS2211, the CS Application shall issue an event indicating that the address was found and which Entry ID it was found in",,,"To provide operators with the ability to map a specific memory address to its corresponding Non-volatile Memory Table entry ID, aiding in address-based diagnostics.",,
+Get Non-volatile Memory Table Entry ID Command Validation,CS2211,"When the CS Application receives a ""Get Non-volatile Memory Table Entry ID"" command, if:",,,To prevent invalid operations by ensuring that specified Non-volatile Memory Table entries are valid and that the provided address falls within a defined memory range before returning an entry ID.,,
+,,"1) The command-specified ""Non-volatile Memory Table Entry ID"" is greater than the maximum number of entries allowed in the Non-volatile Memory Table",,,,Maximum number of entries allowed in the Non-volatile Memory Table is configurable,
+,,"2) The valid entry identified by the command-specified ""Non-volatile Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,"3) The command-specified ""Address"" does not fall within the memory segment range of any entry in the Non-volatile Memory Table",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for User-defined Memory Table Command,CS2220,"When the CS Application receives an ""Enable Checksumming for User-defined Memory Table"" command that passes the validation specified in CS2221, the CS Application shall:",,,"To enable specific checksum monitoring for the User-defined Memory Table, allowing for targeted integrity verification.",,
+,,"1) Set ""User-defined Memory Table Checksum State"" to 'ENABLED'",,,,,
+,,2) Calculate the checksum for all entries in the User-defined Memory Table,,,,,
+Enable Checksumming for User-defined Memory Table Command Validation,CS2221,"When the CS Application receives an ""Enable Checksumming for User-defined Memory Table"" command, if:",,,To prevent data corruption or race conditions by disallowing the enabling of User-defined Memory Table checksumming if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Disable Checksumming for User-defined Memory Table Command,CS2230,"When the CS Application receives a ""Disable Checksumming for User-defined Memory Table"" command that passes the validation specified in CS2231, the CS Application shall:",,,"To disable specific checksum monitoring for the User-defined Memory Table, allowing for fine-grained control over resource utilization.",,
+,,"1) Set ""User-defined Memory Table Checksum State"" to 'DISABLED'",,,,,
+,,2) Cease the calculation of the checksum for all entries in the User-defined Memory Table,,,,,
+Disable Checksumming for User-defined Memory Table Command Validation,CS2231,"When the CS Application receives a ""Disable Checksumming for User-defined Memory Table"" command, if:",,,To prevent data corruption or race conditions by disallowing the disabling of User-defined Memory Table checksumming if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Report Baseline Checksum of User-defined Memory Table Entry Command,CS2240,"When the CS Application receives a ""Report Baseline Checksum of User-defined Memory Table Entry"" command that passes the validation specified in CS2241, the CS Application shall issue an event reporting the baseline checksum for the segment of User-defined Memory identified by the command-specified ""User-defined Memory Table Entry ID""",,,"To provide operators with the ability to query and verify the baseline checksum value for specific entries in the User-defined Memory Table, aiding in diagnostics.",,
+Report Baseline Checksum of User-defined Memory Table Entry Command Validation,CS2241,"When the CS Application receives a ""Report Baseline Checksum of User-defined Memory Table Entry"" command, if:",,,"To prevent invalid operations by ensuring that specified User-defined Memory Table entries are valid, within range, and have a computed baseline checksum before reporting.",,
+,,"1) The command-specified ""User-defined Memory Table Entry ID"" is greater than the maximum number of entries allowed in the User-defined Memory Table",,,,Maximum number of entries allowed in the User-defined Memory Table is configurable,
+,,"2) The valid User-defined Memory Table entry identified by the command-specified ""Non-volatile User-defined Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,"2) The baseline checksum for the segment of memory covered by the User-defined Memory Table entry identified by the command-specified ""User-defined Memory Table Entry ID"" has not been calculated",,,,,
+,,the CS Application shall reject the command,,,,,
+Recompute Baseline Checksum of User-defined Memory Table Entry Command,CS2250,"When the CS Application receives a ""Recompute Baseline Checksum of User-defined Memory Table Entry"" command that passes the validation specified in CS2251, the CS Application shall: ",,,"To allow for the regeneration of the baseline checksum for specific User-defined Memory Table entries, necessary after modifications or if the existing baseline is suspect.",,
+,,"1) Set ""Recompute In-Progress State"" to 'TRUE'",,,,,
+,,"2) Calculate the checksum for the segment of memory covered by the User-defined Memory Table entry identified by the command-specified ""User-defined Memory Table Entry ID""",,,,,
+Recompute Baseline Checksum of User-defined Memory Table Entry Command Validation,CS2251,"When the CS Application receives a ""Recompute Baseline Checksum of User-defined Memory Table Entry"" command, if:",,,To prevent data corruption or race conditions by disallowing the recomputation of User-defined Memory Table entry baselines if another intensive checksum operation is already in progress or if the entry is invalid.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""User-defined Memory Table Entry ID"" is greater than the maximum number of entries allowed in the User-defined Memory Table",,,,Maximum number of entries allowed in the User-defined Memory Table is configurable,
+,,"4) The valid User-defined Memory Table entry identified by the command-specified ""User-defined Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for User-defined Memory Table Entry Command,CS2260,"When the CS Application receives an ""Enable Checksumming for User-defined Memory Table Entry"" command that passes the validation specified in CS2261, the CS Application shall:",,,"To enable specific checksum monitoring for individual entries within the User-defined Memory Table, allowing for granular integrity verification.",,
+,,"1) Set ""Entry Checksum State"" for the User-defined Memory Table entry identified by the command-specified ""User-defined Memory Table Entry ID"" to 'ENABLED'",,,,,
+,,"2) Calculate the checksum for the segment of memory covered by the User-defined Memory Table entry identified by the command-specified ""User-defined Memory Table Entry ID""",,,,,
+Enable Checksumming for User-defined Memory Table Entry Command Validation,CS2261,"When the CS Application receives an ""Enable Checksumming for User-defined Memory Table Entry"" command, if:",,,To prevent invalid operations by ensuring that specified User-defined Memory Table entries are valid and that no conflicting checksum operations are in progress before enabling checksumming.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""User-defined Memory Table Entry ID"" is greater than the maximum number of entries allowed in the User-defined Memory Table",,,,Maximum number of entries allowed in the User-defined Memory Table is configurable,
+,,"4) The valid User-defined Memory Table entry identified by the command-specified ""Non-volatile User-defined Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Disable Checksumming for User-defined Memory Table Entry Command,CS2270,"When the CS Application receives a ""Disable Checksumming for User-defined Memory Table Entry"" command that passes the validation specified in CS2271, the CS Application shall:",,,"To disable specific checksum monitoring for individual entries within the User-defined Memory Table, allowing for granular control over resource utilization.",,
+,,"1) Set ""Entry Checksum State"" for the User-defined Memory Table entry identified by the command-specified ""User-defined Memory Table ID"" to 'DISABLED'",,,,,
+,,"2) Cease the calculation of the checksum for the memory segment covered by the User-defined Memory Table entry identified by the command-specified ""User-defined Memory Table Entry ID""",,,,,
+Disable Checksumming for User-defined Memory Table Entry Command Validation,CS2271,"When the CS Application receives a ""Disable Checksumming for User-defined Memory Table Entry"" command, if:",,,To prevent invalid operations by ensuring that specified User-defined Memory Table entries are valid and that no conflicting checksum operations are in progress before disabling checksumming.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""User-defined Memory Table Entry ID"" is greater than the maximum number of entries allowed in the User-defined Memory Table",,,,Maximum number of entries allowed in the User-defined Memory Table is configurable,
+,,"4) The valid entry identified by the command-specified ""User-defined Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Get User-defined Memory Table Entry ID Command,CS2280,"When the CS Application receives a ""Get User-defined Memory Table Entry ID"" command that passes the validation specified in CS2281, the CS Application shall issue an event indicating that the address was found and which Entry ID it was found in",,,"To provide operators with the ability to map a specific memory address to its corresponding User-defined Memory Table entry ID, aiding in address-based diagnostics.",,
+Get User-defined Memory Table Entry ID Command Validation,CS2281,"When the CS Application receives a ""Get User-defined Memory Table Entry ID"" command, if:",,,To prevent invalid operations by ensuring that specified User-defined Memory Table entries are valid and that the provided address falls within a defined memory range before returning an entry ID.,,
+,,"1) The command-specified ""User-defined Memory Table Entry ID"" is greater than the maximum number of entries allowed in the User-defined Memory Table",,,,Maximum number of entries allowed in the User-defined Memory Table is configurable,
+,,"2) The valid User-defined Memory Table entry identified by the command-specified ""User-defined Memory Table Entry ID"" is 'UNUSED'",,,,,
+,,"3) The command-specified ""Address"" does not fall within the memory segment range of any entry in the User-defined Memory Table",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for Table of cFE Tables Command,CS2290,"When the CS Application receives an ""Enable Checksumming for Table of cFE Tables"" command, the CS Application shall set ""Table of cFE Tables Checksum State"" to 'ENABLED'",,,"To enable specific checksum monitoring for the cFE Table of Tables, allowing for targeted integrity verification.",,
+,,"1) Set ""Table of cFE Tables Checksum State"" to 'ENABLED'",,,,,
+,,2) Calculate the checksum for all entries in the Table of cFE Tables,,,,,
+Enable Checksumming for Table of cFE Tables Command Validation,CS2291,"When the CS Application receives an ""Enable Checksumming for Table of cFE Tables"" command, if:",,,To prevent data corruption or race conditions by disallowing the enabling of cFE Table of Tables checksumming if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Disable Checksumming for Table of cFE Tables Command,CS2300,"When the CS Application receives a ""Disable Checksumming for Table of cFE Tables"" command that passes the validation specified in CS2301, the CS Application shall:",,,"To disable specific checksum monitoring for the cFE Table of Tables, allowing for fine-grained control over resource utilization.",,
+,,"1) Set ""Table of cFE Tables Checksum State"" to 'DISABLED'",,,,,
+,,2) Cease the calculation of the checksum for all entries in the Table of cFE Tables,,,,,
+Disable Checksumming for Table of cFE Tables Command Validation,CS2301,"When the CS Application receives a ""Disable Checksumming for Table of cFE Tables"" command, if:",,,To prevent data corruption or race conditions by disallowing the disabling of cFE Table of Tables checksumming if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Report Baseline Checksum of Table of cFE Tables Entry Command,CS2310,"When the CS Application receives a ""Report Baseline Checksum of Table of cFE Tables Entry"" command that passes the validation specified in CS2311, the CS Application shall issue an event reporting the baseline checksum for the cFE table identified be the command-specified ""cFE Table Name""",,,"To provide operators with the ability to query and verify the baseline checksum value for specific cFE tables listed in the Table of cFE Tables, aiding in diagnostics.",,
+Report Baseline Checksum of Table of cFE Tables Entry Command Validation,CS2311,"When the CS Application receives a ""Report Baseline Checksum of Table of cFE Tabls Entry"" command, if:",,,"To prevent invalid operations by ensuring that specified cFE Table Names are valid, exist in the Table of cFE Tables, and have a computed baseline checksum before reporting.",,
+,,"1) The command-specified ""cFE Table Name"" does not match the name of an entry in the Table of cFE Tables",,,,,
+,,"2) The valid Table of cFE Tables entry identified by the command-specified ""cFE Table Name"" is 'UNUSED'",,,,,
+,,"3) The baseline checksum for the Table of cFE Tables entry identified by the command-specified ""cFE Table Name"" has not yet been calculated",,,,,
+,,the CS Application shall reject the command,,,,,
+Recompute Baseline Checksum of Table of cFE Tables Entry Command,CS2320,"When the CS Application receives a ""Recompute Baseline Checksum of Table of cFE Tables Entry"" command that passes the validation specified in CS2321, the CS Application shall: ",,,"To allow for the regeneration of the baseline checksum for specific cFE tables listed in the Table of cFE Tables, necessary after modifications or if the existing baseline is suspect.",,
+,,"1) Set ""Recompute In-Progress State"" to 'TRUE'",,,,,
+,,"2) Calculate the checksum for the cFE table covered by the Table of cFE Tables entry identified by the command-specified ""cFE Table Name""",,,,,
+Recompute Baseline Checksum of Table of cFE Tables Entry Command Validation,CS2321,"When the CS Application receives a ""Recompute Baseline Checksum of Table of cFE Tables Entry"" command, if:",,,To prevent data corruption or race conditions by disallowing the recomputation of Table of cFE Tables entry baselines if another intensive checksum operation is already in progress or if the entry is invalid.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""cFE Table Name"" does not match the name of an entry in the Table cFE Tables",,,,,
+,,"4) The valid Table of cFE Tables entry identified by the command-specified ""cFE Table Name"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for Table of cFE Tables Entry Command,CS2330,"When the CS Application receives an ""Enable Checksumming for Table of cFE Tables Entry"" command that passes the validation specified in CS2331, the CS Application shall:",,,"To enable specific checksum monitoring for individual cFE tables listed in the Table of cFE Tables, allowing for granular integrity verification.",,
+,,"1) Set ""Entry Checksum State"" for the Table of cFE Tables entry identified by the command-specified ""cFE Table Name"" to 'ENABLED'",,,,,
+,,"2) Calculate the checksum for the cFE table covered by the Table of cFE Tables entry identified by the command-specified ""cFE Table Name""",,,,,
+Enable Checksumming for cFE Table Entry Command Validation,CS2331,"When the CS Application receives an ""Enable Checksumming for Table of cFE Tables Entry"" command, if:",,,To prevent invalid operations by ensuring that specified cFE Table Names are valid and that no conflicting checksum operations are in progress before enabling checksumming.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""cFE Table Name"" does not match the name of an entry in the Table of cFE Tables",,,,,
+,,"4) The valid Table of cFE Tables entry identified by the command-specified ""cFE Table Name"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Disable Checksumming for Table of cFE Tables Entry Command,CS2340,"When the CS Application receives a ""Disable Checksumming for Table of cFE Tables Entry"" command that passes the validation specified in CS2341, the CS Application shall:",,,"To disable specific checksum monitoring for individual cFE tables listed in the Table of cFE Tables, allowing for granular control over resource utilization.",,
+,,"1) Set ""Entry Checksum State"" for the Table of cFE Tables entry identified by the command-specified ""cFE Table Name"" to 'DISABLED'",,,,,
+,,"2) Cease the calculation of the checksum for the memory segment covered by the Table of cFE Tables entry identified by the command-specified ""cFE Table Name""",,,,,
+Disable Checksumming for Table of cFE Tables Entry Command Validation,CS2341,"When the CS Application receives a ""Disable Checksumming for Table of cFE Tables Entry"" command, if:",,,To prevent invalid operations by ensuring that specified cFE Table Names are valid and that no conflicting checksum operations are in progress before disabling checksumming.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""cFE Table Name"" does not match the name of an entry in the Table of cFE Tables",,,,,
+,,"4) The valid Table of cFE Tables entry identified by the command-specified ""cFE Table Name"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for Application Table Command,CS2350,"When the CS Application receives an ""Enable Checksumming for Application Table"" command that passes the validation specified in CS2351, the CS Application shall:",,,"To enable specific checksum monitoring for the Application Table, allowing for targeted integrity verification.",,
+,,"1) ""Application Table Checksum State"" to 'ENABLED'",,,,,
+,,2) Calculate the checksum for all entries in the Application Table,,,,,
+Enable Checksumming for Application Table Command Validation,CS2351,"When the CS Application receives an ""Enable Checksumming for Application Table"" command, if:",,,To prevent data corruption or race conditions by disallowing the enabling of Application Table checksumming if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Disable Checksumming for Application Table Command,CS2360,"When the CS Application receives a ""Disable Checksumming for Application Table"" command that passes the validation specified in CS2361, the CS Application shall:",,,"To disable specific checksum monitoring for the Application Table, allowing for fine-grained control over resource utilization.",,
+,,"1) Set ""Application Table Checksum State"" to 'DISABLED'",,,,,
+,,2) Cease the calculation of checksums for all entries defined in the Application Table,,,,,
+Disable Checksumming for Application Table Command Validation,CS2361,"When the CS Application receives a ""Disable Checksumming for Application Table"" command, if:",,,To prevent data corruption or race conditions by disallowing the disabling of Application Table checksumming if another intensive checksum operation is already in progress.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,the CS Application shall reject the command,,,,,
+Report Baseline Checksum of Application Table Entry Command,CS2370,"When the CS Application receives a ""Report Baseline Checksum of Application Table Entry"" command that passes the validation specified in CS2371, the CS Application shall issue an event reporting the baseline checksum for the Application Table entry identified by the command-specified ""Application Name""",,,"To provide operators with the ability to query and verify the baseline checksum value for specific applications listed in the Application Table, aiding in diagnostics.",,
+Report Baseline Checksum of Application Table Entry Command Validation,CS2371,"When the CS Application receives a ""Report Baseline Checksum of Application Table Entry"" command, if:",,,"To prevent invalid operations by ensuring that specified Application Names are valid, exist in the Application Table, and have a computed baseline checksum before reporting.",,
+,,"1) The command-specified ""Application Name"" is not found in the Application Table",,,,,
+,,"2) The valid Application Table entry identified by the command-specified ""Application Name"" is 'UNUSED'",,,,,
+,,"3) The baseline checksum for the Application Table entry identified by the command-specified ""Application Name"" has not yet been calculated",,,,,
+,,the CS Application shall reject the command,,,,,
+Recompute Baseline Checksum of Application Command,CS2380,"When the CS Application receives a ""Recompute Baseline Checksum of Application"" command that passes the validation specified in CS2381, the CS Application shall:",,,"CS2380: To allow for the regeneration of the baseline checksum for specific applications listed in the Application Table, necessary after modifications or if the existing baseline is suspect.",,
+,,"1) Set ""Recompute In-Progress State"" to 'TRUE'",,,,,
+,,"2) Calculate the checksum for the application covered by the Application Table entry identified by the command-specified ""Application Name""",,,,,
+Recompute Baseline Checksum of Application Command Validation,CS2381,"When the CS Application receives a ""Recompute Baseline Checksum of Application"" command, if:",,,To prevent data corruption or race conditions by disallowing the recomputation of Application Table entry baselines if another intensive checksum operation is already in progress or if the entry is invalid.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""Application Name"" does not match the name of an entry in the Application Table",,,,,
+,,"4) The valid Application Table entry identified by the command-specified ""Application Name"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Enable Checksumming for Application Table Entry Command,CS2390,"When the CS Application receives an ""Enable Checksumming for Application Table Entry"" command that passes the validation specified in CS2391, the CS Application shall set ""Application Checksum State"" for the command-specified ""Application Name"" to 'ENABLED'",,,"To enable specific checksum monitoring for individual applications listed in the Application Table, allowing for granular integrity verification.",,
+,,"1) Set ""Entry Checksum State"" for the Application Table entry identified by the command-specified ""Application Name"" to 'ENABLED'",,,,,
+,,"2) Calculate the checksum for the application covered by the Application Table entry identified by the command-specified ""Application Name""",,,,,
+Enable Checksumming for Application Table Entry Command Validation,CS2391,"When the CS Application receives an ""Enable Checksumming for Application Table Entry"" command, if:",,,To prevent invalid operations by ensuring that specified Application Names are valid and that no conflicting checksum operations are in progress before enabling checksumming.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""Application Name"" does not match the name of an entry in the Application Table",,,,,
+,,"4) The valid Application Table entry identified by the command-specified ""Application Name"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Disable Checksumming for Application Table Entry Command,CS2400,"When the CS Application receives a ""Disable Checksumming for Application Table Entry"" command that passes the validation specified in CS2401, the CS Application shall:",,,"To disable specific checksum monitoring for individual applications listed in the Application Table, allowing for granular control over resource utilization.",,
+,,"1) Set ""Entry Checksum State"" for the Application Table entry identified by the command-specified ""Application Name"" to 'DISABLED'",,,,,
+,,"2) Cease the calculation of the checksum for the segment of memory covered by the Application Table entry identified by the command-specified ""Application Name""",,,,,
+Disable Checksumming for Application Table Entry Command Validation,CS2401,"When the CS Application receives a ""Disable Checksumming for Application Table Entry"" command, if:",,,To prevent invalid operations by ensuring that specified Application Names are valid and that no conflicting checksum operations are in progress before disabling checksumming.,,
+,,"1) ""Recompute In-Progress State"" is 'TRUE'",,,,,
+,,"2) ""One Shot In-Progress State"" is 'TRUE'",,,,,
+,,"3) The command-specified ""Application Name"" does not match the name of an entry in the Application Table",,,,,
+,,"4) The valid Application Table entry identified by the command-specified ""Application Name"" is 'UNUSED'",,,,,
+,,the CS Application shall reject the command,,,,,
+Housekeeping Telemetry Packet,CS3000,"When the CS Application receives a Housekeeping Request, the CS Application shall generate a timestamped housekeeping telemetry packet containing (minimally):",,,To provide operators with a comprehensive set of status indicators and performance metrics related to all checksumming operations and states for monitoring and troubleshooting.,,
+,,"1) ""Commands Processed Counter""",,,,,
+,,"2) ""Command Error Counter""",,,,,
+,,"3) ""Global Checksum State""",,,,,
+,,"4) ""Non-volatile Memory Table Checksum State""",,,,,
+,,"5) ""User-defined Memory Table Checksum State""",,,,,
+,,"6) ""Application Table Checksum State""",,,,,
+,,"7) ""Table of cFE Tables Checksum State""",,,,,
+,,"8) ""OS Checksum State""",,,,,
+,,"9) ""cFE Core Checksum State""",,,,,
+,,"10) ""Recompute In-Progress State""",,,,,
+,,"11) ""One Shot In-Progress State""",,,,,
+,,"12) ""Non-volatile Memory Table Miscompare Counter""",,,,,
+,,"13) ""User-defined Memory Table Miscompare Counter""",,,,,
+,,"14) ""Application Table Miscompare Counter""",,,,,
+,,"15) ""Table of cFE Tables Miscompare Counter""",,,,,
+,,"16) ""cFE Core Miscompare Counter""",,,,,
+,,"17) ""OS Miscompare Counter""",,,,,
+,,"18) ""Current Table being Checksummed""",,,,,
+,,"19) ""Current Entry in Table being Checksummed""",,,,,
+,,"20) ""Non-volatile Memory Baseline Checksum""",,,,,
+,,"21) ""OS Baseline Checksum""",,,,,
+,,"22) ""cFE Core Baseline Checksum""",,,,,
+,,"23) ""Address Used in Last One Shot Command""",,,,,
+,,"24) ""Size Used in Last One Shot Command""",,,,,
+,,"25) ""Maximum Bytes per Cycle Used in Last One Shot Command""",,,,,
+,,"26) ""Checksum Calculated in Last One Shot Command""",,,,,
+,,"27) ""Passes through all Checksum Tables""",,,,,
+Invalid Memory Ranges,CS4000,"When the CS Application receives a command with an invalid range of address, the CS Application shall:",,,To prevent system instability and ensure operator awareness by detecting and handling invalid memory address ranges specified in commands.,,
+,,1) Issue an error event detailing how the address range is invalid and the range of addresses that is invalid,,,,,
+,,2) Disable checksumming for the relevant region in memory,,,,,
+Baseline Computation Completion,CS4010,"When the CS Application has completed computing the baseline checksum for a region of memory, the CS Application shall set ""Recompute In-Progress"" to 'FALSE'",,,To ensure the system accurately reflects the completion of baseline checksum computations by resetting the relevant in-progress flag.,,
+One Shot Computation Completion,CS4011,"When the CS Application has completed a One Shot calculation, the CS Application shall set ""One Shot In-Progress"" to 'FALSE'",,,To ensure the system accurately reflects the completion of one-shot checksum calculations by resetting the relevant in-progress flag.,,
+Checksumming Algorithm,CS4020,"When the CS Application is computing a checksum, if the Checksum State for a memory region is 'ENABLED', the CS Application shall use the CRC 16 algorithm to calculate the checksum",,,"To define a specific and consistent algorithm for checksum calculation when enabled, ensuring predictable results.",The algorithm used by CS is configurable,
+Bytes Processed Limit,CS4030,"When the CS Application is computing the checksum for a region of memory, the CS Application shall cap the amount of bytes processed during each of the CS Application's execution cycles to 16,384",,,"To prevent the CS Application from monopolizing processing time by limiting the number of bytes processed per cycle, ensuring system responsiveness.",The cap to the amount of bytes processed is configurable based on how much CPU time is available,
+Checksum Offset Reset,CS4040,"Whenever ""Global Checksum State"" is 'DISABLED' or upon a reset the CS Application shall start checksumming at the beginning of all memory regions",,,"To ensure that checksumming always starts from the beginning of a memory region when global checksumming is disabled or after a reset, providing a consistent starting point.",,
+Memory Segment Checksum Miscomparisons,CS4050,"When the CS Application is comparing a calculated checksum to the baseline checksum of a segment of memory and the checksums are not equal, the CS Application shall:",,,To ensure operator awareness and facilitate diagnosis by incrementing counters and issuing event messages when calculated checksums do not match baseline checksums for memory segments.,,
+,,1) increment the relevant Miscompare Counter,,,,,
+,,2) issue an event message to notify the user of the miscomparison,,,,,
+Table Checksum Miscomparisons,CS4051,"When the CS Application is comparing a calculated checksum to the baseline checksum of a modified table and the checksums are not equal, the CS Application shall:",,,To ensure data integrity and operator awareness for modified tables by recomputing the baseline checksum and notifying the user of any discrepancies.,,
+,,1) recompute the table baseline checksum,,,,,
+,,2) increment the relevant Miscompare Counter,,,,,
+,,3) Issue an event message to notify the user of the miscomparison,,,,,
+Checksum State Order of Operations,CS4060,"When the CS Application is calculating checksums, the Checksum State of the table must be 'ENABLED' for an entry in the table to be checksummed, regardless of the state of ""Entry Checksum State""",,,"To ensure that individual entry checksum states are only acted upon when the overall checksumming for the table is enabled, maintaining a hierarchical control structure.",,
+User-Defined Memory Table,CS5000,"The CS Application shall provide a loadable User-Defined Memory Table containing at least 16 entries, each with the following parameters:",,,"To provide a configurable mechanism for defining and managing checksum parameters for user-defined memory regions, enabling flexible integrity checks.",Number of User-Defined Memory Table entries is configurable,
+,,"1) ""Entry Checksum State""",,,,,
+,,"2) ""Start Address""",,,,,
+,,"3) ""Number of Bytes to Checksum""",,,,,
+User-Defined Memory Table Validation,CS5001,"When a User-Defined Memory Table validation is performed, if any of the following conditions are true:",,,"To ensure the integrity and correct configuration of the User-Defined Memory Table, preventing errors and notifying operators of invalid entries.",,
+,,"1) ""Entry Checksum State"" is neither 'ENABLED', 'DISABLED', or 'UNUSED'",,,,,
+,,"2) ""Start Address"" is invalid",,,,,
+,,"3) ""Number of Bytes to Checksum"" is greater than the number of bytes in the address range associated with ""Start Address""",,,,,
+,,"4) ""Number of Bytes to Checksum"" is less than 0",,,,,
+,,"5) Two entries have duplicate ""Start Address"" and ""Number of Bytes to Checksum"" values",,,,,
+,,"the CS Application shall flag the table as invalid, issue an error event message, and process the remaining tables",,,,,
+Non-volatile Memory Table,CS5010,"The CS Application shall provide a loadable Non-volatile Memory Table containing at least 16 entries, each with the following parameters:",,,"To provide a configurable mechanism for defining and managing checksum parameters for non-volatile memory regions, enabling flexible integrity checks.",Number of Non-volatile Memory Table entries is configurable,
+,,"1) ""Entry Checksum State""",,,,,
+,,"2) ""Start Address""",,,,,
+,,"3) ""Number of Bytes to Checksum""",,,,,
+Non-volatile Memory Table Validation,CS5011,"When a Non-volatile Memory Table validation is performed, if any of the following conditions are true:",,,"To ensure the integrity and correct configuration of the Non-volatile Memory Table, preventing errors and notifying operators of invalid entries.",,
+,,"1) ""Entry Checksum State"" is neither 'ENABLED', 'DISABLED', or 'UNUSED'",,,,,
+,,"2) ""Start Address"" is invalid",,,,,
+,,"3) ""Number of Bytes to Checksum"" is greater than the number of bytes in the address range associated with ""Start Address""",,,,,
+,,"4) ""Number of Bytes to Checksum"" is less than 0",,,,,
+,,"5) Two entries have duplicate ""Start Address"" and ""Number of Bytes to Checksum"" values",,,,,
+,,"the CS Application shall flag the table as invalid, issue an error event message, and process the remaining tables",,,,,
+cFE Table of Tables,CS5020,"The CS Applicatoin shall provide a loadable cFE Table of Tables containing 24 entries, each with the follow parameters:",,,To provide a mechanism for defining which cFE Tables should be checksummed and their initial checksum states.,Number of cFE Table of Tables entries is configurable,
+,,"1) ""Entry Checksum State""",,,,,
+,,"2) ""cFE Table Name""",,,,,
+cFE Table of Tables Validation,CS5021,"When a cFE Table of Tables validation is performed, if any of the following conditions are true:",,,"To ensure the integrity and correct configuration of the cFE Table of Tables, preventing errors and notifying operators of invalid entries or names.",,
+,,"1) ""Entry Checksum State"" is neither 'ENABLED', 'DISABLED', or 'UNUSED'",,,,,
+,,"2) ""cFE Table Name"" is an invalid string",,,,,
+,,"3) ""cFE Table Name"" is not the name of an active cFE Table",,,,,
+,,"4) Two entries have duplicate ""cFE Table Name"" values",,,,,
+,,"the CS Application shall flag the table as invalid, issue an error event message, and process the remaining tables",,,,,
+Application Table,CS5030,Each entry in the table shall contain at a minimum:,,,To define the minimum parameters required for each entry in the Application Table to enable checksumming of application code segments.,,
+,,"1) ""Entry Checksum State""",,,,,
+,,"2) ""Application Name""",,,,,
+Application Table Validation,CS5031,"When an Application Table validation is performed, if any of the following conditions are true:",,,"To ensure the integrity and correct configuration of the Application Table, preventing errors and notifying operators of invalid entries or application names.",,
+,,"1) ""Entry Checksum State"" is neither 'ENABLED', 'DISABLED', or 'UNUSED'",,,,,
+,,"2) ""Application Name"" is an invalid string",,,,,
+,,"3) ""Application Name"" is not the name of an active application",,,,,
+,,"4) Two entries have duplicate ""Applicatoin Name"" values",,,,,
+,,"the CS Application shall flag the table as invalid, issue an error event message, and process the remaining tables",,,,,
