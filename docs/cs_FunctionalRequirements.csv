@@ -1,4 +1,4 @@
-Summary,Custom field (Requirement ID),Description,Custom field (Requirement Rationale)
+Summary,Requirement ID,Description,Requirement Rationale
 CS1000,CS1000,"Upon receipt of a No-Op command, CS shall increment the CS Valid Command Counter and generate an event message.",Debug command to verify application is alive.
 CS1001,CS1001,"Upon receipt of a Reset command, CS shall reset the following housekeeping variables to a value of zero:
 a)       Valid Ground Command Counter
