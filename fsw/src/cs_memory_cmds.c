@@ -99,8 +99,8 @@ CFE_Status_t CS_ReportBaselineEntryIDMemoryCmd(const CS_ReportBaselineEntryIDMem
     /* command verification variables */
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
     uint32                             Baseline;
-    uint16                             EntryID      = 0;
-    CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
+    uint16                             EntryID = 0;
+    CS_ChecksumState_Enum_t            State   = CS_ChecksumState_EMPTY;
 
     EntryID      = CmdPtr->Payload.EntryID;
     ResultsEntry = CS_GetMemoryResEntry(EntryID);
@@ -160,7 +160,7 @@ CFE_Status_t CS_RecomputeBaselineMemoryCmd(const CS_RecomputeBaselineMemoryCmd_t
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
     CFE_ES_TaskId_t                    ChildTaskID  = CFE_ES_TASKID_UNDEFINED;
     CFE_Status_t                       Status;
-    uint16                             EntryID      = 0;
+    uint16                             EntryID = 0;
     CS_ChecksumState_Enum_t            State;
 
     EntryID = CmdPtr->Payload.EntryID;

@@ -159,9 +159,9 @@ CFE_Status_t CS_ReportBaselineEntryIDEepromCmd(const CS_ReportBaselineEntryIDEep
 CFE_Status_t CS_RecomputeBaselineEepromCmd(const CS_RecomputeBaselineEepromCmd_t *CmdPtr)
 {
     /* command verification variables */
-    CFE_ES_TaskId_t                    ChildTaskID  = CFE_ES_TASKID_UNDEFINED;
+    CFE_ES_TaskId_t                    ChildTaskID = CFE_ES_TASKID_UNDEFINED;
     CFE_Status_t                       Status;
-    uint16                             EntryID      = 0;
+    uint16                             EntryID = 0;
     CS_ChecksumState_Enum_t            State;
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
 
