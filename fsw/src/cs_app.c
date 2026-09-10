@@ -58,14 +58,13 @@ CS_AppData_t CS_AppData;
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_AppMain(void)
 {
-    CFE_Status_t     Result = 0;
     CFE_SB_Buffer_t *BufPtr = NULL;
 
     /* Performance Log (start time counter) */
     CFE_ES_PerfLogEntry(CS_APPMAIN_PERF_ID);
 
     /* Perform application-specific initialization */
-    Result = CS_AppInit();
+    CFE_Status_t Result = CS_AppInit();
 
     /* Check for start-up error */
     if (Result != CFE_SUCCESS)
@@ -153,10 +152,8 @@ void CS_AppMain(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_AppInit(void)
 {
-    CFE_Status_t Result = CFE_SUCCESS;
-
     /* Register for event services */
-    Result = CFE_EVS_Register(NULL, 0, 0);
+    CFE_Status_t Result = CFE_EVS_Register(NULL, 0, 0);
 
     if (Result != CFE_SUCCESS)
     {

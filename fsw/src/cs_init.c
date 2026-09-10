@@ -39,15 +39,13 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_SbInit(void)
 {
-    CFE_Status_t Result = CFE_SUCCESS;
-
     /* Initialize housekeeping packet */
     CFE_MSG_Init(CFE_MSG_PTR(CS_AppData.HkPacket.TelemetryHeader),
                  CFE_SB_ValueToMsgId(CS_HK_TLM_MID),
                  sizeof(CS_HkPacket_t));
 
     /* Create Software Bus message pipe */
-    Result = CFE_SB_CreatePipe(&CS_AppData.CmdPipe, CS_PIPE_DEPTH, CS_CMD_PIPE_NAME);
+    CFE_Status_t Result = CFE_SB_CreatePipe(&CS_AppData.CmdPipe, CS_PIPE_DEPTH, CS_CMD_PIPE_NAME);
     if (Result != CFE_SUCCESS)
     {
         CFE_EVS_SendEvent(CS_CR_PIPE_ERR_EID,
@@ -239,7 +237,6 @@ CFE_Status_t CS_InitAllTables(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_InitSegments(void)
 {
-    int32   ResultSegment = OS_SUCCESS;
     uint32  CFESize;
     cpuaddr CFEAddress;
     uint32  KernelSize;
@@ -248,8 +245,8 @@ void CS_InitSegments(void)
     CS_Res_EepromMemory_Table_Entry_t *CodeSeg;
 
     /* Initalize the CFE core segments */
-    ResultSegment = CFE_PSP_GetCFETextSegmentInfo(&CFEAddress, &CFESize);
-    CodeSeg       = CS_GetCfeCoreCodeSegResTable();
+    int32 ResultSegment = CFE_PSP_GetCFETextSegmentInfo(&CFEAddress, &CFESize);
+    CodeSeg             = CS_GetCfeCoreCodeSegResTable();
 
     if (ResultSegment != OS_SUCCESS)
     {
