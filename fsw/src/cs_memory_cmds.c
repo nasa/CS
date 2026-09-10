@@ -98,7 +98,7 @@ CFE_Status_t CS_ReportBaselineEntryIDMemoryCmd(const CS_ReportBaselineEntryIDMem
 {
     /* command verification variables */
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
-    uint32                             Baseline     = 0;
+    uint32                             Baseline;
     uint16                             EntryID      = 0;
     CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
 
@@ -159,9 +159,9 @@ CFE_Status_t CS_RecomputeBaselineMemoryCmd(const CS_RecomputeBaselineMemoryCmd_t
     /* command verification variables */
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
     CFE_ES_TaskId_t                    ChildTaskID  = CFE_ES_TASKID_UNDEFINED;
-    CFE_Status_t                       Status       = CS_ERROR;
+    CFE_Status_t                       Status;
     uint16                             EntryID      = 0;
-    CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
+    CS_ChecksumState_Enum_t            State;
 
     EntryID = CmdPtr->Payload.EntryID;
 
@@ -253,8 +253,8 @@ CFE_Status_t CS_EnableEntryIDMemoryCmd(const CS_EnableEntryIDMemoryCmd_t *CmdPtr
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
     CS_Def_EepromMemory_Table_Entry_t *DefEntry     = NULL;
     CS_TableWrapper_t                 *tw           = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
-    uint16                             EntryID      = 0;
-    CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
+    uint16                             EntryID;
+    CS_ChecksumState_Enum_t            State;
 
     if (CS_CheckRecomputeOneshot() == false)
     {
@@ -318,8 +318,8 @@ CFE_Status_t CS_DisableEntryIDMemoryCmd(const CS_DisableEntryIDMemoryCmd_t *CmdP
     CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
     CS_Def_EepromMemory_Table_Entry_t *DefEntry     = NULL;
     CS_TableWrapper_t                 *tw           = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
-    uint16                             EntryID      = 0;
-    CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
+    uint16                             EntryID;
+    CS_ChecksumState_Enum_t            State;
 
     if (CS_CheckRecomputeOneshot() == false)
     {

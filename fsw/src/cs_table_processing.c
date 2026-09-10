@@ -616,8 +616,8 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
     uint16                             NumRegionsInTable = 0;
     CS_ChecksumState_Enum_t            PreviousState     = CS_ChecksumState_EMPTY;
     CFE_ES_AppId_t                     AppID             = CFE_ES_APPID_UNDEFINED;
-    CFE_TBL_Handle_t                   TableHandle       = CFE_TBL_BAD_TABLE_HANDLE;
-    bool                               Owned             = false;
+    CFE_TBL_Handle_t                   TableHandle;
+    bool                               Owned;
     char                               AppName[OS_MAX_API_NAME];
     char                               TableAppName[OS_MAX_API_NAME];
     char                               TableTableName[CFE_MISSION_TBL_MAX_NAME_LENGTH];
@@ -905,7 +905,7 @@ CFE_Status_t CS_HandleTableUpdate(CS_TableWrapper_t *tw)
     CFE_Status_t ManageResult2  = CFE_SUCCESS;
     CFE_Status_t GetResult2     = CFE_SUCCESS;
     CFE_Status_t Result         = CFE_SUCCESS;
-    int32        Loop           = 0;
+    int32        Loop;
 
     CFE_TBL_Handle_t             LocalHandle;
     CS_Res_Tables_Table_Entry_t *ResTablesTblPtr;
