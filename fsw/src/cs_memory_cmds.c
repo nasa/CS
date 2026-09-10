@@ -97,13 +97,10 @@ CFE_Status_t CS_EnableMemoryCmd(const CS_EnableMemoryCmd_t *CmdPtr)
 CFE_Status_t CS_ReportBaselineEntryIDMemoryCmd(const CS_ReportBaselineEntryIDMemoryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
-    uint32                             Baseline     = 0;
-    uint16                             EntryID      = 0;
-    CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
-
-    EntryID      = CmdPtr->Payload.EntryID;
-    ResultsEntry = CS_GetMemoryResEntry(EntryID);
+    uint16                             EntryID      = CmdPtr->Payload.EntryID;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = CS_GetMemoryResEntry(EntryID);
+    uint32                             Baseline;
+    CS_ChecksumState_Enum_t            State;
 
     if (ResultsEntry == NULL)
     {
@@ -157,13 +154,11 @@ CFE_Status_t CS_ReportBaselineEntryIDMemoryCmd(const CS_ReportBaselineEntryIDMem
 CFE_Status_t CS_RecomputeBaselineMemoryCmd(const CS_RecomputeBaselineMemoryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
-    CFE_ES_TaskId_t                    ChildTaskID  = CFE_ES_TASKID_UNDEFINED;
-    CFE_Status_t                       Status       = CS_ERROR;
-    uint16                             EntryID      = 0;
-    CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
-
-    EntryID = CmdPtr->Payload.EntryID;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry;
+    CFE_ES_TaskId_t                    ChildTaskID = CFE_ES_TASKID_UNDEFINED;
+    CFE_Status_t                       Status;
+    uint16                             EntryID = CmdPtr->Payload.EntryID;
+    CS_ChecksumState_Enum_t            State;
 
     if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false
         && CS_AppData.HkPacket.Payload.OneShotInProgress == false)
@@ -250,11 +245,11 @@ CFE_Status_t CS_RecomputeBaselineMemoryCmd(const CS_RecomputeBaselineMemoryCmd_t
 CFE_Status_t CS_EnableEntryIDMemoryCmd(const CS_EnableEntryIDMemoryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
-    CS_Def_EepromMemory_Table_Entry_t *DefEntry     = NULL;
-    CS_TableWrapper_t                 *tw           = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
-    uint16                             EntryID      = 0;
-    CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry;
+    CS_Def_EepromMemory_Table_Entry_t *DefEntry;
+    CS_TableWrapper_t                 *tw = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
+    uint16                             EntryID;
+    CS_ChecksumState_Enum_t            State;
 
     if (CS_CheckRecomputeOneshot() == false)
     {
@@ -315,11 +310,11 @@ CFE_Status_t CS_EnableEntryIDMemoryCmd(const CS_EnableEntryIDMemoryCmd_t *CmdPtr
 CFE_Status_t CS_DisableEntryIDMemoryCmd(const CS_DisableEntryIDMemoryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
-    CS_Def_EepromMemory_Table_Entry_t *DefEntry     = NULL;
-    CS_TableWrapper_t                 *tw           = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
-    uint16                             EntryID      = 0;
-    CS_ChecksumState_Enum_t            State        = CS_ChecksumState_EMPTY;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry;
+    CS_Def_EepromMemory_Table_Entry_t *DefEntry;
+    CS_TableWrapper_t                 *tw = &CS_AppData.Tbl[CS_ChecksumType_MEMORY_TABLE];
+    uint16                             EntryID;
+    CS_ChecksumState_Enum_t            State;
 
     if (CS_CheckRecomputeOneshot() == false)
     {
@@ -384,11 +379,10 @@ CFE_Status_t CS_DisableEntryIDMemoryCmd(const CS_DisableEntryIDMemoryCmd_t *CmdP
 CFE_Status_t CS_GetEntryIDMemoryCmd(const CS_GetEntryIDMemoryCmd_t *CmdPtr)
 {
     /* command verification variables */
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
-    uint16                             Loop         = 0;
-    bool                               EntryFound   = false;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry;
+    uint16                             Loop       = 0;
+    bool                               EntryFound = false;
 
-    Loop = 0;
     while (true)
     {
         ResultsEntry = CS_GetMemoryResEntry(Loop);
