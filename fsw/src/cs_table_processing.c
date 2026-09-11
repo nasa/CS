@@ -419,8 +419,7 @@ CFE_Status_t CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
         [CS_ValidationError_DUPLICATE] = CS_VAL_TABLES_DEF_TBL_DUPL_ERR_EID,
     };
 
-    CS_Def_Tables_Table_Entry_t *Entry = NULL;
-    CS_ValidationMetrics_t       Metrics;
+    CS_ValidationMetrics_t Metrics;
 
     memset(&Metrics, 0, sizeof(Metrics));
 
@@ -428,7 +427,7 @@ CFE_Status_t CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
     Metrics.TableName = "Tables";
     Metrics.EventMap  = TABLES_EVENTID_MAP;
 
-    Entry = (CS_Def_Tables_Table_Entry_t *)TblPtr;
+    CS_Def_Tables_Table_Entry_t *Entry = (CS_Def_Tables_Table_Entry_t *)TblPtr;
     while (Metrics.Position < CS_MAX_NUM_TABLES_TABLE_ENTRIES)
     {
         CS_ValidationMetrics_StartNext(&Metrics, Entry->State);
@@ -497,8 +496,8 @@ CFE_Status_t CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ProcessNewEepromMemoryDefinitionTable(CS_TableWrapper_t *tw)
 {
-    const CS_Def_EepromMemory_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_EepromMemory_Table_Entry_t       *ResultsEntry      = NULL;
+    const CS_Def_EepromMemory_Table_Entry_t *DefEntry;
+    CS_Res_EepromMemory_Table_Entry_t       *ResultsEntry;
     uint16                                   Loop              = 0;
     uint16                                   NumRegionsInTable = 0;
     CS_ChecksumState_Enum_t                  PreviousState     = CS_ChecksumState_EMPTY;
@@ -510,7 +509,6 @@ void CS_ProcessNewEepromMemoryDefinitionTable(CS_TableWrapper_t *tw)
         *tw->GlobalState = CS_ChecksumState_DISABLED;
     }
 
-    Loop = 0;
     while (true)
     {
         ResultsEntry = CS_GetResEntryAddr(tw, Loop);
@@ -610,14 +608,13 @@ void CS_ExtractNames(const CS_Def_Tables_Table_Entry_t *DefEntry,
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
 {
-    const CS_Def_Tables_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_Tables_Table_Entry_t       *ResultsEntry      = NULL;
+    const CS_Def_Tables_Table_Entry_t *DefEntry;
+    CS_Res_Tables_Table_Entry_t       *ResultsEntry;
     uint16                             Loop              = 0;
     uint16                             NumRegionsInTable = 0;
-    CS_ChecksumState_Enum_t            PreviousState     = CS_ChecksumState_EMPTY;
     CFE_ES_AppId_t                     AppID             = CFE_ES_APPID_UNDEFINED;
-    CFE_TBL_Handle_t                   TableHandle       = CFE_TBL_BAD_TABLE_HANDLE;
-    bool                               Owned             = false;
+    CFE_TBL_Handle_t                   TableHandle;
+    bool                               Owned;
     char                               AppName[OS_MAX_API_NAME];
     char                               TableAppName[OS_MAX_API_NAME];
     char                               TableTableName[CFE_MISSION_TBL_MAX_NAME_LENGTH];
@@ -627,7 +624,7 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
     CFE_ES_GetAppName(AppName, AppID, OS_MAX_API_NAME);
 
     /* We don't want to be doing chekcksums while changing the table out */
-    PreviousState                             = CS_AppData.HkPacket.Payload.TablesCSState;
+    CS_ChecksumState_Enum_t PreviousState     = CS_AppData.HkPacket.Payload.TablesCSState;
     CS_AppData.HkPacket.Payload.TablesCSState = CS_ChecksumState_DISABLED;
 
     /* Assume none of the CS tables are listed in the new Tables table */
@@ -636,7 +633,6 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
         CS_AppData.Tbl[TableId].ResTblPtr = NULL;
     }
 
-    Loop = 0;
     while (true)
     {
         DefEntry     = CS_GetDefEntryAddr(tw, Loop);
@@ -718,18 +714,16 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ProcessNewAppDefinitionTable(CS_TableWrapper_t *tw)
 {
-    const CS_Def_App_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_App_Table_Entry_t       *ResultsEntry      = NULL;
+    const CS_Def_App_Table_Entry_t *DefEntry;
+    CS_Res_App_Table_Entry_t       *ResultsEntry;
     uint16                          Loop              = 0;
     uint16                          NumRegionsInTable = 0;
-    CS_ChecksumState_Enum_t         PreviousState     = CS_ChecksumState_EMPTY;
 
     /* We don't want to be doing chekcksums while changing the table out */
 
-    PreviousState                          = CS_AppData.HkPacket.Payload.AppCSState;
+    CS_ChecksumState_Enum_t PreviousState  = CS_AppData.HkPacket.Payload.AppCSState;
     CS_AppData.HkPacket.Payload.AppCSState = CS_ChecksumState_DISABLED;
 
-    Loop = 0;
     while (true)
     {
         DefEntry     = CS_GetDefEntryAddr(tw, Loop);
@@ -898,14 +892,7 @@ CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFileName, CFE_TBL
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_HandleTableUpdate(CS_TableWrapper_t *tw)
 {
-    CFE_Status_t ReleaseResult1 = CFE_SUCCESS;
-    CFE_Status_t ManageResult1  = CFE_SUCCESS;
-    CFE_Status_t GetResult1     = CFE_SUCCESS;
-    CFE_Status_t ReleaseResult2 = CFE_SUCCESS;
-    CFE_Status_t ManageResult2  = CFE_SUCCESS;
-    CFE_Status_t GetResult2     = CFE_SUCCESS;
-    CFE_Status_t Result         = CFE_SUCCESS;
-    int32        Loop           = 0;
+    CFE_Status_t GetResult2 = CFE_SUCCESS;
 
     CFE_TBL_Handle_t             LocalHandle;
     CS_Res_Tables_Table_Entry_t *ResTablesTblPtr;
@@ -914,14 +901,14 @@ CFE_Status_t CS_HandleTableUpdate(CS_TableWrapper_t *tw)
     /* This is done so intentionally, as it helps us with Source-Level debugging this functions. */
 
     /* Release the Table Address.  */
-    ReleaseResult1 = CFE_TBL_ReleaseAddress(tw->ResHandle);
-    ReleaseResult2 = CFE_TBL_ReleaseAddress(tw->DefHandle);
+    CFE_Status_t ReleaseResult1 = CFE_TBL_ReleaseAddress(tw->ResHandle);
+    CFE_Status_t ReleaseResult2 = CFE_TBL_ReleaseAddress(tw->DefHandle);
 
-    ManageResult1 = CFE_TBL_Manage(tw->ResHandle);
-    ManageResult2 = CFE_TBL_Manage(tw->DefHandle);
+    CFE_Status_t ManageResult1 = CFE_TBL_Manage(tw->ResHandle);
+    CFE_Status_t ManageResult2 = CFE_TBL_Manage(tw->DefHandle);
 
-    GetResult1 = CFE_TBL_GetAddress(&tw->ResAddr, tw->ResHandle);
-    Result     = GetResult1;
+    CFE_Status_t GetResult1 = CFE_TBL_GetAddress(&tw->ResAddr, tw->ResHandle);
+    CFE_Status_t Result     = GetResult1;
 
     if (Result >= CFE_SUCCESS)
     {
@@ -935,7 +922,7 @@ CFE_Status_t CS_HandleTableUpdate(CS_TableWrapper_t *tw)
         {
             /* before we update the results table, we need to release all of the
              table handles that are in the results table */
-            Loop = 0;
+            int32 Loop = 0;
             while (true)
             {
                 ResTablesTblPtr = CS_GetTablesResEntry(Loop);

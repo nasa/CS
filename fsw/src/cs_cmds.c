@@ -107,14 +107,11 @@ CFE_Status_t CS_ResetCountersCmd(const CS_ResetCountersCmd_t *CmdPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_BackgroundCheckCycleCmd(const CS_BackgroundCheckCycleCmd_t *CmdPtr)
 {
-    /* command verification variables */
-    bool DoneWithCycle = false;
-    bool EndOfList     = false;
-
     if (CS_AppData.HkPacket.Payload.ChecksumState == CS_ChecksumState_ENABLED)
     {
-        DoneWithCycle = false;
-        EndOfList     = false;
+        /* command verification variables */
+        bool DoneWithCycle = false;
+        bool EndOfList     = false;
 
         /* Skip this background cycle if there's a recompute or one shot in
          * progress */
