@@ -363,8 +363,6 @@ CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *
     CFE_Status_t            Status;
     CS_LocalChecksumState_t State;
 
-    Status = CFE_SUCCESS;
-
     memset(&State, 0, sizeof(State));
 
     State.BufferAddr = CFE_ES_MEMADDRESS_TO_PTR(ResultsEntry->StartAddress);
@@ -475,8 +473,6 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
 {
     CFE_Status_t            Status;
     CS_LocalChecksumState_t State;
-
-    Status = CFE_SUCCESS;
 
     memset(&State, 0, sizeof(State));
 
@@ -780,9 +776,9 @@ void CS_OneShotChildTask(void)
 {
     uint32  NewChecksumValue        = 0;
     size_t  NumBytesRemainingCycles = 0;
-    size_t  NumBytesThisCycle       = 0;
-    cpuaddr FirstAddrThisCycle      = 0;
-    size_t  MaxBytesPerCycle        = 0;
+    size_t  NumBytesThisCycle;
+    cpuaddr FirstAddrThisCycle = 0;
+    size_t  MaxBytesPerCycle   = 0;
 
     NewChecksumValue        = 0;
     NumBytesRemainingCycles = CS_AppData.HkPacket.Payload.LastOneShotSize;

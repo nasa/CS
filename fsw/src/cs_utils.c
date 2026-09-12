@@ -87,7 +87,7 @@ bool CS_CheckResTableNameMatch(const char *Name, uint16 TableId)
  *-----------------------------------------------------------------*/
 void *CS_GetDefEntryAddr(CS_TableWrapper_t *tw, uint16 EntryId)
 {
-    uint8 *EntryAddr = tw->DefAddr;
+    uint8 *EntryAddr;
 
     if (tw->DefAddr != NULL && EntryId < tw->NumEntries)
     {
@@ -1085,7 +1085,7 @@ void CS_ResetTablesTblResultEntry(CS_Res_Tables_Table_Entry_t *TablesTblResultEn
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_HandleRoutineTableUpdates(void)
 {
-    CFE_Status_t       Result = CFE_SUCCESS;
+    CFE_Status_t       Result;
     uint16             TableId;
     CS_TableWrapper_t *tw;
     bool               ShouldProcess;
