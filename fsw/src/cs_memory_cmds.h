@@ -70,7 +70,7 @@ CFE_Status_t CS_DisableMemoryCmd(const CS_DisableMemoryCmd_t *CmdPtr);
 CFE_Status_t CS_EnableMemoryCmd(const CS_EnableMemoryCmd_t *CmdPtr);
 
 /**
- * \brief Proccess a report baseline of a Memory Entry command
+ * \brief Process a report baseline of a Memory Entry command
  *
  *  \par Description
  *        Reports the baseline checksum of the specified Memory table
@@ -109,7 +109,7 @@ CFE_Status_t CS_ReportBaselineEntryIDMemoryCmd(const CS_ReportBaselineEntryIDMem
 CFE_Status_t CS_DisableEntryIDMemoryCmd(const CS_DisableEntryIDMemoryCmd_t *CmdPtr);
 
 /**
- * \brief Process a recopmute baseline of a Memory table entry command
+ * \brief Process a recompute baseline of a Memory table entry command
  *
  *  \par Description
  *        Recomputes the checksum of a Memory table entry and use that

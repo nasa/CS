@@ -86,7 +86,7 @@ CFE_Status_t CS_EnableAppsCmd(const CS_EnableAppsCmd_t *CmdPtr);
 CFE_Status_t CS_ReportBaselineAppCmd(const CS_ReportBaselineAppCmd_t *CmdPtr);
 
 /**
- * \brief Process a recopmute baseline of an app command
+ * \brief Process a recompute baseline of an app command
  *
  *  \par Description
  *        Recomputes the checksum of an app and use that
