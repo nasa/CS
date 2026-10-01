@@ -70,7 +70,7 @@ CFE_Status_t CS_DisableEepromCmd(const CS_DisableEepromCmd_t *CmdPtr);
 CFE_Status_t CS_EnableEepromCmd(const CS_EnableEepromCmd_t *CmdPtr);
 
 /**
- * \brief Proccess a report baseline of an EEPROM Entry command
+ * \brief Process a report baseline of an EEPROM Entry command
  *
  *  \par Description
  *        Reports the baseline checksum of the specified EEPROM table
@@ -109,7 +109,7 @@ CFE_Status_t CS_ReportBaselineEntryIDEepromCmd(const CS_ReportBaselineEntryIDEep
 CFE_Status_t CS_DisableEntryIDEepromCmd(const CS_DisableEntryIDEepromCmd_t *CmdPtr);
 
 /**
- * \brief Process a recopmute baseline of an EEPROM table entry command
+ * \brief Process a recompute baseline of an EEPROM table entry command
  *
  *  \par Description
  *        Recomputes the checksum of an EEPROM table entry and use that

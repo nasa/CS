@@ -59,13 +59,13 @@ typedef struct
     uint16 AppCSErrCounter;     /**< \brief App miscompare counter */
     uint16 TablesCSErrCounter;  /**< \brief Tables miscompare counter */
     uint16 CfeCoreCSErrCounter; /**< \brief cFE core miscompare counter */
-    uint16 OSCSErrCounter;      /**< \brief OS code segment miscopmare counter */
+    uint16 OSCSErrCounter;      /**< \brief OS code segment miscompare counter */
 
     uint16 CurrentCSTable;      /**< \brief Current table being checksummed */
     uint16 CurrentEntryInTable; /**< \brief Current entry ID in table being checksummed */
     uint32 EepromBaseline;      /**< \brief Baseline checksum for all of EEPROM */
     uint32 OSBaseline;          /**< \brief Baseline checksum for the OS code segment */
-    uint32 CfeCoreBaseline;     /**< \brief Basline checksum for the cFE core */
+    uint32 CfeCoreBaseline;     /**< \brief Baseline checksum for the cFE core */
 
     CFE_ES_MemAddress_t LastOneShotAddress; /**< \brief Address used in last one shot checksum command */
     uint32              LastOneShotSize;    /**< \brief Size used in the last one shot checksum command */
