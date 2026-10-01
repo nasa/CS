@@ -363,8 +363,6 @@ CS_ComputeEepromMemory(CS_Res_EepromMemory_Table_Entry_t *ResultsEntry, uint32 *
     CFE_Status_t            Status;
     CS_LocalChecksumState_t State;
 
-    Status = CFE_SUCCESS;
-
     memset(&State, 0, sizeof(State));
 
     State.BufferAddr = CFE_ES_MEMADDRESS_TO_PTR(ResultsEntry->StartAddress);
@@ -476,8 +474,6 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
     CFE_Status_t            Status;
     CS_LocalChecksumState_t State;
 
-    Status = CFE_SUCCESS;
-
     memset(&State, 0, sizeof(State));
 
     State.BufferAddr = CFE_ES_MEMADDRESS_TO_PTR(ResultsEntry->StartAddress);
@@ -525,21 +521,18 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
 void CS_RecomputeEepromMemoryChildTask(void)
 {
     uint32                             NewChecksumValue = 0;
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry     = NULL;
-    uint16                             EntryID          = 0;
-    CS_ChecksumState_Enum_t            PreviousState    = CS_ChecksumState_EMPTY;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry     = CS_AppData.RecomputeEepromMemoryEntryPtr;
+    uint16                             EntryID          = CS_AppData.ChildTaskEntryID;
+    CS_ChecksumState_Enum_t            PreviousState    = ResultsEntry->State;
     bool                               DoneWithEntry    = false;
     CS_ChecksumState_Enum_t            PreviousDefState = CS_ChecksumState_EMPTY;
     CS_Def_EepromMemory_Table_Entry_t *DefEntry         = NULL;
     CS_TableWrapper_t                 *tw;
 
-    tw           = &CS_AppData.Tbl[CS_AppData.ChildTaskTable];
-    EntryID      = CS_AppData.ChildTaskEntryID;
-    ResultsEntry = CS_AppData.RecomputeEepromMemoryEntryPtr;
+    tw = &CS_AppData.Tbl[CS_AppData.ChildTaskTable];
 
     /* we want to  make sure that the entry isn't being checksummed in the
      background at the same time we are recomputing */
-    PreviousState       = ResultsEntry->State;
     ResultsEntry->State = CS_ChecksumState_DISABLED;
 
     /* Set entry as if this is the first time we are computing the checksum,
@@ -609,8 +602,8 @@ void CS_RecomputeEepromMemoryChildTask(void)
 void CS_RecomputeAppChildTask(void)
 {
     uint32                    NewChecksumValue = 0;
-    CS_Res_App_Table_Entry_t *ResultsEntry     = NULL;
-    CS_ChecksumState_Enum_t   PreviousState    = CS_ChecksumState_EMPTY;
+    CS_Res_App_Table_Entry_t *ResultsEntry     = CS_AppData.RecomputeAppEntryPtr;
+    CS_ChecksumState_Enum_t   PreviousState    = ResultsEntry->State;
     bool                      DoneWithEntry    = false;
     CFE_Status_t              Status           = CS_ERROR;
     CS_ChecksumState_Enum_t   PreviousDefState = CS_ChecksumState_EMPTY;
@@ -618,13 +611,9 @@ void CS_RecomputeAppChildTask(void)
 
     CS_TableWrapper_t *tw = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
 
-    /* Get the variables to use from the global data */
-    ResultsEntry = CS_AppData.RecomputeAppEntryPtr;
-
     /* we want to  make sure that the entry isn't being checksummed in the
      background at the same time we are recomputing */
 
-    PreviousState       = ResultsEntry->State;
     ResultsEntry->State = CS_ChecksumState_DISABLED;
 
     /* Set entry as if this is the first time we are computing the checksum,
@@ -695,8 +684,8 @@ void CS_RecomputeAppChildTask(void)
 void CS_RecomputeTablesChildTask(void)
 {
     uint32                       NewChecksumValue = 0;
-    CS_Res_Tables_Table_Entry_t *ResultsEntry     = NULL;
-    CS_ChecksumState_Enum_t      PreviousState    = CS_ChecksumState_EMPTY;
+    CS_Res_Tables_Table_Entry_t *ResultsEntry     = CS_AppData.RecomputeTablesEntryPtr;
+    CS_ChecksumState_Enum_t      PreviousState    = ResultsEntry->State;
     bool                         DoneWithEntry    = false;
     CFE_Status_t                 Status           = CS_ERROR;
     CS_ChecksumState_Enum_t      PreviousDefState = CS_ChecksumState_EMPTY;
@@ -704,13 +693,9 @@ void CS_RecomputeTablesChildTask(void)
 
     CS_TableWrapper_t *tw = &CS_AppData.Tbl[CS_ChecksumType_TABLES_TABLE];
 
-    /* Get the variables to use from the global data */
-    ResultsEntry = CS_AppData.RecomputeTablesEntryPtr;
-
     /* we want to  make sure that the entry isn't being checksummed in the
      background at the same time we are recomputing */
 
-    PreviousState       = ResultsEntry->State;
     ResultsEntry->State = CS_ChecksumState_DISABLED;
 
     /* Set entry as if this is the first time we are computing the checksum,
@@ -779,15 +764,10 @@ void CS_RecomputeTablesChildTask(void)
 void CS_OneShotChildTask(void)
 {
     uint32  NewChecksumValue        = 0;
-    size_t  NumBytesRemainingCycles = 0;
-    size_t  NumBytesThisCycle       = 0;
-    cpuaddr FirstAddrThisCycle      = 0;
-    size_t  MaxBytesPerCycle        = 0;
-
-    NewChecksumValue        = 0;
-    NumBytesRemainingCycles = CS_AppData.HkPacket.Payload.LastOneShotSize;
-    FirstAddrThisCycle      = CS_AppData.HkPacket.Payload.LastOneShotAddress;
-    MaxBytesPerCycle        = CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle;
+    size_t  NumBytesRemainingCycles = CS_AppData.HkPacket.Payload.LastOneShotSize;
+    size_t  NumBytesThisCycle;
+    cpuaddr FirstAddrThisCycle = CS_AppData.HkPacket.Payload.LastOneShotAddress;
+    size_t  MaxBytesPerCycle   = CS_AppData.HkPacket.Payload.LastOneShotMaxBytesPerCycle;
 
     while (NumBytesRemainingCycles > 0)
     {

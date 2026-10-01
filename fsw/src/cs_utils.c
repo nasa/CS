@@ -87,7 +87,7 @@ bool CS_CheckResTableNameMatch(const char *Name, uint16 TableId)
  *-----------------------------------------------------------------*/
 void *CS_GetDefEntryAddr(CS_TableWrapper_t *tw, uint16 EntryId)
 {
-    uint8 *EntryAddr = tw->DefAddr;
+    uint8 *EntryAddr;
 
     if (tw->DefAddr != NULL && EntryId < tw->NumEntries)
     {
@@ -420,11 +420,10 @@ void CS_GoToNextTable(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t **EntryPtr, const char *Name)
 {
-    CS_Res_Tables_Table_Entry_t *ResultsEntry = NULL;
-    int32                        Loop;
+    CS_Res_Tables_Table_Entry_t *ResultsEntry;
+    int32                        Loop   = 0;
     bool                         Status = false;
 
-    Loop = 0;
     while (true)
     {
         ResultsEntry = CS_GetTablesResEntry(Loop);
@@ -453,11 +452,10 @@ bool CS_GetTableResTblEntryByName(CS_Res_Tables_Table_Entry_t **EntryPtr, const 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t **EntryPtr, const char *Name)
 {
-    CS_Def_Tables_Table_Entry_t *DefinitionEntry = NULL;
-    int32                        Loop;
+    CS_Def_Tables_Table_Entry_t *DefinitionEntry;
+    int32                        Loop   = 0;
     bool                         Status = false;
 
-    Loop = 0;
     while (true)
     {
         DefinitionEntry = CS_GetTablesDefEntry(Loop);
@@ -486,11 +484,10 @@ bool CS_GetTableDefTblEntryByName(CS_Def_Tables_Table_Entry_t **EntryPtr, const 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t **EntryPtr, const char *Name)
 {
-    CS_Res_App_Table_Entry_t *ResultsEntry = NULL;
-    int32                     Loop;
+    CS_Res_App_Table_Entry_t *ResultsEntry;
+    int32                     Loop   = 0;
     bool                      Status = false;
 
-    Loop = 0;
     while (true)
     {
         ResultsEntry = CS_GetAppResEntry(Loop);
@@ -518,11 +515,10 @@ bool CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t **EntryPtr, const char 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 bool CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t **EntryPtr, const char *Name)
 {
-    CS_Def_App_Table_Entry_t *DefinitionEntry = NULL;
-    int32                     Loop;
+    CS_Def_App_Table_Entry_t *DefinitionEntry;
+    int32                     Loop   = 0;
     bool                      Status = false;
 
-    Loop = 0;
     while (true)
     {
         DefinitionEntry = CS_GetAppDefEntry(Loop);
@@ -550,7 +546,7 @@ bool CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t **EntryPtr, const char 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CS_Res_EepromMemory_Table_Entry_t *CS_FindEnabledEepromEntry(void)
 {
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry;
 
     while (true)
     {
@@ -573,7 +569,7 @@ CS_Res_EepromMemory_Table_Entry_t *CS_FindEnabledEepromEntry(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CS_Res_EepromMemory_Table_Entry_t *CS_FindEnabledMemoryEntry(void)
 {
-    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry = NULL;
+    CS_Res_EepromMemory_Table_Entry_t *ResultsEntry;
 
     while (true)
     {
@@ -596,7 +592,7 @@ CS_Res_EepromMemory_Table_Entry_t *CS_FindEnabledMemoryEntry(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CS_Res_Tables_Table_Entry_t *CS_FindEnabledTablesEntry(void)
 {
-    CS_Res_Tables_Table_Entry_t *ResultsEntry = NULL;
+    CS_Res_Tables_Table_Entry_t *ResultsEntry;
 
     while (true)
     {
@@ -618,7 +614,7 @@ CS_Res_Tables_Table_Entry_t *CS_FindEnabledTablesEntry(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CS_Res_App_Table_Entry_t *CS_FindEnabledAppEntry(void)
 {
-    CS_Res_App_Table_Entry_t *ResultsEntry = NULL;
+    CS_Res_App_Table_Entry_t *ResultsEntry;
 
     while (true)
     {
@@ -1085,7 +1081,7 @@ void CS_ResetTablesTblResultEntry(CS_Res_Tables_Table_Entry_t *TablesTblResultEn
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_HandleRoutineTableUpdates(void)
 {
-    CFE_Status_t       Result = CFE_SUCCESS;
+    CFE_Status_t       Result;
     uint16             TableId;
     CS_TableWrapper_t *tw;
     bool               ShouldProcess;

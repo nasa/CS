@@ -39,7 +39,7 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_SbInit(void)
 {
-    CFE_Status_t Result = CFE_SUCCESS;
+    CFE_Status_t Result;
 
     /* Initialize housekeeping packet */
     CFE_MSG_Init(CFE_MSG_PTR(CS_AppData.HkPacket.TelemetryHeader),
@@ -239,7 +239,7 @@ CFE_Status_t CS_InitAllTables(void)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_InitSegments(void)
 {
-    int32   ResultSegment = OS_SUCCESS;
+    int32   ResultSegment;
     uint32  CFESize;
     cpuaddr CFEAddress;
     uint32  KernelSize;
