@@ -43,31 +43,6 @@ uint8 call_count_CFE_EVS_SendEvent;
  * Function Definitions
  */
 
-void CS_TABLE_PROCESSING_TEST_CFE_ES_GetAppNameHandler1(void                   *UserObj,
-                                                        UT_EntryKey_t           FuncKey,
-                                                        const UT_StubContext_t *Context)
-{
-    char *AppName = (char *)UT_Hook_GetArgValueByName(Context, "AppName", char *);
-
-    strncpy((char *)AppName, "CS", 3);
-}
-
-CFE_Status_t CS_TABLE_PROCESSING_TEST_CFE_TBL_GetAddressHook(void                   *UserObj,
-                                                             int32                   StubRetcode,
-                                                             uint32                  CallCount,
-                                                             const UT_StubContext_t *Context)
-{
-    return CFE_SUCCESS;
-}
-
-CFE_Status_t CS_TABLE_PROCESSING_TEST_CFE_TBL_LoadHook(void                   *UserObj,
-                                                       int32                   StubRetcode,
-                                                       uint32                  CallCount,
-                                                       const UT_StubContext_t *Context)
-{
-    return CFE_SUCCESS;
-}
-
 void Test_CS_ValidateEepromChecksumDefinitionTable(void)
 {
     /* Test case for:
