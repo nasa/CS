@@ -70,7 +70,7 @@ CFE_Status_t CS_DisableTablesCmd(const CS_DisableTablesCmd_t *CmdPtr);
 CFE_Status_t CS_EnableTablesCmd(const CS_EnableTablesCmd_t *CmdPtr);
 
 /**
- * \brief Proccess a report baseline of a Table command
+ * \brief Process a report baseline of a Table command
  *
  *  \par Description
  *        Reports the baseline checksum of the specified table

@@ -161,7 +161,7 @@ void CS_RecomputeTablesChildTask(void);
 void CS_RecomputeAppChildTask(void);
 
 /**
- * \brief Child task main function for computing a one shot calculatipn
+ * \brief Child task main function for computing a one shot calculation
  *
  *  \par Description
  *       Child task main function that is spawned when a one shot

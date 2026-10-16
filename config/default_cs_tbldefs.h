@@ -51,7 +51,7 @@ typedef struct
 } CS_Def_EepromMemory_Table_Entry_t;
 
 /**
- * \brief Data structure for the Eeporom or Memory results table
+ * \brief Data structure for the EEPROM or Memory results table
  */
 typedef struct
 {
@@ -61,7 +61,7 @@ typedef struct
     uint32              NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
     uint32              ComparisonValue;    /**< \brief The Memory Integrity Value */
     uint32              ByteOffset;         /**< \brief Where a previous unfinished calc left off */
-    uint32              TempChecksumValue;  /**< \brief The unfinished caluculation */
+    uint32              TempChecksumValue;  /**< \brief The unfinished calculation */
     uint32              Filler32;           /**< \brief Padding */
 } CS_Res_EepromMemory_Table_Entry_t;
 
@@ -94,8 +94,8 @@ typedef struct
     uint32              NumBytesToChecksum; /**< \brief The number of Bytes to Checksum */
     uint32              ComparisonValue;    /**< \brief The Memory Integrity Value */
     uint32              ByteOffset;         /**< \brief Where a previous unfinished calc left off */
-    uint32              TempChecksumValue;  /**< \brief The unfinished caluculation */
-    CFE_TBL_HandleId_t  TblHandleID;        /**< \brief handle recieved from CFE_TBL */
+    uint32              TempChecksumValue;  /**< \brief The unfinished calculation */
+    CFE_TBL_HandleId_t  TblHandleID;        /**< \brief handle received from CFE_TBL */
     bool                IsCSOwner;          /**< \brief Is CS the original owner of this table */
     bool                Filler8;            /**< \brief Padding */
     char                Name[CFE_MISSION_TBL_MAX_FULL_NAME_LEN]; /**< \brief name of the table */
@@ -112,7 +112,7 @@ typedef struct
     uint32              NumBytesToChecksum;            /**< \brief The number of Bytes to Checksum */
     uint32              ComparisonValue;               /**< \brief The Memory Integrity Value */
     uint32              ByteOffset;                    /**< \brief Where a previous unfinished calc left off */
-    uint32              TempChecksumValue;             /**< \brief The unfinished caluculation */
+    uint32              TempChecksumValue;             /**< \brief The unfinished calculation */
     char                Name[CFE_MISSION_MAX_API_LEN]; /**< \brief name of the app */
 } CS_Res_App_Table_Entry_t;
 
