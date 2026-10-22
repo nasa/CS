@@ -72,6 +72,8 @@ void CS_DisableEepromCmd_Test(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
                   "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
+
+    UtAssert_STUB_COUNT(CS_UpdateCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 }
 
 void CS_DisableEepromCmd_Test_OneShot(void)
@@ -124,6 +126,8 @@ void CS_EnableEepromCmd_Test(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
                   "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
+
+    UtAssert_STUB_COUNT(CS_UpdateCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 }
 
 void CS_EnableEepromCmd_Test_OneShot(void)
@@ -1081,9 +1085,17 @@ void CS_GetEntryIDEepromCmd_Test_State(void)
 void UtTest_Setup(void)
 {
     UtTest_Add(CS_DisableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableEepromCmd_Test");
+    UtTest_Add(CS_DisableEepromCmd_Test,
+               CS_Test_SetupPreserveStates,
+               CS_Test_TearDown,
+               "CS_DisableEepromCmd_Test_PreserveStates");
     UtTest_Add(CS_DisableEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_DisableEepromCmd_Test_OneShot");
 
     UtTest_Add(CS_EnableEepromCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableEepromCmd_Test");
+    UtTest_Add(CS_EnableEepromCmd_Test,
+               CS_Test_SetupPreserveStates,
+               CS_Test_TearDown,
+               "CS_EnableEepromCmd_Test_PreserveStates");
     UtTest_Add(CS_EnableEepromCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_EnableEepromCmd_Test_OneShot");
 
     UtTest_Add(CS_ReportBaselineEntryIDEepromCmd_Test_Computed,

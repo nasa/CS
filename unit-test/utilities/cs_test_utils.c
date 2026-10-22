@@ -203,6 +203,12 @@ void CS_Test_Setup(void)
     memset(CS_DefaultAppResTable, 0, sizeof(CS_DefaultAppResTable));
 }
 
+void CS_Test_SetupPreserveStates(void)
+{
+    CS_Test_Setup();
+    CS_AppData.PreserveStatesOnProcessorReset = true;
+}
+
 void CS_Test_TearDown(void)
 {
     /* cleanup test environment */

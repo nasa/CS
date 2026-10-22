@@ -130,12 +130,9 @@ typedef struct
     CS_Def_App_Table_Entry_t
         DefaultAppDefTable[CS_MAX_NUM_APP_TABLE_ENTRIES]; /**< \brief Default Apps definition table */
 
-    /* The following pointers locate the results for CS tables that get checksummed because they are listed in the CS
-     * Tables table */
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-    CFE_ES_CDSHandle_t DataStoreHandle; /**< \brief Handle to critical data store created by CS */
-#endif
+    /* Startup configuration and critical data store state */
+    bool PreserveStatesOnProcessorReset; /**< \brief Initialized from CS_PRESERVE_STATES_ON_PROCESSOR_RESET */
+    CFE_ES_CDSHandle_t DataStoreHandle;  /**< \brief Handle to critical data store created by CS */
 } CS_AppData_t;
 
 /**************************************************************************
