@@ -50,9 +50,10 @@ CFE_Status_t CS_DisableAppsCmd(const CS_DisableAppsCmd_t *CmdPtr)
         CS_AppData.HkPacket.Payload.AppCSState = CS_ChecksumState_DISABLED;
         CS_ZeroAppTempValues();
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
-#endif
+        if (CS_AppData.PreserveStatesOnProcessorReset)
+        {
+            CS_UpdateCDS();
+        }
 
         CFE_EVS_SendEvent(CS_DISABLE_APP_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of App is Disabled");
         CS_AppData.HkPacket.Payload.CommandCounter++;
@@ -72,9 +73,10 @@ CFE_Status_t CS_EnableAppsCmd(const CS_EnableAppsCmd_t *CmdPtr)
     {
         CS_AppData.HkPacket.Payload.AppCSState = CS_ChecksumState_ENABLED;
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
-#endif
+        if (CS_AppData.PreserveStatesOnProcessorReset)
+        {
+            CS_UpdateCDS();
+        }
 
         CFE_EVS_SendEvent(CS_ENABLE_APP_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of App is Enabled");
         CS_AppData.HkPacket.Payload.CommandCounter++;

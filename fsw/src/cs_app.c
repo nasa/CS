@@ -167,7 +167,8 @@ CFE_Status_t CS_AppInit(void)
         /* Zero out all data in CS_AppData, including the housekeeping data*/
         memset(&CS_AppData, 0, sizeof(CS_AppData));
 
-        CS_AppData.RunStatus = CFE_ES_RunStatus_APP_RUN;
+        CS_AppData.PreserveStatesOnProcessorReset = CS_PRESERVE_STATES_ON_PROCESSOR_RESET;
+        CS_AppData.RunStatus                      = CFE_ES_RunStatus_APP_RUN;
 
         Result = CS_SbInit();
     }
@@ -185,9 +186,10 @@ CFE_Status_t CS_AppInit(void)
         CS_AppData.HkPacket.Payload.OSCSState      = CS_OSCS_CHECKSUM_STATE;
         CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_CFECORE_CHECKSUM_STATE;
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        Result = CS_CreateRestoreStatesFromCDS();
-#endif
+        if (CS_AppData.PreserveStatesOnProcessorReset)
+        {
+            Result = CS_CreateRestoreStatesFromCDS();
+        }
     }
 
     if (Result == CFE_SUCCESS)
@@ -223,8 +225,6 @@ CFE_Status_t CS_AppInit(void)
     }
     return Result;
 }
-
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 /*                                                                 */
@@ -368,4 +368,3 @@ void CS_UpdateCDS(void)
         }
     }
 }
-#endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true   ) */
