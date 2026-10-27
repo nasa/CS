@@ -419,7 +419,7 @@ CFE_Status_t CS_ValidateTablesChecksumDefinitionTable(void *TblPtr)
         [CS_ValidationError_DUPLICATE] = CS_VAL_TABLES_DEF_TBL_DUPL_ERR_EID,
     };
 
-    CS_Def_Tables_Table_Entry_t *Entry = NULL;
+    CS_Def_Tables_Table_Entry_t *Entry;
     CS_ValidationMetrics_t       Metrics;
 
     memset(&Metrics, 0, sizeof(Metrics));
@@ -497,8 +497,8 @@ CFE_Status_t CS_ValidateAppChecksumDefinitionTable(void *TblPtr)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ProcessNewEepromMemoryDefinitionTable(CS_TableWrapper_t *tw)
 {
-    const CS_Def_EepromMemory_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_EepromMemory_Table_Entry_t       *ResultsEntry      = NULL;
+    const CS_Def_EepromMemory_Table_Entry_t *DefEntry;
+    CS_Res_EepromMemory_Table_Entry_t       *ResultsEntry;
     uint16                                   Loop              = 0;
     uint16                                   NumRegionsInTable = 0;
     CS_ChecksumState_Enum_t                  PreviousState     = CS_ChecksumState_EMPTY;
@@ -510,7 +510,6 @@ void CS_ProcessNewEepromMemoryDefinitionTable(CS_TableWrapper_t *tw)
         *tw->GlobalState = CS_ChecksumState_DISABLED;
     }
 
-    Loop = 0;
     while (true)
     {
         ResultsEntry = CS_GetResEntryAddr(tw, Loop);
@@ -610,14 +609,14 @@ void CS_ExtractNames(const CS_Def_Tables_Table_Entry_t *DefEntry,
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
 {
-    const CS_Def_Tables_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_Tables_Table_Entry_t       *ResultsEntry      = NULL;
+    const CS_Def_Tables_Table_Entry_t *DefEntry;
+    CS_Res_Tables_Table_Entry_t       *ResultsEntry;
     uint16                             Loop              = 0;
     uint16                             NumRegionsInTable = 0;
-    CS_ChecksumState_Enum_t            PreviousState     = CS_ChecksumState_EMPTY;
-    CFE_ES_AppId_t                     AppID             = CFE_ES_APPID_UNDEFINED;
-    CFE_TBL_Handle_t                   TableHandle       = CFE_TBL_BAD_TABLE_HANDLE;
-    bool                               Owned             = false;
+    CS_ChecksumState_Enum_t            PreviousState;
+    CFE_ES_AppId_t                     AppID = CFE_ES_APPID_UNDEFINED;
+    CFE_TBL_Handle_t                   TableHandle;
+    bool                               Owned;
     char                               AppName[OS_MAX_API_NAME];
     char                               TableAppName[OS_MAX_API_NAME];
     char                               TableTableName[CFE_MISSION_TBL_MAX_NAME_LENGTH];
@@ -636,7 +635,6 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
         CS_AppData.Tbl[TableId].ResTblPtr = NULL;
     }
 
-    Loop = 0;
     while (true)
     {
         DefEntry     = CS_GetDefEntryAddr(tw, Loop);
@@ -718,18 +716,16 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 void CS_ProcessNewAppDefinitionTable(CS_TableWrapper_t *tw)
 {
-    const CS_Def_App_Table_Entry_t *DefEntry          = NULL;
-    CS_Res_App_Table_Entry_t       *ResultsEntry      = NULL;
+    const CS_Def_App_Table_Entry_t *DefEntry;
+    CS_Res_App_Table_Entry_t       *ResultsEntry;
     uint16                          Loop              = 0;
     uint16                          NumRegionsInTable = 0;
-    CS_ChecksumState_Enum_t         PreviousState     = CS_ChecksumState_EMPTY;
+    CS_ChecksumState_Enum_t         PreviousState     = CS_AppData.HkPacket.Payload.AppCSState;
 
     /* We don't want to be doing chekcksums while changing the table out */
 
-    PreviousState                          = CS_AppData.HkPacket.Payload.AppCSState;
     CS_AppData.HkPacket.Payload.AppCSState = CS_ChecksumState_DISABLED;
 
-    Loop = 0;
     while (true)
     {
         DefEntry     = CS_GetDefEntryAddr(tw, Loop);
@@ -898,14 +894,14 @@ CS_TableInit(CS_TableWrapper_t *tw, const char *DefinitionTableFileName, CFE_TBL
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 CFE_Status_t CS_HandleTableUpdate(CS_TableWrapper_t *tw)
 {
-    CFE_Status_t ReleaseResult1 = CFE_SUCCESS;
-    CFE_Status_t ManageResult1  = CFE_SUCCESS;
-    CFE_Status_t GetResult1     = CFE_SUCCESS;
-    CFE_Status_t ReleaseResult2 = CFE_SUCCESS;
-    CFE_Status_t ManageResult2  = CFE_SUCCESS;
-    CFE_Status_t GetResult2     = CFE_SUCCESS;
-    CFE_Status_t Result         = CFE_SUCCESS;
-    int32        Loop           = 0;
+    CFE_Status_t ReleaseResult1;
+    CFE_Status_t ManageResult1;
+    CFE_Status_t GetResult1;
+    CFE_Status_t ReleaseResult2;
+    CFE_Status_t ManageResult2;
+    CFE_Status_t GetResult2 = CFE_SUCCESS;
+    CFE_Status_t Result;
+    int32        Loop;
 
     CFE_TBL_Handle_t             LocalHandle;
     CS_Res_Tables_Table_Entry_t *ResTablesTblPtr;
