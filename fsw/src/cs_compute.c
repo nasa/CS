@@ -295,7 +295,7 @@ CFE_Status_t CS_RefreshTableData(CS_LocalChecksumState_t *State, CFE_TBL_HandleI
  * Local helper function
  *
  *-----------------------------------------------------------------*/
-CFE_Status_t CS_RefreshAppSizeAndAddr(CS_LocalChecksumState_t *State, const char *AppName)
+CFE_Status_t CS_RefreshAppSizeAndAddr(CS_LocalChecksumState_t *State, const char *AppName, CFE_ResourceId_t *ResolvedID)
 {
     CFE_ResourceId_t ResourceID;
     CFE_ES_AppInfo_t AppInfo;
@@ -334,6 +334,7 @@ CFE_Status_t CS_RefreshAppSizeAndAddr(CS_LocalChecksumState_t *State, const char
         State->TotalSize  = CFE_ES_MEMOFFSET_TO_SIZET(AppInfo.CodeSize);
         State->BufferAddr = CFE_ES_MEMADDRESS_TO_PTR(AppInfo.CodeAddress);
         State->CurrOffset = 0;
+        *ResolvedID       = ResourceID;
     }
     else
     {
@@ -473,29 +474,43 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
 {
     CFE_Status_t            Status;
     CS_LocalChecksumState_t State;
+    CFE_ResourceId_t        ResourceID;
+    bool                    SameResource;
 
     memset(&State, 0, sizeof(State));
 
-    State.BufferAddr = CFE_ES_MEMADDRESS_TO_PTR(ResultsEntry->StartAddress);
-    State.TotalSize  = ResultsEntry->NumBytesToChecksum;
-    State.CurrOffset = ResultsEntry->ByteOffset;
-
-    if (State.BufferAddr == NULL || CS_IsChecksumComplete(&State))
-    {
-        Status = CS_RefreshAppSizeAndAddr(&State, ResultsEntry->Name);
-    }
-    else
-    {
-        /* Already got address and size, resume where left off */
-        State.ResultBuffer = ResultsEntry->TempChecksumValue;
-        Status             = CFE_SUCCESS;
-    }
+    /* Resolve every chunk: ES may reload an app between calls, even at the same address.
+     * This query does not prevent a concurrent unload while the chunk is being read. */
+    Status = CS_RefreshAppSizeAndAddr(&State, ResultsEntry->Name, &ResourceID);
 
     if (Status == CFE_SUCCESS)
     {
+        SameResource = CFE_ResourceId_Equal(ResultsEntry->ResourceID, ResourceID);
+
+        if (!SameResource && CFE_ResourceId_IsDefined(ResultsEntry->ResourceID))
+        {
+            /* A new ES identity authorizes a new baseline; a CRC mismatch alone does not. */
+            ResultsEntry->ComputedYet     = false;
+            ResultsEntry->ComparisonValue = 0;
+
+            CFE_EVS_SendEvent(CS_APP_RELOADED_INF_EID,
+                              CFE_EVS_EventType_INFORMATION,
+                              "App %s reloaded, baseline reset",
+                              ResultsEntry->Name);
+        }
+
+        if (SameResource && ResultsEntry->StartAddress == (cpuaddr)State.BufferAddr
+            && ResultsEntry->NumBytesToChecksum == State.TotalSize)
+        {
+            State.CurrOffset   = ResultsEntry->ByteOffset;
+            State.ResultBuffer = ResultsEntry->TempChecksumValue;
+        }
+        /* A changed range under the same identity restarts the pass, retaining the baseline. */
+
         CS_DoChecksumChunk(&State);
 
         /* Export all values to resume next time */
+        ResultsEntry->ResourceID         = ResourceID;
         ResultsEntry->TempChecksumValue  = State.ResultBuffer;
         ResultsEntry->StartAddress       = (cpuaddr)State.BufferAddr;
         ResultsEntry->ByteOffset         = State.CurrOffset;
@@ -507,6 +522,13 @@ CFE_Status_t CS_ComputeApp(CS_Res_App_Table_Entry_t *ResultsEntry, uint32 *Compu
         /* Check against the previous value, if applicable */
         Status = CS_CheckOrUpdateReference(&State, &ResultsEntry->ComputedYet, &ResultsEntry->ComparisonValue);
     } /* end if got module id ok */
+    else
+    {
+        /* Retry from the beginning after an unresolved interval. Retain the last identity
+         * and baseline so the next successful lookup can detect a reload. */
+        ResultsEntry->ByteOffset        = 0;
+        ResultsEntry->TempChecksumValue = 0;
+    }
 
     *DoneWithEntry = CS_IsChecksumComplete(&State);
 
