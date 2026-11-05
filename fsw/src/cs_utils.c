@@ -496,7 +496,8 @@ bool CS_GetAppResTblEntryByName(CS_Res_App_Table_Entry_t **EntryPtr, const char 
             break;
         }
 
-        if (ResultsEntry->State != CS_ChecksumState_EMPTY && strncmp(ResultsEntry->Name, Name, OS_MAX_API_NAME) == 0)
+        if (ResultsEntry->State != CS_ChecksumState_EMPTY
+            && strncmp(ResultsEntry->Name, Name, sizeof(ResultsEntry->Name)) == 0)
         {
             Status    = true;
             *EntryPtr = ResultsEntry;
@@ -527,7 +528,8 @@ bool CS_GetAppDefTblEntryByName(CS_Def_App_Table_Entry_t **EntryPtr, const char 
             break;
         }
 
-        if (CS_StateValid(DefinitionEntry->State) && strncmp(DefinitionEntry->Name, Name, OS_MAX_API_NAME) == 0)
+        if (CS_StateValid(DefinitionEntry->State)
+            && strncmp(DefinitionEntry->Name, Name, sizeof(DefinitionEntry->Name)) == 0)
         {
             Status    = true;
             *EntryPtr = DefinitionEntry;
