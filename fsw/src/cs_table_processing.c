@@ -617,13 +617,13 @@ void CS_ProcessNewTablesDefinitionTable(CS_TableWrapper_t *tw)
     CFE_ES_AppId_t                     AppID = CFE_ES_APPID_UNDEFINED;
     CFE_TBL_Handle_t                   TableHandle;
     bool                               Owned;
-    char                               AppName[OS_MAX_API_NAME];
-    char                               TableAppName[OS_MAX_API_NAME];
+    char                               AppName[CFE_MISSION_MAX_API_LEN];
+    char                               TableAppName[CFE_MISSION_MAX_API_LEN];
     char                               TableTableName[CFE_MISSION_TBL_MAX_NAME_LENGTH];
     uint16                             TableId;
 
     CFE_ES_GetAppID(&AppID);
-    CFE_ES_GetAppName(AppName, AppID, OS_MAX_API_NAME);
+    CFE_ES_GetAppName(AppName, AppID, sizeof(AppName));
 
     /* We don't want to be doing chekcksums while changing the table out */
     PreviousState                             = CS_AppData.HkPacket.Payload.TablesCSState;

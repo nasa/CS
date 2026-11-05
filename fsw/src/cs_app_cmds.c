@@ -93,10 +93,9 @@ CFE_Status_t CS_ReportBaselineAppCmd(const CS_ReportBaselineAppCmd_t *CmdPtr)
     /* command verification variables */
     CS_Res_App_Table_Entry_t *ResultsEntry;
     uint32                    Baseline;
-    char                      Name[OS_MAX_API_NAME];
+    char                      Name[sizeof(CmdPtr->Payload.Name)];
 
-    strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
-    Name[sizeof(Name) - 1] = '\0';
+    CFE_SB_MessageStringGet(Name, CmdPtr->Payload.Name, "", sizeof(Name), sizeof(CmdPtr->Payload.Name));
 
     if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
     {
@@ -141,13 +140,12 @@ CFE_Status_t CS_RecomputeBaselineAppCmd(const CS_RecomputeBaselineAppCmd_t *CmdP
     CFE_ES_TaskId_t           ChildTaskID;
     CFE_Status_t              Status;
     CS_Res_App_Table_Entry_t *ResultsEntry;
-    char                      Name[OS_MAX_API_NAME];
+    char                      Name[sizeof(CmdPtr->Payload.Name)];
 
     if (CS_AppData.HkPacket.Payload.RecomputeInProgress == false
         && CS_AppData.HkPacket.Payload.OneShotInProgress == false)
     {
-        strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
-        Name[sizeof(Name) - 1] = '\0';
+        CFE_SB_MessageStringGet(Name, CmdPtr->Payload.Name, "", sizeof(Name), sizeof(CmdPtr->Payload.Name));
 
         /* make sure the entry is a valid number and is defined in the table */
         if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
@@ -219,12 +217,11 @@ CFE_Status_t CS_DisableNameAppCmd(const CS_DisableNameAppCmd_t *CmdPtr)
     CS_Res_App_Table_Entry_t *ResultsEntry;
     CS_Def_App_Table_Entry_t *DefinitionEntry;
     CS_TableWrapper_t        *tw = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
-    char                      Name[OS_MAX_API_NAME];
+    char                      Name[sizeof(CmdPtr->Payload.Name)];
 
     if (CS_CheckRecomputeOneshot() == false)
     {
-        strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
-        Name[sizeof(Name) - 1] = '\0';
+        CFE_SB_MessageStringGet(Name, CmdPtr->Payload.Name, "", sizeof(Name), sizeof(CmdPtr->Payload.Name));
 
         if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
         {
@@ -276,12 +273,11 @@ CFE_Status_t CS_EnableNameAppCmd(const CS_EnableNameAppCmd_t *CmdPtr)
     CS_Res_App_Table_Entry_t *ResultsEntry;
     CS_Def_App_Table_Entry_t *DefinitionEntry;
     CS_TableWrapper_t        *tw = &CS_AppData.Tbl[CS_ChecksumType_APP_TABLE];
-    char                      Name[OS_MAX_API_NAME];
+    char                      Name[sizeof(CmdPtr->Payload.Name)];
 
     if (CS_CheckRecomputeOneshot() == false)
     {
-        strncpy(Name, CmdPtr->Payload.Name, sizeof(Name) - 1);
-        Name[sizeof(Name) - 1] = '\0';
+        CFE_SB_MessageStringGet(Name, CmdPtr->Payload.Name, "", sizeof(Name), sizeof(CmdPtr->Payload.Name));
 
         if (CS_GetAppResTblEntryByName(&ResultsEntry, Name))
         {
