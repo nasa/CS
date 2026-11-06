@@ -266,6 +266,22 @@
 
   The format of a single entry in the Apps Results Table is defined by
   #CS_Res_App_Table_Entry_t.
+
+  The ResourceID field records the ES identity of the application or library.
+  It precedes Name in the results entry; ground dump decoders must use the matching
+  results-table schema for this layout.
+  CS resolves this identity and the code range before each checksum chunk. If ES
+  reports a new identity, including a reload at the same address, CS discards the
+  partial checksum and old baseline and issues #CS_APP_RELOADED_INF_EID. The next
+  completed pass establishes the new instance's baseline. Initial discovery does
+  not issue a reload event. Changes to the code range under the same identity
+  restart the partial checksum but retain the baseline; a checksum mismatch alone
+  does not authorize a new baseline.
+
+  An unavailable module is skipped without reading its cached address. CS retains
+  its last identity and baseline and discards partial progress before retrying.
+  Resolving module information does not prevent a concurrent unload between the
+  query and the checksum read.
 **/
 
 /**

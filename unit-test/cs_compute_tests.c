@@ -78,6 +78,98 @@ void CS_COMPUTE_TEST_CFE_ES_GetModuleInfoHandler2(void *UserObj, UT_EntryKey_t F
     AppInfo->AddressesAreValid = false;
 }
 
+/* Module identity and code range supplied by ES for the reload regression tests. */
+#define CS_COMPUTE_TEST_RELOCATED_ADDR 0x1000
+
+typedef struct
+{
+    CFE_ResourceId_t ResourceID;
+    cpuaddr          CodeAddress;
+    uint32           CodeSize;
+    bool             AddressesAreValid;
+    bool             ReloadAfterFirstChunk;
+} CS_COMPUTE_TEST_Module_t;
+
+typedef struct
+{
+    const void *DataPtr;
+    size_t      DataLength;
+    uint32      InputCRC;
+} CS_COMPUTE_TEST_CrcSample_t;
+
+static CS_COMPUTE_TEST_CrcSample_t CS_COMPUTE_TEST_CrcSamples[8];
+static uint32                      CS_COMPUTE_TEST_CrcCount;
+
+void CS_COMPUTE_TEST_CFE_ES_GetModuleIDHandler(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
+{
+    CS_COMPUTE_TEST_Module_t *Module = UserObj;
+
+    if (FuncKey == UT_KEY(CFE_ES_GetAppIDByName))
+    {
+        CFE_ES_AppId_t *AppIdPtr = UT_Hook_GetArgValueByName(Context, "AppIdPtr", CFE_ES_AppId_t *);
+        *AppIdPtr                = CFE_ES_APPID_C(Module->ResourceID);
+    }
+    else
+    {
+        CFE_ES_LibId_t *LibIdPtr = UT_Hook_GetArgValueByName(Context, "LibIdPtr", CFE_ES_LibId_t *);
+        *LibIdPtr                = CFE_ES_LIBID_C(Module->ResourceID);
+    }
+}
+
+void CS_COMPUTE_TEST_CFE_ES_GetModuleInfoHandler_Current(void                   *UserObj,
+                                                         UT_EntryKey_t           FuncKey,
+                                                         const UT_StubContext_t *Context)
+{
+    CS_COMPUTE_TEST_Module_t *Module  = UserObj;
+    CFE_ES_AppInfo_t         *AppInfo = UT_Hook_GetArgValueByName(Context, "ModuleInfo", CFE_ES_AppInfo_t *);
+
+    memset(AppInfo, 0, sizeof(*AppInfo));
+    AppInfo->ResourceId        = Module->ResourceID;
+    AppInfo->CodeAddress       = CFE_ES_MEMADDRESS_C(Module->CodeAddress);
+    AppInfo->CodeSize          = CFE_ES_MEMOFFSET_C(Module->CodeSize);
+    AppInfo->AddressesAreValid = Module->AddressesAreValid;
+}
+
+/* Record each actual CRC input, and optionally reload between recompute chunks. */
+void CS_COMPUTE_TEST_CFE_ES_CalculateCRCHandler(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
+{
+    CS_COMPUTE_TEST_Module_t *Module = UserObj;
+    uint32                    Index  = CS_COMPUTE_TEST_CrcCount++;
+
+    if (Index < sizeof(CS_COMPUTE_TEST_CrcSamples) / sizeof(CS_COMPUTE_TEST_CrcSamples[0]))
+    {
+        CS_COMPUTE_TEST_CrcSamples[Index].DataPtr    = UT_Hook_GetArgValueByName(Context, "DataPtr", const void *);
+        CS_COMPUTE_TEST_CrcSamples[Index].DataLength = UT_Hook_GetArgValueByName(Context, "DataLength", size_t);
+        CS_COMPUTE_TEST_CrcSamples[Index].InputCRC   = UT_Hook_GetArgValueByName(Context, "InputCRC", uint32);
+    }
+    else
+    {
+        UtAssert_Failed("CRC sample buffer exhausted");
+    }
+
+    if (Module->ReloadAfterFirstChunk && Index == 0)
+    {
+        Module->ResourceID  = CFE_ResourceId_FromInteger(0x110002);
+        Module->CodeAddress = CS_COMPUTE_TEST_RELOCATED_ADDR;
+    }
+}
+
+void CS_COMPUTE_TEST_SetupModule(CS_COMPUTE_TEST_Module_t *Module)
+{
+    memset(Module, 0, sizeof(*Module));
+    Module->ResourceID        = CFE_ResourceId_FromInteger(0x110001);
+    Module->CodeAddress       = 1;
+    Module->CodeSize          = 5;
+    Module->AddressesAreValid = true;
+
+    CS_COMPUTE_TEST_CrcCount = 0;
+    memset(CS_COMPUTE_TEST_CrcSamples, 0, sizeof(CS_COMPUTE_TEST_CrcSamples));
+    UT_SetHandlerFunction(UT_KEY(CFE_ES_GetAppIDByName), CS_COMPUTE_TEST_CFE_ES_GetModuleIDHandler, Module);
+    UT_SetHandlerFunction(UT_KEY(CFE_ES_GetLibIDByName), CS_COMPUTE_TEST_CFE_ES_GetModuleIDHandler, Module);
+    UT_SetHandlerFunction(UT_KEY(CFE_ES_GetModuleInfo), CS_COMPUTE_TEST_CFE_ES_GetModuleInfoHandler_Current, Module);
+    UT_SetHandlerFunction(UT_KEY(CFE_ES_CalculateCRC), CS_COMPUTE_TEST_CFE_ES_CalculateCRCHandler, Module);
+}
+
 void CS_COMPUTE_TEST_CS_GetDefTblEntryByName(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
 {
     void **EntryPtr = UT_Hook_GetArgValueByName(Context, "EntryPtr", void **);
@@ -1235,6 +1327,330 @@ void CS_ComputeApp_Test_OffsetlargerThanBytesCheck(void)
     UtAssert_UINT32_EQ(ResultsEntry.NumBytesToChecksum, CS_AppData.MaxBytesPerCycle);
 }
 
+/* A relocated new app instance establishes a new baseline, once, rather than miscomparing. */
+void CS_ComputeApp_Test_RelocatedAppRebaseline(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    CS_AppData.MaxBytesPerCycle = 5;
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, 3);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+
+    Module.ResourceID  = CFE_ResourceId_FromInteger(0x110002);
+    Module.CodeAddress = CS_COMPUTE_TEST_RELOCATED_ADDR;
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, 7);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_UINT32_EQ(ComputedCSValue, 7);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 0);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_APP_RELOADED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventType, CFE_EVS_EventType_INFORMATION);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+
+    /* The same new instance is compared against its new baseline, without another event. */
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, 7);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 3);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+}
+
+/* A reload between chunks must never splice a cached old range into the new baseline. */
+void CS_ComputeApp_Test_RelocatedMidPassRestarts(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    CS_AppData.MaxBytesPerCycle = 2;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_FALSE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[0].DataPtr, 1);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
+
+    Module.ResourceID  = CFE_ResourceId_FromInteger(0x110002);
+    Module.CodeAddress = CS_COMPUTE_TEST_RELOCATED_ADDR;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_FALSE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 0);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 0);
+    UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
+    UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 2);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_FALSE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress + 2);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 4);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataPtr, Module.CodeAddress + 4);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataLength, 1);
+    UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 4);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_APP_RELOADED_INF_EID);
+}
+
+/* Address and size reuse cannot hide a new app instance, including during a comparison pass. */
+void CS_ComputeApp_Test_SameAddressReloadRestarts(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    CS_AppData.MaxBytesPerCycle = 5;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+
+    CS_AppData.MaxBytesPerCycle = 2;
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_FALSE(DoneWithEntry);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    Module.ResourceID = CFE_ResourceId_FromInteger(0x110002);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_FALSE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 0);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 0);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+}
+
+/* A CRC change alone remains a miscompare and must not authorize a baseline reset. */
+void CS_ComputeApp_Test_UnchangedInstanceCorruption(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    CS_AppData.MaxBytesPerCycle = 5;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CS_ERROR);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_UINT32_EQ(ComputedCSValue, 7);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+}
+
+/* Every chunk refreshes metadata while unchanged metadata preserves the CRC seed and offset. */
+void CS_ComputeApp_Test_UnchangedInstanceResumes(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    CS_AppData.MaxBytesPerCycle = 2;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_FALSE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress + 2);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 3);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 4);
+    UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
+
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress + 4);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataLength, 1);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 3);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_STUB_COUNT(CFE_ES_GetAppIDByName, 3);
+    UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 3);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+}
+
+/* A failed lookup retains the last identity and baseline, but never reads the cached range. */
+void CS_ComputeApp_Test_LookupFailureThenReload(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+    CFE_ResourceId_t         OriginalID;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    OriginalID                  = Module.ResourceID;
+    CS_AppData.MaxBytesPerCycle = 5;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    CS_AppData.MaxBytesPerCycle = 2;
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetAppIDByName), 1, CFE_ES_ERR_NAME_NOT_FOUND);
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetLibIDByName), 1, CFE_ES_ERR_NAME_NOT_FOUND);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CS_ERR_NOT_FOUND);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_STUB_COUNT(CFE_ES_CalculateCRC, 2);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, OriginalID));
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 0);
+    UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
+    UtAssert_ADDRESS_EQ(CFE_ES_MEMADDRESS_TO_PTR(ResultsEntry.StartAddress), Module.CodeAddress);
+
+    Module.ResourceID = CFE_ResourceId_FromInteger(0x110002);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_FALSE(DoneWithEntry);
+    UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 0);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 0);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_COMPUTE_APP_ERR_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_APP_RELOADED_INF_EID);
+}
+
+/* Invalid addresses during a transient failure cannot be used to finish a partial pass. */
+void CS_ComputeApp_Test_InvalidAddressThenRecovery(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    CS_AppData.MaxBytesPerCycle = 2;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+
+    Module.AddressesAreValid = false;
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CS_ERR_NOT_FOUND);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_STUB_COUNT(CFE_ES_CalculateCRC, 1);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 0);
+    UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
+
+    Module.AddressesAreValid = true;
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_FALSE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 0);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
+}
+
+/* Mapping changes without a new ES identity restart the partial CRC, not the baseline. */
+void CS_ComputeApp_Test_SameInstanceMappingChange(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    CS_AppData.MaxBytesPerCycle = 5;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    CS_AppData.MaxBytesPerCycle = 2;
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+
+    Module.CodeAddress = CS_COMPUTE_TEST_RELOCATED_ADDR;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 0);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+
+    /* A size-only change also restarts; its completed CRC is still compared with the old baseline. */
+    Module.CodeSize = 2;
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CS_ERROR);
+    UtAssert_BOOL_TRUE(DoneWithEntry);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataPtr, Module.CodeAddress);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[3].InputCRC, 0);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+}
+
+/* Libraries use the same identity tracking through the ES library-name fallback. */
+void CS_ComputeApp_Test_LibraryReload(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+    uint32                   ComputedCSValue = 0;
+    bool                     DoneWithEntry   = false;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    Module.ResourceID           = CFE_ResourceId_FromInteger(0x120001);
+    CS_AppData.MaxBytesPerCycle = 5;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_GetAppIDByName), CFE_ES_ERR_NAME_NOT_FOUND);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
+
+    Module.ResourceID = CFE_ResourceId_FromInteger(0x120002);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
+    UtAssert_STUB_COUNT(CFE_ES_GetLibIDByName, 2);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_APP_RELOADED_INF_EID);
+}
+
 void CS_ComputeApp_Test_EntryNotFinished(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
@@ -1767,6 +2183,50 @@ void CS_RecomputeAppChildTask_Test_Nominal(void)
     UtAssert_STUB_COUNT(CS_SetDefEntryState, 2);
 }
 
+/* A reload between child-task chunks restarts the recompute and restores enable states. */
+void CS_RecomputeAppChildTask_Test_ReloadDuringRecompute(void)
+{
+    CS_Res_App_Table_Entry_t ResultsEntry;
+    CS_Def_App_Table_Entry_t DefEntry;
+    CS_COMPUTE_TEST_Module_t Module;
+
+    memset(&ResultsEntry, 0, sizeof(ResultsEntry));
+    memset(&DefEntry, 0, sizeof(DefEntry));
+    CS_COMPUTE_TEST_SetupModule(&Module);
+    ResultsEntry.State                              = CS_ChecksumState_ENABLED;
+    ResultsEntry.ComputedYet                        = true;
+    ResultsEntry.ComparisonValue                    = 3;
+    ResultsEntry.ResourceID                         = Module.ResourceID;
+    Module.ReloadAfterFirstChunk                    = true;
+    CS_AppData.RecomputeAppEntryPtr                 = &ResultsEntry;
+    CS_AppData.MaxBytesPerCycle                     = 2;
+    CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
+    CS_Test_Setup_SetDefEntryState(CS_ChecksumState_ENABLED);
+    UT_SetHandlerFunction(UT_KEY(CS_GetAppDefTblEntryByName), CS_COMPUTE_TEST_CS_GetDefTblEntryByName, &DefEntry);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+
+    CS_RecomputeAppChildTask();
+
+    UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
+    UtAssert_UINT32_EQ(ResultsEntry.State, CS_ChecksumState_ENABLED);
+    UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 5);
+    UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
+    UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 4);
+    UtAssert_STUB_COUNT(CFE_ES_CalculateCRC, 4);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[0].DataPtr, 1);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 0);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataPtr, Module.CodeAddress + 4);
+    UtAssert_STUB_COUNT(CS_SetDefEntryState, 2);
+    CS_Test_Check_SetDefEntryState(&DefEntry, CS_ChecksumState_ENABLED);
+    UtAssert_STUB_COUNT(CFE_ES_ExitChildTask, 1);
+    UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_APP_RELOADED_INF_EID);
+    UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[1].EventID, CS_RECOMPUTE_FINISH_APP_INF_EID);
+}
+
 void CS_RecomputeAppChildTask_Test_CouldNotGetAddress(void)
 {
     CS_Res_App_Table_Entry_t RecomputeAppEntry;
@@ -2232,6 +2692,39 @@ void UtTest_Setup(void)
                CS_Test_Setup,
                CS_Test_TearDown,
                "CS_ComputeApp_Test_OffsetlargerThanBytesCheck");
+    UtTest_Add(CS_ComputeApp_Test_RelocatedAppRebaseline,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ComputeApp_Test_RelocatedAppRebaseline");
+    UtTest_Add(CS_ComputeApp_Test_RelocatedMidPassRestarts,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ComputeApp_Test_RelocatedMidPassRestarts");
+    UtTest_Add(CS_ComputeApp_Test_SameAddressReloadRestarts,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ComputeApp_Test_SameAddressReloadRestarts");
+    UtTest_Add(CS_ComputeApp_Test_UnchangedInstanceCorruption,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ComputeApp_Test_UnchangedInstanceCorruption");
+    UtTest_Add(CS_ComputeApp_Test_UnchangedInstanceResumes,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ComputeApp_Test_UnchangedInstanceResumes");
+    UtTest_Add(CS_ComputeApp_Test_LookupFailureThenReload,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ComputeApp_Test_LookupFailureThenReload");
+    UtTest_Add(CS_ComputeApp_Test_InvalidAddressThenRecovery,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ComputeApp_Test_InvalidAddressThenRecovery");
+    UtTest_Add(CS_ComputeApp_Test_SameInstanceMappingChange,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_ComputeApp_Test_SameInstanceMappingChange");
+    UtTest_Add(CS_ComputeApp_Test_LibraryReload, CS_Test_Setup, CS_Test_TearDown, "CS_ComputeApp_Test_LibraryReload");
 
     UtTest_Add(CS_RecomputeEepromMemoryChildTask_Test_EEPROMTable,
                CS_Test_Setup,
@@ -2266,6 +2759,10 @@ void UtTest_Setup(void)
                CS_Test_Setup,
                CS_Test_TearDown,
                "CS_RecomputeAppChildTask_Test_Nominal");
+    UtTest_Add(CS_RecomputeAppChildTask_Test_ReloadDuringRecompute,
+               CS_Test_Setup,
+               CS_Test_TearDown,
+               "CS_RecomputeAppChildTask_Test_ReloadDuringRecompute");
     UtTest_Add(CS_RecomputeAppChildTask_Test_CouldNotGetAddress,
                CS_Test_Setup,
                CS_Test_TearDown,

@@ -181,6 +181,7 @@
           <Entry type="BASE_TYPES/uint32" name="ComparisonValue" shortDescription="The Memory Integrity Value" />
           <Entry type="BASE_TYPES/uint32" name="ByteOffset" shortDescription="Where a previous unfinished calc left off" />
           <Entry type="BASE_TYPES/uint32" name="TempChecksumValue" shortDescription="The unfinished caluculation" />
+          <Entry type="CFE_RESOURCEID/BaseType" name="ResourceID" shortDescription="ES identity of the application or library" />
           <Entry type="BASE_TYPES/ApiName" name="Name" shortDescription="name of the app" />
         </EntryList>
       </ContainerDataType>
