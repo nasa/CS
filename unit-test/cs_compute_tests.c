@@ -79,7 +79,13 @@ void CS_COMPUTE_TEST_CFE_ES_GetModuleInfoHandler2(void *UserObj, UT_EntryKey_t F
 }
 
 /* Module identity and code range supplied by ES for the reload regression tests. */
-#define CS_COMPUTE_TEST_RELOCATED_ADDR 0x1000
+#define CS_TEST_NUM_CRC_SAMPLES         8
+#define CS_COMPUTE_TEST_INITIAL_APP_ID  0x110001
+#define CS_COMPUTE_TEST_RELOADED_APP_ID 0x110002
+#define CS_COMPUTE_TEST_INITIAL_LIB_ID  0x120001
+#define CS_COMPUTE_TEST_RELOADED_LIB_ID 0x120002
+#define CS_COMPUTE_TEST_INITIAL_ADDR    1
+#define CS_COMPUTE_TEST_RELOCATED_ADDR  0x1000
 
 typedef struct
 {
@@ -97,7 +103,7 @@ typedef struct
     uint32      InputCRC;
 } CS_COMPUTE_TEST_CrcSample_t;
 
-static CS_COMPUTE_TEST_CrcSample_t CS_COMPUTE_TEST_CrcSamples[8];
+static CS_COMPUTE_TEST_CrcSample_t CS_COMPUTE_TEST_CrcSamples[CS_TEST_NUM_CRC_SAMPLES];
 static uint32                      CS_COMPUTE_TEST_CrcCount;
 
 void CS_COMPUTE_TEST_CFE_ES_GetModuleIDHandler(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
@@ -136,7 +142,7 @@ void CS_COMPUTE_TEST_CFE_ES_CalculateCRCHandler(void *UserObj, UT_EntryKey_t Fun
     CS_COMPUTE_TEST_Module_t *Module = UserObj;
     uint32                    Index  = CS_COMPUTE_TEST_CrcCount++;
 
-    if (Index < sizeof(CS_COMPUTE_TEST_CrcSamples) / sizeof(CS_COMPUTE_TEST_CrcSamples[0]))
+    if (Index < CS_TEST_NUM_CRC_SAMPLES)
     {
         CS_COMPUTE_TEST_CrcSamples[Index].DataPtr    = UT_Hook_GetArgValueByName(Context, "DataPtr", const void *);
         CS_COMPUTE_TEST_CrcSamples[Index].DataLength = UT_Hook_GetArgValueByName(Context, "DataLength", size_t);
@@ -149,7 +155,7 @@ void CS_COMPUTE_TEST_CFE_ES_CalculateCRCHandler(void *UserObj, UT_EntryKey_t Fun
 
     if (Module->ReloadAfterFirstChunk && Index == 0)
     {
-        Module->ResourceID  = CFE_ResourceId_FromInteger(0x110002);
+        Module->ResourceID  = CFE_ResourceId_FromInteger(CS_COMPUTE_TEST_RELOADED_APP_ID);
         Module->CodeAddress = CS_COMPUTE_TEST_RELOCATED_ADDR;
     }
 }
@@ -157,8 +163,8 @@ void CS_COMPUTE_TEST_CFE_ES_CalculateCRCHandler(void *UserObj, UT_EntryKey_t Fun
 void CS_COMPUTE_TEST_SetupModule(CS_COMPUTE_TEST_Module_t *Module)
 {
     memset(Module, 0, sizeof(*Module));
-    Module->ResourceID        = CFE_ResourceId_FromInteger(0x110001);
-    Module->CodeAddress       = 1;
+    Module->ResourceID        = CFE_ResourceId_FromInteger(CS_COMPUTE_TEST_INITIAL_APP_ID);
+    Module->CodeAddress       = CS_COMPUTE_TEST_INITIAL_ADDR;
     Module->CodeSize          = 5;
     Module->AddressesAreValid = true;
 
@@ -1332,30 +1338,32 @@ void CS_ComputeApp_Test_RelocatedAppRebaseline(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             InitialCRC      = 3;
+    const uint32             ReloadedCRC     = 7;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
-    CS_AppData.MaxBytesPerCycle = 5;
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, 3);
+    CS_AppData.MaxBytesPerCycle = Module.CodeSize;
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, InitialCRC);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_TRUE(DoneWithEntry);
     UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, InitialCRC);
     UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
-    Module.ResourceID  = CFE_ResourceId_FromInteger(0x110002);
+    Module.ResourceID  = CFE_ResourceId_FromInteger(CS_COMPUTE_TEST_RELOADED_APP_ID);
     Module.CodeAddress = CS_COMPUTE_TEST_RELOCATED_ADDR;
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, 7);
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, ReloadedCRC);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_TRUE(DoneWithEntry);
     UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
-    UtAssert_UINT32_EQ(ComputedCSValue, 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, ReloadedCRC);
+    UtAssert_UINT32_EQ(ComputedCSValue, ReloadedCRC);
     UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
     UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress);
     UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 0);
@@ -1364,9 +1372,9 @@ void CS_ComputeApp_Test_RelocatedAppRebaseline(void)
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 
     /* The same new instance is compared against its new baseline, without another event. */
-    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, 7);
+    UT_SetDeferredRetcode(UT_KEY(CFE_ES_CalculateCRC), 1, ReloadedCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, ReloadedCRC);
     UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 3);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
@@ -1376,45 +1384,50 @@ void CS_ComputeApp_Test_RelocatedMidPassRestarts(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             InitialCRC      = 3;
+    const uint32             ReloadedCRC     = 7;
+    const uint32             BytesPerCycle   = 2;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
-    CS_AppData.MaxBytesPerCycle = 2;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    /* Keep two full chunks and a final partial chunk when the budget changes. */
+    Module.CodeSize             = 2 * BytesPerCycle + 1;
+    CS_AppData.MaxBytesPerCycle = BytesPerCycle;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), InitialCRC);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_FALSE(DoneWithEntry);
-    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[0].DataPtr, 1);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[0].DataPtr, Module.CodeAddress);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, BytesPerCycle);
     UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
 
-    Module.ResourceID  = CFE_ResourceId_FromInteger(0x110002);
+    Module.ResourceID  = CFE_ResourceId_FromInteger(CS_COMPUTE_TEST_RELOADED_APP_ID);
     Module.CodeAddress = CS_COMPUTE_TEST_RELOCATED_ADDR;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), ReloadedCRC);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_FALSE(DoneWithEntry);
     UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress);
     UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 0);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, BytesPerCycle);
     UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 0);
     UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
     UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 2);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_FALSE(DoneWithEntry);
-    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress + 2);
-    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 7);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 4);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress + BytesPerCycle);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, ReloadedCRC);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2 * BytesPerCycle);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_TRUE(DoneWithEntry);
-    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataPtr, Module.CodeAddress + 4);
-    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataLength, 1);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataPtr, Module.CodeAddress + 2 * BytesPerCycle);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataLength, Module.CodeSize - 2 * BytesPerCycle);
     UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, ReloadedCRC);
     UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 4);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
     UtAssert_INT32_EQ(context_CFE_EVS_SendEvent[0].EventID, CS_APP_RELOADED_INF_EID);
@@ -1425,27 +1438,32 @@ void CS_ComputeApp_Test_SameAddressReloadRestarts(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             InitialCRC      = 3;
+    const uint32             ReloadedCRC     = 7;
+    const uint32             BytesPerCycle   = 2;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
-    CS_AppData.MaxBytesPerCycle = 5;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    /* Keep two full chunks and a final partial chunk when the budget changes. */
+    Module.CodeSize             = 2 * BytesPerCycle + 1;
+    CS_AppData.MaxBytesPerCycle = Module.CodeSize;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), InitialCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
 
-    CS_AppData.MaxBytesPerCycle = 2;
+    CS_AppData.MaxBytesPerCycle = BytesPerCycle;
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_FALSE(DoneWithEntry);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
-    Module.ResourceID = CFE_ResourceId_FromInteger(0x110002);
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, BytesPerCycle);
+    Module.ResourceID = CFE_ResourceId_FromInteger(CS_COMPUTE_TEST_RELOADED_APP_ID);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), ReloadedCRC);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_FALSE(DoneWithEntry);
     UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress);
     UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 0);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, BytesPerCycle);
     UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
     UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 0);
     UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
@@ -1454,7 +1472,7 @@ void CS_ComputeApp_Test_SameAddressReloadRestarts(void)
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_TRUE(DoneWithEntry);
     UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, ReloadedCRC);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
 }
 
@@ -1463,21 +1481,23 @@ void CS_ComputeApp_Test_UnchangedInstanceCorruption(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             InitialCRC      = 3;
+    const uint32             ChangedCRC      = 7;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
-    CS_AppData.MaxBytesPerCycle = 5;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    CS_AppData.MaxBytesPerCycle = Module.CodeSize;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), InitialCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
 
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), ChangedCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CS_ERROR);
     UtAssert_BOOL_TRUE(DoneWithEntry);
     UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
-    UtAssert_UINT32_EQ(ComputedCSValue, 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, InitialCRC);
+    UtAssert_UINT32_EQ(ComputedCSValue, ChangedCRC);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 }
 
@@ -1486,28 +1506,32 @@ void CS_ComputeApp_Test_UnchangedInstanceResumes(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             ExpectedCRC     = 3;
+    const uint32             BytesPerCycle   = 2;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
-    CS_AppData.MaxBytesPerCycle = 2;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    /* Keep two full chunks and a final partial chunk when the budget changes. */
+    Module.CodeSize             = 2 * BytesPerCycle + 1;
+    CS_AppData.MaxBytesPerCycle = BytesPerCycle;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), ExpectedCRC);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_FALSE(DoneWithEntry);
-    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress + 2);
-    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 3);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 4);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress + BytesPerCycle);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, ExpectedCRC);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2 * BytesPerCycle);
     UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
 
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_TRUE(DoneWithEntry);
-    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress + 4);
-    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataLength, 1);
-    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 3);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress + 2 * BytesPerCycle);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataLength, Module.CodeSize - 2 * BytesPerCycle);
+    UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, ExpectedCRC);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, ExpectedCRC);
     UtAssert_STUB_COUNT(CFE_ES_GetAppIDByName, 3);
     UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 3);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
@@ -1518,17 +1542,22 @@ void CS_ComputeApp_Test_LookupFailureThenReload(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             InitialCRC      = 3;
+    const uint32             ReloadedCRC     = 7;
+    const uint32             BytesPerCycle   = 2;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
     CFE_ResourceId_t         OriginalID;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
+    /* Keep two full chunks and a final partial chunk when the budget changes. */
+    Module.CodeSize             = 2 * BytesPerCycle + 1;
     OriginalID                  = Module.ResourceID;
-    CS_AppData.MaxBytesPerCycle = 5;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    CS_AppData.MaxBytesPerCycle = Module.CodeSize;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), InitialCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
-    CS_AppData.MaxBytesPerCycle = 2;
+    CS_AppData.MaxBytesPerCycle = BytesPerCycle;
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
 
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_GetAppIDByName), 1, CFE_ES_ERR_NAME_NOT_FOUND);
@@ -1537,19 +1566,19 @@ void CS_ComputeApp_Test_LookupFailureThenReload(void)
     UtAssert_BOOL_TRUE(DoneWithEntry);
     UtAssert_STUB_COUNT(CFE_ES_CalculateCRC, 2);
     UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, OriginalID));
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, InitialCRC);
     UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
     UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 0);
     UtAssert_UINT32_EQ(ResultsEntry.TempChecksumValue, 0);
     UtAssert_ADDRESS_EQ(CFE_ES_MEMADDRESS_TO_PTR(ResultsEntry.StartAddress), Module.CodeAddress);
 
-    Module.ResourceID = CFE_ResourceId_FromInteger(0x110002);
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    Module.ResourceID = CFE_ResourceId_FromInteger(CS_COMPUTE_TEST_RELOADED_APP_ID);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), ReloadedCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_FALSE(DoneWithEntry);
     UtAssert_BOOL_FALSE(ResultsEntry.ComputedYet);
     UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 0);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, BytesPerCycle);
     UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 0);
     UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
@@ -1562,13 +1591,17 @@ void CS_ComputeApp_Test_InvalidAddressThenRecovery(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             ExpectedCRC     = 3;
+    const uint32             BytesPerCycle   = 2;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
-    CS_AppData.MaxBytesPerCycle = 2;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    /* Keep two full chunks and a final partial chunk when the budget changes. */
+    Module.CodeSize             = 2 * BytesPerCycle + 1;
+    CS_AppData.MaxBytesPerCycle = BytesPerCycle;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), ExpectedCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
 
     Module.AddressesAreValid = false;
@@ -1584,7 +1617,7 @@ void CS_ComputeApp_Test_InvalidAddressThenRecovery(void)
     UtAssert_BOOL_FALSE(DoneWithEntry);
     UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress);
     UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 0);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, BytesPerCycle);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 2);
 }
 
@@ -1593,33 +1626,38 @@ void CS_ComputeApp_Test_SameInstanceMappingChange(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             InitialCRC      = 3;
+    const uint32             ChangedCRC      = 7;
+    const uint32             BytesPerCycle   = 2;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
-    CS_AppData.MaxBytesPerCycle = 5;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    /* Keep two full chunks and a final partial chunk when the budget changes. */
+    Module.CodeSize             = 2 * BytesPerCycle + 1;
+    CS_AppData.MaxBytesPerCycle = Module.CodeSize;
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), InitialCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
-    CS_AppData.MaxBytesPerCycle = 2;
+    CS_AppData.MaxBytesPerCycle = BytesPerCycle;
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
 
     Module.CodeAddress = CS_COMPUTE_TEST_RELOCATED_ADDR;
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), ChangedCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[2].DataPtr, Module.CodeAddress);
     UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[2].InputCRC, 0);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 2);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, BytesPerCycle);
     UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, InitialCRC);
 
     /* A size-only change also restarts; its completed CRC is still compared with the old baseline. */
-    Module.CodeSize = 2;
+    Module.CodeSize = BytesPerCycle;
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CS_ERROR);
     UtAssert_BOOL_TRUE(DoneWithEntry);
     UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataPtr, Module.CodeAddress);
     UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[3].InputCRC, 0);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 3);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, InitialCRC);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 }
 
@@ -1628,23 +1666,25 @@ void CS_ComputeApp_Test_LibraryReload(void)
 {
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             InitialCRC      = 3;
+    const uint32             ReloadedCRC     = 7;
     uint32                   ComputedCSValue = 0;
     bool                     DoneWithEntry   = false;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
-    Module.ResourceID           = CFE_ResourceId_FromInteger(0x120001);
-    CS_AppData.MaxBytesPerCycle = 5;
+    Module.ResourceID           = CFE_ResourceId_FromInteger(CS_COMPUTE_TEST_INITIAL_LIB_ID);
+    CS_AppData.MaxBytesPerCycle = Module.CodeSize;
     UT_SetDefaultReturnValue(UT_KEY(CFE_ES_GetAppIDByName), CFE_ES_ERR_NAME_NOT_FOUND);
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 3);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), InitialCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
     UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 0);
 
-    Module.ResourceID = CFE_ResourceId_FromInteger(0x120002);
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    Module.ResourceID = CFE_ResourceId_FromInteger(CS_COMPUTE_TEST_RELOADED_LIB_ID);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), ReloadedCRC);
     UtAssert_INT32_EQ(CS_ComputeApp(&ResultsEntry, &ComputedCSValue, &DoneWithEntry), CFE_SUCCESS);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, ReloadedCRC);
     UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
     UtAssert_STUB_COUNT(CFE_ES_GetLibIDByName, 2);
     UtAssert_STUB_COUNT(CFE_EVS_SendEvent, 1);
@@ -2189,36 +2229,42 @@ void CS_RecomputeAppChildTask_Test_ReloadDuringRecompute(void)
     CS_Res_App_Table_Entry_t ResultsEntry;
     CS_Def_App_Table_Entry_t DefEntry;
     CS_COMPUTE_TEST_Module_t Module;
+    const uint32             InitialCRC    = 3;
+    const uint32             RecomputedCRC = 7;
+    const uint32             BytesPerCycle = 2;
+    uint32                   ReloadedChunkCount;
 
     memset(&ResultsEntry, 0, sizeof(ResultsEntry));
     memset(&DefEntry, 0, sizeof(DefEntry));
     CS_COMPUTE_TEST_SetupModule(&Module);
+    ReloadedChunkCount                              = (Module.CodeSize + BytesPerCycle - 1) / BytesPerCycle;
     ResultsEntry.State                              = CS_ChecksumState_ENABLED;
     ResultsEntry.ComputedYet                        = true;
-    ResultsEntry.ComparisonValue                    = 3;
+    ResultsEntry.ComparisonValue                    = InitialCRC;
     ResultsEntry.ResourceID                         = Module.ResourceID;
     Module.ReloadAfterFirstChunk                    = true;
     CS_AppData.RecomputeAppEntryPtr                 = &ResultsEntry;
-    CS_AppData.MaxBytesPerCycle                     = 2;
+    CS_AppData.MaxBytesPerCycle                     = BytesPerCycle;
     CS_AppData.HkPacket.Payload.RecomputeInProgress = true;
     CS_Test_Setup_SetDefEntryState(CS_ChecksumState_ENABLED);
     UT_SetHandlerFunction(UT_KEY(CS_GetAppDefTblEntryByName), CS_COMPUTE_TEST_CS_GetDefTblEntryByName, &DefEntry);
-    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), 7);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_CalculateCRC), RecomputedCRC);
 
     CS_RecomputeAppChildTask();
 
     UtAssert_BOOL_FALSE(CS_AppData.HkPacket.Payload.RecomputeInProgress);
     UtAssert_UINT32_EQ(ResultsEntry.State, CS_ChecksumState_ENABLED);
     UtAssert_BOOL_TRUE(ResultsEntry.ComputedYet);
-    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, 7);
-    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, 5);
+    UtAssert_UINT32_EQ(ResultsEntry.ComparisonValue, RecomputedCRC);
+    UtAssert_UINT32_EQ(ResultsEntry.ByteOffset, Module.CodeSize);
     UtAssert_BOOL_TRUE(CFE_ResourceId_Equal(ResultsEntry.ResourceID, Module.ResourceID));
-    UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 4);
-    UtAssert_STUB_COUNT(CFE_ES_CalculateCRC, 4);
-    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[0].DataPtr, 1);
+    UtAssert_STUB_COUNT(CFE_ES_GetModuleInfo, 1 + ReloadedChunkCount);
+    UtAssert_STUB_COUNT(CFE_ES_CalculateCRC, 1 + ReloadedChunkCount);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[0].DataPtr, CS_COMPUTE_TEST_INITIAL_ADDR);
     UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[1].DataPtr, Module.CodeAddress);
     UtAssert_UINT32_EQ(CS_COMPUTE_TEST_CrcSamples[1].InputCRC, 0);
-    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[3].DataPtr, Module.CodeAddress + 4);
+    UtAssert_ADDRESS_EQ(CS_COMPUTE_TEST_CrcSamples[ReloadedChunkCount].DataPtr,
+                        Module.CodeAddress + (ReloadedChunkCount - 1) * BytesPerCycle);
     UtAssert_STUB_COUNT(CS_SetDefEntryState, 2);
     CS_Test_Check_SetDefEntryState(&DefEntry, CS_ChecksumState_ENABLED);
     UtAssert_STUB_COUNT(CFE_ES_ExitChildTask, 1);
