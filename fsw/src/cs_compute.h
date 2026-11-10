@@ -96,10 +96,15 @@ CFE_Status_t CS_ComputeTables(CS_Res_Tables_Table_Entry_t *ResultsEntry, uint32 
  *
  *  \par Description
  *       Computes checksums up to MaxBytesPerCycle bytes every call. This
- *       function is used to compute checksums for applications.
+ *       function resolves the current application or library identity and code
+ *       range on every call. A new ES resource ID discards the partial checksum
+ *       and baseline and issues #CS_APP_RELOADED_INF_EID. The next completed pass
+ *       establishes the baseline for the new instance. A range change under the
+ *       same ID restarts the partial checksum without replacing the baseline.
  *
  *  \par Assumptions, External Events, and Notes:
- *        None
+ *        The ES information query does not prevent a concurrent module unload
+ *        between resolving the code address and reading the checksum chunk.
  *
  *  \param [in]   ResultsEntry         A pointer to the entry in a table
  *                                     that we want to compute the

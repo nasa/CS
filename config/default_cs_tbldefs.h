@@ -113,6 +113,7 @@ typedef struct
     uint32              ComparisonValue;               /**< \brief The Memory Integrity Value */
     uint32              ByteOffset;                    /**< \brief Where a previous unfinished calc left off */
     uint32              TempChecksumValue;             /**< \brief The unfinished caluculation */
+    CFE_ResourceId_t    ResourceID;                    /**< \brief ES identity of the application or library */
     char                Name[CFE_MISSION_MAX_API_LEN]; /**< \brief name of the app */
 } CS_Res_App_Table_Entry_t;
 
