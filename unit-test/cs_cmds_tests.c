@@ -709,6 +709,8 @@ void CS_DisableCfeCoreCmd_Test(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
                   "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
+
+    UtAssert_STUB_COUNT(CS_UpdateCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 }
 
 void CS_EnableCfeCoreCmd_Test(void)
@@ -741,6 +743,8 @@ void CS_EnableCfeCoreCmd_Test(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
                   "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
+
+    UtAssert_STUB_COUNT(CS_UpdateCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 }
 
 void CS_DisableOSCmd_Test(void)
@@ -773,6 +777,8 @@ void CS_DisableOSCmd_Test(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
                   "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
+
+    UtAssert_STUB_COUNT(CS_UpdateCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 }
 
 void CS_EnableOSCmd_Test(void)
@@ -805,6 +811,8 @@ void CS_EnableOSCmd_Test(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
                   "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
+
+    UtAssert_STUB_COUNT(CS_UpdateCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 }
 
 void CS_ReportBaselineCfeCoreCmd_Test_Nominal(void)
@@ -1716,12 +1724,28 @@ void UtTest_Setup(void)
     UtTest_Add(CS_EnableAllCSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableAllCSCmd_Test");
 
     UtTest_Add(CS_DisableCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableCfeCoreCmd_Test");
+    UtTest_Add(CS_DisableCfeCoreCmd_Test,
+               CS_Test_SetupPreserveStates,
+               CS_Test_TearDown,
+               "CS_DisableCfeCoreCmd_Test_PreserveStates");
 
     UtTest_Add(CS_EnableCfeCoreCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableCfeCoreCmd_Test");
+    UtTest_Add(CS_EnableCfeCoreCmd_Test,
+               CS_Test_SetupPreserveStates,
+               CS_Test_TearDown,
+               "CS_EnableCfeCoreCmd_Test_PreserveStates");
 
     UtTest_Add(CS_DisableOSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableOSCmd_Test");
+    UtTest_Add(CS_DisableOSCmd_Test,
+               CS_Test_SetupPreserveStates,
+               CS_Test_TearDown,
+               "CS_DisableOSCmd_Test_PreserveStates");
 
     UtTest_Add(CS_EnableOSCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableOSCmd_Test");
+    UtTest_Add(CS_EnableOSCmd_Test,
+               CS_Test_SetupPreserveStates,
+               CS_Test_TearDown,
+               "CS_EnableOSCmd_Test_PreserveStates");
 
     UtTest_Add(CS_ReportBaselineCfeCoreCmd_Test_Nominal,
                CS_Test_Setup,

@@ -109,6 +109,8 @@ void CS_DisableTablesCmd_Test(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
                   "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
+
+    UtAssert_STUB_COUNT(CS_UpdateCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 }
 
 void CS_DisableTablesCmd_Test_OneShot(void)
@@ -161,6 +163,8 @@ void CS_EnableTablesCmd_Test(void)
     UtAssert_True(call_count_CFE_EVS_SendEvent == 1,
                   "CFE_EVS_SendEvent was called %u time(s), expected 1",
                   call_count_CFE_EVS_SendEvent);
+
+    UtAssert_STUB_COUNT(CS_UpdateCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 }
 
 void CS_EnableTablesCmd_Test_OneShot(void)
@@ -851,9 +855,17 @@ void CS_EnableNameTableCmd_Test_OneShot(void)
 void UtTest_Setup(void)
 {
     UtTest_Add(CS_DisableTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_DisableTablesCmd_Test");
+    UtTest_Add(CS_DisableTablesCmd_Test,
+               CS_Test_SetupPreserveStates,
+               CS_Test_TearDown,
+               "CS_DisableTablesCmd_Test_PreserveStates");
     UtTest_Add(CS_DisableTablesCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_DisableTablesCmd_Test_OneShot");
 
     UtTest_Add(CS_EnableTablesCmd_Test, CS_Test_Setup, CS_Test_TearDown, "CS_EnableTablesCmd_Test");
+    UtTest_Add(CS_EnableTablesCmd_Test,
+               CS_Test_SetupPreserveStates,
+               CS_Test_TearDown,
+               "CS_EnableTablesCmd_Test_PreserveStates");
     UtTest_Add(CS_EnableTablesCmd_Test_OneShot, CS_Test_Setup, CS_Test_TearDown, "CS_EnableTablesCmd_Test_OneShot");
 
     UtTest_Add(CS_ReportBaselineTableCmd_Test_Computed,

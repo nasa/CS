@@ -51,6 +51,7 @@ extern CFE_ES_WriteToSysLog_context_t context_CFE_ES_WriteToSysLog;
  */
 
 void CS_Test_Setup(void);
+void CS_Test_SetupPreserveStates(void);
 void CS_Test_TearDown(void);
 
 void CS_Test_ResetEventCheck(void);

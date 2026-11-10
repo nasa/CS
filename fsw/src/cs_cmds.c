@@ -240,9 +240,10 @@ CFE_Status_t CS_DisableCfeCoreCmd(const CS_DisableCfeCoreCmd_t *CmdPtr)
     CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_ChecksumState_DISABLED;
     CS_ZeroCfeCoreTempValues();
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-    CS_UpdateCDS();
-#endif
+    if (CS_AppData.PreserveStatesOnProcessorReset)
+    {
+        CS_UpdateCDS();
+    }
 
     CFE_EVS_SendEvent(CS_DISABLE_CFECORE_INF_EID,
                       CFE_EVS_EventType_INFORMATION,
@@ -262,9 +263,10 @@ CFE_Status_t CS_EnableCfeCoreCmd(const CS_EnableCfeCoreCmd_t *CmdPtr)
 {
     CS_AppData.HkPacket.Payload.CfeCoreCSState = CS_ChecksumState_ENABLED;
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-    CS_UpdateCDS();
-#endif
+    if (CS_AppData.PreserveStatesOnProcessorReset)
+    {
+        CS_UpdateCDS();
+    }
 
     CFE_EVS_SendEvent(CS_ENABLE_CFECORE_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of cFE Core is Enabled");
 
@@ -283,9 +285,10 @@ CFE_Status_t CS_DisableOSCmd(const CS_DisableOSCmd_t *CmdPtr)
     CS_AppData.HkPacket.Payload.OSCSState = CS_ChecksumState_DISABLED;
     CS_ZeroOSTempValues();
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-    CS_UpdateCDS();
-#endif
+    if (CS_AppData.PreserveStatesOnProcessorReset)
+    {
+        CS_UpdateCDS();
+    }
 
     CFE_EVS_SendEvent(CS_DISABLE_OS_INF_EID,
                       CFE_EVS_EventType_INFORMATION,
@@ -305,9 +308,10 @@ CFE_Status_t CS_EnableOSCmd(const CS_EnableOSCmd_t *CmdPtr)
 {
     CS_AppData.HkPacket.Payload.OSCSState = CS_ChecksumState_ENABLED;
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-    CS_UpdateCDS();
-#endif
+    if (CS_AppData.PreserveStatesOnProcessorReset)
+    {
+        CS_UpdateCDS();
+    }
 
     CFE_EVS_SendEvent(CS_ENABLE_OS_INF_EID,
                       CFE_EVS_EventType_INFORMATION,

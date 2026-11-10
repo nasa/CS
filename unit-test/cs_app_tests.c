@@ -125,6 +125,13 @@ void CS_APP_TEST_CFE_ES_RestoreFromCDS_Handler(void *UserObj, UT_EntryKey_t Func
     DataStoreBuffer[5] = CS_ChecksumState_ENABLED;
 }
 
+void CS_APP_TEST_SetPreserveStates_Handler(void *UserObj, UT_EntryKey_t FuncKey, const UT_StubContext_t *Context)
+{
+    /* AppInit clears app data, so select the test mode through the subsequent SB initialization stub. */
+    UtAssert_UINT32_EQ(CS_AppData.PreserveStatesOnProcessorReset, (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true));
+    CS_AppData.PreserveStatesOnProcessorReset = *(bool *)UserObj;
+}
+
 void CS_App_TestCmdTlmAlign(void)
 {
     /* Ensures the command and telemetry structures are padded to and aligned to 32-bits */
@@ -607,6 +614,8 @@ void CS_AppInit_Test_Nominal(void)
     Result = CS_AppInit();
 
     /* Verify results */
+    UtAssert_UINT32_EQ(CS_AppData.PreserveStatesOnProcessorReset, (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true));
+    UtAssert_STUB_COUNT(CFE_ES_RegisterCDS, CS_AppData.PreserveStatesOnProcessorReset ? 1 : 0);
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -626,6 +635,7 @@ void CS_AppInit_Test_Nominal(void)
 
 void CS_AppInit_Test_NominalPowerOnReset(void)
 {
+    bool         PreserveStates = false;
     CFE_Status_t Result;
     int32        strCmpResult;
     char         ExpectedEventString[CFE_MISSION_EVS_MAX_MESSAGE_LENGTH];
@@ -643,10 +653,15 @@ void CS_AppInit_Test_NominalPowerOnReset(void)
     /* Set to prevent unintended error messages */
     UT_SetDefaultReturnValue(UT_KEY(CFE_TBL_Load), CFE_SUCCESS);
 
+    UT_SetHandlerFunction(UT_KEY(CS_SbInit), CS_APP_TEST_SetPreserveStates_Handler, &PreserveStates);
+
     /* Execute the function being tested */
     Result = CS_AppInit();
 
     /* Verify results */
+    UtAssert_STUB_COUNT(CFE_ES_RegisterCDS, 0);
+    UtAssert_STUB_COUNT(CFE_ES_RestoreFromCDS, 0);
+    UtAssert_STUB_COUNT(CFE_ES_CopyToCDS, 0);
 
     UtAssert_True(Result == CFE_SUCCESS, "Result == CFE_SUCCESS");
 
@@ -678,10 +693,14 @@ void CS_AppInit_Test_NominalPowerOnReset(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-
 void CS_AppInit_Test_NominalProcReset(void)
 {
+    bool PreserveStates = true;
+
+    UT_SetHandlerFunction(UT_KEY(CS_SbInit), CS_APP_TEST_SetPreserveStates_Handler, &PreserveStates);
+    UT_SetDefaultReturnValue(UT_KEY(CFE_ES_RegisterCDS), CFE_ES_CDS_ALREADY_EXISTS);
+    UT_SetHandlerFunction(UT_KEY(CFE_ES_RestoreFromCDS), CS_APP_TEST_CFE_ES_RestoreFromCDS_Handler, NULL);
+
     CS_AppData.HkPacket.Payload.EepromCSState = 99;
     CS_AppData.HkPacket.Payload.MemoryCSState = 99;
     CS_AppData.HkPacket.Payload.AppCSState    = 99;
@@ -691,6 +710,9 @@ void CS_AppInit_Test_NominalProcReset(void)
     UtAssert_INT32_EQ(CS_AppInit(), CFE_SUCCESS);
 
     /* Verify results */
+    UtAssert_STUB_COUNT(CFE_ES_RegisterCDS, 1);
+    UtAssert_STUB_COUNT(CFE_ES_RestoreFromCDS, 1);
+    UtAssert_STUB_COUNT(CFE_ES_CopyToCDS, 0);
     UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.EepromCSState, CS_ChecksumState_ENABLED);
     UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.MemoryCSState, CS_ChecksumState_ENABLED);
     UtAssert_UINT32_EQ(CS_AppData.HkPacket.Payload.AppCSState, CS_ChecksumState_ENABLED);
@@ -956,8 +978,6 @@ void CS_CreateRestoreStatesFromCDS_Test_RegisterCDSFail(void)
                   call_count_CFE_EVS_SendEvent);
 }
 
-#endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true) */
-
 void CS_AppInit_Test_EVSRegisterError(void)
 {
     CFE_Status_t Result;
@@ -988,8 +1008,6 @@ void CS_AppInit_Test_EVSRegisterError(void)
     UtAssert_True(strCmpResult == 0, "Sys Log string matched expected result, '%s'", context_CFE_ES_WriteToSysLog.Spec);
 }
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-
 void CS_UpdateCDS_Test_Nominal(void)
 {
     UT_SetDeferredRetcode(UT_KEY(CFE_ES_CopyToCDS), 1, CFE_SUCCESS);
@@ -1001,6 +1019,7 @@ void CS_UpdateCDS_Test_Nominal(void)
     CS_UpdateCDS();
 
     /* Verify results */
+    UtAssert_STUB_COUNT(CFE_ES_CopyToCDS, 1);
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
@@ -1047,13 +1066,13 @@ void CS_UpdateCDS_Test_NullCDSHandle(void)
     CS_UpdateCDS();
 
     /* Verify results */
+    UtAssert_STUB_COUNT(CFE_ES_CopyToCDS, 0);
     call_count_CFE_EVS_SendEvent = UT_GetStubCount(UT_KEY(CFE_EVS_SendEvent));
 
     UtAssert_True(call_count_CFE_EVS_SendEvent == 0,
                   "CFE_EVS_SendEvent was called %u time(s), expected 0",
                   call_count_CFE_EVS_SendEvent);
 }
-#endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true) */
 
 void UtTest_Setup(void)
 {
@@ -1075,7 +1094,6 @@ void UtTest_Setup(void)
                CS_Test_TearDown,
                "CS_AppInit_Test_NominalPowerOnReset");
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
     UtTest_Add(CS_AppInit_Test_NominalProcReset, CS_Test_Setup, CS_Test_TearDown, "CS_AppInit_Test_NominalProcReset");
 
     UtTest_Add(CS_CreateRestoreStatesFromCDS_Test_NoExistingCDS,
@@ -1102,5 +1120,4 @@ void UtTest_Setup(void)
     UtTest_Add(CS_UpdateCDS_Test_Nominal, CS_Test_Setup, CS_Test_TearDown, "CS_UpdateCDS_Test_Nominal");
     UtTest_Add(CS_UpdateCDS_Test_CopyToCDSFail, CS_Test_Setup, CS_Test_TearDown, "CS_UpdateCDS_Test_CopyToCDSFail");
     UtTest_Add(CS_UpdateCDS_Test_NullCDSHandle, CS_Test_Setup, CS_Test_TearDown, "CS_UpdateCDS_Test_NullCDSHandle");
-#endif /* #if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true) */
 }

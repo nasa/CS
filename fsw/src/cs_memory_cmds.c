@@ -52,9 +52,10 @@ CFE_Status_t CS_DisableMemoryCmd(const CS_DisableMemoryCmd_t *CmdPtr)
         CS_AppData.HkPacket.Payload.MemoryCSState = CS_ChecksumState_DISABLED;
         CS_ZeroMemoryTempValues();
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
-#endif
+        if (CS_AppData.PreserveStatesOnProcessorReset)
+        {
+            CS_UpdateCDS();
+        }
 
         CFE_EVS_SendEvent(CS_DISABLE_MEMORY_INF_EID,
                           CFE_EVS_EventType_INFORMATION,
@@ -77,9 +78,10 @@ CFE_Status_t CS_EnableMemoryCmd(const CS_EnableMemoryCmd_t *CmdPtr)
     {
         CS_AppData.HkPacket.Payload.MemoryCSState = CS_ChecksumState_ENABLED;
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
-#endif
+        if (CS_AppData.PreserveStatesOnProcessorReset)
+        {
+            CS_UpdateCDS();
+        }
 
         CFE_EVS_SendEvent(CS_ENABLE_MEMORY_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of Memory is Enabled");
 

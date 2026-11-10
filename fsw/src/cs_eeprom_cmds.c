@@ -52,9 +52,10 @@ CFE_Status_t CS_DisableEepromCmd(const CS_DisableEepromCmd_t *CmdPtr)
         CS_AppData.HkPacket.Payload.EepromCSState = CS_ChecksumState_DISABLED;
         CS_ZeroEepromTempValues();
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
-#endif
+        if (CS_AppData.PreserveStatesOnProcessorReset)
+        {
+            CS_UpdateCDS();
+        }
 
         CFE_EVS_SendEvent(CS_DISABLE_EEPROM_INF_EID,
                           CFE_EVS_EventType_INFORMATION,
@@ -77,9 +78,10 @@ CFE_Status_t CS_EnableEepromCmd(const CS_EnableEepromCmd_t *CmdPtr)
     {
         CS_AppData.HkPacket.Payload.EepromCSState = CS_ChecksumState_ENABLED;
 
-#if (CS_PRESERVE_STATES_ON_PROCESSOR_RESET == true)
-        CS_UpdateCDS();
-#endif
+        if (CS_AppData.PreserveStatesOnProcessorReset)
+        {
+            CS_UpdateCDS();
+        }
 
         CFE_EVS_SendEvent(CS_ENABLE_EEPROM_INF_EID, CFE_EVS_EventType_INFORMATION, "Checksumming of EEPROM is Enabled");
 
