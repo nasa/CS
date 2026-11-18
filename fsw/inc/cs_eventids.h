@@ -1997,6 +1997,20 @@
  */
 #define CS_VAL_TABLES_DEF_TBL_LONG_NAME_ERR_EID 155
 
+/**
+ * \brief CS Application Or Library Reload Baseline Reset Event ID
+ *
+ *  \par Type: INFORMATION
+ *
+ *  \par Cause:
+ *
+ *  ES reports a different resource ID for a previously resolved application or
+ *  library. CS discards its partial checksum and old baseline, and establishes a
+ *  new baseline when checksumming the new instance completes. Initial discovery
+ *  of an application or library does not generate this event.
+ */
+#define CS_APP_RELOADED_INF_EID 156
+
 /**@}*/
 
 #endif
